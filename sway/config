@@ -15,7 +15,9 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 #set $term foot
-set $term terminator
+set $term i3-sensible-terminal
+#set $term terminator
+
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -93,7 +95,23 @@ input * {
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    # bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+set $mode_system System: (l) lock, (e) logout, (s) suspend, (r) reboot, (S) shutdown, (R) UEFI
+mode "$mode_system" {
+    bindsym l exec $lock, mode "default"
+    bindsym e exit
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+    bindsym Shift+r exec --no-startup-id systemctl reboot --firmware-setup, mode "default"
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+e mode "$mode_system"
+
 
     # LOCK WITH SWAYLOCK
     bindsym $mod+Shift+z exec swaylock --color 0f0f0f 
@@ -163,11 +181,13 @@ set $ws10 "10"
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 
-    # move focused workspace to monito
-    bindsym $mod+Shift+Control+l move workspace to output right
-    bindsym $mod+Shift+Control+Right move workspace to output right
-    bindsym $mod+Shift+Control+h move workspace to output left
-    bindsym $mod+Shift+Control+Left move workspace to output left
+    # move focused workspace to monitor
+    #bindsym $mod+Shift+Control+l move workspace to output right
+    #bindsym $mod+Shift+Control+Right move workspace to output right
+    #bindsym $mod+Shift+Control+h move workspace to output left
+    # bindsym $mod+Shift+Control+Left move workspace to output left
+    bindsym $mod+Shift+greater move workspace to output right
+    bindsym $mod+Shift+less move workspace to output left
 
 assign [class="Gnome-terminal"] $ws1
 assign [class="terminator"] $ws1
@@ -179,7 +199,7 @@ assign [class="jetbrains-pycharm-ce"] $ws6
 
 exec opera
 exec i3-sensible-terminal
-exec /home/soler/snap/cursor-0.11.8.AppImage
+exec ~/snap/cursor-0.11.8.AppImage
 exec obsidian
 exec /snap/bin/pycharm-community 
 exec /usr/bin/slack --enable-features=WebRTCPipeWireCapturer %U
@@ -275,5 +295,16 @@ bar {
 	focused_workspace #00ff00 #00ff00 #5c5c5c
     }
 }
+
+#
+# DUAL SCREEEN CONFIGURATION
+# SETTING PER LA PANTALLA DUAL DE CASA
+# Portatil a l'equerra
+# output eDP1 pos 0 0 res 1366x768
+# output HDMI1-A-1 pos 1366 0 res 1920x1080
+# Portatil a la dreta
+output HDMI-A-1 pos 0 0 res 1920x1080
+output eDP-1 pos 1929 0 res 1366x768
+
 
 include /etc/sway/config.d/*
