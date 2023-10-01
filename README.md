@@ -8,8 +8,15 @@ A recopilation of personal configurations, for now:
 I don't want to lose my configs... 
 
 
-Current Stack:
 
+#Used Stacks:
+
+## 2023-10-01
+- sway
+- waylock
+- ... 
+
+## 2023-09-28
 - i3wm
 - i3block
 - ranger

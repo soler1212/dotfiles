@@ -1,3 +1,4 @@
+# Steps
 First step: Install sway
 Second step: Copy the .dotfile inside the ~/.config/sway/ if doesn't exists create it manually
 
@@ -13,3 +14,8 @@ Grimshot
 
 
 
+
+# Folders
+
+- configuration1, sway with default bar
+- configuration2, sway with waybar

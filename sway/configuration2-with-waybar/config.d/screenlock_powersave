@@ -1,5 +1,4 @@
 # SwayWM idle/lock configuration. For detailed information type "man sway-idle"
-# Author: Oscar Carballal Prego <oscar.carballal@protonmail.com>
 
 # Example configuration:
 #
@@ -10,4 +9,4 @@ exec swayidle -w \
     before-sleep 'swaylock -f -i $lockscreenbg'
 
 # Lock the screen
-bindsym $mod+l exec "swaylock -f -i $lockscreenbg"
+bindsym $mod+Shift+z exec "swaylock -f -i $lockscreenbg"
