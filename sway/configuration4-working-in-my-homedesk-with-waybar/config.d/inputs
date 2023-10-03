@@ -1,0 +1,24 @@
+# SwayWM input configuration. For detailed information type "man sway-input"
+# For a list of devices run: swaymsg -t get_inputs
+
+# Provide all keyboards connected the following configuration
+#input type:keyboard {
+#    xkb_layout us,us(dvorak),es,de
+#    xkb_options grp:alt_shift_toggle
+#}
+input * {
+   xkb_layout es
+}
+
+# Provide all touchpads and mice the same configuration
+input type:pointer {
+    #natural_scroll enabled
+    #middle_emulation enabled
+}
+
+input type:touchpad {
+    tap enabled
+    dwt enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}

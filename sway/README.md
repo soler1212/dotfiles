@@ -1,6 +1,7 @@
 # Steps
 First step: Install sway
-Second step: Copy the .dotfile inside the ~/.config/sway/ if doesn't exists create it manually
+Second step: Select the configuration folder to use
+Third step: Copy the .dotfile inside the ~/.config/sway/ if doesn't exists create it manually
 
 Install extra dependencies:
 
@@ -11,12 +12,3 @@ SwayLock
 Grimshot
 - sudo apt-get install grimshot
 
-
-
-
-
-# Folders
-
-- configuration1, sway with default bar
-- configuration2, sway with waybar
-- configuration3, sway smallchanges, job desk

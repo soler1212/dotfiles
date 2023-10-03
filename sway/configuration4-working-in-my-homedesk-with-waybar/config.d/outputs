@@ -1,0 +1,28 @@
+# SwayWM outputs configuration. For detailed information type "man sway"
+# For a list of devices run: swaymsg -t get_outputs
+
+# Default wallpaper
+output * bg $wallpaper fill
+
+# Devices
+#set $display_laptop eDP-1
+#set $display_external DP-1
+
+# Disable main laptop screen
+#bindsym $mod+F7 output $display_laptop disable
+#bindsym $mod+F8 output $display_laptop enable
+
+#
+# DUAL SCREEEN CONFIGURATION
+# SETTING PER LA PANTALLA DUAL DE CASA
+#
+    # Portatil a l'equerra
+    # output eDP1 pos 0 0 res 1366x768
+    # output HDMI1-A-1 pos 1366 0 res 1920x1080
+    
+    # Portatil a la dreta
+    #output HDMI-A-1 pos 0 0 res 1920x1080
+    #output eDP-1 pos 1929 0 res 1366x768
+    # Portatil a sota
+    output HDMI-A-1 pos 0 0 res 1920x1080
+    output eDP-1 pos 0 1080 res 1366x768

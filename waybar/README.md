@@ -8,6 +8,3 @@ More datils in: github.com/swaywm/sway/issues/5732
 If some widget fails the bar will dissapear, find a fix or disable the witdgets that cause the problem
 
 
-# FOLDERS
-configuration1, has de the defaults
-configuration2, has simplified bar
