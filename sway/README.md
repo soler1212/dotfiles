@@ -19,3 +19,4 @@ Grimshot
 
 - configuration1, sway with default bar
 - configuration2, sway with waybar
+- configuration3, sway smallchanges, job desk
