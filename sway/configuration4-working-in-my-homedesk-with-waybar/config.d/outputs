@@ -24,5 +24,8 @@ output * bg $wallpaper fill
     #output HDMI-A-1 pos 0 0 res 1920x1080
     #output eDP-1 pos 1929 0 res 1366x768
     # Portatil a sota
-    output HDMI-A-1 pos 0 0 res 1920x1080
-    output eDP-1 pos 0 1080 res 1366x768
+    # output HDMI-A-1 pos 0 0 res 1920x1080
+    # output eDP-1 pos 0 1080 res 1366x768
+    # From work
+    output DP-5 pos 0 0 res 1920x1080
+    output DP-4 pos 1920 0 res 1920x1080

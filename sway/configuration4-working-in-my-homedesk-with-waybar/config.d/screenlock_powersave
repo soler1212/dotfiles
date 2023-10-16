@@ -9,4 +9,4 @@
 #    before-sleep 'swaylock -f -i $lockscreenbg'
 
 # Lock the screen
-#bindsym $mod+Shift+z exec "swaylock -f -i $lockscreenbg"
+bindsym $mod+Shift+z exec "swaylock -f -i $lockscreenbg"

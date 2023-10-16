@@ -33,15 +33,15 @@ set $right l
 
 
 ### Workspaces
-set $ws1 "1-Terminals♈"
-set $ws2 "2-Browser♉"
-set $ws3 "3-Cursor♊"
+set $ws1 "1-Browser♉"
+set $ws2 "2-Cursor♊"
+set $ws3 "3-Pycharm♎"
 set $ws4 "4-Obsidian♋"
 set $ws5 "5-Comunicacions♍"
-set $ws6 "6-Pycharm♎"
+set $ws6 "6-Terminals♈"
 set $ws7 "7-Postman♏"
-set $ws8 "8-Audio♐"
-set $ws9 "9-♑"
+set $ws8 "8-ERP♑"
+set $ws9 "9-♐"
 set $ws10 "10-♒"
 #set $ws1 "1-Obsidian"
 #set $ws2 "2-Browser"
@@ -52,22 +52,23 @@ set $ws10 "10-♒"
 #set $ws7 "7-People"
 
 # Exec and Assign workspaces software
-assign [class="Gnome-terminal"] $ws1
-assign [class="terminator"] $ws1
-assign [class="Opera"] $ws2
-assign [class="Cursor"] $ws3
+assign [class="Opera"] $ws1
+assign [class="Cursor"] $ws2
+assign [class="jetbrains-pycharm-ce"] $ws3
 assign [class="obsidian"] $ws4
 assign [class="Slack"] $ws5 
-assign [class="jetbrains-pycharm-ce"] $ws6
+assign [class="Gnome-terminal"] $ws6
+assign [class="terminator"] $ws6
 assign [class="Postman"] $ws7
-assign [class="PulseAudio"] $ws8
+assign [class="Openerp-client.py"] $ws8
 
 exec opera
-#exec i3-sensible-terminal
-exec ~/snap/cursor-0.11.8.AppImage
+exec i3-sensible-terminal
+exec /home/soler/snap/cursor-0.11.8.AppImage
 exec obsidian
-#exec /snap/bin/pycharm-community 
-#exec /usr/bin/slack --enable-features=WebRTCPipeWireCapturer %U
+exec /snap/bin/pycharm-community 
+exec /usr/bin/slack --enable-features=WebRTCPipeWireCapturer %U
+# exec postman
 
 # Switch workspaces
 bindsym $mod+1 workspace $ws1
@@ -77,9 +78,9 @@ bindsym $mod+4 workspace $ws4
 bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
 
 # Switch workspaces with numpad
 bindsym $mod+KP_1 workspace $ws1
@@ -89,21 +90,21 @@ bindsym $mod+KP_4 workspace $ws4
 bindsym $mod+KP_5 workspace $ws5
 bindsym $mod+KP_6 workspace $ws6
 bindsym $mod+KP_7 workspace $ws7
-bindsym $mod+KP_8 workspace 8
-bindsym $mod+KP_9 workspace 9
-bindsym $mod+KP_0 workspace 10
+bindsym $mod+KP_8 workspace $ws8
+bindsym $mod+KP_9 workspace $ws9
+bindsym $mod+KP_0 workspace $ws10
 
 # Move focused container (window) to a workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
     
     # move focused workspace to monitor
     bindsym $mod+Shift+Control+l move workspace to output right
