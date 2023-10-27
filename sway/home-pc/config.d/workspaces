@@ -33,23 +33,16 @@ set $right l
 
 
 ### Workspaces
-set $ws1 "1-Browser♉"
-set $ws2 "2-Cursor♊"
-set $ws3 "3-Pycharm♎"
-set $ws4 "4-Obsidian♋"
-set $ws5 "5-Comunicacions♍"
-set $ws6 "6-Terminals♈"
+set $ws1 "1-Terminals♉"
+set $ws2 "2-Frontend♊"
+set $ws3 "3-Backend♎"
+set $ws4 "4-Browser♋"
+set $ws5 "5-Obsidian♍"
+set $ws6 "6-People♈"
 set $ws7 "7-Postman♏"
-set $ws8 "8-ERP♑"
+set $ws8 "8-♑"
 set $ws9 "9-♐"
 set $ws10 "10-♒"
-#set $ws1 "1-Obsidian"
-#set $ws2 "2-Browser"
-#set $ws3 "3-Terminal"
-#set $ws4 "4-Frontend"
-#set $ws5 "5-Backend"
-#set $ws6 "6-API"
-#set $ws7 "7-People"
 
 # Exec and Assign workspaces software
 assign [class="Opera"] $ws1
