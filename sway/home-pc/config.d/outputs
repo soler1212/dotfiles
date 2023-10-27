@@ -24,8 +24,17 @@ output * bg $wallpaper fill
     #output HDMI-A-1 pos 0 0 res 1920x1080
     #output eDP-1 pos 1929 0 res 1366x768
     # Portatil a sota
-    # output HDMI-A-1 pos 0 0 res 1920x1080
-    # output eDP-1 pos 0 1080 res 1366x768
-    # From work
-    output DP-5 pos 0 0 res 1920x1080
-    output DP-4 pos 1920 0 res 1920x1080
+    output HDMI-A-1 pos 0 0 res 1920x1080
+    output eDP-1 pos 0 1080 res 1366x768
+
+#
+# Volume Pulseaudio:
+#
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# See app-id
+bindsym $mod+question exec notify-send `swaymsg -t get_tree | jq -r '..|try select(.focused == true).app_id'`
+

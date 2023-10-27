@@ -20,5 +20,4 @@
 # Screenshot
 #bindsym $mod+S exec grimshot save screen ~/Pictures/$(date '+%Y-%m-%d-%T')-screenshot.png
 #bindsym $mod+Shift+S exec grimshot save area ~/Pictures/$(date '+%Y-%m-%d-%T')-screenshot.png
-# Screenshot
 bindsym $mod+Shift+S exec grimshot copy area

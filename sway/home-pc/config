@@ -12,9 +12,8 @@
 set $mod Mod4
 
 # Your preferred terminal emulator
-#set $term i3-sensible-terminal
+set $term i3-sensible-terminal
 #set $term foot
-set $term terminator
 
 # Your preferred application launcher
 #set $menu wofi --show run -Iib -l 5 -W 500 -x -10 -y -51
@@ -25,7 +24,7 @@ set $menu ulauncher
 set $wallpaper ~/.config/sway/images/wallpaper.jpg
 
 # Default lockscreen background
-set $lockscreenbg ~/.config/sway/images/lockscreen_background.png
+set $lockscreenbg ~/.config/sway/images/lockscreen_background.jpg
 
 # Remove all borders from applications
 default_border none

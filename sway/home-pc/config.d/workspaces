@@ -45,23 +45,24 @@ set $ws9 "9-♐"
 set $ws10 "10-♒"
 
 # Exec and Assign workspaces software
-assign [class="Opera"] $ws1
+assign [class="Gnome-terminal"] $ws1
+assign [class="terminator"] $ws1
 assign [class="Cursor"] $ws2
+assign [class="Code"] $ws2
 assign [class="jetbrains-pycharm-ce"] $ws3
-assign [class="obsidian"] $ws4
-assign [class="Slack"] $ws5 
-assign [class="Gnome-terminal"] $ws6
-assign [class="terminator"] $ws6
+assign [class="Opera"] $ws4
+assign [class="Firefox"] $ws4
+assign [class="Chrome"] $ws4
+assign [class="obsidian"] $ws5
+assign [class="Slack"] $ws6 
 assign [class="Postman"] $ws7
-assign [class="Openerp-client.py"] $ws8
 
-exec opera
-exec i3-sensible-terminal
-exec /home/soler/snap/cursor-0.11.8.AppImage
-exec obsidian
-exec /snap/bin/pycharm-community 
-exec /usr/bin/slack --enable-features=WebRTCPipeWireCapturer %U
-# exec postman
+#exec opera
+#exec i3-sensible-terminal
+#exec ~/snap/cursor-0.11.8.AppImage
+#exec obsidian
+#exec /snap/bin/pycharm-community 
+#exec /usr/bin/slack --enable-features=WebRTCPipeWireCapturer %U
 
 # Switch workspaces
 bindsym $mod+1 workspace $ws1
