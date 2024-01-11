@@ -34,12 +34,12 @@ set $right l
 
 ### Workspaces
 set $ws1 "1-Terminals♉"
-set $ws2 "2-Frontend♊"
-set $ws3 "3-Backend♎"
-set $ws4 "4-Browser♋"
-set $ws5 "5-Obsidian♍"
-set $ws6 "6-People♈"
-set $ws7 "7-Postman♏"
+set $ws2 "2-IDEs♊"
+set $ws3 "3-Browser♋"
+set $ws4 "4-Obsidian♍"
+set $ws5 "5-People♈"
+set $ws6 "6-Postman♏"
+set $ws7 "7-♎"
 set $ws8 "8-♑"
 set $ws9 "9-♐"
 set $ws10 "10-♒"
@@ -49,15 +49,17 @@ assign [class="Gnome-terminal"] $ws1
 assign [class="terminator"] $ws1
 assign [class="Cursor"] $ws2
 assign [class="Code"] $ws2
-assign [class="jetbrains-pycharm-ce"] $ws3
-assign [class="Opera"] $ws4
-assign [class="Firefox"] $ws4
-assign [class="Chrome"] $ws4
-assign [class="obsidian"] $ws5
-assign [class="Slack"] $ws6 
-assign [class="Postman"] $ws7
+assign [class="jetbrains-pycharm-ce"] $ws2
+assign [class="Opera"] $ws3
+assign [class="Firefox"] $ws3
+assign [class="Chrome"] $ws3
+assign [class="Google-chrome"] $ws3
+assign [class="obsidian"] $ws4
+assign [class="Slack"] $ws5 
+assign [class="Postman"] $ws6
+assign [class="Openerp-client.py"] $ws7
 
-#exec opera
+exec opera
 #exec i3-sensible-terminal
 #exec ~/snap/cursor-0.11.8.AppImage
 #exec obsidian
@@ -157,3 +159,4 @@ bindsym $mod+space focus mode_toggle
 
 # move focus to the parent container
 bindsym $mod+a focus parent
+
