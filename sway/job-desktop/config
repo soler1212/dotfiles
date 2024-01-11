@@ -12,8 +12,8 @@
 set $mod Mod4
 
 # Your preferred terminal emulator
-set $term i3-sensible-terminal
-#set $term gnome-terminal
+#set $term i3-sensible-terminal
+set $term gnome-terminal
 
 # Your preferred application launcher
 #set $menu wofi --show run -Iib -l 5 -W 500 -x -10 -y -51

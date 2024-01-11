@@ -1,0 +1,4 @@
+# iterate Wallpaper Script
+#bindsym $mod+Alt+W exec /bin/bash ~/.config/sway/iterate-wallpaper.sh
+bindsym $mod+Alt+W exec /home/soler/.config/sway/scripts/iterate-wallpaper.sh
+
