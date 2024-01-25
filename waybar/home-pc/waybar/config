@@ -7,7 +7,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "temperature", "battery", "clock", "tray"],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "temperature", "battery", "clock" ],
     // Modules configuration
     // "sway/workspaces": {
     //     "disable-scroll": true,
@@ -64,9 +64,9 @@
       "tooltip": false
     },
     "clock": {
-        // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small></small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+      "format": "{:%d/%m/%Y (%R)}",
+      "tooltip-format": "Have a good day",
+      "on-click": "gnome-calendar",
     },
     "cpu": {
         "format": "{usage}% ",
@@ -85,7 +85,7 @@
     },
     "battery": {
         "states": {
-            // "good": 95,
+            "good": 95,
             "warning": 30,
             "critical": 15
         },
