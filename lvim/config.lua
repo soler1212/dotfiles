@@ -1,0 +1,11 @@
+reload("cargol-reactiu.general")
+reload("cargol-reactiu.plugins")
+reload("cargol-reactiu.colorscheme")
+reload("cargol-reactiu.options")
+reload("cargol-reactiu.keymaps")
+reload("cargol-reactiu.which_key")
+reload("cargol-reactiu.statusline")
+reload("cargol-reactiu.lsp")
+-- reload("cargol-reactiu.dashboard")
+-- reload("cargol-reactiu.autocmds")
+--
