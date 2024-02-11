@@ -43,7 +43,7 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""]
+            "default": ["🔈", "🔉", "🔊"] // ["", "", ""]
         },
         "on-click": "pavucontrol"
     },
@@ -64,7 +64,7 @@
       "tooltip": false
     },
     "clock": {
-      "format": "{:%d/%m/%Y (%R)}",
+      "format": "{:%d/%m/%Y %V📅 (%R⏰)}",
       "tooltip-format": "Have a good day",
       "on-click": "gnome-calendar",
     },
