@@ -12,7 +12,16 @@ lvim.plugins = {
   { 'jose-elias-alvarez/typescript.nvim' },
   -- Swenv -> https://github.com/AckslD/swenv.nvim
   -- Per canviar rapidament de virtual environment de python
-  { "AckslD/swenv.nvim" },
+  { "AckslD/swenv.nvim", 
+    config = function() 
+      require("swenv").setup({
+        venvs_path = vim.fn.expand('~/.virtualenvs'), -- Carpeta on busca els venv
+        post_set_venv = function() -- reiniciar lsp quan canvies de venv
+          vim.cmd("LspRestart")
+        end
+      })
+    end
+  },
   -- Uns quants colorschemes
   { "lunarvim/lunar.nvim" },
   { "morhetz/gruvbox" },

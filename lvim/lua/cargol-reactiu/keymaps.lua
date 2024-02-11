@@ -46,6 +46,6 @@ vim.keymap.set(
 -- Busca string a dins els files del projecte
 vim.keymap.set('n', '<C-A-f>', ":lua require'telescope.builtin'.live_grep()<cr>")
 
-
 -- Per el spectre BUSCADOR i REPLACE
 vim.keymap.set("n", "<C-A-r>", ":lua require'spectre'.open_file_search({select_word=true})<cr>", {})
+
