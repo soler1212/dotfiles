@@ -2,6 +2,13 @@ local kind = require('cargol-reactiu.kind')
 
 lvim.leader = "space"
 
+-- Do not yank with x
+vim.keymap.set("n", "x", '"_x')
+-- Increment/decrement
+vim.keymap.set("n", "+", "<C-a>")
+vim.keymap.set("n", "-", "<C-x>")
+-- Select all
+vim.keymap.set("n", "<C-a>", "gg<S-v>G")
 
 -- Guardar file
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"

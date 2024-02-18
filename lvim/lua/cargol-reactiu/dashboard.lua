@@ -100,7 +100,7 @@ local buttons = {
     ),
     button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
     button("c", " " .. kind.icons.settings .. " Config", ":e ~/.config/lvim/config.lua<CR>"),
-    button("C", " " .. kind.cmp_kind.Color .. " Colorscheme Config", ":e ~/.config/lvim/lua/cargol-reactiu/colorscheme.lua<CR>"),
+    -- button("C", " " .. kind.cmp_kind.Color .. " Colorscheme Config", ":e ~/.config/lvim/lua/cargol-reactiu/colorscheme.lua<CR>"),
     button("q", " " .. kind.icons.exit .. " Quit", ":q<CR>"),
   },
   opts = {

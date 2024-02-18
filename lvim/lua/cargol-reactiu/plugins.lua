@@ -22,14 +22,14 @@ lvim.plugins = {
       })
     end
   },
-  -- Uns quants colorschemes
-  { "lunarvim/lunar.nvim" },
+  -- Uns quants colorschemes(Mes que res per el lualine)
+  -- { "lunarvim/lunar.nvim" },
   { "morhetz/gruvbox" },
   { "sainnhe/gruvbox-material" },
-  { "sainnhe/sonokai" },
-  { "sainnhe/edge" },
-  { "tomasr/molokai" },
-  { "ayu-theme/ayu-vim" },
+  -- { "sainnhe/sonokai" },
+  -- { "sainnhe/edge" },
+  -- { "tomasr/molokai" },
+  -- { "ayu-theme/ayu-vim" },
 
   -- Todo-comments -> https://github.com/folke/todo-comments.nvim
   -- Resalta comentaris:
@@ -117,5 +117,23 @@ lvim.plugins = {
         }
       })
     end
-  }
+  },
+  -- A truecolor, solarized dark scolorscheme using colorbuddy
+  {
+    "svrana/neosolarized.nvim",
+    dependencies = {
+      "tjdevries/colorbuddy.nvim",
+      lazy = false
+    }, -- A colorschemes helper, make cool neovim color schemes
+  },
+  -- Status line (Lunar vim ja el porta instalat per defecte) https://www.lunarvim.org/es/docs/configuration/appearance/statusline
+  -- {
+  --   "nvim-lualine/lualine.nvim",
+  --   dependencies = {
+  --     "nvim-tree/nvim-web-devicons",
+  --   }
+  -- }
+  -- LSP (Lunar vim ja el porta instalat per defecte) https://www.lunarvim.org/es/docs/troubleshooting#is-it-at-least-showing-up-in-lspinfo
+  -- { "neovim/nvim-lspconfig"}
+
 }
