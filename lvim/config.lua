@@ -10,4 +10,3 @@ reload("cargol-reactiu.options")
 reload("cargol-reactiu.statusline")
 reload("cargol-reactiu.lsp")
 reload("cargol-reactiu.dashboard")
---

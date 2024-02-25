@@ -141,8 +141,10 @@ lvim.plugins = {
   {
     "windwp/nvim-autopairs",
     config = function()
-      require("nvim-ts-autotag").setup({
-        -- disable_filetype = { 'TelescopePrompt', 'vim' }
+      require("nvim-autopairs").setup({
+        event = "InsertEnter",
+        config = true,
+        disable_filetype = { 'TelescopePrompt', 'vim' }
       })
     end
   },

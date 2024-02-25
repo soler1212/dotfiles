@@ -34,3 +34,6 @@ lvim.builtin.project.patterns = {
   "package.json",
   "requirements.txt",
 }
+
+-- Desactivar plugins de core optionals
+lvim.builtin.breadcrumbs.active = false; -- Fer servir el de LSPSaga
