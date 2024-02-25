@@ -6,17 +6,19 @@ lvim.plugins = {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
   },
+
   -- Typescript.nvim -> https://github.com/jose-elias-alvarez/typescript.nvim
   -- Afegeix comandes que ajuden quan treballes amb typescript com ara afegir
   -- import que falten, renombrar fitxer, borrar variables no usades, etc
   { 'jose-elias-alvarez/typescript.nvim' },
   -- Swenv -> https://github.com/AckslD/swenv.nvim
   -- Per canviar rapidament de virtual environment de python
-  { "AckslD/swenv.nvim", 
-    config = function() 
+  {
+    "AckslD/swenv.nvim",
+    config = function()
       require("swenv").setup({
         venvs_path = vim.fn.expand('~/.virtualenvs'), -- Carpeta on busca els venv
-        post_set_venv = function() -- reiniciar lsp quan canvies de venv
+        post_set_venv = function()                    -- reiniciar lsp quan canvies de venv
           vim.cmd("LspRestart")
         end
       })
@@ -135,5 +137,35 @@ lvim.plugins = {
   -- }
   -- LSP (Lunar vim ja el porta instalat per defecte) https://www.lunarvim.org/es/docs/troubleshooting#is-it-at-least-showing-up-in-lspinfo
   -- { "neovim/nvim-lspconfig"}
-
+  -- Autopairs
+  {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-ts-autotag").setup({
+        -- disable_filetype = { 'TelescopePrompt', 'vim' }
+      })
+    end
+  },
+  -- Autopairs
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end
+  },
+  -- Colors in the css files and so on
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({ '*' })
+    end
+  },
+  -- Millorar els miisatges de LSP, es un LSP UI
+  {
+    "nvimdev/lspsaga.nvim",
+    config = function()
+      require("lspsaga").setup({
+      })
+    end
+  },
 }

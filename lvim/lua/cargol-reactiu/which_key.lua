@@ -62,6 +62,7 @@ wk.mappings["t"] = {
   r = { ':Telescope resume<cr>', 'Resume' },
 }
 
+
 lvim.builtin.which_key.mappings["H"] = {
   name = "+Trouble",
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
@@ -75,5 +76,11 @@ lvim.builtin.which_key.mappings["H"] = {
 -- Per python
 lvim.builtin.which_key.mappings["C"] = {
   name = "Python",
-  c = { "<cmd>lua require('swenv.api').pick_venv()<cr>", "Choose Env"} -- Canviar de venv sense haver de tancar el nvim
+  c = { "<cmd>lua require('swenv.api').pick_venv()<cr>", "Choose Env" } -- Canviar de venv sense haver de tancar el nvim
 }
+
+-- Git extendended which_key
+wk.mappings["g"]["t"] = { ":Git toggle_current_line_blame<CR>", "Toggle line blame" }
+wk.mappings["g"]["x"] = { ":Git toggle_deleted<CR>", "Toggle deleted" }
+wk.mappings["g"]["z"] = { ":Gitsigns show<CR>", "Toggle deleted" }
+

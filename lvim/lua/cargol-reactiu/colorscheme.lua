@@ -6,7 +6,6 @@ local n = require("neosolarized").setup(
     background_set = false
   }
 )
-
 n.Color.new("black", "#000000")
 
 n.Group.new("CursorLine", n.colors.none, n.colors.base03, n.styles.NONE, n.colors.base03)
