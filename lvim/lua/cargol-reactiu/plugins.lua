@@ -28,10 +28,11 @@ lvim.plugins = {
   -- { "lunarvim/lunar.nvim" },
   { "morhetz/gruvbox" },
   { "sainnhe/gruvbox-material" },
-  -- { "sainnhe/sonokai" },
-  -- { "sainnhe/edge" },
-  -- { "tomasr/molokai" },
-  -- { "ayu-theme/ayu-vim" },
+  { "sainnhe/sonokai" },
+  { "sainnhe/edge" },
+  { "tomasr/molokai" },
+  { "ayu-theme/ayu-vim" },
+  { "rebelot/kanagawa.nvim" },
 
   -- Todo-comments -> https://github.com/folke/todo-comments.nvim
   -- Resalta comentaris:
@@ -167,6 +168,11 @@ lvim.plugins = {
     "nvimdev/lspsaga.nvim",
     config = function()
       require("lspsaga").setup({
+        definition = {
+          keys = {
+            edit = 'o'
+          }
+        }
       })
     end
   },

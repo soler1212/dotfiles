@@ -37,13 +37,13 @@ wk.mappings["m"] = {
   p = { ":lua require('harpoon.ui').nav_prev()<cr>", "Prev file" },
 }
 
--- wk.mappings["W"] = {
---   name = ' ' .. kind.icons.screen .. " Window Ctrl",
---   h = { '<C-w>|', 'Maximize window horizontally (|)' },
---   v = { '<C-w>_', 'Maximize window vertically (_)' },
---   ['='] = { '<C-w>=', 'Resize windows equally' },
---   s = { ":lua require('telescope-tabs').list_tabs()<cr>", 'Search Tabs' },
--- }
+wk.mappings["W"] = {
+  name = ' ' .. kind.icons.screen .. " Window Ctrl",
+  h = { '<C-w>|', 'Maximize window horizontally (|)' },
+  v = { '<C-w>_', 'Maximize window vertically (_)' },
+  ['='] = { '<C-w>=', 'Resize windows equally' },
+  s = { ":lua require('telescope-tabs').list_tabs()<cr>", 'Search Tabs' },
+}
 
 -- wk.mappings["G"] = {
 --   name = ' ' .. kind.icons.hint .. " Github Copilot",
