@@ -1,4 +1,4 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- AstroCommunity: import any community modules here
 -- We import this file in `lazy_setup.lua` before the `plugins/` folder.
@@ -9,4 +9,15 @@ return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.pack.lua" },
   -- import/override with your plugins folder
+  -- pack
+  { import = "astrocommunity.pack.typescript" },
+  { import = "astrocommunity.pack.yaml" },
+  -- { import = "astrocommunity.pack.sql" },
+  { import = "astrocommunity.pack.python" },
+  { import = "astrocommunity.pack.json" },
+  { import = "astrocommunity.pack.html-css" },
+  { import = "astrocommunity.pack.bash" },
+  { import = "astrocommunity.pack.bash" },
+  -- bars-and-lines
+  -- { import = "astrocommunity.bars-and-lines.dropbar-nvim" },
 }

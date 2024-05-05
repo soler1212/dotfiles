@@ -1,4 +1,4 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
 -- Configuration documentation can be found with `:h astrocore`
@@ -46,9 +46,12 @@ return {
       n = {
         -- second key is the lefthand side of the map
 
-        -- navigate buffer tabs with `H` and `L`
-        L = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        H = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+        -- navigate buffer tabs with `Tabs and shift Tab`
+        ["<Tab>"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+        -- navigate tabs with `t-l t-h`
+        ["th"] = { ":tabprevious<cr>", desc = "Previous tab" },
+        ["tl"] = { ":tabnext<cr>", desc = "Next tab" },
 
         -- mappings seen under group name "Buffer"
         ["<Leader>bD"] = {
@@ -63,7 +66,7 @@ return {
         -- this is useful for naming menus
         ["<Leader>b"] = { desc = "Buffers" },
         -- quick save
-        -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+        ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
       },
       t = {
         -- setting a mapping to false will disable it
