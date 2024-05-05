@@ -3,19 +3,21 @@
 Collection of .dotfiles and other configurations
 
 
-#Used Stacks:
+# Used "Stack":
 
 ## 2023-10-01 (last-update: 2023-10-03)
-- sway (sway/configuration4-working-in-my-homedesk-with-waybar/*)
-- waybar (waybar/configuration4-working-in-my-homedesk/*)
-- grimshot (installed)
-- swaylock (installed, same configuration folder as sway)
-- ulauncher (installed)
+- sway
+- waybar
+- grimshot
+- swaylock
+- ulauncher
 
 ## 2023-09-28
-- i3wm (i3wm/config)
-- i3block (i3blocks/i3blocks.conf)
+- i3wm
+- i3block
 
-# Cool tools
-- ranger (installed)
-- tig (installed)
+# Tools
+## ranger
+## tig
+## wdisplays
+Tool to manage dual screens and other screen configurations
