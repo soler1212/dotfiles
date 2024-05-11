@@ -10,8 +10,11 @@ vim.opt.rtp:prepend(lazypath)
 -- load plugins
 require('lazy').setup({
   { import = 'cargol-reactiu.plugins.lsp' },
+  { import = 'cargol-reactiu.plugins.treesitter' },
   { import = 'cargol-reactiu.plugins.formatters' },
   { import = 'cargol-reactiu.plugins.linting' },
+  { import = 'cargol-reactiu.plugins.autocompletion' },
+  { import = 'cargol-reactiu.plugins.ui' },
   { import = 'cargol-reactiu.plugins' },
 }, {
   ui = {
