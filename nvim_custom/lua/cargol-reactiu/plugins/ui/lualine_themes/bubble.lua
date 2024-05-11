@@ -1,3 +1,7 @@
+-- Bubbles config for lualine
+-- Author: lokesh-krishna
+-- MIT license, see LICENSE for more details.
+
 -- stylua: ignore
 local colors = {
   blue   = '#80a0ff',
@@ -27,7 +31,7 @@ local bubbles_theme = {
   },
 }
 
-require('lualine').setup {
+return {
   options = {
     theme = bubbles_theme,
     component_separators = '',
@@ -56,5 +60,3 @@ require('lualine').setup {
   tabline = {},
   extensions = {},
 }
-
-return {}
