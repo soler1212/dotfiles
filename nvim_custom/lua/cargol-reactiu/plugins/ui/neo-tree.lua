@@ -310,6 +310,6 @@ return {
   end,
 
   keys = {
-    { ' e', ':Neotree toggle<CR>', { desc = 'NeoTree reveal' } },
+    { ' e', ':Neotree toggle<CR>', { desc = 'Toogle file explorar' } },
   },
 }
