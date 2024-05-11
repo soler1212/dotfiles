@@ -6,6 +6,7 @@ Collection of .dotfiles and other configurations
 # Used "Stack":
 
 ## 2023-10-01 (last-update: 2023-10-03)
+
 - sway
 - waybar
 - grimshot
