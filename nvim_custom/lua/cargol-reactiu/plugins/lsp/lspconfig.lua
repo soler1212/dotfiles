@@ -173,6 +173,8 @@ return {
       -- But for many setups, the LSP (`tsserver`) will work just fine
       -- tsserver = {},
       pyright = {},
+      eslint_d = {},
+      pylint = {},
       tsserver = {},
       markdownlint = {},
       jsonlint = {},

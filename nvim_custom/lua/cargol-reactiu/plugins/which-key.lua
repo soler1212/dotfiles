@@ -26,7 +26,8 @@ return {
       ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
       ['<leader>S'] = { name = '[S]ession Manager', _ = 'which_key_ignore' },
       --['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-      --['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+      ['<leader>b'] = { name = '[B]uffer Manager', _ = 'which_key_ignore' },
+      -- ['<leader>t'] = { name = '[T]abs', _ = 'which_key_ignore' },
       --['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
       ['<leader>D'] = { name = '[D]ebugger', _ = 'which_key_ignore' },
     }
