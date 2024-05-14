@@ -9,6 +9,11 @@ vim.keymap.set('n', 'x', '"_x')
 -- Select all
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G')
 
+-- Close buffer
+vim.keymap.set('n', '<leader>c', '<cmd>:BufferClose<CR>', { desc = '[C]lose buffer' })
+
+vim.keymap.set('n', '<leader>q', ':qa<CR>', { desc = '[Q]uit editor' })
+
 -- Guardar file
 vim.keymap.set('n', '<C-s>', ':w<cr>')
 
