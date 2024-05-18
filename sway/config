@@ -1,3 +1,9 @@
+# temp remove me
+# exec --no-startup-id dbus-update-activation-environment --all
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+
+
 # SwayWM global configuration. For detailed information type "man sway"
 
 #########################
@@ -21,7 +27,8 @@ set $term i3-sensible-terminal
 set $menu ulauncher
 
 # Default wallpaper
-set $wallpaper ~/.config/sway/images/wallpaper.jpg
+#set $wallpaper ~/.config/sway/images/wallpaper.jpg
+exec ~/.config/sway/scripts/iterate-wallpaper.sh
 
 # Default lockscreen background
 set $lockscreenbg ~/.config/sway/images/lockscreen_background.jpg

@@ -1,6 +1,6 @@
 # bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
 
-bindsym $mod+Shift+e exec swaynag -t warning -m "System says: go hard or go home" -b "Lock" "swaylock" -b "Logout" "swaymsg exit" -b "Suspend" "systemctl suspend" -b "Reboot" "systemctl reboot" -b "Shutdown" "systemctl poweroff -i"
+bindsym $mod+Shift+e exec swaynag -t error -m "System says: go hard or go home" -b "Lock" "swaylock" -b "Logout" "swaymsg exit" -b "Suspend" "systemctl suspend" -b "Reboot" "systemctl reboot" -b "Shutdown" "systemctl poweroff -i"
 
 
 #bindsym $mod+Shift+e exec swaynag -t warning -m "System says: go hard or go home" -b "Lock" "swaylock" -b "Logout" "swaymsg exit" -b "Suspend" "systemctl suspend" -b "Reboot" "systemctl reboot" -b "Shutdown" "systemctl poweroff -i"
