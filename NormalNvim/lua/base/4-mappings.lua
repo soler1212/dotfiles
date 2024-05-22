@@ -103,18 +103,19 @@ maps.n["\\"] = { "<cmd>split<cr>", desc = "Horizontal Split" }
 maps.i["<C-BS>"] = { "<C-W>", desc = "Enable CTRL+backsace to delete." }
 maps.n["0"] =
 { "^", desc = "Go to the fist character of the line (aliases 0 to ^)" }
-maps.n["<leader>q"] = { "<cmd>confirm q<cr>", desc = "Quit" }
-maps.n["<leader>q"] = {
-  function()
-    -- Ask user for confirmation
-    local choice = vim.fn.confirm("Do you really want to exit nvim?", "&Yes\n&No", 2)
-    if choice == 1 then
-      -- If user confirms, but there are still files to be saved: Ask
-      vim.cmd('confirm quit')
-    end
-  end,
-  desc = "Quit",
-}
+maps.n["<leader>q"] = { "<cmd>qa<cr>", desc = "Quit" }
+-- maps.n["<leader>q"] = { "<cmd>confirm q<cr>", desc = "Quit" }
+-- maps.n["<leader>q"] = {
+--   function()
+--     -- Ask user for confirmation
+--     local choice = vim.fn.confirm("Do you really want to exit nvim?", "&Yes\n&No", 2)
+--     if choice == 1 then
+--       -- If user confirms, but there are still files to be saved: Ask
+--       vim.cmd('confirm quit')
+--     end
+--   end,
+--   desc = "Quit",
+-- }
 maps.n["<Tab>"] = {
   "<Tab>",
   noremap = true,
@@ -127,14 +128,14 @@ maps.n["<Tab>"] = {
 
 -- BUG: We disable these mappings on termux by default because <C-y>
 --      is the keycode for scrolling, and remapping it would break it.
-if not is_android then
-  -- only useful when the option clipboard is commented on ./1-options.lua
-  maps.n["<C-y>"] = { '"+y<esc>', desc = "Copy to cliboard" }
-  maps.x["<C-y>"] = { '"+y<esc>', desc = "Copy to cliboard" }
-  maps.n["<C-d>"] = { '"+y<esc>dd', desc = "Copy to clipboard and delete line" }
-  maps.x["<C-d>"] = { '"+y<esc>dd', desc = "Copy to clipboard and delete line" }
-  maps.n["<C-p>"] = { '"+p<esc>', desc = "Paste from clipboard" }
-end
+-- if not is_android then
+--   -- only useful when the option clipboard is commented on ./1-options.lua
+--   maps.n["<C-y>"] = { '"+y<esc>', desc = "Copy to cliboard" }
+--   maps.x["<C-y>"] = { '"+y<esc>', desc = "Copy to cliboard" }
+--   maps.n["<C-d>"] = { '"+y<esc>dd', desc = "Copy to clipboard and delete line" }
+--   maps.x["<C-d>"] = { '"+y<esc>dd', desc = "Copy to clipboard and delete line" }
+--   maps.n["<C-p>"] = { '"+p<esc>', desc = "Paste from clipboard" }
+-- end
 
 -- Make 'c' key not copy to clipboard when changing a character.
 maps.n["c"] = { '"_c', desc = "Change without yanking" }
@@ -296,21 +297,21 @@ maps.n["<leader>C"] = { -- Close buffer keeping the window.
   desc = "Close buffer",
 }
 -- Close buffer keeping the window → Without confirmation.
--- maps.n["<leader>X"] = {
---   function() require("heirline-components.buffer").close(0, true) end,
---   desc = "Force close buffer",
---
-maps.n["<leader>ba"] = {
-  function() vim.cmd "wa" end,
-  desc = "Write all changed buffers",
+maps.n["<leader>X"] = {
+  function() require("heirline-components.buffer").close(0, true) end,
+  desc = "Force close buffer",
 }
-maps.n["]b"] = {
+-- maps.n["<S-Tab>"] = {
+--   function() vim.cmd "wa" end,
+--   desc = "Write all changed buffers",
+-- }
+maps.n["<Tab>"] = {
   function()
     require("heirline-components.buffer").nav(vim.v.count > 0 and vim.v.count or 1)
   end,
   desc = "Next buffer",
 }
-maps.n["[b"] = {
+maps.n["<S-Tab>"] = {
   function()
     require("heirline-components.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1))
   end,
