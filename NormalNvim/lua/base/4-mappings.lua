@@ -845,6 +845,68 @@ if is_available "telescope.nvim" then
     function() require("telescope.builtin").git_status() end,
     desc = "Git status",
   }
+
+  -- INFO: Find Word
+  maps.n["<leader>fw"] = {
+    function()
+      require("telescope.builtin").live_grep {
+        additional_args = function(args)
+          return vim.list_extend(args, { "--hidden", "--no-ignore" })
+        end,
+      }
+    end,
+    desc = "Find words",
+  }
+  maps.n["<leader>fW"] = {
+    function() require("telescope.builtin").live_grep() end,
+    desc = "Find words (no hidden)",
+  }
+  maps.n["<leader>f/"] = {
+    function() require("telescope.builtin").current_buffer_fuzzy_find() end,
+    desc = "Find words in current buffer"
+  }
+
+  -- INFO: Find File
+
+  -- extra - telescope-frecency.nvim (find files used more frequently in project)
+  -- TODO: if is_available "telescope-frecency" then
+  maps.n["<leader>fl"] = {
+    function() vim.cmd "Telescope frecency workspace=CWD" end,
+    desc = "Find last files",
+  }
+
+  maps.n["<leader>ff"] = {
+    function()
+      require("telescope.builtin").find_files { hidden = true, no_ignore = true }
+    end,
+    desc = "Find files",
+  }
+  maps.n["<leader>fF"] = {
+    function() require("telescope.builtin").find_files() end,
+    desc = "Find files (no hidden)",
+  }
+
+  -- INFO: Find File and Words in content
+  maps.n["<leader>fg"] = {
+    function() require("telescope.builtin").grep_string() end,
+    desc = "Find files and content",
+  }
+
+  -- INFO: Find and replace
+
+  -- extra - spectre.nvim (search and replace in project)
+  if is_available "nvim-spectre" then
+    maps.n["<leader>fr"] = {
+      function() require("spectre").toggle { path = vim.fn.expand "%:t:p" } end,
+      desc = "Find and replace word in buffer",
+    }
+    maps.n["<leader>fR"] = {
+      function() require("spectre").toggle() end,
+      desc = "Find and replace word in project",
+    }
+  end
+
+  -- INFO: Finder utilities
   maps.n["<leader>f<CR>"] = {
     function() require("telescope.builtin").resume() end,
     desc = "Resume previous search",
@@ -853,7 +915,8 @@ if is_available "telescope.nvim" then
     function() require("telescope.builtin").marks() end,
     desc = "Find marks",
   }
-  maps.n["<leader>fa"] = {
+  -- TODO: to sort
+  maps.n["<leader>fTb"] = {
     function()
       local cwd = vim.fn.stdpath "config" .. "/.."
       local search_dirs = { vim.fn.stdpath "config" }
@@ -867,56 +930,41 @@ if is_available "telescope.nvim" then
     end,
     desc = "Find nvim config files",
   }
-  maps.n["<leader>fB"] = {
+  maps.n["<leader>fTB"] = {
     function() require("telescope.builtin").buffers() end,
     desc = "Find buffers",
   }
-  maps.n["<leader>fw"] = {
-    function() require("telescope.builtin").grep_string() end,
-    desc = "Find word under cursor in project",
-  }
-  maps.n["<leader>fC"] = {
+  maps.n["<leader>fTC"] = {
     function() require("telescope.builtin").commands() end,
     desc = "Find commands",
   }
-  -- Let's disable this. It is way too imprecise. Use rnvimr instead.
-  -- maps.n["<leader>ff"] = {
-  --   function()
-  --     require("telescope.builtin").find_files { hidden = true, no_ignore = true }
-  --   end,
-  --   desc = "Find all files",
-  -- }
-  -- maps.n["<leader>fF"] = {
-  --   function() require("telescope.builtin").find_files() end,
-  --   desc = "Find files (no hidden)",
-  -- }
-  maps.n["<leader>fh"] = {
+  maps.n["<leader>fTh"] = {
     function() require("telescope.builtin").help_tags() end,
     desc = "Find help",
   }
-  maps.n["<leader>fk"] = {
+  maps.n["<leader>fTk"] = {
     function() require("telescope.builtin").keymaps() end,
     desc = "Find keymaps",
   }
-  maps.n["<leader>fm"] = {
+  maps.n["<leader>fTm"] = {
     function() require("telescope.builtin").man_pages() end,
     desc = "Find man",
   }
   if is_available "nvim-notify" then
-    maps.n["<leader>fn"] = {
+    maps.n["<leader>fTn"] = {
       function() require("telescope").extensions.notify.notify() end,
       desc = "Find notifications",
     }
   end
-  maps.n["<leader>fo"] = {
+  maps.n["<leader>fTo"] = {
     function() require("telescope.builtin").oldfiles() end,
     desc = "Find recent",
   }
-  maps.n["<leader>fv"] = {
+  maps.n["<leader>fTv"] = {
     function() require("telescope.builtin").registers() end,
     desc = "Find vim registers",
   }
-  maps.n["<leader>ft"] = {
+  maps.n["<leader>fTt"] = {
     function()
       -- load color schemes before listing them
       pcall(vim.api.nvim_command, "doautocmd User LoadColorSchemes")
@@ -929,25 +977,47 @@ if is_available "telescope.nvim" then
     end,
     desc = "Find themes",
   }
-  maps.n["<leader>ff"] = {
-    function()
-      require("telescope.builtin").live_grep {
-        additional_args = function(args)
-          return vim.list_extend(args, { "--hidden", "--no-ignore" })
-        end,
-      }
-    end,
-    desc = "Find words in project",
-  }
-  maps.n["<leader>fF"] = {
-    function() require("telescope.builtin").live_grep() end,
-    desc = "Find words in project (no hidden)",
-  }
-  maps.n["<leader>f/"] = {
-    function() require("telescope.builtin").current_buffer_fuzzy_find() end,
-    desc = "Find words in current buffer"
-  }
 
+  -- extra - project.nvim
+  if is_available "project.nvim" then
+    maps.n["<leader>fTp"] = {
+      function() vim.cmd "Telescope projects" end,
+      desc = "Find project",
+    }
+  end
+
+  -- extra - luasnip
+  if is_available "LuaSnip" and is_available "telescope-luasnip.nvim" then
+    maps.n["<leader>fTs"] = {
+      function() require("telescope").extensions.luasnip.luasnip {} end,
+      desc = "Find snippets",
+    }
+  end
+
+  -- extra - nvim-neoclip (neovim internal clipboard)
+  --         Specially useful if you disable the shared clipboard in options.
+  if is_available "nvim-neoclip.lua" then
+    maps.n["<leader>fTy"] = {
+      function() require("telescope").extensions.neoclip.default() end,
+      desc = "Find yank history",
+    }
+    maps.n["<leader>fTq"] = {
+      function() require("telescope").extensions.macroscope.default() end,
+      desc = "Find macro history",
+    }
+  end
+
+  -- extra - undotree
+  if is_available "telescope-undo.nvim" then
+    maps.n["<leader>fTu"] = {
+      function() require("telescope").extensions.undo.undo() end,
+      desc = "Find in undo tree",
+    }
+  end
+
+
+  -- INFO: LSP
+  --
   -- Some lsp keymappings are here because they depend on telescope
   maps.n["<leader>l"] = icons.l
   maps.n["<leader>ls"] = {
@@ -973,54 +1043,6 @@ if is_available "telescope.nvim" then
     desc = "Search symbol in buffer", -- Useful to find every time a variable is assigned.
   }
 
-  -- extra - project.nvim
-  if is_available "project.nvim" then
-    maps.n["<leader>fp"] = {
-      function() vim.cmd "Telescope projects" end,
-      desc = "Find project",
-    }
-  end
-
-  -- extra - spectre.nvim (search and replace in project)
-  if is_available "nvim-spectre" then
-    maps.n["<leader>fr"] = {
-      function() require("spectre").toggle() end,
-      desc = "Find and replace word in project",
-    }
-    maps.n["<leader>fb"] = {
-      function() require("spectre").toggle { path = vim.fn.expand "%:t:p" } end,
-      desc = "Find and replace word in buffer",
-    }
-  end
-
-  -- extra - luasnip
-  if is_available "LuaSnip" and is_available "telescope-luasnip.nvim" then
-    maps.n["<leader>fs"] = {
-      function() require("telescope").extensions.luasnip.luasnip {} end,
-      desc = "Find snippets",
-    }
-  end
-
-  -- extra - nvim-neoclip (neovim internal clipboard)
-  --         Specially useful if you disable the shared clipboard in options.
-  if is_available "nvim-neoclip.lua" then
-    maps.n["<leader>fy"] = {
-      function() require("telescope").extensions.neoclip.default() end,
-      desc = "Find yank history",
-    }
-    maps.n["<leader>fq"] = {
-      function() require("telescope").extensions.macroscope.default() end,
-      desc = "Find macro history",
-    }
-  end
-
-  -- extra - undotree
-  if is_available "telescope-undo.nvim" then
-    maps.n["<leader>fu"] = {
-      function() require("telescope").extensions.undo.undo() end,
-      desc = "Find in undo tree",
-    }
-  end
 
   -- extra - compiler
   if is_available "compiler.nvim" and is_available "overseer.nvim" then
