@@ -869,11 +869,12 @@ if is_available "telescope.nvim" then
   -- INFO: Find File
 
   -- extra - telescope-frecency.nvim (find files used more frequently in project)
-  -- TODO: if is_available "telescope-frecency" then
-  maps.n["<leader>fl"] = {
-    function() vim.cmd "Telescope frecency workspace=CWD" end,
-    desc = "Find last files",
-  }
+  -- TODO: if is_available "Telescope frecency" then
+    maps.n["<leader>fl"] = {
+      function() vim.cmd "Telescope frecency workspace=CWD" end,
+      desc = "Find last files",
+    }
+  -- end
 
   maps.n["<leader>ff"] = {
     function()
@@ -915,8 +916,15 @@ if is_available "telescope.nvim" then
     function() require("telescope.builtin").marks() end,
     desc = "Find marks",
   }
-  -- TODO: to sort
-  maps.n["<leader>fTb"] = {
+  maps.n["<leader>fb"] = {
+    function() require("telescope.builtin").buffers() end,
+    desc = "Find buffers",
+  }
+  -- INFO: Other finders
+  maps.n["<leader>fO"] = {
+    desc = "Other finders",
+  }
+  maps.n["<leader>fOb"] = {
     function()
       local cwd = vim.fn.stdpath "config" .. "/.."
       local search_dirs = { vim.fn.stdpath "config" }
@@ -930,41 +938,37 @@ if is_available "telescope.nvim" then
     end,
     desc = "Find nvim config files",
   }
-  maps.n["<leader>fTB"] = {
-    function() require("telescope.builtin").buffers() end,
-    desc = "Find buffers",
-  }
-  maps.n["<leader>fTC"] = {
+  maps.n["<leader>fOC"] = {
     function() require("telescope.builtin").commands() end,
     desc = "Find commands",
   }
-  maps.n["<leader>fTh"] = {
+  maps.n["<leader>fOh"] = {
     function() require("telescope.builtin").help_tags() end,
     desc = "Find help",
   }
-  maps.n["<leader>fTk"] = {
+  maps.n["<leader>fOk"] = {
     function() require("telescope.builtin").keymaps() end,
     desc = "Find keymaps",
   }
-  maps.n["<leader>fTm"] = {
+  maps.n["<leader>fOm"] = {
     function() require("telescope.builtin").man_pages() end,
     desc = "Find man",
   }
   if is_available "nvim-notify" then
-    maps.n["<leader>fTn"] = {
+    maps.n["<leader>fOn"] = {
       function() require("telescope").extensions.notify.notify() end,
       desc = "Find notifications",
     }
   end
-  maps.n["<leader>fTo"] = {
+  maps.n["<leader>fOo"] = {
     function() require("telescope.builtin").oldfiles() end,
     desc = "Find recent",
   }
-  maps.n["<leader>fTv"] = {
+  maps.n["<leader>fOv"] = {
     function() require("telescope.builtin").registers() end,
     desc = "Find vim registers",
   }
-  maps.n["<leader>fTt"] = {
+  maps.n["<leader>fOt"] = {
     function()
       -- load color schemes before listing them
       pcall(vim.api.nvim_command, "doautocmd User LoadColorSchemes")
@@ -980,7 +984,7 @@ if is_available "telescope.nvim" then
 
   -- extra - project.nvim
   if is_available "project.nvim" then
-    maps.n["<leader>fTp"] = {
+    maps.n["<leader>fOp"] = {
       function() vim.cmd "Telescope projects" end,
       desc = "Find project",
     }
@@ -988,7 +992,7 @@ if is_available "telescope.nvim" then
 
   -- extra - luasnip
   if is_available "LuaSnip" and is_available "telescope-luasnip.nvim" then
-    maps.n["<leader>fTs"] = {
+    maps.n["<leader>fOs"] = {
       function() require("telescope").extensions.luasnip.luasnip {} end,
       desc = "Find snippets",
     }
@@ -997,11 +1001,11 @@ if is_available "telescope.nvim" then
   -- extra - nvim-neoclip (neovim internal clipboard)
   --         Specially useful if you disable the shared clipboard in options.
   if is_available "nvim-neoclip.lua" then
-    maps.n["<leader>fTy"] = {
+    maps.n["<leader>fOy"] = {
       function() require("telescope").extensions.neoclip.default() end,
       desc = "Find yank history",
     }
-    maps.n["<leader>fTq"] = {
+    maps.n["<leader>fOq"] = {
       function() require("telescope").extensions.macroscope.default() end,
       desc = "Find macro history",
     }
@@ -1009,7 +1013,7 @@ if is_available "telescope.nvim" then
 
   -- extra - undotree
   if is_available "telescope-undo.nvim" then
-    maps.n["<leader>fTu"] = {
+    maps.n["<leader>fOu"] = {
       function() require("telescope").extensions.undo.undo() end,
       desc = "Find in undo tree",
     }
@@ -1045,33 +1049,33 @@ if is_available "telescope.nvim" then
 
 
   -- extra - compiler
-  if is_available "compiler.nvim" and is_available "overseer.nvim" then
-    maps.n["<leader>m"] = icons.c
-    maps.n["<leader>mm"] = {
-      function() vim.cmd "CompilerOpen" end,
-      desc = "Open compiler",
-    }
-    maps.n["<leader>mr"] = {
-      function() vim.cmd "CompilerRedo" end,
-      desc = "Compiler redo",
-    }
-    maps.n["<leader>mt"] = {
-      function() vim.cmd "CompilerToggleResults" end,
-      desc = "compiler results",
-    }
-    maps.n["<F6>"] = {
-      function() vim.cmd "CompilerOpen" end,
-      desc = "Open compiler",
-    }
-    maps.n["<S-F6>"] = {
-      function() vim.cmd "CompilerRedo" end,
-      desc = "Compiler redo",
-    }
-    maps.n["<S-F7>"] = {
-      function() vim.cmd "CompilerToggleResults" end,
-      desc = "compiler resume",
-    }
-  end
+  -- if is_available "compiler.nvim" and is_available "overseer.nvim" then
+  --   maps.n["<leader>m"] = icons.c
+  --   maps.n["<leader>mm"] = {
+  --     function() vim.cmd "CompilerOpen" end,
+  --     desc = "Open compiler",
+  --   }
+  --   maps.n["<leader>mr"] = {
+  --     function() vim.cmd "CompilerRedo" end,
+  --     desc = "Compiler redo",
+  --   }
+  --   maps.n["<leader>mt"] = {
+  --     function() vim.cmd "CompilerToggleResults" end,
+  --     desc = "compiler results",
+  --   }
+  --   maps.n["<F6>"] = {
+  --     function() vim.cmd "CompilerOpen" end,
+  --     desc = "Open compiler",
+  --   }
+  --   maps.n["<S-F6>"] = {
+  --     function() vim.cmd "CompilerRedo" end,
+  --     desc = "Compiler redo",
+  --   }
+  --   maps.n["<S-F7>"] = {
+  --     function() vim.cmd "CompilerToggleResults" end,
+  --     desc = "compiler resume",
+  --   }
+  -- end
 end
 
 -- toggleterm.nvim ----------------------------------------------------------

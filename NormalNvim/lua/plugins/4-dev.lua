@@ -334,11 +334,18 @@ return {
   --
   --  NOTE: In order for this plugin to work, you will have to set
   --        the next env var in your OS:
-  --        OPENAI_API_KEY="my_key_here"
+  --        export OPENAI_API_KEY="my_key_here"
+  --        source ~/.bashrc  zshrc, o el que sigui...
   {
     "dense-analysis/neural",
     cmd = { "Neural" },
     config = function()
+      local api_key = vim.env.OPENAI_API_KEY
+
+      if not api_key then
+        vim.api.nvim_err_writeln("Error: OPENAI_API_KEY is not set")
+        return
+      end
       require("neural").setup {
         source = {
           openai = {
@@ -387,17 +394,17 @@ return {
   --  COMPILER ----------------------------------------------------------------
   --  compiler.nvim [compiler]
   --  https://github.com/Zeioth/compiler.nvim
-  {
-    "Zeioth/compiler.nvim",
-    cmd = {
-      "CompilerOpen",
-      "CompilerToggleResults",
-      "CompilerRedo",
-      "CompilerStop"
-    },
-    dependencies = { "stevearc/overseer.nvim" },
-    opts = {},
-  },
+  -- {
+  --   "Zeioth/compiler.nvim",
+  --   cmd = {
+  --     "CompilerOpen",
+  --     "CompilerToggleResults",
+  --     "CompilerRedo",
+  --     "CompilerStop"
+  --   },
+  --   dependencies = { "stevearc/overseer.nvim" },
+  --   opts = {},
+  -- },
 
   --  overseer [task runner]
   --  https://github.com/stevearc/overseer.nvim
