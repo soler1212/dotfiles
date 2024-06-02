@@ -2,6 +2,10 @@
 -- Things that make the GUI better.
 
 --    Sections:
+--       -> bamboo                      [theme]
+--       -> cyberdream                  [theme]
+--       -> onedarkpro                  [theme]
+--       -> catppuccin                  [theme]
 --       -> tokyonight                  [theme]
 --       -> astrotheme                  [theme]
 --       -> alpha-nvim                  [greeter]
@@ -26,6 +30,47 @@ local is_windows = vim.fn.has('win32') == 1         -- true if on windows
 local is_android = vim.fn.isdirectory('/data') == 1 -- true if on android
 
 return {
+  {
+    "olimorris/onedarkpro.nvim",
+    event = "User LoadColorSchemes",
+    opts = {
+      highlights = {
+        Comment = { italic = true },
+        Directory = { bold = true },
+        ErrorMsg = { italic = true, bold = true }
+      }
+    }
+  },
+  {
+    'ribru17/bamboo.nvim',
+    event = "User LoadColorSchemes",
+  },
+  {
+    "scottmckendry/cyberdream.nvim",
+    event = "User LoadColorSchemes",
+    opts = {
+      transparent = false,
+    }
+  },
+
+  -- onedark [theme]
+  -- https://github.com/navarasu/onedark.nvim
+  -- {
+  --   "navarasu/onedark.nvim",
+  --   event = "User LoadColorSchemes",
+  --   name = "test",
+  --   opts = {
+  --     style = 'dark',
+  --     transparent = true,
+  --   }
+  -- },
+
+  -- catppuccin [theme]
+  -- https://github.com/catppuccin/nvim
+  {
+    "catppuccin/nvim",
+    event = "User LoadColorSchemes",
+  },
 
   -- tokyonight [theme]
   -- https://github.com/folke/tokyonight.nvim
