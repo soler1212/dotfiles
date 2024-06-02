@@ -870,10 +870,10 @@ if is_available "telescope.nvim" then
 
   -- extra - telescope-frecency.nvim (find files used more frequently in project)
   -- TODO: if is_available "Telescope frecency" then
-    maps.n["<leader>fl"] = {
-      function() vim.cmd "Telescope frecency workspace=CWD" end,
-      desc = "Find last files",
-    }
+  maps.n["<leader>fl"] = {
+    function() vim.cmd "Telescope frecency workspace=CWD" end,
+    desc = "Find last files",
+  }
   -- end
 
   maps.n["<leader>ff"] = {
@@ -1046,6 +1046,7 @@ if is_available "telescope.nvim" then
     end,
     desc = "Search symbol in buffer", -- Useful to find every time a variable is assigned.
   }
+
 
 
   -- extra - compiler
@@ -1363,6 +1364,13 @@ if is_available "hop.nvim" then
     desc = "Hop to word",
   }
 end
+
+-- Per python TODO: No funciona com espero, es desactiva el LSP
+-- maps.n["<leader>lw"] = {
+--   function() vim.cmd "lua require('swenv.api').pick_venv()" end,
+--   desc = "Change python virtual environment",
+-- }
+
 
 -- mason-lspconfig.nvim [lsp] -------------------------------------------------
 -- WARNING: Don't delete this section, or you won't have LSP keymappings

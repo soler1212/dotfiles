@@ -21,5 +21,25 @@ return {
     config = function()
       require("telescope").load_extension "frecency"
     end,
-  }
+  },
+
+  -- {
+  --   "pmizio/typescript-tools.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  --   opts = {},
+  -- }
+
+  -- Swenv -> https://github.com/AckslD/swenv.nvim
+  -- Per canviar rapidament de virtual environment de python
+  -- { TODO: No funciona be amb el plugin de lsp, es descativa el plugin de LSP
+  --   "AckslD/swenv.nvim",
+  --   config = function()
+  --     require("swenv").setup({
+  --       venvs_path = vim.fn.expand('~/.virtualenvs'), -- Carpeta on busca els venv
+  --       -- post_set_venv = function()                    -- reiniciar lsp quan canvies de venv
+  --       --   vim.cmd("LspRestart")
+  --       -- end
+  --     })
+  --   end
+  -- },
 }

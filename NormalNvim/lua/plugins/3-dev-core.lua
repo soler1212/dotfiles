@@ -168,25 +168,25 @@ return {
   -- nvim-java [java support]
   -- https://github.com/nvim-java/nvim-java
   -- Reliable jdtls support. Must go before mason-lspconfig and lsp-config.
-  {
-    "nvim-java/nvim-java",
-    ft = { "java" },
-    dependencies = {
-      "nvim-java/lua-async-await",
-      "nvim-java/nvim-java-core",
-      "nvim-java/nvim-java-test",
-      "nvim-java/nvim-java-dap",
-      "MunifTanjim/nui.nvim",
-      "neovim/nvim-lspconfig",
-      "mfussenegger/nvim-dap",
-      "williamboman/mason.nvim",
-    },
-    opts = {
-      notifications = {
-        dap = false,
-      },
-    },
-  },
+  -- {
+  --   "nvim-java/nvim-java",
+  --   ft = { "java" },
+  --   dependencies = {
+  --     "nvim-java/lua-async-await",
+  --     "nvim-java/nvim-java-core",
+  --     "nvim-java/nvim-java-test",
+  --     "nvim-java/nvim-java-dap",
+  --     "MunifTanjim/nui.nvim",
+  --     "neovim/nvim-lspconfig",
+  --     "mfussenegger/nvim-dap",
+  --     "williamboman/mason.nvim",
+  --   },
+  --   opts = {
+  --     notifications = {
+  --       dap = false,
+  --     },
+  --   },
+  -- },
 
   --  nvim-lspconfig [lsp configs]
   --  https://github.com/neovim/nvim-lspconfig
@@ -194,12 +194,43 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = "User BaseFile",
-    dependencies = "nvim-java/nvim-java",
+    dependencies = {
+      "nvim-java/nvim-java", --TODO: Borrar-ho
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
+    },
     config = function()
       -- nvim-java DAP support.
       if utils.is_available("nvim-java") then
         require("lspconfig").jdtls.setup({})
       end
+
+      require('mason-tool-installer').setup({
+        -- INFO:: :MasonToolsInstall - only installs tools that are missing or at the incorrect version
+        ensure_installed = {
+          -- INFO: Python LSP
+          'pyright', -- lsp
+          'flake8', -- linter
+          'black', -- formatter
+          'isort', -- formatter(python utility to sort imports)
+
+          -- INFO: Typescript
+          'tsserver', -- lsp
+          'eslint_d', -- linter
+          'prettierd', -- formatter
+
+          -- INFO: Markdown
+          'markdownlint',
+          -- INFO: JSON
+          'jsonlint',
+          -- INFO: LUA
+          'lua_ls',
+          'stylua', -- Used to format Lua code
+        },
+        -- run_on_start = true,
+        -- start_delay = 3000,
+        -- debounce_hours = 0, -- at least 5 hours between attempts to install/update
+      })
+
     end
   },
 
