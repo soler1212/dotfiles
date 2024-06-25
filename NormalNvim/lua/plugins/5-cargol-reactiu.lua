@@ -42,4 +42,11 @@ return {
   --     })
   --   end
   -- },
+
+  -- https://github.com/sophacles/vim-bundle-mako
+  -- Format per el files makos
+
+  {
+    "sophacles/vim-bundle-mako",
+  }
 }
