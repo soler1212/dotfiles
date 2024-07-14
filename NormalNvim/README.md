@@ -1,3 +1,15 @@
+
+# Notes personals
+
+- Crear alies de fd ja que en linux és fdfind i el guarda a /usr/bin
+  - ln -s $(which fdfind) ~/.local/bin/fd
+- Instalar el markmap cli per la dependencia no documentada
+  - npm install -g markmap-cli
+
+
+
+**Important** : You need Neovim 0.10+
+
 <div align="center">
   <img src="https://github.com/NormalNvim/NormalNvim/assets/3357792/76197752-0947-4392-a6bd-a59d64319028"></img>
   <h1><a href="https://github.com/NormalNvim/NormalNvim">NormalNvim</a></h1>
@@ -103,9 +115,8 @@ Please before opening an issue, check the [astrocommunity](https://github.com/As
 OPENAI_API_KEY="my_key_here"
 ```
 
-## 🌟 Support the project
-If you want to help me, please star this repository to increase the visibility of the project.
-
+## 🌟 Get involved
+One of the biggest challenges NormalNvim face is marketing. So share the project and tell your friends!
 [![Stargazers over time](https://starchart.cc/NormalNvim/NormalNvim.svg)](https://starchart.cc/NormalNvim/NormalNvim)
 
 ## Fix a bug and send a PR to appear as contributor
@@ -124,8 +135,5 @@ Did you know NormalNvim was the first Neovim distro to ship a compiler that [sup
 
 ## Roadmap
 * We are currently in a stable state.
-* TODO: Re-enable markdown highlights as soon as treesitter fixes the parser.
 * Once selene add [this](https://github.com/Kampfkarren/selene/issues/224) and [this](https://github.com/Kampfkarren/selene/issues/524) and [this](https://github.com/Kampfkarren/selene/pull/591), let's add the new rules.
-* ~~On aerial, let's keep an eye on [this](https://github.com/stevearc/aerial.nvim/issues/352) UX improvement.~~ → Thank you Steve.
-* Once nvim 0.10 is officially released, replace `get_active_clients` by `get_clients`.
 * During 2024, create a landing page. Pretty much it's gonna be the same thing we have on the wiki, but with sparkles.

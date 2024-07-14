@@ -62,7 +62,7 @@ return {
   -- project.nvim [project search + auto cd]
   -- https://github.com/ahmedkhalf/project.nvim
   {
-    "Zeioth/project.nvim",
+    "zeioth/project.nvim",
     event = "User BaseDefered",
     cmd = "ProjectRoot",
     opts = {
@@ -85,11 +85,11 @@ return {
       silent_chdir = true,
       manual_mode = false,
 
-      -- Don't auto-chdir for specific filetypes.
-      exclude_filetype_chdir = { "", "OverseerList", "alpha" },
-
-      -- Don't auto-chdir for specific buftypes.
-      exclude_buftype_chdir = { "nofile", "terminal" },
+      -- Don't chdir for certain buffers
+      exclude_chdir = {
+        filetype = {"", "OverseerList", "alpha"},
+        buftype = {"nofile", "terminal"},
+      },
 
       --ignore_lsp = { "lua_ls" },
     },
@@ -469,7 +469,7 @@ return {
           position = "right",
           width = 30,
           mappings = {
-            ["<space>"] = false, -- disable space until we figure out which-key disabling
+            ["<space>"] = false,
             ["<S-CR>"] = "system_open",
             ["[b"] = "prev_source",
             ["]b"] = "next_source",
@@ -562,7 +562,7 @@ return {
   --  suda.nvim [write as sudo]
   --  https://github.com/lambdalisue/suda.vim
   {
-    "lambdalisue/suda.vim",
+    "lambdalisue/vim-suda",
     cmd = { "SudaRead", "SudaWrite" },
   },
 
@@ -644,7 +644,7 @@ return {
         hint_enable = false, -- Display it as hint.
         hint_prefix = "👈 ",
 
-        -- Additionally, you can use <space>ui to toggle inlay hints.
+        -- Additionally, you can use <space>uH to toggle inlay hints.
         toggle_key_flip_floatwin_setting = is_enabled
       }
     end,
@@ -663,7 +663,7 @@ return {
         "quickfix",
       },
       ignore = {
-        ft = { "lua" }, -- ignore filetypes with bad code actions.
+        ft = { "lua", "markdown" }, -- ignore filetypes with bad code actions.
       },
       autocmd = {
         enabled = true,
@@ -679,12 +679,10 @@ return {
   },
 
   -- distroupdate.nvim [distro update]
-  -- https://github.com/Zeioth/distroupdate.nvim
+  -- https://github.com/zeioth/distroupdate.nvim
   {
-    "Zeioth/distroupdate.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim"
-    },
+    "zeioth/distroupdate.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     cmd = {
       "DistroFreezePluginVersions",
       "DistroReadChangelog",

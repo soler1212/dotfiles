@@ -5,7 +5,8 @@
 --       ## TREE SITTER
 --       -> nvim-treesitter                [syntax highlight]
 --       -> nvim-ts-autotag                [treesitter understand html tags]
---       -> nvim-ts-context-commentstring  [treesitter comments]
+--       -> ts-comments.nvim               [treesitter comments]
+--       -> markview.nvim                  [markdown highlights]
 --       -> nvim-colorizer                 [hex colors]
 
 --       ## LSP
@@ -13,7 +14,8 @@
 --       -> mason-lspconfig                [auto start lsp]
 --       -> nvim-lspconfig                 [lsp configs]
 --       -> mason.nvim                     [lsp package manager]
---       -> SchemaStore.nvim               [lsp schema manager]
+--       -> SchemaStore.nvim               [mason extra schemas]
+--       -> none-ls-autoload.nvim          [mason package loader]
 --       -> none-ls                        [lsp code formatting]
 --       -> neodev                         [lsp for nvim lua api]
 --       -> garbage-day                    [lsp garbage collector]
@@ -34,15 +36,13 @@ return {
   --  https://github.com/nvim-treesitter/nvim-treesitter
   --  https://github.com/windwp/nvim-ts-autotag
   --  https://github.com/windwp/nvim-treesitter-textobjects
-  --  https://github.com/JoosepAlviste/nvim-ts-context-commentstring
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
       "windwp/nvim-ts-autotag",
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "JoosepAlviste/nvim-ts-context-commentstring"
     },
-    event = "User BaseFile",
+    event = "User BaseDefered",
     cmd = {
       "TSBufDisable",
       "TSBufEnable",
@@ -59,27 +59,20 @@ return {
       "TSUpdateSync",
     },
     build = ":TSUpdate",
+    init = function(plugin)
+      -- perf: make treesitter queries available at startup.
+      require("lazy.core.loader").add_to_rtp(plugin)
+      require("nvim-treesitter.query_predicates")
+    end,
     opts = {
       auto_install = false, -- Currently bugged. Use [:TSInstall all] and [:TSUpdate all]
       autotag = { enable = true },
       highlight = {
         enable = true,
-        disable = function(_, bufnr)
-          local excluded_filetypes = { "markdown" } -- disable for bugged parsers
-          local is_disabled = vim.tbl_contains(
-            excluded_filetypes, vim.bo.filetype) or utils.is_big_file(bufnr)
-          return is_disabled
-        end,
       },
       matchup = {
         enable = true,
         enable_quotes = true,
-        disable = function(_, bufnr)
-          local excluded_filetypes = { "c" } -- disable for slow parsers
-          local is_disabled = vim.tbl_contains(
-            excluded_filetypes, vim.bo.filetype) or utils.is_big_file(bufnr)
-          return is_disabled
-        end,
       },
       incremental_selection = { enable = true },
       indent = { enable = true },
@@ -141,12 +134,185 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
-      require('ts_context_commentstring').setup(
-        { enable = true, enable_autocmd = false })      -- Enable commentstring
-      vim.g.skip_ts_context_commentstring_module = true -- Increase performance
-    end,
+  },
+
+  -- ts-comments.nvim [treesitter comments]
+  -- https://github.com/folke/ts-comments.nvim
+  -- This plugin can be safely removed after nvim 0.11 is released.
+  {
+   "folke/ts-comments.nvim",
+    event = "User BaseFile",
+    enabled = vim.fn.has("nvim-0.10.0") == 1,
+    opts = {},
+  },
+
+  --  markview.nvim [markdown highlights]
+  --  https://github.com/folke/todo-comments.nvim
+  --  While on normal mode, markdown files will display highlights.
+  {
+    "OXY2DEV/markview.nvim",
+    ft = { "markdown" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
+    opts = {
+      headings = {
+        shift_width = 0,
+        heading_1 = {
+          style = "label",
+          sign = "",
+          sign_hl = "MarkviewCol7Fg",
+          hl = "MarkviewCol7Fg"
+        },
+        heading_2 = {
+          style = "label",
+          sign = "▶",
+          sign_hl = "col_2_fg",
+        },
+        heading_3 = {
+          style = "label",
+          sign = "󰼑",
+          sign_hl = "col_1_fg",
+          hl = "MarkviewCol3",
+        },
+        heading_4 = {
+          style = "label",
+          sign = "󰎲",
+          sign_hl = "col_1_fg",
+          hl = "MarkviewCol4",
+        },
+        heading_5 = {
+          style = "label",
+          sign = "󰼓",
+          sign_hl = "col_1_fg",
+          hl = "MarkviewCol5",
+        },
+        heading_6 = {
+          style = "label",
+          sign = "󰎴",
+          sign_hl = "col_1_fg",
+          hl = "MarkviewCol6",
+        }
+      },
+      list_items = {
+        marker_minus = {
+          add_padding = true,
+          text = "",
+          hl = "markviewCol2Fg"
+        },
+        marker_plus = {
+          add_padding = true,
+          text = "",
+          hl = "markviewCol4Fg"
+        },
+        marker_star = {
+          add_padding = true,
+          text = "",
+          text_hl = "markviewCol6Fg"
+        },
+        marker_dot = {
+          add_padding = true
+        },
+      },
+      block_quotes = {
+        enable = true,
+        default = { border = "▋", border_hl = "MarkviewCol7Fg" },
+        callouts = {
+          {
+            match_string = "NOTE",
+            callout_preview = "󰋽 Note",
+            callout_preview_hl = "MarkviewCol4Fg",
+
+            custom_title = true,
+            custom_icon = "󰋽 ",
+
+            border = "▋",
+            border_hl = "MarkviewCol5Fg"
+          },
+          {
+            match_string = "DESCRIPTION",
+            callout_preview = "󰋽 DESCRIPTION",
+            callout_preview_hl = "MarkviewCol7Fg",
+
+            custom_title = true,
+            custom_icon = "",
+
+            border = "▋",
+            border_hl = "MarkviewCol7Fg"
+          },
+          {
+            match_string = "TODO",
+            callout_preview = "󰋽 ",
+            callout_preview_hl = "MarkviewCol4Fg",
+
+            custom_title = true,
+            custom_icon = "󰋽 ",
+
+            border = "▋",
+            border_hl = "MarkviewCol5Fg"
+          },
+          {
+            match_string = "BUG",
+            callout_preview = " Bug",
+            callout_preview_hl = "MarkviewCol1Fg",
+
+            custom_title = true,
+            custom_icon = "  ",
+
+            border = "▋",
+            border_hl = "MarkviewCol1Fg"
+          },
+          {
+            match_string = "EXAMPLE",
+            callout_preview = "󱖫 Example",
+            callout_preview_hl = "MarkviewCol6Fg",
+
+            custom_title = true,
+            custom_icon = "󱖫 ",
+
+            border = "▋",
+            border_hl = "MarkviewCol6Fg"
+          },
+          {
+            match_string = "IMPORTANT",
+            callout_preview = " Important",
+            callout_preview_hl = "MarkviewCol3Fg",
+
+            custom_title = true,
+            custom_icon = " ",
+
+            border = "▋",
+            border_hl = "MarkviewCol3Fg"
+          },
+          {
+            match_string = "WARNING",
+            callout_preview = " Warning",
+            callout_preview_hl = "MarkviewCol2Fg",
+
+            custom_title = true,
+            custom_icon = " ",
+
+            border = "▋",
+            border_hl = "MarkviewCol2Fg"
+          },
+        }
+      },
+      checkboxes = {
+        checked = { text = "⚫", hl = "markviewCol4Fg" },
+        pending = { text = "⭕", hl = "MarkviewCol2Fg" },
+        unchecked = { text = "🟢", hl = "markviewCol1Fg" }
+      },
+      horizontal_rules = {
+        parts = { {
+          type = "repeating",
+          text = "─",
+          repeat_amount = function()
+            return vim.o.colorcolumn - 1
+          end,
+        } },
+      },
+    }
   },
 
   --  [hex colors]
@@ -165,28 +331,6 @@ return {
 
   --  LSP -------------------------------------------------------------------
 
-  -- nvim-java [java support]
-  -- https://github.com/nvim-java/nvim-java
-  -- Reliable jdtls support. Must go before mason-lspconfig and lsp-config.
-  -- {
-  --   "nvim-java/nvim-java",
-  --   ft = { "java" },
-  --   dependencies = {
-  --     "nvim-java/lua-async-await",
-  --     "nvim-java/nvim-java-core",
-  --     "nvim-java/nvim-java-test",
-  --     "nvim-java/nvim-java-dap",
-  --     "MunifTanjim/nui.nvim",
-  --     "neovim/nvim-lspconfig",
-  --     "mfussenegger/nvim-dap",
-  --     "williamboman/mason.nvim",
-  --   },
-  --   opts = {
-  --     notifications = {
-  --       dap = false,
-  --     },
-  --   },
-  -- },
 
   --  nvim-lspconfig [lsp configs]
   --  https://github.com/neovim/nvim-lspconfig
@@ -255,10 +399,10 @@ return {
 
   --  mason [lsp package manager]
   --  https://github.com/williamboman/mason.nvim
-  --  https://github.com/Zeioth/mason-extra-cmds
+  --  https://github.com/zeioth/mason-extra-cmds
   {
     "williamboman/mason.nvim",
-    dependencies = { "Zeioth/mason-extra-cmds", opts = {} },
+    dependencies = { "zeioth/mason-extra-cmds", opts = {} },
     cmd = {
       "Mason",
       "MasonInstall",
@@ -283,13 +427,14 @@ return {
     }
   },
 
-  --  Schema Store [lsp schema manager]
+  --  Schema Store [mason extra schemas]
   --  https://github.com/b0o/SchemaStore.nvim
   "b0o/SchemaStore.nvim",
 
-  -- none-ls-autoload.nvim
+  -- none-ls-autoload.nvim [mason package loader]
   -- https://github.com/zeioth/mason-none-ls.nvim
-  -- Autoload clients installed by mason using none-ls on demand.
+  -- This plugin auto starts the packages installed by Mason
+  -- every time Neovim trigger the event FileType ().
   -- By default it will use none-ls builtin sources.
   -- But you can add external sources if a mason package has no builtin support.
   {
@@ -297,17 +442,39 @@ return {
     event = "User BaseFile",
     dependencies = {
       "williamboman/mason.nvim",
-      "nvimtools/none-ls-extras.nvim" -- To install external sources from a repo.
+      "zeioth/none-ls-external-sources.nvim"
     },
     opts = {
-      external_sources = { -- To indicate where to find a external source.
-        'none-ls.formatting.reformat_gherkin'
+      -- Here you can add support for sources not oficially suppored by none-ls.
+      external_sources = {
+        -- diagnostics
+        'none-ls-external-sources.diagnostics.cpplint',
+        'none-ls-external-sources.diagnostics.eslint',
+        'none-ls-external-sources.diagnostics.eslint_d',
+        'none-ls-external-sources.diagnostics.flake8',
+        'none-ls-external-sources.diagnostics.luacheck',
+        'none-ls-external-sources.diagnostics.psalm',
+        'none-ls-external-sources.diagnostics.shellcheck',
+        'none-ls-external-sources.diagnostics.yamllint',
+
+        -- formatting
+        'none-ls-external-sources.formatting.autopep8',
+        'none-ls-external-sources.formatting.beautysh',
+        'none-ls-external-sources.formatting.easy-coding-standard',
+        'none-ls-external-sources.formatting.eslint',
+        'none-ls-external-sources.formatting.eslint_d',
+        'none-ls-external-sources.formatting.jq',
+        'none-ls-external-sources.formatting.latexindent',
+        'none-ls-external-sources.formatting.reformat_gherkin',
+        'none-ls-external-sources.formatting.rustfmt',
+        'none-ls-external-sources.formatting.standardrb',
+        'none-ls-external-sources.formatting.yq',
       },
     },
   },
 
-  --  none-ls [lsp code formatting]
-  --  https://github.com/nvimtools/none-ls.nvim
+  -- none-ls [lsp code formatting]
+  -- https://github.com/nvimtools/none-ls.nvim
   {
     "nvimtools/none-ls.nvim",
     event = "User BaseFile",
@@ -341,7 +508,7 @@ return {
     opts = {
       aggressive_mode = false,
       excluded_lsp_clients = {
-        "null-ls", "jdtls"
+        "null-ls", "jdtls", "marksman"
       },
       grace_period = (60 * 15),
       wakeup_delay = 3000,
@@ -377,7 +544,7 @@ return {
 
       -- helper
       local function has_words_before()
-        local line, col = (unpack or table.unpack)(vim.api.nvim_win_get_cursor(0))
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
       end
 

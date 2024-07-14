@@ -50,10 +50,18 @@ return {
   {
     "numToStr/Comment.nvim",
     event = "User BaseFile",
+    -- INFO: Afegit ja que sino no troba en el ops el pre_hook, potser ho arreglen més endavant
+    dependencies = {
+      {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        opts = {
+          enable_autocmd = false,
+        },
+      },
+    },
     opts = function()
       -- improve performance, when possible
-      local _, ts_context_commentstring =
-          pcall(require, "ts_context_commentstring.integrations.comment_nvim")
+      local _, ts_context_commentstring = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
       local pre_hook = ts_context_commentstring.create_pre_hook() or nil
 
       -- opts
@@ -76,7 +84,7 @@ return {
     build = not is_windows and "make install_jsregexp" or nil,
     dependencies = {
       "rafamadriz/friendly-snippets",
-      "Zeioth/NormalSnippets",
+      "zeioth/NormalSnippets",
       "benfowler/telescope-luasnip.nvim",
     },
     event = "User BaseFile",
@@ -293,9 +301,9 @@ return {
 
   --  CODE DOCUMENTATION ------------------------------------------------------
   --  dooku.nvim [html doc generator]
-  --  https://github.com/Zeioth/dooku.nvim
+  --  https://github.com/zeioth/dooku.nvim
   {
-    "Zeioth/dooku.nvim",
+    "zeioth/dooku.nvim",
     cmd = {
       "DookuGenerate",
       "DookuOpen",
@@ -319,12 +327,17 @@ return {
   },
 
   --  [markdown markmap]
-  --  https://github.com/Zeioth/markmap.nvim
+  --  https://github.com/zeioth/markmap.nvim
   --  Important: Make sure you have yarn in your PATH before running markmap.
   {
-    "Zeioth/markmap.nvim",
+    "zeioth/markmap.nvim",
     build = "yarn global add markmap-cli",
     cmd = { "MarkmapOpen", "MarkmapSave", "MarkmapWatch", "MarkmapWatchStop" },
+    opts = {
+      html_output = "", -- (default) Setting a empty string "" here means: [Current buffer path].html
+      hide_toolbar = false, -- (default)
+      grace_period = 3600000 -- (default) Stops markmap watch after 60 minutes. Set it to 0 to disable the grace_period.
+    },
     config = function(_, opts) require("markmap").setup(opts) end,
   },
 
@@ -382,32 +395,28 @@ return {
   {
     "NMAC427/guess-indent.nvim",
     event = "User BaseFile",
-    config = function(_, opts)
-      require("guess-indent").setup(opts)
-      vim.cmd.lua {
-        args = { "require('guess-indent').set_from_buffer('auto_cmd')" },
-        mods = { silent = true },
-      }
-    end,
+    opts = {}
   },
 
   --  COMPILER ----------------------------------------------------------------
   --  compiler.nvim [compiler]
-  --  https://github.com/Zeioth/compiler.nvim
-  -- {
-  --   "Zeioth/compiler.nvim",
-  --   cmd = {
-  --     "CompilerOpen",
-  --     "CompilerToggleResults",
-  --     "CompilerRedo",
-  --     "CompilerStop"
-  --   },
-  --   dependencies = { "stevearc/overseer.nvim" },
-  --   opts = {},
-  -- },
+  --  https://github.com/zeioth/compiler.nvim
+  {
+    "zeioth/compiler.nvim",
+    cmd = {
+      "CompilerOpen",
+      "CompilerToggleResults",
+      "CompilerRedo",
+      "CompilerStop"
+    },
+    dependencies = { "stevearc/overseer.nvim" },
+    opts = {},
+  },
 
   --  overseer [task runner]
   --  https://github.com/stevearc/overseer.nvim
+  --  If you need to close a task immediately:
+  --  press ENTER in the output menu on the task you wanna close.
   {
     "stevearc/overseer.nvim",
     cmd = {
@@ -426,23 +435,21 @@ return {
       "OverseerClearCache"
     },
     opts = {
-      -- Tasks are disposed 5 minutes after running to free resources.
-      -- If you need to close a task immediately:
-      -- press ENTER in the output menu on the task you wanna close.
-      task_list = { -- this refers to the window that shows the result
+     task_list = { -- the window that shows the results.
         direction = "bottom",
         min_height = 25,
         max_height = 25,
         default_detail = 1,
       },
-      -- component_aliases = { -- uncomment this to disable notifications
-      --   -- Components included in default will apply to all tasks
+      -- component_aliases = {
       --   default = {
-      --     { "display_duration", detail_level = 2 },
-      --     "on_output_summarize",
-      --     "on_exit_set_status",
-      --     --"on_complete_notify",
-      --     "on_complete_dispose",
+      --     -- Behaviors that will apply to all tasks.
+      --     "on_exit_set_status",                   -- don't delete this one.
+      --     "on_output_summarize",                  -- show last line on the list.
+      --     "display_duration",                     -- display duration.
+      --     "on_complete_notify",                   -- notify on task start.
+      --     "open_output",                          -- focus last executed task.
+      --     { "on_complete_dispose", timeout=300 }, -- dispose old tasks.
       --   },
       -- },
     },
@@ -486,8 +493,7 @@ return {
 
       -- Java
       -- Note: The java debugger jdtls is automatically spawned and configured
-      -- when a java file is opened by the plugin nvim-java.
-      -- Compatible with maven, gradle, and projects created by eclipse.
+      -- by the plugin 'nvim-java' in './3-dev-core.lua'.
 
       -- Python
       dap.adapters.python = {
@@ -894,7 +900,7 @@ return {
   --  If you use other framework or language, refer to nvim-coverage docs:
   --  https://github.com/andythigpen/nvim-coverage/blob/main/doc/nvim-coverage.txt
   {
-    "andythigpen/nvim-coverage",
+    "zeioth/nvim-coverage", -- Our fork until all our PRs are merged.
     cmd = {
       "Coverage",
       "CoverageLoad",
@@ -931,11 +937,8 @@ return {
         desc = "Auto generate C/C++ tags",
         callback = function()
           local is_c = vim.bo.filetype == "c" or vim.bo.filetype == "cpp"
-          if is_c then
-            vim.g.gutentags_enabled = 1
-          else
-            vim.g.gutentags_enabled = 0
-          end
+          if is_c then vim.g.gutentags_enabled = 1
+          else vim.g.gutentags_enabled = 0 end
         end,
       })
     end,

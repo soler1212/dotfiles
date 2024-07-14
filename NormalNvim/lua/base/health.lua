@@ -26,10 +26,10 @@ function M.check()
 
   if vim.version().prerelease then
     health.warn "Neovim nightly is not officially supported and may have breaking changes"
-  elseif vim.fn.has "nvim-0.8" == 1 then
-    health.ok "Using stable Neovim >= 0.8.0"
+  elseif vim.fn.has "nvim-0.9" == 1 then
+    health.ok "Using stable Neovim >= 0.9.0"
   else
-    health.error "Neovim >= 0.8.0 is required"
+    health.error "Neovim >= 0.9.0 is required"
   end
 
   -- Checks to perform.
@@ -37,12 +37,17 @@ function M.check()
     {
       cmd = { "git" },
       type = "error",
-      msg = "Used for core functionality such as updater and plugin management",
+      msg = "Used for core functionality such as updater and plugin management.",
+    },
+    {
+      cmd = { "luarocks" },
+      type = "error",
+      msg = "Used for core functionality such as updater and plugin management.",
     },
     {
       cmd = { "node" },
       type = "error",
-      msg = "Used for core functionality such as updater and plugin management",
+      msg = "Used for core functionality such as updater and plugin management.",
     },
     {
       cmd = { "yarn" },
@@ -200,14 +205,24 @@ function M.check()
       msg = "Used by compiler.nvim to interpretate perl (optional)",
     },
     {
+      cmd = { "swiftc" },
+      type = "warn",
+      msg = "Used by compiler.nvim to compile swift (optional)",
+    },
+    {
       cmd = { "swift" },
       type = "warn",
       msg = "Used by compiler.nvim to compile swift (optional)",
     },
     {
-      cmd = { "swiftc" },
+      cmd = { "gfortran" },
       type = "warn",
-      msg = "Used by compiler.nvim to compile swift (optional)",
+      msg = "Used by compiler.nvim to compile fortran (optional)"
+    },
+    {
+      cmd = { "fpm" },
+      type = "warn",
+      msg = "Used by compiler.nvim to compile fortran (optional)"
     },
     {
       cmd = { "go" },
