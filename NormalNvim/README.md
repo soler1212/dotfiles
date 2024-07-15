@@ -5,6 +5,11 @@
   - ln -s $(which fdfind) ~/.local/bin/fd
 - Instalar el markmap cli per la dependencia no documentada
   - npm install -g markmap-cli
+- Instalar el luarocks per core udpate and plugin management
+  - sudo apt install luarocks
+- Instalar yarn, per core update i plugin managemente
+  - npm install --global yarn
+
 
 
 
