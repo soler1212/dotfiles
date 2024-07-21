@@ -353,8 +353,17 @@ return {
     event = "User BaseDefered",
     opts = function()
       local lib = require "heirline-components.all"
+      -- Custom component for the file path
+      local file_path_component = {
+        provider = function()
+          return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.")
+        end,
+        hl = { fg = "fg", bg = "bg" }
+      }
+
       return {
         opts = {
+
           disable_winbar_cb = function(args) -- We do this to avoid showing it on the greeter.
             local is_disabled = not require("heirline-components.buffer").is_valid(args.buf) or
                 lib.condition.buffer_matches({
@@ -407,6 +416,8 @@ return {
           lib.component.git_branch(),
           lib.component.git_diff(),
           lib.component.diagnostics(),
+          lib.component.fill(),
+          file_path_component,  -- Added file path component here
           lib.component.fill(),
           lib.component.cmd_info(),
           lib.component.fill(),
