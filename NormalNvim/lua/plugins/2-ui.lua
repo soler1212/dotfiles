@@ -412,7 +412,10 @@ return {
         } or nil,
         statusline = { -- UI statusbar
           hl = { fg = "fg", bg = "bg" },
-          lib.component.mode(),
+          lib.component.mode {
+            mode_text =  { pad_text = "center" },                                     -- if set, displays text.
+
+          },
           lib.component.git_branch(),
           lib.component.git_diff(),
           lib.component.diagnostics(),
@@ -426,7 +429,11 @@ return {
           -- INFO: descativat no em fa falta. lib.component.compiler_state(),
           lib.component.virtual_env(),
           lib.component.nav(),
-          lib.component.mode { surround = { separator = "right" } },
+          lib.component.mode {
+            surround = {
+              separator = "right",                              -- where to add the separator.
+            },
+          },
         },
       }
     end,
