@@ -3,10 +3,10 @@ return {
   --  Highlight, list and search todo comments in your projects
   --  https://github.com/folke/todo-comments.nvim
   {
-    'folke/todo-comments.nvim',
-    event = 'VimEnter',
+    "folke/todo-comments.nvim",
+    event = "VimEnter",
     dependencies = {
-      'nvim-lua/plenary.nvim',
+      "nvim-lua/plenary.nvim",
     },
     opts = {
       signs = true,
@@ -18,9 +18,7 @@ return {
   -- Els que has obert mes surtiran més amunt
   {
     "nvim-telescope/telescope-frecency.nvim",
-    config = function()
-      require("telescope").load_extension "frecency"
-    end,
+    config = function() require("telescope").load_extension("frecency") end,
   },
 
   -- {
@@ -45,8 +43,14 @@ return {
 
   -- https://github.com/sophacles/vim-bundle-mako
   -- Format per el files makos
-
   {
     "sophacles/vim-bundle-mako",
-  }
+  },
+  -- https://github.com/r-cha/encourage.nvim
+  -- Motivational texts
+  {
+    "r-cha/encourage.nvim",
+    config = true
+  },
+
 }
