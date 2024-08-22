@@ -1,1 +1,3 @@
 require("encourage").setup()
+
+return {}
