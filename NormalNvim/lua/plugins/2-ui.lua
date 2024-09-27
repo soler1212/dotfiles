@@ -110,9 +110,11 @@ return {
   {
     "craftzdog/solarized-osaka.nvim",
     event = "User LoadColorSchemes",
+    lazy = false,
+    priority = 1000,
     opts = {
-      style = 'dark',
-      -- transparent = true,
+      -- style = 'dark',
+      transparent = true,
     }
   },
 
