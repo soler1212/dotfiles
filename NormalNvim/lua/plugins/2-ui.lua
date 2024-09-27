@@ -8,6 +8,7 @@
 --       -> catppuccin                  [theme]
 --       -> tokyonight                  [theme]
 --       -> astrotheme                  [theme]
+--       -> solarized-osaka             [theme]
 --       -> alpha-nvim                  [greeter]
 --       -> nvim-notify                 [notifications]
 --       -> mini.indentscope            [guides]
@@ -95,6 +96,24 @@ return {
       palette = "astrodark",
       plugins = { ["dashboard-nvim"] = true },
     },
+  },
+
+  -- catppuccin [theme]
+  -- https://github.com/catppuccin/nvim
+  {
+    "catppuccin/nvim",
+    event = "User LoadColorSchemes",
+  },
+
+  -- solarized-osaka [theme]
+  -- https://github.com/craftzdog/solarized-osaka.nvim
+  {
+    "craftzdog/solarized-osaka.nvim",
+    event = "User LoadColorSchemes",
+    opts = {
+      style = 'dark',
+      -- transparent = true,
+    }
   },
 
   --  alpha-nvim [greeter]
