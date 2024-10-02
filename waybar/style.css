@@ -36,7 +36,7 @@
  * tooltips
  * -------------------------------------------------------------------------- */
 tooltip {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.9);
     border: 2px solid #35709d;
 }
 /* -----------------------------------------------------------------------------
@@ -56,13 +56,32 @@ tooltip {
 /* The whole bar */
 #waybar {
     /* background-color: rgba(0, 0, 0, 0.6); */
-    background-color: rgba(0, 0, 0, 1);
+    background-color: rgba(0,0,0,0.7);
     color: white;
     /* font-family: "Bitstream Vera Sans Mono"; */
     font-family: "JetBrains Mono";
     /* font-size: 14px; */
     font-size: 12px;
 }
+.modules-left {
+    border: 1px solid gray;
+    border-radius: 0 0 20px 0;
+    border-top: none;
+}
+.modules-center {
+    border: 1px solid gray;
+    border-radius: 0 0 10px 10px;
+    padding: 0 10px;
+    border-top: none;
+}
+.modules-right {
+    border: 1px solid gray;
+    border-radius: 0 0 0 20px;
+    padding-left: 10px;
+    border-top: none;
+}
+
+
 
 /* Each module */
 #pulseaudio,
@@ -78,7 +97,7 @@ tooltip {
 /* #tray, */
 /* #custom-stats, */
 /* #custom-power */
- { 
+ {
     padding-left: 6px;
     padding-right: 6px;
     /* margin:4px 6px; */
@@ -161,16 +180,30 @@ tooltip {
 }
 
 
-#window {
-    font-weight: bold;
-}
+
+
 /* also inactive state */
+/* #workspaces button { */
+/*     padding-left: 6px; */
+/*     padding-right:6px; */
+/*     margin: 0px; */
+/*     color: #999999; */
+/*     border-left: 1px solid black; */
+/* } */
+
+
 #workspaces button {
-   /* border-bottom: 2px solid #35709d; */
-    padding-left: 6px;
-    padding-right:6px;
-    margin: 0px;
-    color: #999999;
+    padding: 0 5px;
+    background: transparent;
+    color: white;
+    border-bottom: 3px solid transparent;
+    opacity: 0.4;
+    background-color: #2f3237;
+    border-left: 2px solid black;
+
+}
+#workspaces button:last-child {
+    border-radius: 0 0 20px 0;
 }
 #workspaces button:hover {
   background: #4c7899;
@@ -178,15 +211,18 @@ tooltip {
 
 #workspaces button.focused {
     /* border-color: #4c7899; */
-  border-color:red;
     color: white;
-    background-color: #006400;
+    background: gray;
+    background-color: #2f3237;
+    opacity:0.8;
 }
 
 #workspaces button.urgent {
-    border-color: #c9545d;
+    /* border-color: #c9545d; */
     color: #c9545d;
 }
+
+
 #mpd {color: #6aa3cd;}
 #mpd.disconnected,
 #mpd.paused,
