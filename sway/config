@@ -31,7 +31,7 @@ set $menu ulauncher
 exec ~/.config/sway/scripts/iterate-wallpaper.sh
 
 # Default lockscreen background
-set $lockscreenbg ~/.config/sway/images/lockscreen_background.jpg
+set $lockscreenbg ~/.config/sway/images/lockscreen_background.png
 
 # Remove all borders from applications
 default_border none

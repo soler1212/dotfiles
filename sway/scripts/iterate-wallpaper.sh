@@ -7,10 +7,11 @@
 
 
 # Directory containing wallpapers
-wallpaper_dir="$HOME/Pictures/Wallpapers"
+#wallpaper_dir="$HOME/Pictures/Wallpapers"
+wallpaper_dir="$HOME/.config/sway/images"
 
 # File to store the current wallpaper index
-index_file="$HOME/.current_wallpaper_index"
+index_file="$HOME/.config/sway/.current_wallpaper_index"
 
 # List all wallpapers in the directory
 wallpapers=($(ls -1 "$wallpaper_dir"))
