@@ -36,9 +36,13 @@ set $lockscreenbg ~/.config/sway/images/lockscreen_background.png
 # Remove all borders from applications
 default_border none
 
+## Aplica el color de marc a la finestra activa
+default_border pixel 2  # Amplada del marc per defecte
+for_window [class=".*"] border pixel 2  # Aplicar l'amplada del marc a totes les finestres
+
 # Stablish gaps between windows and from the screen edge
-gaps inner 1
-gaps outer 1
+gaps inner 4
+gaps outer 2
 
 #########################
 # Main keybindings
