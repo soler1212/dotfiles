@@ -82,6 +82,9 @@ source /usr/local/bin/virtualenvwrapper.sh
 # Add local bin to PATH
 export PATH="$PATH:$HOME/.local/bin"
 
+# NVIM NEURAL
+export OPENAI_API_KEY="I AM PRIVATE DOG, DON'T STEAL <3"
+
 # Alias for project directory
 alias plan="cd /home/soler1212/Desenvolupament/PlanMomentum-Mastery/plan-momentum-web-app/"
 
