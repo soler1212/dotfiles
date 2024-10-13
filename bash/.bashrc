@@ -91,3 +91,8 @@ alias plan="cd /home/soler1212/Desenvolupament/PlanMomentum-Mastery/plan-momentu
 # History search with arrow keys
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
+
+# Autocompletion effect
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
+
