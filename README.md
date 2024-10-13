@@ -14,7 +14,6 @@ Collection of .dotfiles and other configurations
 - swaylock
 - ulauncher
 - wezterm
-  - fish
 
 ## 2023-10-01 (last-update: 2023-10-03)
 
