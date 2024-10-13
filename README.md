@@ -5,6 +5,17 @@ Collection of .dotfiles and other configurations
 
 # Used "Stack":
 
+
+## 2024-10-13 (last-update: 2024-10-13)
+
+- sway
+- waybar
+- grimshot
+- swaylock
+- ulauncher
+- wezterm
+  - fish
+
 ## 2023-10-01 (last-update: 2023-10-03)
 
 - sway
