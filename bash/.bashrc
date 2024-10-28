@@ -97,5 +97,6 @@ bind '"\e[B": history-search-forward'
 
 # Autocompletion effect
 bind 'set show-all-if-ambiguous on'
-bind 'TAB:menu-complete'
+# bind 'TAB:menu-complete'
+
 
