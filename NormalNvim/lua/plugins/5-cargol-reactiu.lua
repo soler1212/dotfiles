@@ -52,5 +52,23 @@ return {
     "r-cha/encourage.nvim",
     config = true
   },
+  -- https://github.com/rachartier/tiny-inline-diagnostic.nvim
+  -- Prettier diagnostic messages
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy", -- Or `LspAttach`
+    priority = 1000, -- needs to be loaded in first
+    config = function()
+      require('tiny-inline-diagnostic').setup({
+        options = {
+		      -- If multiple diagnostics are under the cursor, display all of them.
+		      multiple_diag_under_cursor = true,
+		      -- Enable diagnostic message on all lines.
+		      multilines = true
+        },
+      })
+    end
+  },
+
 
 }
