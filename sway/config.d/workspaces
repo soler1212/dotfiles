@@ -39,16 +39,16 @@ set $right l
 # set $ws4 "Ⅳ Obsidian♍"
 
 
-set $ws1  "1           ✨"
-set $ws2  "2    IDE    🎯"
-set $ws3  "3    OPERA  ⚡"
-set $ws4  "4  OBSIDIAN 🛠"
-set $ws5  "5           🌿"
-set $ws6  "6           🍩"
-set $ws7  "7           🛸"
-set $ws8  "8           ☕"
-set $ws9  "9           🧩"
-set $ws10 "10          🚀"
+set $ws1  "1 ⚡"
+set $ws2  "2 🛠"
+set $ws3  "3 🎯"
+set $ws4  "4 ✨"
+set $ws5  "5 🌿"
+set $ws6  "6 🍩"
+set $ws7  "7 🛸"
+set $ws8  "8 ☕"
+set $ws9  "9 🧩"
+set $ws10 "10 🚀"
 
 # Exec and Assign workspaces software
 assign [class="Gnome-terminal"] $ws1
