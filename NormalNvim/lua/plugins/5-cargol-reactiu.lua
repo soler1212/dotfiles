@@ -50,7 +50,7 @@ return {
   -- Motivational texts
   {
     "r-cha/encourage.nvim",
-    config = true
+    config = true,
   },
   -- https://github.com/rachartier/tiny-inline-diagnostic.nvim
   -- Prettier diagnostic messages
@@ -59,16 +59,21 @@ return {
     event = "VeryLazy", -- Or `LspAttach`
     priority = 1000, -- needs to be loaded in first
     config = function()
-      require('tiny-inline-diagnostic').setup({
+      require("tiny-inline-diagnostic").setup({
         options = {
-		      -- If multiple diagnostics are under the cursor, display all of them.
-		      multiple_diag_under_cursor = true,
-		      -- Enable diagnostic message on all lines.
-		      multilines = true
+          -- If multiple diagnostics are under the cursor, display all of them.
+          multiple_diag_under_cursor = true,
+          -- Enable diagnostic message on all lines.
+          multilines = true,
         },
       })
-    end
+    end,
   },
-
+  {
+    "ThePrimeagen/harpoon",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  }
 
 }
