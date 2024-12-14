@@ -8,7 +8,6 @@ _G.base = {}
 
 -- Theme
 base.default_colorscheme = "solarized-osaka"
-
 -- Options --------------------------------------------------------------------
 vim.opt.breakindent = true -- Wrap indent to match  line start.
 vim.opt.clipboard = "unnamedplus" -- Connection to the system clipboard.

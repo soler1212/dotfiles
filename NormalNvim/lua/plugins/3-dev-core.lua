@@ -10,7 +10,6 @@
 --       -> nvim-colorizer                 [hex colors]
 
 --       ## LSP
---       -> nvim-java                      [java support]
 --       -> mason-lspconfig                [auto start lsp]
 --       -> nvim-lspconfig                 [lsp configs]
 --       -> mason.nvim                     [lsp package manager]
@@ -339,7 +338,6 @@ return {
     "neovim/nvim-lspconfig",
     event = "User BaseFile",
     dependencies = {
-      "nvim-java/nvim-java", --TODO: Borrar-ho
       'WhoIsSethDaniel/mason-tool-installer.nvim',
     },
     config = function()
