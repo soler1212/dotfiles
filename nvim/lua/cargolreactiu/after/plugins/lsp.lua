@@ -65,7 +65,28 @@ cmp.setup({
       vim.snippet.expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert({}),
+  mapping = cmp.mapping.preset.insert({
+    -- open the completion menu
+    ['<C-Space>'] = cmp.mapping.complete(),
+    -- confirm completion
+    ['<CR>'] = cmp.mapping.confirm({select = true}),
+    -- navigate to the next item
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end,
+    -- navigate to the previous item
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end,
+  }),
 })
 
 
