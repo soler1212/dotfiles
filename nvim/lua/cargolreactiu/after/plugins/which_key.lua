@@ -11,6 +11,10 @@ local opts = {
 -- Define custom keybindings
 wk.add({
   { "<leader>f", group = "file" }, -- group
+  { "<leader>b", group = "buffer" }, -- group
+  { "<leader>bg", group = "go to" }, -- group
+  { "<leader>bm", group = "move" }, -- group
+  { "<leader>bo", group = "order" }, -- group
   {
     mode = { "n", "v" }, -- NORMAL and VISUAL mode
     { "<leader>q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
