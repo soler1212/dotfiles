@@ -3,6 +3,7 @@
   "lazy.nvim": { "branch": "main", "commit": "b02c9eae6a250f98908c146d1dc1a891f5019f0a" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "37a336b653f8594df75c827ed589f1c91d91ff6c" },
   "mason.nvim": { "branch": "main", "commit": "c43eeb5614a09dc17c03a7fb49de2e05de203924" },
+  "mini.icons": { "branch": "main", "commit": "44c0160526f7ae17ca8e8eab9ab235d047fcf7a6" },
   "neo-tree.nvim": { "branch": "v3.x", "commit": "8c75e8a2949cd6cd35525799200a8d34471ee9eb" },
   "nui.nvim": { "branch": "main", "commit": "61574ce6e60c815b0a0c4b5655b8486ba58089a1" },
   "nvim-cmp": { "branch": "main", "commit": "a110e12d0b58eefcf5b771f533fc2cf3050680ac" },
@@ -13,5 +14,6 @@
   "plenary.nvim": { "branch": "master", "commit": "50012918b2fc8357b87cff2a7f7f0446e47da174" },
   "rose-pine": { "branch": "main", "commit": "91548dca53b36dbb9d36c10f114385f759731be1" },
   "telescope.nvim": { "branch": "master", "commit": "bfcc7d5c6f12209139f175e6123a7b7de6d9c18a" },
-  "undotree": { "branch": "master", "commit": "78b5241191852ffa9bb5da5ff2ee033160798c3b" }
+  "undotree": { "branch": "master", "commit": "78b5241191852ffa9bb5da5ff2ee033160798c3b" },
+  "which-key.nvim": { "branch": "main", "commit": "4d5b8959fd2a4df065ff76ccb39019aaa70cb0dc" }
 }

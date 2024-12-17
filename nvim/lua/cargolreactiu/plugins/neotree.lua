@@ -8,6 +8,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
+      "echasnovski/mini.icons",
       {
         "s1n7ax/nvim-window-picker",
         version = "2.*",
