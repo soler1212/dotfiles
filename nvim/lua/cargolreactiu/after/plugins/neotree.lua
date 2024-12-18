@@ -8,120 +8,173 @@ vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSi
 vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
 
 builtin.setup({
-  close_if_last_window = false,
-  popup_border_style = "rounded",
-  enable_git_status = true,
-  enable_diagnostics = true,
-  open_files_do_not_replace_types = { "terminal", "trouble", "qf" },
-  sort_case_insensitive = false,
-  sort_function = nil,
-  default_component_configs = {
-    container = { enable_character_fade = true },
-    indent = {
-      indent_size = 2,
-      padding = 1,
-      with_markers = true,
-      indent_marker = "│",
-      last_indent_marker = "└",
-      highlight = "NeoTreeIndentMarker",
-      expander_collapsed = "",
-      expander_expanded = "",
-      expander_highlight = "NeoTreeExpander",
-    },
-    icon = {
-      folder_closed = "",
-      folder_open = "",
-      folder_empty = "󰜌",
-      provider = function(icon, node, state)
-        if node.type == "file" or node.type == "terminal" then
-          local success, web_devicons = pcall(require, "nvim-web-devicons")
-          local name = node.type == "terminal" and "terminal" or node.name
-          if success then
-            local devicon, hl = web_devicons.get_icon(name)
-            icon.text = devicon or icon.text
-            icon.highlight = hl or icon.highlight
-          end
-        end
-      end,
-      default = "*",
-      highlight = "NeoTreeFileIcon",
-    },
-    modified = { symbol = "[+]", highlight = "NeoTreeModified" },
-    name = {
-      trailing_slash = false,
-      use_git_status_colors = true,
-      highlight = "NeoTreeFileName",
-    },
-    git_status = {
-      symbols = {
-        added = "",
-        modified = "",
-        deleted = "✖",
-        renamed = "󰁕",
-        untracked = "",
-        ignored = "",
-        unstaged = "󰄱",
-        staged = "",
-        conflict = "",
-      },
-    },
-  },
-  commands = {},
-  window = {
-    position = "right",
-    width = 40,
-    mapping_options = {
-      noremap = true,
-      nowait = true,
-    },
-    mappings = {
-      ["<space>"] = { "toggle_node", nowait = false },
-      ["<2-LeftMouse>"] = "open",
-      ["<cr>"] = "open",
-      ["<esc>"] = "cancel",
-      ["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
-      ["l"] = "focus_preview",
-      ["S"] = "open_split",
-      ["s"] = "open_vsplit",
-      ["t"] = "open_tabnew",
-      ["w"] = "open_with_window_picker",
-      ["C"] = "close_node",
-      ["z"] = "close_all_nodes",
-      ["a"] = { "add", config = { show_path = "none" } },
-      ["A"] = "add_directory",
-      ["d"] = "delete",
-      ["r"] = "rename",
-      ["y"] = "copy_to_clipboard",
-      ["x"] = "cut_to_clipboard",
-      ["p"] = "paste_from_clipboard",
-      ["c"] = "copy",
-      ["m"] = "move",
-      ["q"] = "close_window",
-      ["R"] = "refresh",
-      ["?"] = "show_help",
-      ["<"] = "prev_source",
-      [">"] = "next_source",
-      ["i"] = "show_file_details",
-    },
-  },
-  filesystem = {
-    filtered_items = {
-      visible = false,
-      hide_dotfiles = true,
-      hide_gitignored = true,
-      hide_hidden = false,
-      hide_by_name = {},
-      hide_by_pattern = {},
-      always_show = {},
-      always_show_by_pattern = {},
-      never_show = {},
-      never_show_by_pattern = {},
-    },
-    follow_current_file = {
-      enabled = true,
-      leave_dirs_open = true,
-    },
-    group_empty_dirs = false,
-    hijack_netrw_behavior = "open_default",
-  },
+        auto_clean_after_session_restore = true,
+        close_if_last_window = false,
+        buffers = {
+          show_unloaded = true
+        },
+        sources = { "filesystem", "buffers", "git_status" },
+        source_selector = {
+          winbar = true,
+          content_layout = "center",
+          sources = {
+            {
+              source = "filesystem",
+              -- display_name = get_icon("FolderClosed", 1, true) .. "File",
+            },
+            {
+              source = "buffers",
+              -- display_name = get_icon("DefaultFile", 1, true) .. "Bufs",
+            },
+            {
+              source = "git_status",
+              -- display_name = get_icon("Git", 1, true) .. "Git",
+            },
+            {
+              source = "diagnostics",
+              -- display_name = get_icon("Diagnostic", 1, true) .. "Diagnostic",
+            },
+          },
+        },
+        default_component_configs = {
+          indent = { padding = 0 },
+          icon = {
+            -- folder_closed = get_icon("FolderClosed"),
+            -- folder_open = get_icon("FolderOpen"),
+            -- folder_empty = get_icon("FolderEmpty"),
+            -- folder_empty_open = get_icon("FolderEmpty"),
+            -- default = get_icon "DefaultFile",
+          },
+          modified = { 
+            -- symbol = get_icon "FileModified" 
+          },
+          git_status = {
+            symbols = {
+              -- added = get_icon("GitAdd"),
+              -- deleted = get_icon("GitDelete"),
+              -- modified = get_icon("GitChange"),
+              -- renamed = get_icon("GitRenamed"),
+              -- untracked = get_icon("GitUntracked"),
+              -- ignored = get_icon("GitIgnored"),
+              -- unstaged = get_icon("GitUnstaged"),
+              -- staged = get_icon("GitStaged"),
+              -- conflict = get_icon("GitConflict"),
+            },
+          },
+        },
+        -- A command is a function that we can assign to a mapping (below)
+        commands = {
+          system_open = function(state)
+            require("base.utils").open_with_program(state.tree:get_node():get_id())
+          end,
+          parent_or_close = function(state)
+            local node = state.tree:get_node()
+            if
+                (node.type == "directory" or node:has_children())
+                and node:is_expanded()
+            then
+              state.commands.toggle_node(state)
+            else
+              require("neo-tree.ui.renderer").focus_node(
+                state,
+                node:get_parent_id()
+              )
+            end
+          end,
+          child_or_open = function(state)
+            local node = state.tree:get_node()
+            if node.type == "directory" or node:has_children() then
+              if not node:is_expanded() then -- if unexpanded, expand
+                state.commands.toggle_node(state)
+              else                           -- if expanded and has children, seleect the next child
+                require("neo-tree.ui.renderer").focus_node(
+                  state,
+                  node:get_child_ids()[1]
+                )
+              end
+            else -- if not a directory just open it
+              state.commands.open(state)
+            end
+          end,
+          copy_selector = function(state)
+            local node = state.tree:get_node()
+            local filepath = node:get_id()
+            local filename = node.name
+            local modify = vim.fn.fnamemodify
+
+            local results = {
+              e = { val = modify(filename, ":e"), msg = "Extension only" },
+              f = { val = filename, msg = "Filename" },
+              F = {
+                val = modify(filename, ":r"),
+                msg = "Filename w/o extension",
+              },
+              h = {
+                val = modify(filepath, ":~"),
+                msg = "Path relative to Home",
+              },
+              p = {
+                val = modify(filepath, ":."),
+                msg = "Path relative to CWD",
+              },
+              P = { val = filepath, msg = "Absolute path" },
+            }
+
+            local messages = {
+              { "\nChoose to copy to clipboard:\n", "Normal" },
+            }
+            for i, result in pairs(results) do
+              if result.val and result.val ~= "" then
+                vim.list_extend(messages, {
+                  { ("%s."):format(i),           "Identifier" },
+                  { (" %s: "):format(result.msg) },
+                  { result.val,                  "String" },
+                  { "\n" },
+                })
+              end
+            end
+            vim.api.nvim_echo(messages, false, {})
+            local result = results[vim.fn.getcharstr()]
+            if result and result.val and result.val ~= "" then
+              vim.notify("Copied: " .. result.val)
+              vim.fn.setreg("+", result.val)
+            end
+          end,
+          find_in_dir = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            require("telescope.builtin").find_files {
+              cwd = node.type == "directory" and path
+                  or vim.fn.fnamemodify(path, ":h"),
+            }
+          end,
+        },
+        window = {
+          position = "right",
+          width = 30,
+          mappings = {
+            ["<space>"] = false,
+            -- ["<S-CR>"] = "system_open",
+            -- ["[b"] = "prev_source",
+            -- ["]b"] = "next_source",
+            -- F = utils.is_available "telescope.nvim" and "find_in_dir" or nil,
+            -- O = "system_open",
+            -- Y = "copy_selector",
+            -- h = "parent_or_close",
+            -- l = "child_or_open",
+          },
+        },
+        filesystem = {
+          follow_current_file = {
+            enabled = true,
+          },
+          hijack_netrw_behavior = "open_current",
+          use_libuv_file_watcher = true,
+        },
+        event_handlers = {
+          {
+            event = "neo_tree_buffer_enter",
+            handler = function(_) vim.opt_local.signcolumn = "auto" end,
+          },
+        },
 })
