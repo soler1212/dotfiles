@@ -15,6 +15,7 @@ wk.add({
   { "<leader>bg", group = "go to" }, -- group
   { "<leader>bm", group = "move" }, -- group
   { "<leader>bo", group = "order" }, -- group
+  { "<leader>bc", group = "close" }, -- group
   { "<leader>s", group = "Session" }, -- group
   { "<leader>sd", group = "Delete"}, -- group
   {
