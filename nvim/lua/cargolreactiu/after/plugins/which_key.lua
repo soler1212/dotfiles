@@ -15,6 +15,8 @@ wk.add({
   { "<leader>bg", group = "go to" }, -- group
   { "<leader>bm", group = "move" }, -- group
   { "<leader>bo", group = "order" }, -- group
+  { "<leader>s", group = "Session" }, -- group
+  { "<leader>sd", group = "Delete"}, -- group
   {
     mode = { "n", "v" }, -- NORMAL and VISUAL mode
     { "<leader>q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited

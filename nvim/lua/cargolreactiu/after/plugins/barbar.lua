@@ -1,6 +1,4 @@
-local bb = require("barbar");
-
-vim.keymap.set("n", "<leader>bc", vim.cmd.BufferClose, { desc = 'buffer Close' })
+vim.keymap.set("n", "<leader>C", vim.cmd.BufferClose, { desc = 'buffer Close' })
 vim.keymap.set("n", "<leader>br", vim.cmd.BufferRestore, { desc = 'buffer Restore' })
 -- Navigation
 vim.keymap.set("n", "<Tab>", vim.cmd.BufferNext, { desc = 'buffer next' })
