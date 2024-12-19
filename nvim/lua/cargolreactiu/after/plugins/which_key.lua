@@ -19,7 +19,6 @@ wk.add({
   { "<leader>s", group = "Session" }, -- group
   { "<leader>sd", group = "Delete"}, -- group
   { "<leader>g", group = "Git"}, -- group
-  { "<leader>gh", group = "Hunk"}, -- group
   { "<leader>gt", group = "Toggle"}, -- group
   {
     mode = { "n", "v" }, -- NORMAL and VISUAL mode
@@ -27,4 +26,3 @@ wk.add({
   }
 })
 wk.setup(opts)
-
