@@ -26,6 +26,9 @@ wk.add({
   { "<leader>mp", desc = "Preview mark content"}, -- group
   { "<leader>md", desc = "Delete a letter mark"}, -- group
   { "<leader>ms", desc = "Set a letter mark"}, -- group
+  { "<leader>ml", desc = "List marks"}, -- group
+  { "<leader>mlb", desc = "List Marks in current buffer"}, -- group
+  { "<leader>mla", desc = "List Marks in all buffers"}, -- group
   {
     mode = { "n", "v" }, -- NORMAL and VISUAL mode
     { "<leader>q", "<cmd>qa<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited

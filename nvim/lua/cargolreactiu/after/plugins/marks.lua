@@ -49,3 +49,6 @@ require'marks'.setup {
 
   }
 }
+
+vim.api.nvim_set_keymap("n", "<leader>mlb", "<cmd>MarksListBuf<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>mla", "<cmd>MarksListAll<CR>", { noremap = true, silent = true })
