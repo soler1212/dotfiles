@@ -15,7 +15,7 @@ vim.keymap.set("n", "<leader>bol", vim.cmd.BufferOrderByLanguage, { desc = 'Buff
 vim.keymap.set("n", "<leader>bow", vim.cmd.BufferOrderByWindowNumber, { desc = 'Buffer Order by Window number' })
 vim.keymap.set("n", "<leader>bob", vim.cmd.BufferOrderByBufferNumber, { desc = 'Buffer Order by Buffer number' })
 -- Close buffers
-vim.keymap.set("n", "<leader>bcc", vim.cmd.BufferClose, { desc = 'buffer Close' })
+vim.keymap.set("n", "<leader>C", vim.cmd.BufferClose, { desc = 'buffer Close' })
 vim.keymap.set("n", "<leader>br", vim.cmd.BufferRestore, { desc = 'buffer Restore' })
 vim.keymap.set("n", "<leader>bcl", vim.cmd.BufferCloseBuffersLeft, { desc = 'Buffer Close Left' })
 vim.keymap.set("n", "<leader>bcr", vim.cmd.BufferCloseBuffersRight, { desc = 'Buffer Close Right' })

@@ -22,10 +22,10 @@ require('session_manager').setup({
 
 
 
-vim.keymap.set('n', '<leader>ss', '<cmd>SessionManager! load_session<cr>', { desc = 'load Session'})
-vim.keymap.set('n', '<leader>sl', '<cmd>SessionManager! load_last_session<cr>', { desc = 'load Last session'})
-vim.keymap.set('n', '<leader>sld', '<cmd>SessionManager! load_current_dir_session<cr>', { desc = 'Load current Dir session'})
-vim.keymap.set('n', '<leader>slg', '<cmd>SessionManager! load_git_session<cr>', { desc = 'Load Git session'})
+vim.keymap.set('n', '<leader>sl', '<cmd>SessionManager! load_session<cr>', { desc = 'list Sessions'})
+vim.keymap.set('n', '<leader>ss', '<cmd>SessionManager! load_last_session<cr>', { desc = 'load Last Session'})
+vim.keymap.set('n', '<leader>sc', '<cmd>SessionManager! load_current_dir_session<cr>', { desc = 'Load current Dir session'})
+vim.keymap.set('n', '<leader>sg', '<cmd>SessionManager! load_git_session<cr>', { desc = 'Load Git session'})
 vim.keymap.set('n', '<leader>sw', '<cmd>SessionManager! save_current_session<cr>', { desc = 'save current session'})
 vim.keymap.set('n', '<leader>sds', '<cmd>SessionManager! delete_session<cr>', { desc = 'select and Delete Session'})
 vim.keymap.set('n', '<leader>sdc', '<cmd>SessionManager! delete_current_dir_session<cr>', { desc = 'Delete Dir session'})
