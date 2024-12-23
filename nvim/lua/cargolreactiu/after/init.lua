@@ -1,4 +1,3 @@
-require(... .. ".plugins.lualine")
 require(... .. ".plugins.lsp")
 require(... .. ".plugins.telescope")
 require(... .. ".plugins.treesitter")
@@ -9,3 +8,7 @@ require(... .. ".plugins.barbar")
 require(... .. ".plugins.neovim_session_manager")
 require(... .. ".plugins.gitsigns")
 require(... .. ".plugins.marks")
+
+
+require(... .. ".ui.lualine")
+require(... .. ".ui.colorscheme")
