@@ -8,6 +8,7 @@ require(... .. ".plugins.barbar")
 require(... .. ".plugins.neovim_session_manager")
 require(... .. ".plugins.gitsigns")
 require(... .. ".plugins.marks")
+require(... .. ".plugins.nvim_spectre")
 
 
 require(... .. ".ui.lualine")
