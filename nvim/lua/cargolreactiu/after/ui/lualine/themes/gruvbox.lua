@@ -9,7 +9,7 @@ local colors = {
   color9 = "#3e4b59",
 }
 
-return {
+local theme = {
   normal = {
     c = { fg = colors.color9, bg = colors.color2 },
     a = { fg = colors.color2, bg = colors.color10, gui = "bold" },
@@ -32,4 +32,9 @@ return {
     a = { fg = colors.color4, bg = colors.color5, gui = "bold" },
     b = { fg = colors.color4, bg = colors.color5 },
   },
+}
+return {
+  options = {
+    theme = theme,
+  }
 }
