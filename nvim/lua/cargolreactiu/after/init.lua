@@ -11,5 +11,6 @@ require(... .. ".plugins.marks")
 require(... .. ".plugins.nvim_spectre")
 
 
+-- INFO: ui
 require(... .. ".ui.lualine")
 require(... .. ".ui.colorscheme")
