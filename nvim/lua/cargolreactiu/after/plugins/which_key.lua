@@ -35,6 +35,7 @@ wk.add({
   { "<leader>lm", vim.diagnostic.goto_next, desc = "Go to next diagnostic [M]essage"},
   { "<leader>ld", vim.diagnostic.open_float, desc = "Show diagnostic [E]rror messages"},
   { "<leader>lq", vim.diagnostic.setloclist, desc = "Open diagnostic [Q]uickfix list"},
+  { "<leader>lt", desc = "Trouble"}, -- group
   {
     mode = { "n", "v" }, -- NORMAL and VISUAL mode
     { "<leader>q", "<cmd>qa<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited

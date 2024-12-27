@@ -9,6 +9,7 @@ require(... .. ".plugins.neovim_session_manager")
 require(... .. ".plugins.gitsigns")
 require(... .. ".plugins.marks")
 require(... .. ".plugins.nvim_spectre")
+require(... .. ".plugins.trouble")
 
 
 -- INFO: ui
