@@ -10,6 +10,7 @@ require(... .. ".plugins.gitsigns")
 require(... .. ".plugins.marks")
 require(... .. ".plugins.nvim_spectre")
 require(... .. ".plugins.trouble")
+require(... .. ".plugins.todo_comments")
 
 
 -- INFO: ui

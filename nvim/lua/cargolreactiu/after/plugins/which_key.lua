@@ -28,6 +28,7 @@ wk.add({
   { "<leader>md", desc = "Delete a letter mark"}, -- group
   { "<leader>ms", desc = "Set a letter mark"}, -- group
   { "<leader>ml", desc = "List marks"}, -- group
+  { "<leader>mt", desc = "Todo Comments"}, -- group
   { "<leader>mlb", desc = "List Marks in current buffer"}, -- group
   { "<leader>mla", desc = "List Marks in all buffers"}, -- group
   { "<leader>l", desc = "LSP"}, -- group
