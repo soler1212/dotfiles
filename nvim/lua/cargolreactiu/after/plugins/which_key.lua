@@ -32,6 +32,7 @@ wk.add({
   { "<leader>mlb", desc = "List Marks in current buffer"}, -- group
   { "<leader>mla", desc = "List Marks in all buffers"}, -- group
   { "<leader>l", desc = "LSP"}, -- group
+  { "<leader>ls", desc = "Saga"},
   { "<leader>lM", vim.diagnostic.goto_prev, desc = "Go to previous diagnostic [M]essage"},
   { "<leader>lm", vim.diagnostic.goto_next, desc = "Go to next diagnostic [M]essage"},
   { "<leader>ld", vim.diagnostic.open_float, desc = "Show diagnostic [E]rror messages"},

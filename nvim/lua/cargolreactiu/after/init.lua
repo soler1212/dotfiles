@@ -1,4 +1,5 @@
 require(... .. ".plugins.lsp")
+require(... .. ".plugins.lspsaga")
 require(... .. ".plugins.telescope")
 require(... .. ".plugins.treesitter")
 require(... .. ".plugins.undotree")
