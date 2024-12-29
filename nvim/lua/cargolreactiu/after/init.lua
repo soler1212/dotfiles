@@ -13,6 +13,7 @@ require(... .. ".plugins.nvim_spectre")
 require(... .. ".plugins.trouble")
 require(... .. ".plugins.todo_comments")
 require(... .. ".plugins.nvim_ts_autotag")
+require(... .. ".plugins.scope")
 
 
 -- INFO: ui
