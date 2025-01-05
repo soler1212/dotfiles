@@ -1,20 +1,20 @@
 local Path = require('plenary.path')
 require('possession').setup {
-  sessions_dir = Path:new(vim.fn.stdpath('data'), 'possession'):absolute(), -- The directory where the session files will be saved.
+  session_dir = (Path:new(vim.fn.stdpath('data')) / 'possession'):absolute(),
   silent = false,
   load_silent = true,
   debug = false,
   logfile = false,
   prompt_no_cr = false,
   autosave = {
-    current = true,  -- or fun(name): boolean
-    cwd = false,      -- or fun(): boolean
-    tmp = false,      -- or fun(): boolean
-    tmp_name = 'tmp', -- or fun(): string
+    current = true,      -- or fun(name): boolean
+    cwd = false,          -- or fun(): boolean
+    tmp = false,          -- or fun(): boolean
+    tmp_name = 'tmp',     -- or fun(): string
     on_load = true,
     on_quit = true,
   },
-  autoload = "last", -- or 'last' or 'auto_cwd' or 'last_cwd' or fun(): string
+  autoload = "last",   -- or 'last' or 'auto_cwd' or 'last_cwd' or fun(): string
   commands = {
     save = 'PossessionSave',
     load = 'PossessionLoad',
@@ -37,21 +37,15 @@ require('possession').setup {
   plugins = {
     close_windows = {
       hooks = { 'before_save', 'before_load' },
-      preserve_layout = true, -- or fun(win): boolean
+      preserve_layout = true,       -- or fun(win): boolean
       match = {
         floating = true,
         buftype = {},
         filetype = {},
-        custom = false, -- or fun(win): boolean
+        custom = false,         -- or fun(win): boolean
       },
     },
-    delete_hidden_buffers = {
-      hooks = {
-        'before_load',
-        vim.o.sessionoptions:match('buffer') and 'before_save',
-      },
-      force = false, -- or fun(buf): boolean
-    },
+    delete_hidden_buffers = false,
     nvim_tree = true,
     neo_tree = true,
     symbols_outline = true,
@@ -66,7 +60,7 @@ require('possession').setup {
   telescope = {
     previewer = {
       enabled = true,
-      previewer = 'pretty', -- or 'raw' or fun(opts): Previewer
+      previewer = 'pretty',       -- or 'raw' or fun(opts): Previewer
       wrap_lines = true,
       include_empty_plugin_data = false,
       cwd_colors = {
@@ -96,7 +90,7 @@ require("lualine").setup {
 
 
 vim.keymap.set('n', '<leader>sw', '<cmd>:PossessionSave<cr>', { desc = 'Save current session' })
-vim.keymap.set('n', '<leader>sw', '<cmd>:PossessionSaveCwd<cr>', { desc = 'Save CWD session' })
+vim.keymap.set('n', '<leader>sCw', '<cmd>:PossessionSaveCwd<cr>', { desc = 'Save CWD session' })
 vim.keymap.set('n', '<leader>sl', '<cmd>:Telescope possession list<cr>', { desc = 'list Sessions' })
 vim.keymap.set('n', '<leader>ss', '<cmd>:PossessionLoad<cr>', { desc = 'load Last Session' })
 vim.keymap.set('n', '<leader>sc', '<cmd>:PossessionLoadCwd<cr>', { desc = 'Load CWD session' })
