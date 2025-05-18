@@ -7,14 +7,14 @@ require('possession').setup {
   logfile = false,
   prompt_no_cr = false,
   autosave = {
-    current = true,      -- or fun(name): boolean
-    cwd = false,          -- or fun(): boolean
-    tmp = false,          -- or fun(): boolean
-    tmp_name = 'tmp',     -- or fun(): string
+    current = true,      -- o fun(name): boolean
+    cwd = false,         -- o fun(): boolean
+    tmp = false,         -- o fun(): boolean
+    tmp_name = 'tmp',    -- o fun(): string
     on_load = true,
     on_quit = true,
   },
-  autoload = "last",   -- or 'last' or 'auto_cwd' or 'last_cwd' or fun(): string
+  autoload = false,      -- Canviat a false perquè gestionarem això via alpha
   commands = {
     save = 'PossessionSave',
     load = 'PossessionLoad',
@@ -30,19 +30,29 @@ require('possession').setup {
   },
   hooks = {
     before_save = function(name) return {} end,
-    after_save = function(name, user_data, aborted) end,
+    after_save = function(name, user_data, aborted) 
+      -- Si tenim alpha carregat, actualitzar el footer quan guardem una sessió
+      if package.loaded["alpha"] then
+        require("alpha").redraw()
+      end
+    end,
     before_load = function(name, user_data) return user_data end,
-    after_load = function(name, user_data) end,
+    after_load = function(name, user_data)
+      -- Si tenim alpha carregat, actualitzar el footer quan carreguem una sessió
+      if package.loaded["alpha"] then
+        require("alpha").redraw()
+      end
+    end,
   },
   plugins = {
     close_windows = {
       hooks = { 'before_save', 'before_load' },
-      preserve_layout = true,       -- or fun(win): boolean
+      preserve_layout = true,       -- o fun(win): boolean
       match = {
         floating = true,
         buftype = {},
-        filetype = {},
-        custom = false,         -- or fun(win): boolean
+        filetype = { "neo-tree", "alpha" },  -- Afegim "alpha" aquí
+        custom = false,         -- o fun(win): boolean
       },
     },
     delete_hidden_buffers = false,
@@ -60,7 +70,7 @@ require('possession').setup {
   telescope = {
     previewer = {
       enabled = true,
-      previewer = 'pretty',       -- or 'raw' or fun(opts): Previewer
+      previewer = 'pretty',
       wrap_lines = true,
       include_empty_plugin_data = false,
       cwd_colors = {
@@ -80,7 +90,7 @@ require('possession').setup {
   },
 }
 
--- Show the current session name at the lualine status
+-- Mostra el nom de la sessió actual al lualine
 local function session_name()
   return require('possession.session').get_session_name() or ''
 end
@@ -88,7 +98,7 @@ require("lualine").setup {
   sections = { lualine_a = { session_name } }
 }
 
-
+-- Keymaps per gestionar sessions
 vim.keymap.set('n', '<leader>sw', '<cmd>:PossessionSave<cr>', { desc = 'Save current session' })
 vim.keymap.set('n', '<leader>sCw', '<cmd>:PossessionSaveCwd<cr>', { desc = 'Save CWD session' })
 vim.keymap.set('n', '<leader>sl', '<cmd>:Telescope possession list<cr>', { desc = 'list Sessions' })

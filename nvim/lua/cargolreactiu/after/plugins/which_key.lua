@@ -10,6 +10,8 @@ local opts = {
 
 -- Define custom keybindings
 wk.add({
+  { "<leader>a", { desc = "Dashboard", cmd = "<cmd>Alpha<CR>" } },
+
   { "<leader>p", name = "🧰 [P]alette Commands" },
   { "<leader>ps", name = "Grep [S]earch File" },
   -- File keymaps

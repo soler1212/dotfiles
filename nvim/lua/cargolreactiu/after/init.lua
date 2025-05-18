@@ -1,3 +1,4 @@
+require(... .. ".plugins.alpha")
 require(... .. ".plugins.lsp")
 require(... .. ".plugins.lspsaga")
 require(... .. ".plugins.telescope")
