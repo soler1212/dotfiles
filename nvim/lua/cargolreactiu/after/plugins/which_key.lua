@@ -10,61 +10,67 @@ local opts = {
 
 -- Define custom keybindings
 wk.add({
+  { "<leader>p", name = "🧰 [P]alette Commands" },
+  { "<leader>ps", name = "Grep [S]earch File" },
   -- File keymaps
-  { "<leader>f",   { name = "file" } },
-  { "<leader>fo",  { name = "other" } },
+  { "<leader>f", name = "📁 Manage [F]iles" },
+  { "<leader>fo", name = "🔄 [O]ther File Actions" },
 
   -- Buffer keymaps
-  { "<leader>b",   { name = "buffer" } },
-  { "<leader>bg",  { name = "go to" } },
-  { "<leader>bm",  { name = "move" } },
-  { "<leader>bo",  { name = "order" } },
-  { "<leader>bc",  { name = "close" } },
+  { "<leader>b", group = "📑 Manage [B]uffers" },
+  { "<leader>bc", group = "❌ [C]lose Buffers" },
+  { "<leader>bg", group = "🔍 [G]o to Buffers" },
+  { "<leader>bm", group = "↕️ [M]ove Buffers" },
+  { "<leader>bo", group = "📊 [O]rder Buffers" },
 
   -- Session keymaps
-  { "<leader>s",   { name = "Session" } },
-  { "<leader>sd",  { name = "Delete" } },
+  { "<leader>s", name = "💾 [S]ession Management" },
+  { "<leader>sd", name = "🗑️ [D]elete Sessions" },
 
   -- Git keymaps
-  { "<leader>g",   { name = "Git" } },
-  { "<leader>gt",  { name = "Toggle" } },
-  { "<leader>gs",  { desc = "Stage current hunk" } },
-  { "<leader>gr",  { desc = "Reset current hunk" } },
-  { "<leader>gS",  { desc = "Stage all changes in buffer" } },
-  { "<leader>gu",  { desc = "Undo last staged hunk" } },
-  { "<leader>gR",  { desc = "Reset all changes in buffer" } },
-  { "<leader>gp",  { desc = "Preview current hunk" } },
-  { "<leader>gb",  { desc = "Show detailed blame for current line" } },
-  { "<leader>gd",  { desc = "Show diff against index" } },
-  { "<leader>gD",  { desc = "Show diff against previous commit" } },
-  { "<leader>gtl", { desc = "Toggle inline blame annotations" } },
-  { "<leader>gtx", { desc = "Toggle display of deleted lines" } },
-
+  { "<leader>g", name = "⚙️ [G]it Manage" },
+  { "<leader>gt", name = "⚙️ [T]oggle Git Features" },
+  { "<leader>gs", desc = "✅ [S]tage current hunk" },
+  { "<leader>gr", desc = "↩️ [R]eset current hunk" },
+  { "<leader>gS", desc = "📦 [S]tage all changes in buffer" },
+  { "<leader>gu", desc = "⏪ [U]ndo last staged hunk" },
+  { "<leader>gR", desc = "🔄 [R]eset all changes in buffer" },
+  { "<leader>gp", desc = "👁️ [P]review current hunk" },
+  { "<leader>gb", desc = "🔍 Show [B]lame for current line" },
+  { "<leader>gd", desc = "📊 Show [D]iff against index" },
+  { "<leader>gD", desc = "📜 Show [D]iff against previous commit" },
+  { "<leader>gtl", desc = "🏷️ Toggle [L]ine blame annotations" },
+  { "<leader>gtx", desc = "🗑️ Toggle deleted te[X]t" },
 
   -- Mark keymaps
-  { "<leader>m",   { name = "Mark" } },
-  { "<leader>mm",  desc = "Toggle mark" },
-  { "<leader>mc",  desc = "Clear all marks in current buffer" },
-  { "<leader>mp",  desc = "Preview mark content" },
-  { "<leader>md",  desc = "Delete a letter mark" },
-  { "<leader>ms",  desc = "Set a letter mark" },
-  { "<leader>ml",  desc = "List marks" },
-  { "<leader>mt",  desc = "Todo Comments" },
-  { "<leader>mlb", desc = "List Marks in current buffer" },
-  { "<leader>mla", desc = "List Marks in all buffers" },
-
+  { "<leader>m", name = "🔖 [M]ark Management" },
+  { "<leader>mm", desc = "📌 [M]ark Toggle" },
+  { "<leader>mc", desc = "🧹 [C]lear all marks in buffer" },
+  { "<leader>mp", desc = "👁️ [P]review mark content" },
+  { "<leader>md", desc = "🗑️ [D]elete a letter mark" },
+  { "<leader>ms", desc = "✏️ [S]et a letter mark" },
+  { "<leader>ml", name = "📋 [L]ist Marks" },
+  { "<leader>mt", desc = "📝 [T]odo Comments" },
+  { "<leader>mlb", desc = "📑 List [B]uffer marks" },
+  { "<leader>mla", desc = "🌐 List [A]ll marks" },
 
   -- Tabs keymaps
-  { "<leader>t",   { name = "Tabs" } },
+  { "<leader>t", name = "📑 [T]ab Management" },
 
   -- LSP keymaps
-  { "<leader>l",   { name = "LSP" } },
-  { "<leader>ls",  { name = "Saga" } },
-  { "<leader>lt",  { name = "Trouble" } },
-  { "<leader>lM",  { desc = "Go to previous diagnostic [M]essage" } },
-  { "<leader>lm",  { desc = "Go to next diagnostic [M]essage" } },
-  { "<leader>ld",  { desc = "Show diagnostic [E]rror messages" } },
-  { "<leader>lq",  { desc = "Open diagnostic [Q]uickfix list" } },
+  { "<leader>l", name = "🔧 [L]SP Functions" },
+  { "<leader>ls", name = "💡 LSP [S]aga" },
+  { "<leader>lt", name = "⚠️ LSP [T]rouble" },
+  { "<leader>lM", desc = "⬆️ Go to [P]revious diagnostic message" },
+  { "<leader>lm", desc = "⬇️ Go to [N]ext diagnostic message" },
+  { "<leader>ld", desc = "🔍 Show [D]iagnostic messages" },
+  { "<leader>lq", desc = "📋 Open diagnostic [Q]uickfix list" },
+
+  -- Custom
+  {
+    mode = { "n", "v" },                           -- NORMAL and VISUAL mode
+    { "<leader>q", "<cmd>qa<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
+  },
 })
 
 wk.setup(opts)
