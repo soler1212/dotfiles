@@ -3,8 +3,8 @@ vim.keymap.set("n", "<Tab>", vim.cmd.BufferNext, { desc = 'buffer next' })
 vim.keymap.set("n", "<S-Tab>", vim.cmd.BufferPrevious, { desc = 'buffer previous' })
 -- Pin/Unpin
 vim.keymap.set("n", "<leader>bp", vim.cmd.BufferPin, { desc = 'Buffer toggle Pin' })
---FIXME: vim.keymap.set("n", "<leader>bgp", vim.cmd.BufferGotoPinned, { desc = 'Buffer Go to Pinned' })
---FIXME: vim.keymap.set("n", "<leader>bgu", vim.cmd.BufferGotoUnpinned, { desc = 'Buffer Go to Unpinned' })
+vim.keymap.set("n", "<leader>bgp", "<cmd>BufferPick<CR>", { desc = 'Buffer Pick (select)' })
+vim.keymap.set("n", "<leader>b1", "<cmd>BufferGoto 1<CR>", { desc = 'Buffer Go to 1' })
 -- Manualment Order 
 vim.keymap.set("n", "<leader>bmp", vim.cmd.BufferMovePrevious, { desc = 'Buffer Move Previous' })
 vim.keymap.set("n", "<leader>bmn", vim.cmd.BufferMoveNext, { desc = 'Buffer Move Next' })
