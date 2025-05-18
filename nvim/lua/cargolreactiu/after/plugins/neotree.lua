@@ -27,23 +27,23 @@ builtin.setup({
   default_component_configs = {
     indent = { padding = 0 },
     icon = {
-      folder_closed = "",
-      folder_open = "",
-      folder_empty = "",
-      default = "",
+      folder_closed = "", --  
+      folder_open = "", -- 
+      folder_empty = "",
+      default = "", -- archivo genérico
     },
-    modified = { symbol = "" },
+    modified = { symbol = "●" },
     git_status = {
       symbols = {
-        added = "",
-        deleted = "",
-        modified = "",
+        added = "", -- +
+        deleted = "", -- x
+        modified = "", -- ~
         renamed = "➜",
         untracked = "★",
         ignored = "◌",
-        unstaged = "✓",
+        unstaged = "✗",
         staged = "✓",
-        conflict = "",
+        conflict = "",
       },
     },
   },
@@ -69,15 +69,15 @@ builtin.setup({
     child_or_open = function(state)
       local node = state.tree:get_node()
       if node.type == "directory" or node:has_children() then
-        if not node:is_expanded() then       -- if unexpanded, expand
+        if not node:is_expanded() then -- if unexpanded, expand
           state.commands.toggle_node(state)
-        else                                 -- if expanded and has children, seleect the next child
+        else                           -- if expanded and has children, seleect the next child
           require("neo-tree.ui.renderer").focus_node(
             state,
             node:get_child_ids()[1]
           )
         end
-      else       -- if not a directory just open it
+      else -- if not a directory just open it
         state.commands.open(state)
       end
     end,
