@@ -1,75 +1,158 @@
-# temp remove me
-# exec --no-startup-id dbus-update-activation-environment --all
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-
-
-
-# SwayWM global configuration. For detailed information type "man sway"
+# Sway Configuration - Main File
+# https://github.com/swaywm/sway/wiki
 
 #########################
-# Run services
+# Variables
 #########################
-#exec mako
-
-#########################
-# Main definitions
-#########################
-# Logo key. Use Mod1 for Alt.
 set $mod Mod4
-
-# Your preferred terminal emulator
-# set $term i3-sensible-terminal
+set $alt Mod1
 set $term wezterm
-
-# Your preferred application launcher
-#set $menu wofi --show run -Iib -l 5 -W 500 -x -10 -y -51
-#set $menu rofi -terminal kitty -theme ~/.config/sway/rofi/flat-orange.rasi -show run
 set $menu ulauncher
-
-# Default wallpaper
-#set $wallpaper ~/.config/sway/images/wallpaper.jpg
-exec ~/.config/sway/scripts/iterate-wallpaper.sh
-
-# Default lockscreen background
+set $browser firefox
+set $filemanager nautilus
 set $lockscreenbg ~/.config/sway/images/lockscreen_background.png
 
-# Remove all borders from applications
-default_border none
+# Home row direction keys
+set $left h
+set $down j
+set $up k
+set $right l
 
-## Aplica el color de marc a la finestra activa
-default_border pixel 2  # Amplada del marc per defecte
-for_window [class=".*"] border pixel 2  # Aplicar l'amplada del marc a totes les finestres
+#########################
+# Startup Applications
+#########################
+# Fix GTK+ applications slow start
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
-# Stablish gaps between windows and from the screen edge
+# Core services
+exec_always {
+    # Kill existing instances first
+    pkill waybar
+    pkill mako
+    pkill nm-applet
+    pkill blueman-applet
+    
+    # Start services
+    waybar
+    mako
+    nm-applet --indicator
+    blueman-applet
+    /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+    wl-paste -t text --watch clipman store
+}
+
+# Set wallpaper
+exec ~/.config/sway/scripts/iterate-wallpaper.sh
+
+#########################
+# Appearance
+#########################
+# Window borders
+default_border pixel 2
+default_floating_border pixel 2
+titlebar_border_thickness 0
+titlebar_padding 1
+
+# Gaps
 gaps inner 4
 gaps outer 2
+smart_gaps on
+smart_borders on
+
+# Colors (Catppuccin Mocha theme)
+set $rosewater #f5e0dc
+set $flamingo  #f2cdcd
+set $pink      #f5c2e7
+set $mauve     #cba6f7
+set $red       #f38ba8
+set $maroon    #eba0ac
+set $peach     #fab387
+set $yellow    #f9e2af
+set $green     #a6e3a1
+set $teal      #94e2d5
+set $sky       #89dceb
+set $sapphire  #74c7ec
+set $blue      #89b4fa
+set $lavender  #b4befe
+set $text      #cdd6f4
+set $subtext1  #bac2de
+set $subtext0  #a6adc8
+set $overlay2  #9399b2
+set $overlay1  #7f849c
+set $overlay0  #6c7086
+set $surface2  #585b70
+set $surface1  #45475a
+set $surface0  #313244
+set $base      #1e1e2e
+set $mantle    #181825
+set $crust     #11111b
+
+# target                 title     bg    text   indicator  border
+client.focused           $pink     $base $text  $rosewater $pink
+client.focused_inactive  $mauve    $base $text  $rosewater $mauve
+client.unfocused         $surface1 $base $text  $rosewater $surface1
+client.urgent           $red      $base $red   $red       $red
+client.placeholder      $overlay0 $base $text  $overlay0  $overlay0
+client.background       $base
+
+# Font
+font pango:JetBrains Mono 10
 
 #########################
-# Main keybindings
+# Core Keybindings
 #########################
-# Start a terminal
+# Terminal
 bindsym $mod+Return exec $term
+bindsym $mod+Shift+Return exec $term --class floating
 
-# Kill focused window
+# Kill window
 bindsym $mod+Shift+q kill
 
-# Start your launcher
+# Launcher
 bindsym $mod+d exec $menu
+bindsym $mod+Shift+d exec wofi --show drun
 
-# Drag floating windows by holding down $mod and left mouse button.
-# Resize them with right mouse button + $mod.
-# Despite the name, also works for non-floating windows.
-# Change normal to inverse to use left mouse button for resizing and right
-# mouse button for dragging.
+# Reload/Exit
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+# Floating modifier
 floating_modifier $mod normal
 
-# Reload the configuration file. Be aware that some changes might need
-# a session logout (gaps, for example)
-bindsym $mod+Shift+c reload
+# Quick launch
+bindsym $mod+Shift+b exec $browser
+bindsym $mod+Shift+f exec $filemanager
 
-# Exit sway (logs you out of your Wayland session)
-# bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
+# Center floating window
+bindsym $mod+c move position center
 
-include ~/.config/sway/config.d/*
-include ~/.config/sway/config.d/custom/*
+# Toggle floating
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
 
+# Focus parent/child
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+
+# Layout
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen toggle
+
+# Split
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Screenshot with selection
+bindsym Print exec grimshot save screen ~/Pictures/Screenshots/$(date '+%Y-%m-%d-%H%M%S').png
+# bindsym $mod+Print exec grimshot save area ~/Pictures/Screenshots/$(date '+%Y-%m-%d-%H%M%S').png
+# bindsym $mod+Shift+Print exec grimshot copy area
+
+# Clipboard manager
+bindsym $mod+Shift+v exec clipman pick -t wofi
+
+#########################
+# Include modular configs
+#########################
+include ~/.config/sway/config.d/*.conf

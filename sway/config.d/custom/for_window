@@ -1,5 +1,0 @@
-
-# Custom windows
-for_window [app_id="gnome-calculator"] floating enable; border none
-for_window [app_id="ulauncher"] floating enable; border none
-for_window [title="(?:Open|Save) (?:File|Folder|As)"] floating enable, resize set width 1030 height 710
