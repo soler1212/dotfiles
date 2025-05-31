@@ -1,7 +1,7 @@
 {
-    "height": 30,
+    "height": 32,
     "spacing": 4,
-    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["sway/workspaces", "sway/mode", "custom/sway-scratch"],
     "modules-center": ["sway/window"],
     "modules-right": ["tray", "pulseaudio", "network", "cpu", "memory", "temperature", "battery", "clock"],
     
@@ -26,12 +26,20 @@
         "spacing": 8
     },
     
+    "custom/sway-scratch": {
+        "interval": 2,
+        "format": "󰏃",
+        "exec": "echo 'Scratchpad'",
+        "on-click": "swaymsg scratchpad show",
+        "on-click-right": "swaymsg move window to scratchpad",
+        "tooltip": true
+    },
+    
     "pulseaudio": {
-        "scroll-step": 5,
         "format": "{volume}% {icon}",
         "format-bluetooth": "{volume}% {icon}",
         "format-bluetooth-muted": "󰂲 {icon}",
-        "format-muted": "󰝟",
+        "format-muted": "󰝟 Muted",
         "format-source": "{volume}% 󰍬",
         "format-source-muted": "󰍭",
         "format-icons": {
@@ -44,7 +52,8 @@
             "default": ["󰕿", "󰖀", "󰕾"]
         },
         "on-click": "pavucontrol",
-        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "scroll-step": 5
     },
     
     "clock": {
@@ -57,13 +66,13 @@
     "cpu": {
         "format": "{usage}% 󰘚",
         "interval": 3,
-        "on-click": "wezterm -e htop"
+        "on-click": "termux -e htop"
     },
     
     "memory": {
         "format": "{percentage}% 󰍛",
         "interval": 3,
-        "on-click": "wezterm -e htop"
+        "on-click": "termux -e htop"
     },
     
     "temperature": {

@@ -51,6 +51,7 @@
 }
 
 #tray,
+#custom-sway-scratch,
 #pulseaudio,
 #network,
 #cpu,
@@ -65,6 +66,7 @@
 }
 
 #tray:hover,
+#custom-sway-scratch:hover,
 #pulseaudio:hover,
 #network:hover,
 #cpu:hover,
@@ -133,6 +135,10 @@
 #clock {
     color: #89b4fa;
     font-weight: bold;
+}
+
+#custom-sway-scratch {
+    color: #fab387;
 }
 
 #tray > .passive {
