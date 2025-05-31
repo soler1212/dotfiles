@@ -1,84 +1,56 @@
-
-/* =============================================================================
- *
- * Waybar configuration - Improved styles
- *
- * =========================================================================== */
-
-/* -----------------------------------------------------------------------------
- * Keyframes
- * -------------------------------------------------------------------------- */
-
-@keyframes blink-warning {
-    70% {
-        color: white;
-    }
-    to {
-        color: white;
-        background-color: orange;
-    }
-}
-
-@keyframes blink-critical {
-    70% {
-        color: white;
-    }
-    to {
-        color: white;
-        background-color: red;
-    }
-}
-
-/* -----------------------------------------------------------------------------
- * Tooltips
- * -------------------------------------------------------------------------- */
-
-tooltip {
-    background-color: #2f2f2f;
-    border: 1px solid #444;
-    border-radius: 6px;
-    color: white;
-    padding: 4px 8px;
-    font-size: 12px;
-    font-family: "JetBrains Mono", monospace;
-}
-
-/* -----------------------------------------------------------------------------
- * Base styles
- * -------------------------------------------------------------------------- */
-
-/* Reset all styles */
 * {
     all: unset;
-    border: none;
-    border-radius: 0;
-    margin: 0;
-    padding: 0;
+    font-family: "JetBrains Mono", "Noto Sans", sans-serif;
+    font-size: 14px;
     min-height: 0;
 }
 
-/* The whole bar */
 #waybar {
-    background-color: rgba(30, 30, 30, 0.5);
-    color: white;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 14px;
-    padding: 4px;
-    /* border-radius: 8px; */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    background: rgba(24, 24, 37, 0.8);
+    color: #cdd6f4;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .modules-left,
-.modules-center,
+.modules-center, 
 .modules-right {
-    background-color: rgba(40, 40, 40, 0.9);
-    margin: 2px;
-    border-radius: 10px;
-    padding: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: transparent;
+    margin: 0;
+    padding: 0 8px;
 }
 
-/* Each module */
+#workspaces {
+    padding: 0 4px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 0 2px;
+    background: rgba(69, 71, 90, 0.6);
+    color: #bac2de;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+#workspaces button:hover {
+    background: rgba(137, 180, 250, 0.3);
+    color: #89b4fa;
+}
+
+#workspaces button.focused {
+    background: #89b4fa;
+    color: #1e1e2e;
+}
+
+#workspaces button.urgent {
+    background: #f38ba8;
+    color: #1e1e2e;
+    animation: pulse 1s infinite;
+}
+
+#tray,
 #pulseaudio,
 #network,
 #cpu,
@@ -87,98 +59,118 @@ tooltip {
 #battery,
 #clock {
     padding: 4px 8px;
-    margin: 2px 4px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0 2px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
-/* -----------------------------------------------------------------------------
- * Module styles
- * -------------------------------------------------------------------------- */
+#tray:hover,
+#pulseaudio:hover,
+#network:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#battery:hover,
+#clock:hover {
+    background: rgba(69, 71, 90, 0.8);
+}
 
 #pulseaudio {
-    color: #00bcd4;
+    color: #89b4fa;
 }
+
 #pulseaudio.muted {
-    color: orange;
-    background-color: #2f2f2f;
+    color: #f9e2af;
+    background: rgba(249, 226, 175, 0.1);
 }
 
 #network {
-    color: #8bc34a;
+    color: #a6e3a1;
 }
+
 #network.disconnected {
-    color: orange;
+    color: #fab387;
 }
 
 #cpu {
-    color: #9c27b0;
-    background-color: rgba(156, 39, 176, 0.1);
+    color: #cba6f7;
+    background: rgba(203, 166, 247, 0.1);
 }
 
 #memory {
-    color: #ff5722;
-    background-color: rgba(255, 87, 34, 0.1);
+    color: #f38ba8;
+    background: rgba(243, 139, 168, 0.1);
 }
 
 #temperature {
-    color: #2196f3;
+    color: #74c7ec;
 }
+
 #temperature.critical {
-    animation: blink-critical 2s infinite alternate;
+    color: #f38ba8;
+    animation: blink 1s infinite;
 }
 
 #battery {
-    color: #ffeb3b;
+    color: #a6e3a1;
 }
+
 #battery.charging {
-    background-color: #4caf50;
+    color: #a6e3a1;
+    background: rgba(166, 227, 161, 0.1);
 }
-#battery.warning:not(.charging),
+
+#battery.warning:not(.charging) {
+    color: #f9e2af;
+    animation: pulse 2s infinite;
+}
+
 #battery.critical:not(.charging) {
-    animation: blink-warning 1s infinite alternate;
+    color: #f38ba8;
+    animation: blink 1s infinite;
 }
 
 #clock {
-    color: #03a9f4;
+    color: #89b4fa;
+    font-weight: bold;
 }
 
-/* -----------------------------------------------------------------------------
- * Workspaces
- * -------------------------------------------------------------------------- */
-
-#workspaces button {
-    padding: 4px 8px;
-    background-color: rgba(50, 50, 50, 0.8);
-    color: white;
-    border-radius: 6px;
-    margin: 0 2px;
-    opacity: 0.6;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
+#tray > .passive {
+    opacity: 0.7;
 }
-#workspaces button:hover {
-    background-color: #4c7899;
+
+#tray > .active {
     opacity: 1;
 }
-#workspaces button.focused {
-    background-color: #2e8b57;
-    opacity: 1;
-}
-#workspaces button.urgent {
-    background-color: #c9545d;
-    color: white;
+
+#tray > .needs-attention {
+    color: #f38ba8;
+    animation: pulse 1s infinite;
 }
 
-/* -----------------------------------------------------------------------------
- * MPD Module
- * -------------------------------------------------------------------------- */
-
-#mpd {
-    color: #6aa3cd;
-}
-#mpd.disconnected,
-#mpd.paused,
-#mpd.stopped {
-    color: #888;
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
 }
 
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+tooltip {
+    background: rgba(30, 30, 46, 0.95);
+    border: 1px solid #45475a;
+    border-radius: 8px;
+    color: #cdd6f4;
+    padding: 8px 12px;
+    font-size: 12px;
+}
