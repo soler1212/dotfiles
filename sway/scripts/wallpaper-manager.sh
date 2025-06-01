@@ -2,7 +2,7 @@
 # Enhanced Wallpaper Manager for Sway
 
 # Configuration
-WALLPAPER_DIR="${HOME}/.config/sway/wallpapers"
+WALLPAPER_DIR="${HOME}/.config/sway/images"
 CONFIG_DIR="${HOME}/.config/sway"
 STATE_FILE="${CONFIG_DIR}/.wallpaper_state"
 MODE="sequential"  # Options: sequential, random, time-based
