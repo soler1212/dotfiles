@@ -1,9 +1,9 @@
 {
     "height": 32,
     "spacing": 4,
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/sway-scratch"],
+    "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["tray", "pulseaudio", "network", "cpu", "memory", "temperature", "battery", "clock"],
+    "modules-right": ["tray", "pulseaudio", "network", "cpu", "memory", "battery", "clock"],
     
     "sway/workspaces": {
         "disable-scroll": true,
@@ -31,82 +31,39 @@
         "spacing": 8
     },
     
-    "custom/sway-scratch": {
-        "interval": 2,
-        "format": "󰏃",
-        "exec": "echo 'Scratchpad'",
-        "on-click": "swaymsg scratchpad show",
-        "on-click-right": "swaymsg move window to scratchpad",
-        "tooltip": true
-    },
-    
     "pulseaudio": {
         "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon}",
-        "format-bluetooth-muted": "󰂲 {icon}",
         "format-muted": "󰝟 Muted",
-        "format-source": "{volume}% 󰍬",
-        "format-source-muted": "󰍭",
         "format-icons": {
-            "headphone": "󰋋",
-            "hands-free": "󱡏",
-            "headset": "󰋎",
-            "phone": "󰏲",
-            "portable": "󰦧",
-            "car": "󰄋",
             "default": ["󰕿", "󰖀", "󰕾"]
         },
-        "on-click": "pavucontrol",
-        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "scroll-step": 5
-    },
-    
-    "clock": {
-        "format": "{:%d/%m %H:%M}",
-        "format-alt": "{:%Y-%m-%d %H:%M:%S}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "on-click": "gnome-calendar"
-    },
-    
-    "cpu": {
-        "format": "{usage}% 󰘚",
-        "interval": 3,
-        "on-click": "termux -e htop"
-    },
-    
-    "memory": {
-        "format": "{percentage}% 󰍛",
-        "interval": 3,
-        "on-click": "termux -e htop"
-    },
-    
-    "temperature": {
-        "critical-threshold": 80,
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": ["󱃃", "󰔏", "󱃂"],
-        "interval": 5
-    },
-    
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% 󰂄",
-        "format-plugged": "{capacity}% 󰚥",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+        "on-click": "pavucontrol"
     },
     
     "network": {
         "format-wifi": "{essid} {signalStrength}% 󰤨",
         "format-ethernet": "{ipaddr} 󰈀",
-        "format-linked": "{ifname} 󰈁",
-        "format-disconnected": "Disconnected 󰤭",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "on-click": "nm-connection-editor",
-        "tooltip-format": "{ifname} via {gwaddr}"
+        "format-disconnected": "Disconnected 󰤭"
+    },
+    
+    "cpu": {
+        "format": "{usage}% 󰘚",
+        "interval": 3
+    },
+    
+    "memory": {
+        "format": "{percentage}% 󰍛",
+        "interval": 3
+    },
+    
+    "battery": {
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% 󰂄",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+    
+    "clock": {
+        "format": "{:%d/%m %H:%M}",
+        "format-alt": "{:%Y-%m-%d %H:%M:%S}"
     }
 }
