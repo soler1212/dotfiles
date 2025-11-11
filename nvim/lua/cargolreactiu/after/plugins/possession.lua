@@ -47,7 +47,7 @@ require('possession').setup {
   plugins = {
     close_windows = {
       hooks = { 'before_save', 'before_load' },
-      preserve_layout = true,       -- o fun(win): boolean
+      preserve_layout = false,       -- do not keep empty splits for closed plugin windows
       match = {
         floating = true,
         buftype = {},
