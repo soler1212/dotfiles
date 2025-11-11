@@ -2,11 +2,11 @@ require("flow").setup {
     theme = {
       style = "dark",         --  "dark" | "light"
       contrast = "high",   -- "default" | "high"
-      transparent = true,    -- true | false
+      transparent = false,    -- true | false
     },
     colors = {
       mode = "default",   -- "default" | "dark" | "light"
-      fluo = "pink",      -- "pink" | "cyan" | "yellow" | "orange" | "green"
+      fluo = "yellow",      -- "pink" | "cyan" | "yellow" | "orange" | "green"
     },
     ui = {
       borders = "fluo",        -- "theme" | "inverse" | "fluo" | "none"
