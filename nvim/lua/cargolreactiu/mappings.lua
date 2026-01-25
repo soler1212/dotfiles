@@ -19,6 +19,12 @@ vim.keymap.set('n', '<C-k>', function()
   end
 
   if #vim.lsp.get_clients({ bufnr = 0 }) > 0 then
+    if vim.fn.exists(':Lspsaga') == 2 then
+      local ok = pcall(vim.cmd, 'Lspsaga hover_doc')
+      if ok then
+        return
+      end
+    end
     vim.lsp.buf.hover()
   end
 end, { desc = 'Move focus up (or hover)' })

@@ -17,7 +17,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
     local opts = { buffer = event.buf }
 
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, vim.tbl_extend('force', opts, { desc = 'LSP hover' }))
+    local function lspsaga_cmd(subcmd)
+      if vim.fn.exists(':Lspsaga') == 2 then
+        local ok = pcall(vim.cmd, 'Lspsaga ' .. subcmd)
+        if ok then
+          return true
+        end
+      end
+      return false
+    end
+
+    vim.keymap.set('n', 'K', function()
+      if not lspsaga_cmd('hover_doc') then
+        vim.lsp.buf.hover()
+      end
+    end, vim.tbl_extend('force', opts, { desc = 'Hover (Lspsaga)' }))
 
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'LSP definition' }))
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = 'LSP declaration' }))
@@ -25,10 +39,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'go', vim.lsp.buf.type_definition, vim.tbl_extend('force', opts, { desc = 'LSP type definition' }))
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, vim.tbl_extend('force', opts, { desc = 'LSP references' }))
     vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, vim.tbl_extend('force', opts, { desc = 'LSP signature help' }))
-    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, vim.tbl_extend('force', opts, { desc = 'LSP rename' }))
+    vim.keymap.set('n', '<F2>', function()
+      if not lspsaga_cmd('rename') then
+        vim.lsp.buf.rename()
+      end
+    end, vim.tbl_extend('force', opts, { desc = 'Rename (Lspsaga)' }))
     vim.keymap.set({ 'n', 'x' }, '<F3>', function() vim.lsp.buf.format({ async = true }) end,
       vim.tbl_extend('force', opts, { desc = 'LSP format' }))
-    vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action, vim.tbl_extend('force', opts, { desc = 'LSP code action' }))
+    vim.keymap.set('n', '<F4>', function()
+      if not lspsaga_cmd('code_action') then
+        vim.lsp.buf.code_action()
+      end
+    end, vim.tbl_extend('force', opts, { desc = 'Code action (Lspsaga)' }))
   end,
 })
 
