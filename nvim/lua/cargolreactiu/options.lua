@@ -67,6 +67,17 @@ vim.opt.shortmess:append { s = true, I = true } -- Disable startup message.
 vim.opt.backspace:append { "nostop" } -- Don't stop backspace at insert.
 vim.opt.diffopt:append { "algorithm:histogram", "linematch:60" } -- Enable linematch diff algorithm
 
+-- Ensure Node is on PATH for LSP servers installed by Mason.
+if vim.fn.executable("node") == 0 then
+  local node_path = vim.fn.systemlist({ "bash", "-lc", "command -v node" })[1]
+  if node_path and node_path ~= "" then
+    local node_dir = vim.fn.fnamemodify(node_path, ":h")
+    if not string.find(vim.env.PATH or "", node_dir, 1, true) then
+      vim.env.PATH = node_dir .. ":" .. (vim.env.PATH or "")
+    end
+  end
+end
+
 local is_android = vim.fn.isdirectory('/data') == 1
 if is_android then vim.opt.mouse = "v" else vim.opt.mouse = "a" end -- Enable scroll for android
 
@@ -92,7 +103,6 @@ vim.g.lsp_signature_enabled = true -- Enable automatically showing lsp help as y
 vim.g.notifications_enabled = true -- Enable notifications.
 vim.g.semantic_tokens_enabled = true -- Enable lsp semantic tokens at start.
 vim.g.url_effect_enabled = true -- Highlight URLs with an underline effect.
-
 
 
 

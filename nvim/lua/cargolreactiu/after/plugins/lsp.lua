@@ -10,6 +10,7 @@ vim.opt.signcolumn = 'yes'
 -- Add cmp_nvim_lsp capabilities settings to lspconfig
 -- This should be executed before you configure any language server
 local lspconfig_defaults = require('lspconfig').util.default_config
+local lspconfig_util = require('lspconfig.util')
 lspconfig_defaults.capabilities = vim.tbl_deep_extend(
   'force',
   lspconfig_defaults.capabilities,
@@ -42,8 +43,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- You'll find a list of language servers here:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are my language servers. 
+local function ts_root_dir(fname)
+  local root = lspconfig_util.root_pattern('tsconfig.json', 'jsconfig.json', 'package.json', '.git')(fname)
+  if root then
+    return root
+  end
+  return lspconfig_util.path.dirname(fname)
+end
+
 require('lspconfig').lua_ls.setup({})
-require('lspconfig').ts_ls.setup({}) -- Per typescript estic fent tests
 require('lspconfig').eslint.setup({}) -- Per typescript estic fent tests
 require('lspconfig').anakin_language_server.setup({}) -- Per python estic fent tests
 
@@ -105,8 +113,13 @@ require('mason-lspconfig').setup({
     function(server_name)
       require('lspconfig')[server_name].setup({})
     end,
+    ['ts_ls'] = function()
+      require('lspconfig').ts_ls.setup({
+        root_dir = ts_root_dir,
+        single_file_support = true,
+      })
+    end,
   }
 })
-
 
 
