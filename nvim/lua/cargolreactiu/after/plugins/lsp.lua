@@ -1,19 +1,14 @@
--- Followed this instructions https://lsp-zero.netlify.app/docs/getting-started.html
---
-
--- Extend nvim-lspconfig
---
---
 -- Reserve a space in the gutter
 vim.opt.signcolumn = 'yes'
 
--- Add cmp_nvim_lsp capabilities settings to lspconfig
--- This should be executed before you configure any language server
-local lspconfig_defaults = require('lspconfig').util.default_config
-local lspconfig_util = require('lspconfig.util')
-lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+-- In Neovim 0.11+, `vim.lsp.config` is a callable table (supports both
+-- `vim.lsp.config('pyright', {...})` and `vim.lsp.config['pyright']`).
+local has_vim_lsp_config = (type(vim.lsp.config) == 'table' or type(vim.lsp.config) == 'function')
+  and type(vim.lsp.enable) == 'function'
+
+local capabilities = vim.tbl_deep_extend(
   'force',
-  lspconfig_defaults.capabilities,
+  vim.lsp.protocol.make_client_capabilities(),
   require('cmp_nvim_lsp').default_capabilities()
 )
 
@@ -37,23 +32,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- Use nvim-lspconfig
---
---
--- You'll find a list of language servers here:
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
--- These are my language servers. 
 local function ts_root_dir(fname)
-  local root = lspconfig_util.root_pattern('tsconfig.json', 'jsconfig.json', 'package.json', '.git')(fname)
-  if root then
-    return root
-  end
-  return lspconfig_util.path.dirname(fname)
+  local startpath = vim.fs.dirname(vim.fn.fnamemodify(fname, ':p'))
+  local roots = vim.fs.find(
+    { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
+    { upward = true, path = startpath, limit = 1 }
+  )
+  return roots[1] and vim.fs.dirname(roots[1]) or startpath
 end
-
-require('lspconfig').lua_ls.setup({})
-require('lspconfig').eslint.setup({}) -- Per typescript estic fent tests
-require('lspconfig').anakin_language_server.setup({}) -- Per python estic fent tests
 
 -- Alternative install method
 -- There is a way to install some language servers from inside Neovim. This requires two extra plugins and learning how to use them together with lspconfig. The details are in this guide: Integrate with mason.nvim.
@@ -99,27 +85,41 @@ cmp.setup({
 
 
 -- INFO: A partir d'aqui instala els ajudants per instalar automaticament els LSP mes info https://lsp-zero.netlify.app/docs/language-server-configuration.html#automatic-installs
-require('mason').setup({})
-require('mason-lspconfig').setup({
-  -- Replace the language servers listed here
-  -- with the ones you want to install
-  ensure_installed = {
-    'eslint',                        -- LSP para ESLint (JavaScript, TypeScript)
-    'lua_ls',                        -- LSP para Lua
-    'pyright',                       -- LSP para Python
-    'ts_ls',                         -- LSP para TypeScript
-  },
-  handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({})
-    end,
-    ['ts_ls'] = function()
-      require('lspconfig').ts_ls.setup({
-        root_dir = ts_root_dir,
-        single_file_support = true,
-      })
-    end,
-  }
-})
+local mason_servers = {
+  'eslint', -- LSP para ESLint (JavaScript, TypeScript)
+  'lua_ls', -- LSP para Lua
+  'pyright', -- LSP para Python
+  'ts_ls', -- LSP para TypeScript
+}
 
+if has_vim_lsp_config then
+  vim.lsp.config('lua_ls', { capabilities = capabilities })
+  vim.lsp.config('eslint', { capabilities = capabilities }) -- Per typescript estic fent tests
+  vim.lsp.config('pyright', { capabilities = capabilities })
+  vim.lsp.config('ts_ls', { capabilities = capabilities, root_dir = ts_root_dir })
 
+  -- Installed outside Mason.
+  vim.lsp.config('anakin_language_server', { capabilities = capabilities }) -- Per python estic fent tests
+
+  require('mason').setup({})
+  require('mason-lspconfig').setup({
+    ensure_installed = mason_servers,
+    automatic_enable = mason_servers,
+  })
+
+  vim.lsp.enable('anakin_language_server')
+else
+  -- Fallback for older Nvim versions (pre-0.11).
+  require('mason').setup({})
+
+  local ok, mason_lspconfig = pcall(require, 'mason-lspconfig')
+  if ok then
+    mason_lspconfig.setup({ ensure_installed = mason_servers })
+  end
+
+  require('lspconfig').lua_ls.setup({ capabilities = capabilities })
+  require('lspconfig').eslint.setup({ capabilities = capabilities })
+  require('lspconfig').pyright.setup({ capabilities = capabilities })
+  require('lspconfig').ts_ls.setup({ capabilities = capabilities, root_dir = ts_root_dir })
+  require('lspconfig').anakin_language_server.setup({ capabilities = capabilities })
+end
