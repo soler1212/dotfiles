@@ -61,6 +61,10 @@ neovim ripgrep fd-find nodejs npm
 ### Windows
 - `<C-h/j/k/l>` - Navigate windows
 
+### Dev Panel
+- `<leader>l` - Dev panel menu (which-key)
+- `<leader>ll` - Open Dev panel (LSP/Diagnostics/Tools)
+
 ## LSP Servers
 Auto-installed via Mason:
 - `lua_ls` - Lua

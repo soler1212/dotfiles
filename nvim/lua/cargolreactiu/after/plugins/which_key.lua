@@ -59,14 +59,22 @@ wk.add({
   -- Tabs keymaps
   { "<leader>t", name = "📑 [T]ab Management" },
 
-  -- LSP keymaps
-  { "<leader>l", name = "🔧 [L]SP Functions" },
+  -- Dev panel (Leader + l)
+  { "<leader>l", name = "🧰 [L] Dev Panel" },
+  { "<leader>ll", desc = "Open Dev panel" },
+  { "<leader>lm", desc = "Mason" },
+  { "<leader>li", desc = "LspInfo" },
+  { "<leader>lR", desc = "LspRestart" },
+
   { "<leader>ls", name = "💡 LSP [S]aga" },
   { "<leader>lt", name = "⚠️ LSP [T]rouble" },
-  { "<leader>lM", desc = "⬆️ Go to [P]revious diagnostic message" },
-  { "<leader>lm", desc = "⬇️ Go to [N]ext diagnostic message" },
-  { "<leader>ld", desc = "🔍 Show [D]iagnostic messages" },
-  { "<leader>lq", desc = "📋 Open diagnostic [Q]uickfix list" },
+
+  { "<leader>ld", name = "🩺 [D]iagnostics" },
+  { "<leader>ldd", desc = "Diagnostics float" },
+  { "<leader>ldp", desc = "Diagnostics prev" },
+  { "<leader>ldn", desc = "Diagnostics next" },
+  { "<leader>ldq", desc = "Diagnostics quickfix" },
+  { "<leader>ldl", desc = "Diagnostics loclist" },
 
   -- Custom
   {

@@ -29,4 +29,46 @@ vim.keymap.set('n', '<C-k>', function()
   end
 end, { desc = 'Move focus up (or hover)' })
 
+vim.keymap.set('n', '<leader>ll', function()
+  require('cargolreactiu.devpanel').open()
+end, { desc = 'Dev panel' })
+
+-- Dev panel helpers under <leader>l…
+vim.keymap.set('n', '<leader>lm', '<cmd>Mason<CR>', { desc = 'Mason' })
+vim.keymap.set('n', '<leader>li', '<cmd>LspInfo<CR>', { desc = 'LspInfo' })
+vim.keymap.set('n', '<leader>lR', '<cmd>LspRestart<CR>', { desc = 'LspRestart' })
+
+-- Diagnostics (core)
+vim.keymap.set('n', '<leader>ldd', function()
+  vim.diagnostic.open_float(nil, { focus = false })
+end, { desc = 'Diagnostics float' })
+vim.keymap.set('n', '<leader>ldp', vim.diagnostic.goto_prev, { desc = 'Diagnostics prev' })
+vim.keymap.set('n', '<leader>ldn', vim.diagnostic.goto_next, { desc = 'Diagnostics next' })
+vim.keymap.set('n', '<leader>ldq', function()
+  vim.diagnostic.setqflist()
+  vim.cmd('copen')
+end, { desc = 'Diagnostics quickfix' })
+vim.keymap.set('n', '<leader>ldl', function()
+  vim.diagnostic.setloclist()
+  vim.cmd('lopen')
+end, { desc = 'Diagnostics loclist' })
+
+-- Trouble shortcuts (optional, plugin lazy-loads on :Trouble)
+vim.keymap.set('n', '<leader>ltd', '<cmd>Trouble diagnostics toggle<CR>', { desc = 'Trouble diagnostics' })
+vim.keymap.set(
+  'n',
+  '<leader>ltD',
+  '<cmd>Trouble diagnostics toggle filter.buf=0<CR>',
+  { desc = 'Trouble buffer diagnostics' }
+)
+vim.keymap.set('n', '<leader>lts', '<cmd>Trouble symbols toggle focus=false<CR>', { desc = 'Trouble symbols' })
+vim.keymap.set(
+  'n',
+  '<leader>ltl',
+  '<cmd>Trouble lsp toggle focus=false win.position=right<CR>',
+  { desc = 'Trouble LSP list' }
+)
+vim.keymap.set('n', '<leader>ltQ', '<cmd>Trouble qflist toggle<CR>', { desc = 'Trouble quickfix' })
+vim.keymap.set('n', '<leader>ltL', '<cmd>Trouble loclist toggle<CR>', { desc = 'Trouble loclist' })
+
 vim.keymap.set('n', '<leader>a', ':Alpha<CR>', { desc = 'Open dashboard', silent = true })

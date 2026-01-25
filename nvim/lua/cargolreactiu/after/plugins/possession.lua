@@ -61,8 +61,6 @@ require('possession').setup {
     symbols_outline = true,
     outline = true,
     tabby = true,
-    dap = true,
-    dapui = true,
     neotest = true,
     delete_buffers = false,
     stop_lsp_clients = false,

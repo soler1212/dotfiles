@@ -24,7 +24,7 @@ return {
       "hrsh7th/nvim-cmp",
     },
     -- INFO: A partir d'aqui instala els ajudants per instalar automaticament els LSP mes info https://lsp-zero.netlify.app/docs/language-server-configuration.html#automatic-installs
-    -- Portable package manager for Neovim that runs everywhere Neovim runs. Easily install and manage LSP servers, DAP servers, linters, and formatters.
+    -- Portable package manager for Neovim that runs everywhere Neovim runs. Easily install and manage LSP servers, linters, and formatters.
     -- https://github.com/williamboman/mason.nvim
     {
       "williamboman/mason.nvim",
