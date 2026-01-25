@@ -18,9 +18,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local opts = { buffer = event.buf }
 
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, vim.tbl_extend('force', opts, { desc = 'LSP hover' }))
-    -- Many terminals send <C-k> for "digraph" in insert mode; map it to LSP help instead.
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.hover, vim.tbl_extend('force', opts, { desc = 'LSP hover' }))
-    vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, vim.tbl_extend('force', opts, { desc = 'LSP signature help' }))
 
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'LSP definition' }))
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = 'LSP declaration' }))

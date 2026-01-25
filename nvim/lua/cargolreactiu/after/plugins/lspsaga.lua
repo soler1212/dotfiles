@@ -1,5 +1,5 @@
 require('lspsaga').setup({
-  ightbulb = {
+  lightbulb = {
     enable = true,       -- Manté activat el lightbulb
     sign = false,        -- Deshabilita el lightbulb de la sign column (part esquerra)
     virtual_text = true, -- Opcional: pots activar el text virtual si vols

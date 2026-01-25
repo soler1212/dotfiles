@@ -11,5 +11,16 @@ vim.keymap.set('n', '<C-s>', ':w<cr>') -- Guardar file
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', function()
+  local up = vim.fn.winnr('k')
+  if up ~= 0 then
+    vim.cmd('wincmd k')
+    return
+  end
+
+  if #vim.lsp.get_clients({ bufnr = 0 }) > 0 then
+    vim.lsp.buf.hover()
+  end
+end, { desc = 'Move focus up (or hover)' })
 
 vim.keymap.set('n', '<leader>a', ':Alpha<CR>', { desc = 'Open dashboard', silent = true })
