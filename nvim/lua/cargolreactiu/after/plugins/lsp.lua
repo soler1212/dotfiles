@@ -106,6 +106,7 @@ cmp.setup({
 -- INFO: A partir d'aqui instala els ajudants per instalar automaticament els LSP mes info https://lsp-zero.netlify.app/docs/language-server-configuration.html#automatic-installs
 local mason_servers = {
   'eslint', -- LSP para ESLint (JavaScript, TypeScript)
+  'cssls', -- LSP for CSS/SCSS/Less
   'lua_ls', -- LSP para Lua
   'pyright', -- LSP para Python
   'ts_ls', -- LSP para TypeScript

@@ -66,6 +66,7 @@ Auto-installed via Mason:
 - `lua_ls` - Lua
 - `ts_ls` - TypeScript
 - `eslint` - JavaScript/TypeScript
+- `cssls` - CSS/SCSS/Less
 - `pyright` - Python
 
 ## File Structure
