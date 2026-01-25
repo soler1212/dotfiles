@@ -10,6 +10,14 @@ return {
     {
       "hrsh7th/cmp-nvim-lsp",
     },
+    -- Buffer completions
+    {
+      "hrsh7th/cmp-buffer",
+    },
+    -- Path completions
+    {
+      "hrsh7th/cmp-path",
+    },
     -- A completion plugin for neovim coded in Lua.
     -- https://github.com/hrsh7th/nvim-cmp
     {

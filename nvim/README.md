@@ -32,6 +32,7 @@ neovim ripgrep fd-find nodejs npm
 
 ### LSP
 - `K` - Hover
+- `<C-k>` - Hover / Signature help (when LSP attached)
 - `gd` - Definition
 - `gr` - References
 - `<F2>` - Rename

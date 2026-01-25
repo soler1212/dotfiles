@@ -1,44 +1,57 @@
 -- Reserve a space in the gutter
 vim.opt.signcolumn = 'yes'
 
--- In Neovim 0.11+, `vim.lsp.config` is a callable table (supports both
--- `vim.lsp.config('pyright', {...})` and `vim.lsp.config['pyright']`).
-local has_vim_lsp_config = (type(vim.lsp.config) == 'table' or type(vim.lsp.config) == 'function')
-  and type(vim.lsp.enable) == 'function'
-
 local capabilities = vim.tbl_deep_extend(
   'force',
   vim.lsp.protocol.make_client_capabilities(),
   require('cmp_nvim_lsp').default_capabilities()
 )
 
+-- Apply defaults for all LSP configs.
+vim.lsp.config('*', { capabilities = capabilities })
+
 -- This is where you enable features that only work
 -- if there is a language server active in the file
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function(event)
-    local opts = {buffer = event.buf}
+    local opts = { buffer = event.buf }
 
-    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-    vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-    vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-    vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-    vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-    vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-    vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-    vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-    vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, vim.tbl_extend('force', opts, { desc = 'LSP hover' }))
+    -- Many terminals send <C-k> for "digraph" in insert mode; map it to LSP help instead.
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.hover, vim.tbl_extend('force', opts, { desc = 'LSP hover' }))
+    vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, vim.tbl_extend('force', opts, { desc = 'LSP signature help' }))
+
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend('force', opts, { desc = 'LSP definition' }))
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = 'LSP declaration' }))
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, vim.tbl_extend('force', opts, { desc = 'LSP implementation' }))
+    vim.keymap.set('n', 'go', vim.lsp.buf.type_definition, vim.tbl_extend('force', opts, { desc = 'LSP type definition' }))
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, vim.tbl_extend('force', opts, { desc = 'LSP references' }))
+    vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, vim.tbl_extend('force', opts, { desc = 'LSP signature help' }))
+    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, vim.tbl_extend('force', opts, { desc = 'LSP rename' }))
+    vim.keymap.set({ 'n', 'x' }, '<F3>', function() vim.lsp.buf.format({ async = true }) end,
+      vim.tbl_extend('force', opts, { desc = 'LSP format' }))
+    vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action, vim.tbl_extend('force', opts, { desc = 'LSP code action' }))
   end,
 })
 
-local function ts_root_dir(fname)
-  local startpath = vim.fs.dirname(vim.fn.fnamemodify(fname, ':p'))
-  local roots = vim.fs.find(
-    { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
-    { upward = true, path = startpath, limit = 1 }
-  )
+local ts_root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' }
+
+local function resolve_ts_root(startpath)
+  local roots = vim.fs.find(ts_root_markers, { upward = true, path = startpath, limit = 1 })
   return roots[1] and vim.fs.dirname(roots[1]) or startpath
+end
+
+-- Neovim 0.11+ form: must call `on_dir(root_dir)` to activate LSP.
+local function ts_root_dir(bufnr, on_dir)
+  local fname = vim.api.nvim_buf_get_name(bufnr)
+  if fname == '' then
+    on_dir((vim.uv or vim.loop).cwd())
+    return
+  end
+
+  local startpath = vim.fs.dirname(vim.fn.fnamemodify(fname, ':p'))
+  on_dir(resolve_ts_root(startpath))
 end
 
 -- Alternative install method
@@ -50,8 +63,17 @@ end
 local cmp = require('cmp')
 
 cmp.setup({
+  enabled = function()
+    return vim.g.cmp_enabled ~= false
+  end,
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
   sources = {
-    {name = 'nvim_lsp'},
+    { name = 'nvim_lsp' },
+    { name = 'path' },
+    { name = 'buffer' },
   },
   snippet = {
     expand = function(args)
@@ -92,34 +114,14 @@ local mason_servers = {
   'ts_ls', -- LSP para TypeScript
 }
 
-if has_vim_lsp_config then
-  vim.lsp.config('lua_ls', { capabilities = capabilities })
-  vim.lsp.config('eslint', { capabilities = capabilities }) -- Per typescript estic fent tests
-  vim.lsp.config('pyright', { capabilities = capabilities })
-  vim.lsp.config('ts_ls', { capabilities = capabilities, root_dir = ts_root_dir })
+vim.lsp.config('ts_ls', { root_dir = ts_root_dir })
 
-  -- Installed outside Mason.
-  vim.lsp.config('anakin_language_server', { capabilities = capabilities }) -- Per python estic fent tests
+-- Installed outside Mason.
+vim.lsp.config('anakin_language_server', {}) -- Per python estic fent tests
+vim.lsp.enable('anakin_language_server')
 
-  require('mason').setup({})
-  require('mason-lspconfig').setup({
-    ensure_installed = mason_servers,
-    automatic_enable = mason_servers,
-  })
-
-  vim.lsp.enable('anakin_language_server')
-else
-  -- Fallback for older Nvim versions (pre-0.11).
-  require('mason').setup({})
-
-  local ok, mason_lspconfig = pcall(require, 'mason-lspconfig')
-  if ok then
-    mason_lspconfig.setup({ ensure_installed = mason_servers })
-  end
-
-  require('lspconfig').lua_ls.setup({ capabilities = capabilities })
-  require('lspconfig').eslint.setup({ capabilities = capabilities })
-  require('lspconfig').pyright.setup({ capabilities = capabilities })
-  require('lspconfig').ts_ls.setup({ capabilities = capabilities, root_dir = ts_root_dir })
-  require('lspconfig').anakin_language_server.setup({ capabilities = capabilities })
-end
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = mason_servers,
+  automatic_enable = mason_servers,
+})
