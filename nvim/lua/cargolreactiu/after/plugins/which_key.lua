@@ -45,6 +45,13 @@ wk.add({
   { "<leader>gtl", desc = "🏷️ Toggle [L]ine blame annotations" },
   { "<leader>gtx", desc = "🗑️ Toggle deleted te[X]t" },
 
+  -- AI Interfaces (Leader + i)
+  { "<leader>i", name = "🧠 [I]ntelligence / AI" },
+  { "<leader>ic", desc = "🚀 [C]odex CLI" },
+  { "<leader>ig", desc = "♊ [G]emini CLI" },
+  { "<leader>ia", desc = "🤖 [A]I Claude CLI" },
+
+
   -- Mark keymaps
   { "<leader>m", name = "🔖 [M]ark Management" },
   { "<leader>mm", desc = "📌 [M]ark Toggle" },
