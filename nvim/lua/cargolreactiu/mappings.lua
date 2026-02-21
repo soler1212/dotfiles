@@ -72,3 +72,14 @@ vim.keymap.set('n', '<leader>ltQ', '<cmd>Trouble qflist toggle<CR>', { desc = 'T
 vim.keymap.set('n', '<leader>ltL', '<cmd>Trouble loclist toggle<CR>', { desc = 'Trouble loclist' })
 
 vim.keymap.set('n', '<leader>a', ':Alpha<CR>', { desc = 'Open dashboard', silent = true })
+
+-- [[ External Tools Mappings ]]
+
+-- LazyGit
+vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>', { noremap = true, silent = true, desc = '🚀 [G]it TUI (LazyGit)' })
+
+-- AI / Intelligence Interfaces (<leader>i)
+local opts = { noremap = true, silent = true }
+vim.keymap.set('n', '<leader>ic', '<cmd>lua _CODEX_TOGGLE()<CR>', vim.tbl_extend('force', opts, { desc = '🚀 AI Codex CLI' }))
+vim.keymap.set('n', '<leader>ig', '<cmd>lua _GEMINI_TOGGLE()<CR>', vim.tbl_extend('force', opts, { desc = '♊ AI Gemini CLI' }))
+vim.keymap.set('n', '<leader>ia', '<cmd>lua _CLAUDE_TOGGLE()<CR>', vim.tbl_extend('force', opts, { desc = '🤖 AI Claude CLI' }))

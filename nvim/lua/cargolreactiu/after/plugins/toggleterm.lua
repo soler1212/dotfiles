@@ -1,5 +1,5 @@
 -- Persistent terminal instances for AI CLIs
--- Using toggleterm.nvim with more default-like behavior
+-- This file handles the logic and persistence. Mappings are in mappings.lua
 local Terminal = require('toggleterm.terminal').Terminal
 
 -- Helper to create persistent AI terminals
@@ -16,28 +16,22 @@ local function create_ai_term(cmd_name)
   })
 end
 
--- Create instances
-local codex_term = create_ai_term("codex")
-local gemini_term = create_ai_term("gemini")
-local claude_term = create_ai_term("claude")
+-- Create instances (Global so mappings.lua can access them via _G)
+_G.codex_term = create_ai_term("codex")
+_G.gemini_term = create_ai_term("gemini")
+_G.claude_term = create_ai_term("claude")
 
 -- Toggle functions
-function _CODEX_TOGGLE() codex_term:toggle() end
-function _GEMINI_TOGGLE() gemini_term:toggle() end
-function _CLAUDE_TOGGLE() claude_term:toggle() end
+function _G._CODEX_TOGGLE() _G.codex_term:toggle() end
+function _G._GEMINI_TOGGLE() _G.gemini_term:toggle() end
+function _G._CLAUDE_TOGGLE() _G.claude_term:toggle() end
 
--- Keymappings <leader>i
-local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<leader>ic', '<cmd>lua _CODEX_TOGGLE()<CR>', vim.tbl_extend('force', opts, { desc = 'Open Codex CLI' }))
-vim.keymap.set('n', '<leader>ig', '<cmd>lua _GEMINI_TOGGLE()<CR>', vim.tbl_extend('force', opts, { desc = 'Open Gemini CLI' }))
-vim.keymap.set('n', '<leader>ia', '<cmd>lua _CLAUDE_TOGGLE()<CR>', vim.tbl_extend('force', opts, { desc = 'Open Claude CLI' }))
-
--- Terminal-specific keymaps
+-- Terminal-specific keymaps (Internal behavior)
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
-  -- 1. Si estás en modo terminal, ESC te saca al modo normal
+  -- Escape to normal mode
   vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
-  -- 2. SI ESTÁS EN MODO NORMAL, ESC TE VUELVE A METER AL MODO TERMINAL (INSERTAR)
+  -- Escape in normal mode back to insert
   vim.keymap.set('n', '<Esc>', [[i]], opts)
 
   -- Navigation mappings while in terminal
