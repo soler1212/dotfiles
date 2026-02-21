@@ -31,6 +31,7 @@ wk.add({
 
   -- Git keymaps
   { "<leader>g", name = "⚙️ [G]it Manage" },
+  { "<leader>gg", desc = "🚀 [G]it TUI (LazyGit)" },
   { "<leader>gt", name = "⚙️ [T]oggle Git Features" },
   { "<leader>gs", desc = "✅ [S]tage current hunk" },
   { "<leader>gr", desc = "↩️ [R]eset current hunk" },
