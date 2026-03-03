@@ -23,6 +23,7 @@ set $right l
 #########################
 # Fix GTK+ applications slow start
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec ~/.config/sway/scripts/portal-setup.sh
 
 # Core services
 exec_always {
