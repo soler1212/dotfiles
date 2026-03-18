@@ -88,14 +88,6 @@ require('possession').setup {
   },
 }
 
--- Mostra el nom de la sessió actual al lualine
-local function session_name()
-  return require('possession.session').get_session_name() or ''
-end
-require("lualine").setup {
-  sections = { lualine_a = { session_name } }
-}
-
 -- Keymaps per gestionar sessions
 vim.keymap.set('n', '<leader>sw', '<cmd>:PossessionSave<cr>', { desc = 'Save current session' })
 vim.keymap.set('n', '<leader>sCw', '<cmd>:PossessionSaveCwd<cr>', { desc = 'Save CWD session' })

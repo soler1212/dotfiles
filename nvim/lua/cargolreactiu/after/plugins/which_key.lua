@@ -10,13 +10,13 @@ local opts = {
 
 -- Define custom keybindings
 wk.add({
-  { "<leader>a", { desc = "Dashboard", cmd = "<cmd>Alpha<CR>" } },
+  { "<leader>a", "<cmd>Alpha<CR>", desc = "Dashboard" },
 
-  { "<leader>p", name = "🧰 [P]alette Commands" },
-  { "<leader>ps", name = "Grep [S]earch File" },
+  { "<leader>p", group = "🧰 [P]alette Commands" },
+  { "<leader>ps", group = "Grep [S]earch File" },
   -- File keymaps
-  { "<leader>f", name = "📁 Manage [F]iles" },
-  { "<leader>fo", name = "🔄 [O]ther File Actions" },
+  { "<leader>f", group = "📁 Manage [F]iles" },
+  { "<leader>fo", group = "🔄 [O]ther File Actions" },
 
   -- Buffer keymaps
   { "<leader>b", group = "📑 Manage [B]uffers" },
@@ -26,13 +26,13 @@ wk.add({
   { "<leader>bo", group = "📊 [O]rder Buffers" },
 
   -- Session keymaps
-  { "<leader>s", name = "💾 [S]ession Management" },
-  { "<leader>sd", name = "🗑️ [D]elete Sessions" },
+  { "<leader>s", group = "💾 [S]ession Management" },
+  { "<leader>sd", group = "🗑️ [D]elete Sessions" },
 
   -- Git keymaps
-  { "<leader>g", name = "⚙️ [G]it Manage" },
+  { "<leader>g", group = "⚙️ [G]it Manage" },
   { "<leader>gg", desc = "🚀 [G]it TUI (LazyGit)" },
-  { "<leader>gt", name = "⚙️ [T]oggle Git Features" },
+  { "<leader>gt", group = "⚙️ [T]oggle Git Features" },
   { "<leader>gs", desc = "✅ [S]tage current hunk" },
   { "<leader>gr", desc = "↩️ [R]eset current hunk" },
   { "<leader>gS", desc = "📦 [S]tage all changes in buffer" },
@@ -46,38 +46,38 @@ wk.add({
   { "<leader>gtx", desc = "🗑️ Toggle deleted te[X]t" },
 
   -- AI Interfaces (Leader + i)
-  { "<leader>i", name = "🧠 [I]ntelligence / AI" },
+  { "<leader>i", group = "🧠 [I]ntelligence / AI" },
   { "<leader>ic", desc = "🚀 [C]odex CLI" },
   { "<leader>ig", desc = "♊ [G]emini CLI" },
   { "<leader>ia", desc = "🤖 [A]I Claude CLI" },
 
 
   -- Mark keymaps
-  { "<leader>m", name = "🔖 [M]ark Management" },
+  { "<leader>m", group = "🔖 [M]ark Management" },
   { "<leader>mm", desc = "📌 [M]ark Toggle" },
   { "<leader>mc", desc = "🧹 [C]lear all marks in buffer" },
   { "<leader>mp", desc = "👁️ [P]review mark content" },
   { "<leader>md", desc = "🗑️ [D]elete a letter mark" },
   { "<leader>ms", desc = "✏️ [S]et a letter mark" },
-  { "<leader>ml", name = "📋 [L]ist Marks" },
+  { "<leader>ml", group = "📋 [L]ist Marks" },
   { "<leader>mt", desc = "📝 [T]odo Comments" },
   { "<leader>mlb", desc = "📑 List [B]uffer marks" },
   { "<leader>mla", desc = "🌐 List [A]ll marks" },
 
   -- Tabs keymaps
-  { "<leader>t", name = "📑 [T]ab Management" },
+  { "<leader>t", group = "📑 [T]ab Management" },
 
   -- Dev panel (Leader + l)
-  { "<leader>l", name = "🧰 [L] Dev Panel" },
+  { "<leader>l", group = "🧰 [L] Dev Panel" },
   { "<leader>ll", desc = "Open Dev panel" },
   { "<leader>lm", desc = "Mason" },
   { "<leader>li", desc = "LspInfo" },
   { "<leader>lR", desc = "LspRestart" },
 
-  { "<leader>ls", name = "💡 LSP [S]aga" },
-  { "<leader>lt", name = "⚠️ LSP [T]rouble" },
+  { "<leader>ls", group = "💡 LSP [S]aga" },
+  { "<leader>lt", group = "⚠️ LSP [T]rouble" },
 
-  { "<leader>ld", name = "🩺 [D]iagnostics" },
+  { "<leader>ld", group = "🩺 [D]iagnostics" },
   { "<leader>ldd", desc = "Diagnostics float" },
   { "<leader>ldp", desc = "Diagnostics prev" },
   { "<leader>ldn", desc = "Diagnostics next" },
