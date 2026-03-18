@@ -78,15 +78,17 @@ if vim.fn.executable("node") == 0 then
   end
 end
 
+-- Ensure Mason's bin directory is on PATH for vim.lsp.enable to work properly
+local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+if not string.find(vim.env.PATH or "", mason_bin, 1, true) then
+  vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")
+end
+
 local is_android = vim.fn.isdirectory('/data') == 1
 if is_android then vim.opt.mouse = "v" else vim.opt.mouse = "a" end -- Enable scroll for android
 
 -- Globals --------------------------------------------------------------------
 
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
-vim.g.mapleader = " " -- Set leader key.
-vim.g.maplocalleader = "," -- Set default local leader key.
 vim.g.big_file = { size = 1024 * 100, lines = 10000 } -- For files bigger than this, disable 'treesitter' (+100kb).
 
 -- The next globals are toggleable with <space + l + u>
