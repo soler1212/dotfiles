@@ -2,6 +2,8 @@
 -- https://github.com/jedrzejboczar/possession.nvim
 return {
   "jedrzejboczar/possession.nvim",
-  dependencies = { 'nvim-lua/plenary.nvim' }
-  -- cmd = "SessionManager",
+  dependencies = { 'nvim-lua/plenary.nvim' },
+  config = function()
+    require("cargolreactiu.after.plugins.possession")
+  end,
 }

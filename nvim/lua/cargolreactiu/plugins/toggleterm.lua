@@ -22,5 +22,6 @@ return {
         winblend = 3,
       },
     })
+    require("cargolreactiu.after.plugins.toggleterm")
   end
 }

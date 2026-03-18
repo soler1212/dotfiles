@@ -2,7 +2,10 @@
 return { {
   'nvim-telescope/telescope.nvim',
   tag = '0.1.8',
-  dependencies = { 'nvim-lua/plenary.nvim' }
+  dependencies = { 'nvim-lua/plenary.nvim' },
+  config = function()
+    require("cargolreactiu.after.plugins.telescope")
+  end,
 },
 
   -- It sets vim.ui.select to telescope. That means for example that neovim core stuff can fill the telescope picker.

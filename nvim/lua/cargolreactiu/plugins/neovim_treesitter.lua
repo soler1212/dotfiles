@@ -6,8 +6,8 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
-  opts = {
-    signs = true,
-  },
+  config = function()
+    require("cargolreactiu.after.plugins.treesitter")
+  end,
 }
 

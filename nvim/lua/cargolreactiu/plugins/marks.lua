@@ -3,5 +3,7 @@
 return {
   "chentoast/marks.nvim",
   event = "VeryLazy",
-  opts = {},
+  config = function()
+    require("cargolreactiu.after.plugins.marks")
+  end
 }

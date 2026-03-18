@@ -25,7 +25,10 @@ return {
           })
         end,
       }
-    }
+    },
+    config = function()
+      require("cargolreactiu.after.plugins.neotree")
+    end,
   }
 }
 

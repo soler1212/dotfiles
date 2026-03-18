@@ -2,5 +2,7 @@ return {
   "0xstepit/flow.nvim",
   lazy = false,
   priority = 1000,
-  tag = "vX.0.0",
+  config = function()
+    require("cargolreactiu.after.ui.colorscheme")
+  end,
 }

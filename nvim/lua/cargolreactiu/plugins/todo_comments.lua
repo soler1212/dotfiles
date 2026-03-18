@@ -3,4 +3,7 @@
 return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
+  config = function()
+    require("cargolreactiu.after.plugins.todo_comments")
+  end,
 }

@@ -1,5 +1,8 @@
 -- Revolutionize Your Neovim Tab Workflow: Introducing Enhanced Tab Scoping!
 -- https://github.com/tiagovla/scope.nvim
 return {
-  "tiagovla/scope.nvim"
+  "tiagovla/scope.nvim",
+  config = function()
+    require("cargolreactiu.after.plugins.scope")
+  end,
 }

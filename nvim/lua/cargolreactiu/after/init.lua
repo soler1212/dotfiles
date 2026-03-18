@@ -1,23 +1,3 @@
-require(... .. ".plugins.alpha")
-require(... .. ".plugins.lsp")
-require(... .. ".plugins.lspsaga")
-require(... .. ".plugins.telescope")
-require(... .. ".plugins.treesitter")
-require(... .. ".plugins.undotree")
-require(... .. ".plugins.neotree")
-require(... .. ".plugins.which_key")
-require(... .. ".plugins.barbar")
-require(... .. ".plugins.possession")
-require(... .. ".plugins.gitsigns")
-require(... .. ".plugins.marks")
-require(... .. ".plugins.nvim_spectre")
-require(... .. ".plugins.trouble")
-require(... .. ".plugins.todo_comments")
-require(... .. ".plugins.toggleterm")
-require(... .. ".plugins.nvim_ts_autotag")
-require(... .. ".plugins.scope")
-
-
--- INFO: ui
-require(... .. ".ui.lualine")
-require(... .. ".ui.colorscheme")
+-- This file used to manually require all plugin configs.
+-- Now, plugin configs are loaded via the 'config' function in their respective plugin specs
+-- to allow for better lazy loading and organization.

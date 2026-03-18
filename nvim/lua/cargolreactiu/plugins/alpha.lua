@@ -4,5 +4,8 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
     "nvim-lua/plenary.nvim",
-  }
+  },
+  config = function()
+    require("cargolreactiu.after.plugins.alpha")
+  end
 }

@@ -14,6 +14,9 @@ return {
       -- insert_at_start = true,
       -- …etc.
     },
+    config = function()
+      require("cargolreactiu.after.plugins.barbar")
+    end,
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
 }
