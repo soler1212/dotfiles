@@ -14,7 +14,7 @@ vim.opt.inccommand = 'split'
 -- Stables
 vim.opt.breakindent = true -- Wrap indent to match  line start.
 vim.opt.clipboard = "unnamedplus" -- Connection to the system clipboard.
-vim.opt.cmdheight = 0 -- Hide command line unless needed.
+vim.opt.cmdheight = 1 -- Hide command line unless needed.
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Options for insert mode completion.
 vim.opt.copyindent = true -- Copy the previous indentation on autoindenting.
 vim.opt.cursorline = true -- Highlight the text line of the cursor.
@@ -63,7 +63,7 @@ vim.opt.sidescrolloff = 8 -- Same but for side scrolling.
 vim.opt.selection = "old" -- Don't select the newline symbol when using <End> on visual mode.
 
 vim.opt.viewoptions:remove "curdir" -- Disable saving current directory with views.
-vim.opt.shortmess:append { s = true, I = true } -- Disable startup message.
+vim.opt.shortmess:append { s = true, I = true, c = true, W = true, F = true } -- Disable startup message and other noisy messages.
 vim.opt.backspace:append { "nostop" } -- Don't stop backspace at insert.
 vim.opt.diffopt:append { "algorithm:histogram", "linematch:60" } -- Enable linematch diff algorithm
 
