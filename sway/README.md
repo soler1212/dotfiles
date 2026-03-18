@@ -5,16 +5,54 @@
 # Core
 sway swaylock swayidle swaybg mako waybar grim slurp wl-clipboard jq
 
+# Audio (PipeWire Migration for Ubuntu 22.04)
+pipewire pipewire-pulse wireplumber libspa-0.2-bluetooth pavucontrol
+# (Wait to disable pulseaudio: systemctl --user --now disable pulseaudio.service pulseaudio.socket)
+
 # Essential tools
 brightnessctl playerctl pamixer blueman network-manager-gnome polkit-gnome
-wezterm ulauncher wofi pavucontrol
-
-# Fonts & themes
-fonts-jetbrains-mono papirus-icon-theme
-
-# Optional
-clipman grimshot fcitx5
+wezterm ulauncher wofi
 ```
+
+## Audio & Recording (OBS)
+
+### PipeWire Migration (Required for Wayland/Sway)
+To enable high-quality Bluetooth audio (Marshall Headphones) and OBS screen/audio capture, the system was migrated from PulseAudio to PipeWire.
+
+1. **Installation:**
+   ```bash
+   sudo apt update && sudo apt install pipewire-pulse wireplumber libspa-0.2-bluetooth pavucontrol -y
+   ```
+
+2. **Configuration:**
+   ```bash
+   # Disable PulseAudio
+   systemctl --user --now disable pulseaudio.service pulseaudio.socket
+   systemctl --user --now mask pulseaudio.service pulseaudio.socket
+
+   # Enable PipeWire
+   systemctl --user --now enable pipewire pipewire-pulse wireplumber
+   ```
+
+3. **Validation:**
+   Verify the setup with `pactl info`. It should report: `Server Name: PulseAudio (on PipeWire 0.3.x)`.
+
+### OBS Integration & Screen Sharing
+OBS requires a working XDG Desktop Portal to capture audio and video on Wayland.
+- **Portal Script:** `~/.config/sway/scripts/portal-setup.sh`
+- **Execution:** This script is called in `sway/config` on startup. It ensures `xdg-desktop-portal-wlr` is prioritized.
+- **OBS Source:** Use **"Screen Capture (PipeWire)"** and **"Audio Output Capture (PipeWire)"** for best results.
+
+### High Quality Audio & Microphone (Bluetooth Limitations)
+If using high-end Bluetooth headphones like **Marshall**, you may face quality issues when using the microphone.
+
+1. **A2DP Profile (High Quality):** Use this for output only (listening). It provides the best sound.
+2. **HSP/HFP Profile (Low Quality):** This is for bidirectional audio (microphone + output). Bluetooth bandwidth limitations cause a drastic drop in quality (8-16kHz).
+
+**Recommended OBS Setup for Quality:**
+- **Output:** Set Marshall to **A2DP** in `pavucontrol`.
+- **Input (Mic):** Avoid using the Marshall's built-in Bluetooth mic. Instead, use an **External USB Mic** or the **Laptop Internal Mic**. 
+- **Wired Option:** Use a 3.5mm jack cable with the Marshall to get high quality in both input and output simultaneously.
 
 ## Key Bindings
 
@@ -66,16 +104,17 @@ clipman grimshot fcitx5
 ~/.config/sway/scripts/
 ├── display-setup.sh      # Auto display detection
 ├── iterate-wallpaper.sh  # Simple wallpaper rotation
+├── portal-setup.sh       # Resets XDG Portals for OBS/Screen Sharing
 └── wallpaper-manager.sh  # Advanced wallpaper management
 ```
 
 ### Usage
 ```bash
+# Portal Setup (Run automatically in sway config)
+./portal-setup.sh
+
 # Wallpaper
 ./wallpaper-manager.sh next|random|time|daemon
-
-# Display auto-config
-./display-setup.sh monitor  # Run once on login
 ```
 
 ## File Structure
