@@ -2,19 +2,112 @@
 $fg-color: #{"@theme_fg_color"};
 $bg-color: #{"@theme_bg_color"};
 
-window.Bar {
+// Waybar-like colors (Catppuccin Mocha)
+$base: rgba(24, 24, 37, 0.8);
+$text: #cdd6f4;
+$subtext0: #bac2de;
+$surface0: rgba(69, 71, 90, 0.6);
+$blue: #89b4fa;
+$green: #a6e3a1;
+$mauve: #cba6f7;
+$red: #f38ba8;
+$crust: #1e1e2e;
+
+window.Bar, window.Bar2 {
   background: transparent;
-  color: $fg-color;
-  font-weight: bold;
+  color: $text;
+  font-family: "JetBrains Mono", "Noto Sans", sans-serif;
+  font-size: 14px;
 
   > centerbox {
-    background: $bg-color;
-    border-radius: 10px;
-    margin: 8px;
+    background: $base;
+    padding: 0 8px;
+    min-height: 32px;
   }
 
   button {
-    border-radius: 8px;
-    margin: 2px;
+    all: unset;
+    border-radius: 4px;
+    margin: 4px 2px;
+    padding: 0 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(69, 71, 90, 0.8);
+    }
   }
+}
+
+.workspaces {
+  button {
+    background: $surface0;
+    color: $subtext0;
+    margin: 4px 2px;
+
+    &.focused {
+      background: $blue;
+      color: $crust;
+    }
+
+    &.urgent {
+      background: $red;
+      color: $crust;
+      animation: pulse 1s infinite;
+    }
+
+    &:hover {
+      background: rgba(137, 180, 250, 0.3);
+      color: $blue;
+    }
+  }
+}
+
+@keyframes blink {
+  50% { opacity: 0.5; }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.active-window {
+  padding: 0 8px;
+}
+
+.pulseaudio {
+  color: $blue;
+}
+
+.network {
+  color: $green;
+  padding: 0 8px;
+}
+
+.cpu {
+  color: $mauve;
+  background: rgba(203, 166, 247, 0.1);
+  border-radius: 4px;
+  padding: 0 8px;
+  margin: 4px 2px;
+}
+
+.memory {
+  color: $red;
+  background: rgba(243, 139, 168, 0.1);
+  border-radius: 4px;
+  padding: 0 8px;
+  margin: 4px 2px;
+}
+
+.battery {
+  color: $green;
+  padding: 0 8px;
+}
+
+.clock {
+  color: $blue;
+  font-weight: bold;
+  padding: 0 8px;
 }
