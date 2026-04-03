@@ -12,31 +12,23 @@ end)
 
 -- INFO: https://github.com/nvim-telescope/telescope-ui-select.nvim
 require("telescope").setup {
-pickers = {
-      colorscheme = {
-        enable_preview = true,     -- Enables preview for colorschemes
-      }
-    }, 
+  defaults = {
+    layout_strategy = 'horizontal',
+    layout_config = {
+      horizontal = {
+        preview_width = 0.55,
+      },
+    },
+  },
+  pickers = {
+    colorscheme = {
+      enable_preview = true,
+    }
+  },
   extensions = {
     ["ui-select"] = {
-    require("telescope.themes").get_dropdown {
-      -- even more opts
+      require("telescope.themes").get_dropdown {}
     }
-
-    -- pseudo code / specification for writing custom displays, like the one
-    -- for "codeactions"
-    -- specific_opts = {
-    --   [kind] = {
-    --     make_indexed = function(items) -> indexed_items, width,
-    --     make_displayer = function(widths) -> displayer
-    --     make_display = function(displayer) -> function(e)
-    --     make_ordinal = function(e) -> string
-    --   },
-    --   -- for example to disable the custom builtin "codeactions" display
-    --      do the following
-    --   codeactions = false,
-    -- }
-  }
   }
 }
 -- To get ui-select loaded and working with telescope, you need to call

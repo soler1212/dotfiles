@@ -56,7 +56,7 @@ alpha.setup(dashboard.config)
 -- Carregar l'última sessió automàticament si s'obre Neovim sense arguments i no estem en un directori git
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    local stats = vim.loop.fs_stat(vim.fn.getcwd() .. "/.git")
+    local stats = vim.uv.fs_stat(vim.fn.getcwd() .. "/.git")
     if vim.fn.argc() == 0 and not stats and not vim.fn.exists('$GIT_DIR') then
       require("alpha").start()
     end

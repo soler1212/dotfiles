@@ -65,7 +65,7 @@ end
 local function ts_root_dir(bufnr, on_dir)
   local fname = vim.api.nvim_buf_get_name(bufnr)
   if fname == '' then
-    on_dir((vim.uv or vim.loop).cwd())
+    on_dir(vim.uv.cwd())
     return
   end
 
