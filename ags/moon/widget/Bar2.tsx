@@ -11,6 +11,7 @@ import AstalNetwork from "gi://AstalNetwork"
 import AstalTray from "gi://AstalTray"
 import AstalMpris from "gi://AstalMpris"
 import AstalApps from "gi://AstalApps"
+import { useNetwork } from "../hooks/useNetwork"
 
 // Workspaces for Sway
 function Workspaces() {
@@ -57,7 +58,6 @@ function Workspaces() {
             class={item.focused ? "focused" : item.urgent ? "urgent" : ""}
             onClicked={() => execAsync(`swaymsg workspace ${item.name}`)}
           >
-            hola
             <label label={item.focused ? icons.focused : item.urgent ? icons.urgent : item.name} />
           </button>
 
@@ -139,58 +139,55 @@ function Memory() {
   )
 }
 
-// Battery
-// function Battery() {
-//   const capacity = createPoll("", 5000, "cat /sys/class/power_supply/BAT0/capacity", (out) => out.trim())
-//   const status = createPoll("", 5000, "cat /sys/class/power_supply/BAT0/status", (out) => out.trim())
-//
-//   const labelValue = createComputed(() => {
-//     const bat = capacity.get()
-//     const stat = status.get()
-//     const icon = stat === "Charging" ? "󰂄" : "󰁹"
-//     return `${bat}% ${icon}`
-//   })
-//
-//   return (
-//     <box class="battery">
-//       <label label={labelValue} />
-//     </box>
-//   )
-// }
-//
-// Audio (Pulseaudio/Wireplumber)
-function Audio() {
-  const volume = createPoll("", 500, "wpctl get-volume @DEFAULT_AUDIO_SINK@", (out) => {
-    const match = out.match(/Volume: ([\d.]+)/)
-    if (!match) return "0% 󰕾"
-    const vol = Math.round(parseFloat(match[1]) * 100)
-    const muted = out.includes("[MUTED]")
-    return muted ? "󰝟 Muted" : `${vol}% 󰕾`
-  })
-
-  return (
-    <button class="pulseaudio" onClicked={() => execAsync("pavucontrol")}>
-      <label label={volume} />
-    </button>
-  )
-}
 
 // Network
-function Network() {
-  const connection = createPoll("", 5000, "nmcli -t -f active,ssid dev wifi", (out) => {
-    const active = out.split("\n").find(line => line.startsWith("yes"))
-    const ssid = active ? active.split(":")[1] : "Disconnected"
-    return ssid === "Disconnected" ? "Disconnected 󰤭" : `${ssid} 󰤨`
-  })
-
-  return (
-    <box class="network">
-      <label label={connection} />
-    </box>
-  )
+function CurrentNetworkInfo() {
+  // 1. "Buscando..." es el valor inicial
+  // 2. 5000 es el intervalo en ms
+  // 3. La función ejecuta el comando y procesa el string
+  // const network = createPoll(
+  //   "Buscant... 󰤫",
+  //   5000,
+  //   "nmcli -t -f IN-USE,SSID,RATE,SIGNAL dev wifi",
+  //   (out) => {
+  //     try {
+  //       /*
+  //         El retorn de nmlci és(on * és la xarxa activa):
+  //           :DIGIFIBRA-Kb2F:130 Mbit/s:100
+  //            :MIWIFI_SDzf_2G:260 Mbit/s:100
+  //            ::540 Mbit/s:100
+  //           *:MIWIFI_SDzf_5G:540 Mbit/s:74
+  //            :vodafone4558_5G:540 Mbit/s:59
+  //            :DIGIFIBRA-PLUS-Kb2F:270 Mbit/s:19
+  //       */
+  //       const active = out.split("\n").find(line => line.startsWith("*"))
+  //
+  //       if (!active) return "Desconectado 󰤭"
+  //
+  //       const [_, ssid, rate, signal] = active.split(":")
+  //       const s = parseInt(signal)
+  //
+  //       // Iconos dinámicos según calidad
+  //       const icon = s > 80 ? "󰤨" : s > 60 ? "󰤥" : s > 40 ? "󰤢" : "󰤟"
+  //
+  //       // Retornamos el string formateado para la label
+  //       return `${ssid}  󰓅 ${rate}  ${icon} ${s}%`
+  //     } catch (e) {
+  //       return "Error de Red 󰤭"
+  //     }
+  //   })
+  //
+  // return (
+  //   <box>
+  //     <label
+  //       label={network}
+  //     />
+  //   </box>
+  // )
 }
 
 function Wireless() {
+  const { getNetworkIcon, getActiveNetworkData } = useNetwork();
   const network = AstalNetwork.get_default()
   const wifi = createBinding(network, "wifi")
 
@@ -209,15 +206,26 @@ function Wireless() {
     }
   }
 
+
+  const accessorTest = getActiveNetworkData();
+
+
+
+
   return (
     <box visible={wifi(Boolean)}>
       <With value={wifi}>
         {(wifi) =>
           wifi && (
             <menubutton>
-              <image iconName={createBinding(wifi, "iconName")} />
+              <With value={accessorTest}>
+                {(value) => (value.icon)}
+              </With>
               <popover>
                 <box orientation={Gtk.Orientation.VERTICAL}>
+                  <box>
+                    <CurrentNetworkInfo />
+                  </box>
                   <For each={createBinding(wifi, "accessPoints")(sorted)}>
                     {(ap: AstalNetwork.AccessPoint) => (
                       <button onClicked={() => connect(ap)}>
@@ -237,6 +245,7 @@ function Wireless() {
                   </For>
                 </box>
               </popover>
+
             </menubutton>
           )
         }
@@ -439,16 +448,16 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
           <ActiveWindow />
         </box>
         <box $type="end" spacing={4}>
-          <Tray/>
+          <Tray />
           <AudioOutput />
-<Wireless />
-<Mpris/>
-       <Clock /> 
-      {/* <Audio /> */}
-      {/* <Network /> */}
-      {/* <CPU /> */}
-      {/* <Memory /> */}
-      <Battery />
+          <Wireless />
+          <Mpris />
+          <Clock />
+          {/* <Audio /> */}
+          {/* <Network /> */}
+          {/* <CPU /> */}
+          {/* <Memory /> */}
+          <Battery />
         </box>
       </centerbox>
     </window>
