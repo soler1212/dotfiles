@@ -12,6 +12,8 @@ import AstalTray from "gi://AstalTray"
 import AstalMpris from "gi://AstalMpris"
 import AstalApps from "gi://AstalApps"
 import { useNetwork } from "../hooks/useNetwork"
+import { NetworkAccessPointListItem } from "./components/network-access-points-list-item"
+import { CurrentNetworkInfo } from "./components/current-network-info"
 
 // Workspaces for Sway
 function Workspaces() {
@@ -139,77 +141,11 @@ function Memory() {
   )
 }
 
-
-// Network
-function CurrentNetworkInfo() {
-  // 1. "Buscando..." es el valor inicial
-  // 2. 5000 es el intervalo en ms
-  // 3. La función ejecuta el comando y procesa el string
-  // const network = createPoll(
-  //   "Buscant... 󰤫",
-  //   5000,
-  //   "nmcli -t -f IN-USE,SSID,RATE,SIGNAL dev wifi",
-  //   (out) => {
-  //     try {
-  //       /*
-  //         El retorn de nmlci és(on * és la xarxa activa):
-  //           :DIGIFIBRA-Kb2F:130 Mbit/s:100
-  //            :MIWIFI_SDzf_2G:260 Mbit/s:100
-  //            ::540 Mbit/s:100
-  //           *:MIWIFI_SDzf_5G:540 Mbit/s:74
-  //            :vodafone4558_5G:540 Mbit/s:59
-  //            :DIGIFIBRA-PLUS-Kb2F:270 Mbit/s:19
-  //       */
-  //       const active = out.split("\n").find(line => line.startsWith("*"))
-  //
-  //       if (!active) return "Desconectado 󰤭"
-  //
-  //       const [_, ssid, rate, signal] = active.split(":")
-  //       const s = parseInt(signal)
-  //
-  //       // Iconos dinámicos según calidad
-  //       const icon = s > 80 ? "󰤨" : s > 60 ? "󰤥" : s > 40 ? "󰤢" : "󰤟"
-  //
-  //       // Retornamos el string formateado para la label
-  //       return `${ssid}  󰓅 ${rate}  ${icon} ${s}%`
-  //     } catch (e) {
-  //       return "Error de Red 󰤭"
-  //     }
-  //   })
-  //
-  // return (
-  //   <box>
-  //     <label
-  //       label={network}
-  //     />
-  //   </box>
-  // )
-}
-
 function Wireless() {
-  const { getNetworkIcon, getActiveNetworkData } = useNetwork();
+  const { getActiveNetworkData, sortedAccessPoints } = useNetwork();
   const network = AstalNetwork.get_default()
   const wifi = createBinding(network, "wifi")
-
-  const sorted = (arr: Array<AstalNetwork.AccessPoint>) => {
-    return arr.filter((ap) => !!ap.ssid).sort((a, b) => b.strength - a.strength)
-  }
-
-  async function connect(ap: AstalNetwork.AccessPoint) {
-    // connecting to ap is not yet supported
-    // https://github.com/Aylur/astal/pull/13
-    try {
-      await execAsync(`nmcli d wifi connect ${ap.bssid}`)
-    } catch (error) {
-      // you can implement a popup asking for password here
-      console.error(error)
-    }
-  }
-
-
-  const accessorTest = getActiveNetworkData();
-
-
+  const activeNetwork = getActiveNetworkData();
 
 
   return (
@@ -218,31 +154,23 @@ function Wireless() {
         {(wifi) =>
           wifi && (
             <menubutton>
-              <With value={accessorTest}>
-                {(value) => (value.icon)}
+              <With value={activeNetwork}>
+                {(value) => value.icon}
               </With>
               <popover>
                 <box orientation={Gtk.Orientation.VERTICAL}>
-                  <box>
-                    <CurrentNetworkInfo />
+                  <box orientation={Gtk.Orientation.VERTICAL}>
+                    <With value={activeNetwork}>
+                      {(value) => <CurrentNetworkInfo networkData={value} />}
+                    </With>
                   </box>
-                  <For each={createBinding(wifi, "accessPoints")(sorted)}>
-                    {(ap: AstalNetwork.AccessPoint) => (
-                      <button onClicked={() => connect(ap)}>
-                        <box spacing={4}>
-                          <image iconName={createBinding(ap, "iconName")} />
-                          <label label={createBinding(ap, "ssid")} />
-                          <image
-                            iconName="object-select-symbolic"
-                            visible={createBinding(
-                              wifi,
-                              "activeAccessPoint",
-                            )((active) => active === ap)}
-                          />
-                        </box>
-                      </button>
-                    )}
-                  </For>
+                  <box orientation={Gtk.Orientation.VERTICAL}>
+                    <For each={createBinding(wifi, "accessPoints")(sortedAccessPoints)}>
+                      {(ap: AstalNetwork.AccessPoint) => (
+                        <NetworkAccessPointListItem accessPoint={ap} wifi={wifi} />
+                      )}
+                    </For>
+                  </box>
                 </box>
               </popover>
 

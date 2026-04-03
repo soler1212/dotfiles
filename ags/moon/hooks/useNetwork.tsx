@@ -1,5 +1,5 @@
 import { createPoll } from "ags/time"
-
+import AstalNetwork from "gi://AstalNetwork"
 
 
 export interface NetworkData {
@@ -8,7 +8,6 @@ export interface NetworkData {
   rate: number;
   icon: ReturnType<getNetworkIcon>;
 }
-
 
 export const useNetwork = () => {
   const DEFAULT_MESSAGES = {
@@ -41,11 +40,12 @@ export const useNetwork = () => {
 
           const s = parseInt(signal);
           print(ssid, rate, signal)
+          const icon = getNetworkImage(s)
           return {
             ssid,
             rate,
             signal: s,
-            icon: getNetworkIcon(s)
+            icon
           }
         } catch (e) {
           return DEFAULT_MESSAGES["network-error"];
@@ -58,16 +58,16 @@ export const useNetwork = () => {
   /*
   * Retona icones dinàmics segona la qualitat de la senyal
   */
-  function getNetworkIcon(signalQuality: number) {
+  function getNetworkImage(signalQuality: number) {
     /* <image iconName={"airplane-mode-symbolic"} /> */
     /* <image iconName={"network-wired-symbolic"} /> */
     let icon = <image iconName={"network-wireless-signal-none-symbolic"} />; // Aquest no esta bé no pilla icona
     print(signalQuality)
     if (signalQuality === 100) {
-      icon = <image iconName={"network-wireless-signal-excellent"} class="excelent-connection"/>
+      icon = <image iconName={"network-wireless-signal-excellent"} class="excelent-connection" />
     }
     else if (signalQuality > 80) {
-      icon = <image iconName={"network-wireless-signal-excellent"}/>
+      icon = <image iconName={"network-wireless-signal-excellent"} />
     }
     else if (signalQuality > 60) {
       icon = <image iconName={"network-wireless-signal-good"} />
@@ -84,8 +84,28 @@ export const useNetwork = () => {
 
   }
 
+
+  const connectAccessPoint = async (ap: AstalNetwork.AccessPoint) => {
+    // connecting to ap is not yet supported
+    // https://github.com/Aylur/astal/pull/13
+    try {
+      await execAsync(`nmcli d wifi connect ${ap.bssid}`)
+    } catch (error) {
+      // you can implement a popup asking for password here
+      console.error(error)
+      //TODO: Aquesta part posar-la com a customHook a banda
+    }
+  }
+
+
+  const sortedAccessPoints = (arr: Array<AstalNetwork.AccessPoint>) => {
+    return arr.filter((ap) => !!ap.ssid).sort((a, b) => b.strength - a.strength)
+  }
+
   return {
-    getNetworkIcon,
-    getActiveNetworkData
+    getNetworkImage,
+    getActiveNetworkData,
+    connectAccessPoint,
+    sortedAccessPoints
   }
 }
