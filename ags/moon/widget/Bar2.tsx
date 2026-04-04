@@ -2,7 +2,7 @@ import app from "ags/gtk4/app"
 import { Gtk, Gdk } from "ags/gtk4"
 import { execAsync } from "ags/process"
 import { createPoll } from "ags/time"
-import { With, For, createComputed, createBinding } from "ags"
+import { Accessor, With, For, createComputed, createBinding } from "ags"
 import GLib from "gi://GLib"
 import AstalBattery from "gi://AstalBattery"
 import AstalPowerProfiles from "gi://AstalPowerProfiles"
@@ -14,6 +14,7 @@ import AstalApps from "gi://AstalApps"
 import { useNetwork } from "../hooks/useNetwork"
 import { NetworkAccessPointListItem } from "./components/network-access-points-list-item"
 import { CurrentNetworkInfo } from "./components/current-network-info"
+import { IPsInfo } from "./components/ips-info"
 
 // Workspaces for Sway
 function Workspaces() {
@@ -142,10 +143,12 @@ function Memory() {
 }
 
 function Wireless() {
-  const { getActiveNetworkData, sortedAccessPoints } = useNetwork();
+  const { getNetworkBindings, getActiveNetworkData, sortedAccessPoints } = useNetwork();
   const network = AstalNetwork.get_default()
   const wifi = createBinding(network, "wifi")
   const activeNetwork = getActiveNetworkData();
+  const { privateIps, publicIp } = getNetworkBindings();
+
 
 
   return (
@@ -154,15 +157,31 @@ function Wireless() {
         {(wifi) =>
           wifi && (
             <menubutton>
-              <With value={activeNetwork}>
-                {(value) => value.icon}
-              </With>
+              <image
+                iconName={activeNetwork.as((data) => {
+                  // Si està "Buscant..." o error, icona per defecte
+                  if (typeof data === "string") return "network-wireless-signal-none-symbolic";
+
+                  // Si tenim dades, traiem el nom de la icona de l'objecte
+                  return data.icon.iconName;
+                })}
+
+                class={activeNetwork.as((data) => {
+                  // Si hi ha error o no tenim dades, sense classe
+                  if (typeof data === "string") return "";
+
+                  // Apliquem la classe (posarà "excelent-connection" si estem al 100%)
+                  return data.icon.className;
+                })}
+              />
               <popover>
                 <box orientation={Gtk.Orientation.VERTICAL}>
                   <box orientation={Gtk.Orientation.VERTICAL}>
-                    <With value={activeNetwork}>
-                      {(value) => <CurrentNetworkInfo networkData={value} />}
-                    </With>
+                    <CurrentNetworkInfo networkData={activeNetwork} />
+                    <IPsInfo
+                      privateIps={privateIps}
+                      publicIp={publicIp}
+                    />
                   </box>
                   <box orientation={Gtk.Orientation.VERTICAL}>
                     <For each={createBinding(wifi, "accessPoints")(sortedAccessPoints)}>

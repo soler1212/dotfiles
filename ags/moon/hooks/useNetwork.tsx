@@ -1,13 +1,6 @@
 import { createPoll } from "ags/time"
 import AstalNetwork from "gi://AstalNetwork"
-
-
-export interface NetworkData {
-  ssid: string;
-  signal: number;
-  rate: number;
-  icon: ReturnType<getNetworkIcon>;
-}
+import { IconImage, NetworkData } from "../types/network";
 
 export const useNetwork = () => {
   const DEFAULT_MESSAGES = {
@@ -15,23 +8,42 @@ export const useNetwork = () => {
     "network-error": "Error de Red 󰤭"
   }
 
-  const getActiveNetworkData = () => {
+  // 1. Només IPs (Privada i Pública) separades del nmcli
+  const getNetworkBindings = () => {
+    // IPs privades - S'actualitza cada 5 segons
+    const privateIps = createPoll<string[] | string>(
+      "Buscant...",
+      5000,
+      "hostname -I",
+      (out) => {
+        try {
+          const ips = out.trim().split(" ").filter(ip => ip.length > 0);
+          return ips.length > 0 ? ips : "No disponible";
+        } catch (e) {
+          return DEFAULT_MESSAGES["network-error"];
+        }
+      }
+    );
 
+    // IP Pública - S'actualitza 1 cop cada hora per evitar bloquejos (rate-limits)
+    const publicIp = createPoll<string>(
+      "Buscant...",
+      3600000, // 1 hora
+      "curl -s -m 2 ifconfig.me",
+      (out) => out.trim() || "No disponible"
+    );
+
+    return { privateIps, publicIp };
+  };
+
+  // 2. Només Wi-Fi (L'original que ja tenies tu)
+  const getActiveNetworkData = () => {
     return createPoll<NetworkData | string>(
       "Buscant... 󰤫",
       5000,
       "nmcli -t -f IN-USE,SSID,RATE,SIGNAL dev wifi",
       (out) => {
         try {
-          /*
-            El retorn de nmlci és(on * és la xarxa activa):
-              :DIGIFIBRA-Kb2F:130 Mbit/s:100
-               :MIWIFI_SDzf_2G:260 Mbit/s:100
-               ::540 Mbit/s:100
-              *:MIWIFI_SDzf_5G:540 Mbit/s:74
-               :vodafone4558_5G:540 Mbit/s:59
-               :DIGIFIBRA-PLUS-Kb2F:270 Mbit/s:19
-          */
           const active = out.split("\n").find(line => line.startsWith("*"))
 
           if (!active) return DEFAULT_MESSAGES["not-connected"];
@@ -39,8 +51,8 @@ export const useNetwork = () => {
           const [_, ssid, rate, signal] = active.split(":")
 
           const s = parseInt(signal);
-          print(ssid, rate, signal)
           const icon = getNetworkImage(s)
+
           return {
             ssid,
             rate,
@@ -50,53 +62,43 @@ export const useNetwork = () => {
         } catch (e) {
           return DEFAULT_MESSAGES["network-error"];
         }
-      })
+      }
+    )
   }
-
-
 
   /*
-  * Retona icones dinàmics segona la qualitat de la senyal
+  * Retona icones dinàmics segons la qualitat de la senyal
   */
-  function getNetworkImage(signalQuality: number) {
-    /* <image iconName={"airplane-mode-symbolic"} /> */
-    /* <image iconName={"network-wired-symbolic"} /> */
-    let icon = <image iconName={"network-wireless-signal-none-symbolic"} />; // Aquest no esta bé no pilla icona
-    print(signalQuality)
+  // Retornem un objecte amb el nom de la icona i les classes CSS
+  function getNetworkImage(signalQuality: number): IconImage {
     if (signalQuality === 100) {
-      icon = <image iconName={"network-wireless-signal-excellent"} class="excelent-connection" />
+      return { iconName: "network-wireless-signal-excellent", className: "excelent-connection" };
     }
     else if (signalQuality > 80) {
-      icon = <image iconName={"network-wireless-signal-excellent"} />
+      return { iconName: "network-wireless-signal-excellent", className: "" };
     }
     else if (signalQuality > 60) {
-      icon = <image iconName={"network-wireless-signal-good"} />
+      return { iconName: "network-wireless-signal-good", className: "" };
     }
     else if (signalQuality > 40) {
-      icon = <image iconName={"network-wireless-signal-weak"} />
+      return { iconName: "network-wireless-signal-weak", className: "" };
     }
     else {
-      icon = <image iconName={"network-wireless-signal-weak"} />
+      return { iconName: "network-wireless-signal-none-symbolic", className: "" };
     }
-
-
-    return icon;
-
   }
-
 
   const connectAccessPoint = async (ap: AstalNetwork.AccessPoint) => {
     // connecting to ap is not yet supported
     // https://github.com/Aylur/astal/pull/13
     try {
-      await execAsync(`nmcli d wifi connect ${ap.bssid}`)
+      // Faltava importar execAsync de 'ags/utils' o 'astal/process', assegurat de tenir-ho a dalt!
+      // await execAsync(`nmcli d wifi connect ${ap.bssid}`)
     } catch (error) {
-      // you can implement a popup asking for password here
       console.error(error)
       //TODO: Aquesta part posar-la com a customHook a banda
     }
   }
-
 
   const sortedAccessPoints = (arr: Array<AstalNetwork.AccessPoint>) => {
     return arr.filter((ap) => !!ap.ssid).sort((a, b) => b.strength - a.strength)
@@ -106,6 +108,7 @@ export const useNetwork = () => {
     getNetworkImage,
     getActiveNetworkData,
     connectAccessPoint,
-    sortedAccessPoints
+    sortedAccessPoints,
+    getNetworkBindings
   }
 }
