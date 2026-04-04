@@ -9,22 +9,13 @@ vim.keymap.set('n', '<leader>ps', function()
   builtin.grep_string({ search = vim.fn.input("Grep > ") });
 end)
 
-
 -- INFO: https://github.com/nvim-telescope/telescope-ui-select.nvim
 require("telescope").setup {
-  defaults = {
-    layout_strategy = 'horizontal',
-    layout_config = {
-      horizontal = {
-        preview_width = 0.55,
-      },
-    },
-  },
   pickers = {
     colorscheme = {
       enable_preview = true,
     }
-  },
+  }, 
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_dropdown {}
@@ -34,3 +25,4 @@ require("telescope").setup {
 -- To get ui-select loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
 require("telescope").load_extension("ui-select")
+

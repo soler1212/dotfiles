@@ -2,12 +2,9 @@
 -- https://github.com/nvim-treesitter/nvim-treesitter
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "main",
+  branch = "master",
   build = ":TSUpdate",
-  event = "VimEnter",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-  },
+  lazy = false,
   config = function()
     require("cargolreactiu.after.plugins.treesitter")
   end,

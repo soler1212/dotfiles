@@ -2,18 +2,8 @@
 return {
   {
     'nvim-telescope/telescope.nvim',
-    -- branch = 'master', -- Fem servir master en lloc de tag fix per a la 0.12
+    tag = '0.1.8', -- La versió estable 0.1.8 no té el bug del layout de possession.nvim
     dependencies = { 'nvim-lua/plenary.nvim' },
-    init = function()
-      -- [[ Neovim 0.12 Compatibility per a Telescope ]]
-      -- Telescope encara fa servir vim.treesitter.ft_to_lang que ja no existeix a la 0.12
-      if vim.treesitter and not vim.treesitter.ft_to_lang then
-        vim.treesitter.ft_to_lang = function(ft)
-          local ok, lang = pcall(function() return vim.treesitter.language.get_lang(ft) end)
-          return ok and lang or ft
-        end
-      end
-    end,
     config = function()
       require("cargolreactiu.after.plugins.telescope")
     end,
