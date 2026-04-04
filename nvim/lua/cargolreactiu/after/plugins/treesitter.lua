@@ -1,5 +1,8 @@
+-- Configuración estable de nvim-treesitter (Estilo Vanilla)
+-- Compatible con Neovim 0.12
+
 require('nvim-treesitter.configs').setup({
-  -- A list of parser names, or "all"
+  -- Lista de parsers que SIEMPRE queremos instalados
   ensure_installed = {
     "javascript",
     "typescript",
@@ -12,17 +15,15 @@ require('nvim-treesitter.configs').setup({
     "markdown_inline"
   },
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
+  -- Instalación automática (no-op si ya existen)
   auto_install = true,
 
+  -- Resaltado Nativo
   highlight = {
     enable = true,
-    -- Custom disable for big files
+    -- Protección para archivos grandes
     disable = function(lang, buf)
-      local max_filesize = vim.g.big_file.size or (100 * 1024) -- default 100 KB
+      local max_filesize = vim.g.big_file.size or (100 * 1024) -- 100 KB
       local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
       if ok and stats and stats.size > max_filesize then
         return true
@@ -30,17 +31,19 @@ require('nvim-treesitter.configs').setup({
     end,
   },
 
+  -- Indentación Inteligente
   indent = {
     enable = true,
   },
 })
 
--- Treesitter-based folding
--- We keep this autocommand because foldmethod = 'expr' needs to be set per buffer.
+-- [[ Funcionalidades Vanilla (Neovim 0.12 Core) ]]
+
+-- Plegado (Folding) Nativo con Treesitter
 vim.api.nvim_create_autocmd('FileType', {
-  desc = 'Enable Treesitter Folding',
+  desc = 'Activar plegado nativo por Treesitter',
   callback = function(args)
-    -- Check for big file
+    -- Si el archivo es grande, no activamos plegados pesados
     local max_filesize = vim.g.big_file.size or (100 * 1024)
     local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(args.buf))
     if ok and stats and stats.size > max_filesize then return end
