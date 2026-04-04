@@ -2,7 +2,7 @@
 -- https://github.com/akinsho/toggleterm.nvim
 return {
   'akinsho/toggleterm.nvim',
-  version = "*",
+  tag = "v2.13.1", -- Congelat a la versió exacta funcional
   config = function()
     require("toggleterm").setup({
       size = 20,

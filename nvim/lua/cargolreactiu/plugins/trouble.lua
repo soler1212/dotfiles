@@ -1,8 +1,8 @@
--- A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.
+-- A pretty list for showing diagnostics, references, telescope results, quickfix and location lists.
 -- https://github.com/folke/trouble.nvim
 return {
   "folke/trouble.nvim",
-  opts = {}, -- for default options, refer to the configuration section for custom setup.
+  tag = "v3.6.0", -- Congelat a la versió estable
   cmd = "Trouble",
   config = function()
     require("cargolreactiu.after.plugins.trouble")

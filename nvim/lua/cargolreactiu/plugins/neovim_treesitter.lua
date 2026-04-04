@@ -1,7 +1,8 @@
--- Nvim Treesitter (Rama master - Estable para Neovim 0.11.x)
+-- Nvim Treesitter (Rama master - Congelada para Neovim 0.11.x)
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "master", -- Tornem a la versió estable
+  branch = "master",
+  commit = "cf12346a", -- Commit estable documentat
   build = ":TSUpdate",
   lazy = false,
   config = function()

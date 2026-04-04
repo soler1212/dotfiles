@@ -1,17 +1,11 @@
--- plugins/telescope.lua:
 return {
-  {
-    'nvim-telescope/telescope.nvim',
-    tag = '0.1.8', -- La versió estable 0.1.8 no té el bug del layout de possession.nvim
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    'nvim-telescope/telescope.nvim', 
+    tag = '0.1.8', -- Fixem la versió estable 0.1.x per a Neovim 0.11
+    dependencies = { 
+        'nvim-lua/plenary.nvim',
+        { 'nvim-telescope/telescope-ui-select.nvim', commit = '6e51d7da30bd139a6950adf2a47fda6df9fa06d2' },
+    },
     config = function()
-      require("cargolreactiu.after.plugins.telescope")
-    end,
-  },
-
-  -- It sets vim.ui.select to telescope. That means for example that neovim core stuff can fill the telescope picker.
-  -- https://github.com/nvim-telescope/telescope-ui-select.nvim
-  {
-    "nvim-telescope/telescope-ui-select.nvim"
-  }
+        require("cargolreactiu.after.plugins.telescope")
+    end
 }

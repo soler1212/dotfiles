@@ -14,25 +14,23 @@ return {
         require("cargolreactiu.after.plugins.lsp")
       end
     },
-    -- INFO: A partir d'aqui instala els ajudants per instalar automaticament els LSP mes info https://lsp-zero.netlify.app/docs/language-server-configuration.html#automatic-installs
-    -- Portable package manager for Neovim that runs everywhere Neovim runs. Easily install and manage LSP servers, linters, and formatters.
-    -- https://github.com/williamboman/mason.nvim
+    -- Portable package manager for Neovim.
     {
       "williamboman/mason.nvim",
+      tag = "v1.10.0", -- Congelat a la versió estable
     },
-    -- Extension to mason.nvim that makes it easier to use lspconfig with mason.nvim.
-    -- https://github.com/williamboman/mason-lspconfig.nvim
+    -- Extension to mason.nvim.
     {
       "williamboman/mason-lspconfig.nvim",
+      tag = "v1.31.0", -- Congelat a la versió estable
     },
     -- Faster Lua development with library and Neovim API completions
     {
       "folke/lazydev.nvim",
-      ft = "lua", -- only load on lua files
+      ft = "lua",
+      tag = "v1.10.0", -- Congelat
       opts = {
         library = {
-          -- See the configuration section for more details
-          -- Load luvit types when the `vim.uv` word is found
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
         },
       },

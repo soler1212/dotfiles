@@ -1,34 +1,14 @@
-  -- Neovim plugin to manage the file system and other tree like structures.
-  -- https://github.com/nvim-neo-tree/neo-tree.nvim
+-- Neovim plugin to manage the file system and other tree like structures.
+-- https://github.com/nvim-neo-tree/neo-tree.nvim
 return {
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-      "echasnovski/mini.icons",
-      {
-        "s1n7ax/nvim-window-picker",
-        version = "2.*",
-        config = function()
-          require("window-picker").setup({
-            filter_rules = {
-              include_current_win = false,
-              autoselect_one = true,
-              bo = {
-                filetype = { "neo-tree", "neo-tree-popup", "notify" },
-                buftype = { "terminal", "quickfix" },
-              },
-            },
-          })
-        end,
-      }
-    },
-    config = function()
-      require("cargolreactiu.after.plugins.neotree")
-    end,
-  }
+  "nvim-neo-tree/neo-tree.nvim",
+  version = "3.27", -- Versió estable real (sense 'v')
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    "MunifTanjim/nui.nvim",
+  },
+  config = function()
+    require("cargolreactiu.after.plugins.neotree")
+  end,
 }
-
