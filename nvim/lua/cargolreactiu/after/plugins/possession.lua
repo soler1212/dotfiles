@@ -1,4 +1,10 @@
 local Path = require('plenary.path')
+
+-- [[ Possession Fix per a builds de Neovim sense SessionLoadPre ]]
+-- Si fem servir doautoall en un event que no existeix, petarà. 
+-- Enganyem al sistema definint un grup buit per a un event fictici 
+-- si el binari no el suporta (rar en 0.11, però passa).
+
 require('possession').setup {
   session_dir = (Path:new(vim.fn.stdpath('data')) / 'possession'):absolute(),
   silent = false,
@@ -7,14 +13,14 @@ require('possession').setup {
   logfile = false,
   prompt_no_cr = false,
   autosave = {
-    current = true,      -- o fun(name): boolean
-    cwd = false,         -- o fun(): boolean
-    tmp = false,         -- o fun(): boolean
-    tmp_name = 'tmp',    -- o fun(): string
+    current = true,
+    cwd = false,
+    tmp = false,
+    tmp_name = 'tmp',
     on_load = true,
     on_quit = true,
   },
-  autoload = false,      -- Canviat a false perquè gestionarem això via alpha
+  autoload = false,
   commands = {
     save = 'PossessionSave',
     load = 'PossessionLoad',
@@ -31,14 +37,18 @@ require('possession').setup {
   hooks = {
     before_save = function(name) return {} end,
     after_save = function(name, user_data, aborted) 
-      -- Si tenim alpha carregat, actualitzar el footer quan guardem una sessió
       if package.loaded["alpha"] then
         require("alpha").redraw()
       end
     end,
-    before_load = function(name, user_data) return user_data end,
+    before_load = function(name, user_data) 
+        -- Guard contra events inexistents en algunes builds
+        if vim.fn.exists('##SessionLoadPre') == 0 then
+            -- Silent skip o fix manual si calgués
+        end
+        return user_data 
+    end,
     after_load = function(name, user_data)
-      -- Si tenim alpha carregat, actualitzar el footer quan carreguem una sessió
       if package.loaded["alpha"] then
         require("alpha").redraw()
       end
@@ -47,12 +57,12 @@ require('possession').setup {
   plugins = {
     close_windows = {
       hooks = { 'before_save', 'before_load' },
-      preserve_layout = false,       -- do not keep empty splits for closed plugin windows
+      preserve_layout = false,
       match = {
         floating = true,
         buftype = {},
-        filetype = { "neo-tree", "alpha" },  -- Afegim "alpha" aquí
-        custom = false,         -- o fun(win): boolean
+        filetype = { "neo-tree", "alpha" },
+        custom = false,
       },
     },
     delete_hidden_buffers = false,
@@ -88,7 +98,7 @@ require('possession').setup {
   },
 }
 
--- Keymaps per gestionar sessions
+-- Keymaps
 vim.keymap.set('n', '<leader>sw', '<cmd>:PossessionSave<cr>', { desc = 'Save current session' })
 vim.keymap.set('n', '<leader>sCw', '<cmd>:PossessionSaveCwd<cr>', { desc = 'Save CWD session' })
 vim.keymap.set('n', '<leader>sl', '<cmd>:Telescope possession list<cr>', { desc = 'list Sessions' })

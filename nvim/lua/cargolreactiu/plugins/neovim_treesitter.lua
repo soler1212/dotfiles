@@ -1,6 +1,7 @@
+-- Nvim Treesitter (Rama master - Estable para Neovim 0.11.x)
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "master", -- Master es estable y compatible con 0.12
+  branch = "master", -- Tornem a la versió estable
   build = ":TSUpdate",
   lazy = false,
   config = function()
