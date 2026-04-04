@@ -3,7 +3,8 @@
 return {
   "folke/trouble.nvim",
   tag = "v3.6.0", -- Congelat a la versió estable
-  cmd = "Trouble",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  -- Carreguem de forma immediata perquè els mappings de leader l'esperen
   config = function()
     require("cargolreactiu.after.plugins.trouble")
   end,
