@@ -17,6 +17,24 @@ class ThemeService {
     const barBg = p.transparent ? "transparent" : t.colors.bg
     const barBorder = p.border ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
     
+    // Button style logic
+    let btnRadius = "4px"
+    let btnBg = "transparent"
+    let btnBorder = "none"
+    let btnPadding = "0 8px"
+
+    if (p.buttonStyle === "pill") {
+      btnRadius = "20px"
+      btnBg = "rgba(255, 255, 255, 0.05)"
+      btnPadding = "0 12px"
+    } else if (p.buttonStyle === "outline") {
+      btnRadius = "4px"
+      btnBorder = "1px solid rgba(255, 255, 255, 0.1)"
+    } else if (p.buttonStyle === "subtle") {
+      btnRadius = "2px"
+      btnPadding = "0 4px"
+    }
+
     return `
       background-color: ${barBg};
       margin: ${p.margin};
@@ -24,6 +42,13 @@ class ThemeService {
       border-radius: ${p.borderRadius}px;
       border: ${barBorder};
       min-height: 28px;
+      
+      /* Dynamic button variables */
+      --btn-radius: ${btnRadius};
+      --btn-bg: ${btnBg};
+      --btn-border: ${btnBorder};
+      --btn-padding: ${btnPadding};
+      --btn-spacing: ${p.spacing}px;
     `
   })
 

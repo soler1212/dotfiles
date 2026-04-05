@@ -1,5 +1,6 @@
 import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
+import { createComputed } from "ags"
 import { themeService } from "../ThemeService"
 import { Workspaces } from "./components/Workspaces"
 import { ActiveWindow } from "./components/ActiveWindow"
@@ -16,6 +17,8 @@ import { Bluetooth } from "./components/Bluetooth"
 import { ModuleSeparator } from "./atoms/Layout"
 
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
+  const spacing = createComputed(() => themeService.preset().spacing)
+
   return (
     <window
       visible
@@ -31,44 +34,44 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
         class="bar-inner" 
         css={themeService.barStyle}
       >
-        <box $type="start" spacing={0} valign={Gtk.Align.CENTER}>
-          <box class="module">
+        <box $type="start" valign={Gtk.Align.CENTER} spacing={spacing}>
+          <box class="module" spacing={spacing}>
             <Workspaces />
           </box>
           <ModuleSeparator />
-          <box class="module">
+          <box class="module" spacing={spacing}>
             <ActiveWindow />
           </box>
         </box>
 
-        <box $type="center" valign={Gtk.Align.CENTER}>
-          <box class="module">
+        <box $type="center" valign={Gtk.Align.CENTER} spacing={spacing}>
+          <box class="module" spacing={spacing}>
             <Clock format="%H:%M - %A %d %b" />
           </box>
         </box>
 
-        <box $type="end" spacing={0} valign={Gtk.Align.CENTER}>
-          <box class="module">
+        <box $type="end" valign={Gtk.Align.CENTER} spacing={spacing}>
+          <box class="module" spacing={spacing}>
             <Mpris />
           </box>
 
           <ModuleSeparator />
 
-          <box class="module tray" spacing={8}>
+          <box class="module tray" spacing={spacing}>
             <Tray />
             <Bluetooth />
           </box>
 
           <ModuleSeparator />
 
-          <box class="module" spacing={12}>
+          <box class="module" spacing={spacing}>
             <Wireless />
             <AudioOutput />
           </box>
 
           <ModuleSeparator />
 
-          <box class="module" spacing={12}>
+          <box class="module" spacing={spacing}>
             <Disk />
             <CPU />
             <Memory />
@@ -76,7 +79,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
 
           <ModuleSeparator />
 
-          <box class="module">
+          <box class="module" spacing={spacing}>
             <Battery />
           </box>
         </box>
