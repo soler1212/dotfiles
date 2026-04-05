@@ -13,7 +13,10 @@ export const NetworkAccessPointListItem = ({ accessPoint: ap, wifi }: Props) => 
   const { connectAccessPoint } = useNetwork();
 
   return (
-    <button onClicked={() => connectAccessPoint(ap)}>
+    <button
+      onClicked={() => connectAccessPoint(ap)}
+      class="network-access-points-list-item"
+    >
       <box spacing={4}>
         <image iconName={createBinding(ap, "iconName")} />
         <label label={createBinding(ap, "ssid")} />

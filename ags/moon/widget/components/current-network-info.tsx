@@ -12,6 +12,8 @@ export const CurrentNetworkInfo = ({ networkData }: Props) => {
 
       {/* Etiqueta per al SSID (o el missatge d'error/càrrega) */}
       <label
+        class="ssid-label"
+        halign={Gtk.Align.START}
         label={networkData.as((data) => {
           // Si és un string ("Buscant..." o error), el mostrem tal qual
           if (typeof data === "string") return data;
@@ -23,11 +25,13 @@ export const CurrentNetworkInfo = ({ networkData }: Props) => {
       {/* Etiqueta per a la Senyal i Velocitat */}
       <box valign={Gtk.Align.CENTER}>
         <label
+          class="network-details"
+          halign={Gtk.Align.START}
           label={networkData.as((data) => { // Sense ": any"
             // Si és un string (error o desconnectat), amaguem aquest text
             if (typeof data === "string") return "";
             // Si tenim dades, construïm l'string
-            return `${data.signal}% ${data.rate}`;
+            return `${data.signal}% - ${data.rate}`;
           })}
         />
       </box>

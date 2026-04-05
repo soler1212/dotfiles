@@ -11,7 +11,6 @@ export const IPsInfo = ({ privateIps, publicIp }: Props) => {
     <box
       orientation={Gtk.Orientation.VERTICAL}
       spacing={8}
-      class="ips-info-container"
     >
 
       {/* 1. Fila de IPs Privades (Icona + Text) */}

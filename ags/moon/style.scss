@@ -1,123 +1,129 @@
 /* Catppuccin Mocha colors */
-/* $base: rgba(24, 24, 37, 0.8); */
-/* $text: #cdd6f4; */
-/* $subtext0: #bac2de; */
-/* $surface0: rgba(69, 71, 90, 0.6); */
-/* $blue: #89b4fa; */
-/* $green: #a6e3a1; */
-/* $mauve: #cba6f7; */
-/* $red: #f38ba8; */
-/* $crust: #1e1e2e; */
+$base: #1e1e2e;
+$text: #cdd6f4;
+$subtext0: #bac2de;
+$blue: #89b4fa;
+$green: #a6e3a1;
+$mauve: #cba6f7;
+$surface0: #313244;
 
 window.Bar, window.Bar2 {
   background-color: transparent;
-  color: #cdd6f4;
+  color: $text;
   font-family: "JetBrains Mono", "Noto Sans", sans-serif;
   font-size: 14px;
 }
 
 window.Bar > centerbox, window.Bar2 > centerbox {
-  background-color: rgba(24, 24, 37, 0.8);
+  background-color: rgba(24, 24, 37, 0.9);
   padding: 0 8px;
   min-height: 32px;
 }
 
-window.Bar button, window.Bar2 button {
-  all: unset;
-  border-radius: 4px;
-  margin: 4px 2px;
-  padding: 0 8px;
-  transition: all 0.2s ease;
+/* Reset GTK Popover defaults to remove the bluish halo/background */
+popover {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
 }
 
-window.Bar button:hover, window.Bar2 button:hover {
-  background-color: rgba(69, 71, 90, 0.8);
+.network-popover > contents {
+  background-color: #0b0b12; /* Deep black background */
+  border: 1px solid rgba(137, 180, 250, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 6px; /* Space from the bar */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-.workspaces button {
-  background-color: rgba(69, 71, 90, 0.6);
-  color: #bac2de;
-  margin: 4px 2px;
+/* Tarjetas sin fondo, solo estructura */
+.network-card {
+  background-color: transparent;
+  padding: 4px 0;
 }
 
-.workspaces button.focused {
-  background-color: #89b4fa;
-  color: #1e1e2e;
+.status-section {
+  margin-bottom: 12px;
 }
 
-.workspaces button.urgent {
-  background-color: #f38ba8;
-  color: #1e1e2e;
+/* Títulos sutiles */
+.section-title {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(203, 166, 247, 0.8);
+  margin-bottom: 12px;
 }
 
-.workspaces button:hover {
-  background-color: rgba(137, 180, 250, 0.3);
-  color: #89b4fa;
+/* Información de Red Principal */
+.ssid-label {
+  font-weight: 800;
+  font-size: 17px;
+  color: #ffffff;
+  margin-bottom: 2px;
 }
 
-.active-window {
-  padding: 0 8px;
+.network-details {
+  font-weight: 500;
+  font-size: 12px;
+  color: $blue;
 }
 
-.pulseaudio {
-  color: #89b4fa;
+/* Separador elegante */
+separator {
+  background-color: rgba(205, 214, 244, 0.1);
+  min-height: 1px;
+  margin: 16px 0;
 }
 
-.network {
-  color: #a6e3a1;
-  padding: 0 8px;
-}
-
-.cpu {
-  color: #cba6f7;
-  background-color: rgba(203, 166, 247, 0.1);
-  border-radius: 4px;
-  padding: 0 8px;
-  margin: 4px 2px;
-}
-
-.memory {
-  color: #f38ba8;
-  background-color: rgba(243, 139, 168, 0.1);
-  border-radius: 4px;
-  padding: 0 8px;
-  margin: 4px 2px;
-}
-
-.battery {
-  color: #a6e3a1;
-  padding: 0 8px;
-}
-
-.clock {
-  color: #89b4fa;
-  font-weight: bold;
-  padding: 0 8px;
-}
-
-.excelent-connection {
- border: 1px dashed #a6e3a1;
-}
-
+/* Filas de IP */
 .ip-row {
-  transition: all 0.2s ease;
-}
-
-.ip-icon {
-  font-size: 16px; 
-  color: #bac2de; 
-}
-
-.private-ip .ip-icon {
-  color: #89b4fa;
-}
-
-.public-ip .ip-icon {
-  color: #a6e3a1;
+  margin: 4px 0;
 }
 
 .ip-label {
-  font-weight: 500;
   font-size: 13px;
-  color: #cdd6f4;
+  color: $text;
+  font-family: "JetBrains Mono";
+}
+
+.ip-icon {
+  margin-right: 8px;
+  opacity: 0.8;
+}
+
+/* Lista de Redes Disponibles */
+.network-access-points-list-item {
+  all: unset;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.15s ease-out;
+  margin: 1px 0;
+  color: $text;
+}
+
+.network-access-points-list-item:hover {
+  background-color: rgba(137, 180, 250, 0.1);
+  color: #ffffff;
+}
+
+/* Estilos de los elementos de la barra */
+.workspaces button {
+  background-color: rgba(49, 50, 68, 0.5);
+  color: $subtext0;
+  margin: 4px 2px;
+  padding: 0 8px;
+  border-radius: 4px;
+}
+
+.workspaces button.focused {
+  background-color: $blue;
+  color: #11111b;
+}
+
+.cpu, .memory, .battery, .clock {
+  padding: 0 8px;
+  font-weight: bold;
 }

@@ -174,21 +174,30 @@ function Wireless() {
                   return data.icon.className;
                 })}
               />
-              <popover>
-                <box orientation={Gtk.Orientation.VERTICAL}>
-                  <box orientation={Gtk.Orientation.VERTICAL}>
+              <popover class="network-popover">
+                <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
+                  {/* Status Section */}
+                  <box orientation={Gtk.Orientation.VERTICAL} class="network-card status-section" spacing={8}>
                     <CurrentNetworkInfo networkData={activeNetwork} />
+                    <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
                     <IPsInfo
                       privateIps={privateIps}
                       publicIp={publicIp}
                     />
                   </box>
-                  <box orientation={Gtk.Orientation.VERTICAL}>
-                    <For each={createBinding(wifi, "accessPoints")(sortedAccessPoints)}>
-                      {(ap: AstalNetwork.AccessPoint) => (
-                        <NetworkAccessPointListItem accessPoint={ap} wifi={wifi} />
-                      )}
-                    </For>
+
+                  {/* AP List Section */}
+                  <box orientation={Gtk.Orientation.VERTICAL} class="network-card list-section" spacing={8}>
+                    <label label="Available Networks" xalign={0} class="section-title" />
+                    <Gtk.ScrolledWindow heightRequest={240} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}>
+                      <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+                        <For each={createBinding(wifi, "accessPoints")(sortedAccessPoints)}>
+                          {(ap: AstalNetwork.AccessPoint) => (
+                            <NetworkAccessPointListItem accessPoint={ap} wifi={wifi} />
+                          )}
+                        </For>
+                      </box>
+                    </Gtk.ScrolledWindow>
                   </box>
                 </box>
               </popover>
