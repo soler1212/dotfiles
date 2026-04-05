@@ -1,22 +1,32 @@
 /* --- FALLBACKS --- */
 * {
   --base: #1e1e2e;
-  --bg: rgba(30, 30, 46, 0.85);
+  --surface: #181825;
+  --overlay: #313244;
   --text: #cdd6f4;
-  --subtext0: #bac2de;
-  --blue: #89b4fa;
-  --green: #a6e3a1;
-  --mauve: #cba6f7;
-  --surface0: #313244;
-  --red: #f38ba8;
-  --yellow: #f9e2af;
+  --subtext: #a6adc8;
+  --accent: #cba6f7;
+  --accent-fg: #11111b;
+  --header: #f5c2e7;
+  --button-bg: #313244;
+  --button-fg: #cdd6f4;
+  --border: rgba(203, 166, 247, 0.15);
   
-  /* Button Fallbacks */
-  --btn-radius: 4px;
-  --btn-bg: transparent;
+  --red: #f38ba8;
+  --green: #a6e3a1;
+  --yellow: #f9e2af;
+  --blue: #89b4fa;
+  --magenta: #f5c2e7;
+  --orange: #fab387;
+
+  /* Button Dynamics (Injected by ThemeService) */
+  --btn-radius: 8px;
+  --btn-bg: var(--surface);
   --btn-border: none;
-  --btn-padding: 0 8px;
+  --btn-padding: 0 10px;
   --btn-spacing: 8px;
+  --btn-shadow: none;
+  --sep-opacity: 1;
 }
 
 window.Bar2 {
@@ -26,39 +36,41 @@ window.Bar2 {
   font-size: 11px;
 }
 
-.bar-inner {
-  /* Styled via inline css in Bar2.tsx for reactivity */
-}
-
-.module {
-  background-color: transparent;
-  padding: 0;
-}
-
-/* Base button style for all modules */
+/* Base button style for all bar modules */
 .bar-inner button, 
 .bar-inner menubutton {
   all: unset;
   background-color: var(--btn-bg);
+  color: var(--button-fg);
   border-radius: var(--btn-radius);
   border: var(--btn-border);
   padding: var(--btn-padding);
-  transition: all 0.2s ease;
+  box-shadow: var(--btn-shadow);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 24px;
 }
 
 .bar-inner button:hover,
 .bar-inner menubutton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--overlay);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.bar-inner button:active,
+.bar-inner menubutton:active {
+  transform: translateY(0);
+  opacity: 0.8;
 }
 
 /* --- POPUPS --- */
 .network-popover > contents {
   background-color: var(--base);
-  border: 1px solid var(--mauve);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 0;
-  margin-top: 6px;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+  margin-top: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .popup-container { padding: 16px; }
@@ -69,27 +81,31 @@ window.Bar2 {
   font-size: 10px;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--mauve);
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(203, 166, 247, 0.2);
-  padding-bottom: 4px;
+  letter-spacing: 1.5px;
+  color: var(--header);
+  margin-bottom: 12px;
+  opacity: 0.8;
 }
 
-.popup-value-large { font-size: 22px; font-weight: 900; color: #ffffff; margin-bottom: 4px; }
-.popup-label-detail { font-size: 11px; color: var(--blue); font-weight: 600; }
-.popup-data-key { font-size: 11px; color: var(--subtext0); font-weight: 500; }
+.popup-value-large { font-size: 24px; font-weight: 900; color: #ffffff; margin-bottom: 4px; }
+.popup-label-detail { font-size: 11px; color: var(--accent); font-weight: 600; opacity: 0.9; }
+.popup-data-key { font-size: 11px; color: var(--subtext); font-weight: 500; }
 .popup-data-value { font-size: 11px; font-weight: 800; color: var(--text); }
 
-.popup-scroll { background-color: rgba(0, 0, 0, 0.1); border-radius: 8px; margin: 8px 0; }
+.popup-scroll { background-color: var(--surface); border-radius: 8px; margin: 8px 0; }
 
+/* Popup buttons should NOT look like bar buttons */
 .popup-list-item {
   all: unset;
-  padding: 8px;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  color: var(--text);
 }
-.popup-list-item:hover { background-color: rgba(255, 255, 255, 0.05); }
+.popup-list-item:hover { 
+  background-color: var(--overlay); 
+  color: var(--accent);
+}
 
 scrollbar {
   &.vertical {
@@ -97,28 +113,49 @@ scrollbar {
     transition: all 0.2s ease;
     min-width: 4px;
     slider {
-      background-color: rgba(203, 166, 247, 0.2);
+      background-color: var(--border);
       border-radius: 10px;
       min-width: 4px;
       margin: 2px;
     }
-    &:hover slider { background-color: rgba(203, 166, 247, 0.4); }
+    &:hover slider { background-color: var(--accent); }
   }
 }
 
 /* --- MODULE SPECIFICS --- */
-.workspaces button { padding: 0 8px; }
-.workspaces button.focused { background-color: var(--blue); color: var(--base); font-weight: 800; }
-.active-window label { color: var(--mauve); font-weight: 700; margin-left: 12px; }
-
-.module-separator { 
-  background-color: rgba(255, 255, 255, 0.1); 
-  margin: 6px 0;
-  min-width: 1px; 
-  min-height: 16px; 
+.workspaces button { 
+  padding: 0 10px; 
+  background-color: transparent; 
+  border: none;
+  box-shadow: none;
+}
+.workspaces button.focused { 
+  background-color: var(--accent); 
+  color: var(--accent-fg); 
+  font-weight: 900; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.workspaces button.urgent {
+  background-color: var(--red);
+  color: var(--accent-fg);
 }
 
-.cpu { color: var(--mauve); }
+.active-window label { 
+  color: var(--accent); 
+  font-weight: 800; 
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+.module-separator { 
+  background-color: var(--border); 
+  margin: 8px 0;
+  min-width: 1px; 
+  min-height: 16px;
+  opacity: var(--sep-opacity);
+}
+
+.cpu { color: var(--magenta); }
 .memory { color: var(--blue); }
 .disk { color: var(--yellow); }
 .battery-icon { color: var(--green); }

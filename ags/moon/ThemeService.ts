@@ -3,7 +3,7 @@ import { themes, Theme, barPresets, BarPreset } from "./themes"
 
 class ThemeService {
   private _theme = createState<Theme>(themes[0])
-  private _preset = createState<BarPreset>(barPresets[1]) // Modern Flat
+  private _preset = createState<BarPreset>(barPresets[0]) // Ethereal Glass as default
 
   // Accessors
   public theme = this._theme[0]
@@ -14,25 +14,33 @@ class ThemeService {
     const t = this.theme()
     const p = this.preset()
     
-    const barBg = p.transparent ? "transparent" : t.colors.bg
-    const barBorder = p.border ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
+    const barBg = p.transparent ? "transparent" : t.colors.base
+    const barBorder = p.border ? `1px solid ${t.colors.border}` : "none"
     
-    // Button style logic
+    // Detailed Button logic
     let btnRadius = "4px"
-    let btnBg = "transparent"
+    let btnBg = t.colors.button_bg
     let btnBorder = "none"
-    let btnPadding = "0 8px"
+    let btnPadding = "0 10px"
+    let btnShadow = "none"
 
-    if (p.buttonStyle === "pill") {
-      btnRadius = "20px"
-      btnBg = "rgba(255, 255, 255, 0.05)"
-      btnPadding = "0 12px"
+    if (p.buttonStyle === "glass") {
+      btnRadius = "12px"
+      btnBg = "rgba(255, 255, 255, 0.03)"
+      btnBorder = "1px solid rgba(255, 255, 255, 0.05)"
+      btnShadow = "inset 0 1px 1px rgba(255, 255, 255, 0.05)"
+    } else if (p.buttonStyle === "pill") {
+      btnRadius = "24px"
+      btnBg = t.colors.surface
+      btnPadding = "0 14px"
     } else if (p.buttonStyle === "outline") {
-      btnRadius = "4px"
-      btnBorder = "1px solid rgba(255, 255, 255, 0.1)"
+      btnRadius = "0px"
+      btnBg = "transparent"
+      btnBorder = `1px solid ${t.colors.accent}`
     } else if (p.buttonStyle === "subtle") {
-      btnRadius = "2px"
-      btnPadding = "0 4px"
+      btnRadius = "4px"
+      btnBg = "transparent"
+      btnPadding = "0 6px"
     }
 
     return `
@@ -41,14 +49,16 @@ class ThemeService {
       padding: ${p.padding};
       border-radius: ${p.borderRadius}px;
       border: ${barBorder};
-      min-height: 28px;
+      min-height: 32px;
       
       /* Dynamic button variables */
       --btn-radius: ${btnRadius};
       --btn-bg: ${btnBg};
       --btn-border: ${btnBorder};
       --btn-padding: ${btnPadding};
+      --btn-shadow: ${btnShadow};
       --btn-spacing: ${p.spacing}px;
+      --sep-opacity: ${p.showSeparators ? "1" : "0"};
     `
   })
 
