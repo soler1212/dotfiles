@@ -9,6 +9,7 @@ export interface BarPreset {
   innerBarRadius: number
   innerBarMargin: string
   innerBarPadding: string
+  innerBarHeight: number
   
   // Buttons (innerButton)
   buttonBg: string
@@ -28,6 +29,28 @@ export interface BarPreset {
 
 export const barPresets: BarPreset[] = [
   {
+    name: "Laptop Compact",
+    fontSize: "10px",
+    showSeparators: false,
+    innerBarBg: "var(--base)",
+    innerBarBorder: "1px solid var(--border)",
+    innerBarRadius: 4,
+    innerBarMargin: "0px",
+    innerBarPadding: "0px 4px",
+    innerBarHeight: 24,
+    buttonBg: "transparent",
+    buttonFg: "var(--text)",
+    buttonHoverBg: "var(--overlay)",
+    buttonRadius: "2px",
+    buttonPadding: "0 6px",
+    buttonBorder: "none",
+    buttonShadow: "none",
+    buttonSpacing: 2,
+    transparent: false,
+    border: true,
+    buttonStyle: "subtle"
+  },
+  {
     name: "Ethereal Glass",
     fontSize: "11px",
     showSeparators: false,
@@ -36,6 +59,7 @@ export const barPresets: BarPreset[] = [
     innerBarRadius: 12,
     innerBarMargin: "8px 12px",
     innerBarPadding: "4px 8px",
+    innerBarHeight: 32,
     buttonBg: "rgba(255, 255, 255, 0.04)",
     buttonFg: "var(--text)",
     buttonHoverBg: "rgba(255, 255, 255, 0.1)",
@@ -57,6 +81,7 @@ export const barPresets: BarPreset[] = [
     innerBarRadius: 0,
     innerBarMargin: "0px",
     innerBarPadding: "2px 4px",
+    innerBarHeight: 32,
     buttonBg: "transparent",
     buttonFg: "var(--accent)",
     buttonHoverBg: "rgba(0, 242, 255, 0.15)",
@@ -78,6 +103,7 @@ export const barPresets: BarPreset[] = [
     innerBarRadius: 24,
     innerBarMargin: "10px 80px",
     innerBarPadding: "4px 12px",
+    innerBarHeight: 36,
     buttonBg: "var(--surface)",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--overlay)",
@@ -99,6 +125,7 @@ export const barPresets: BarPreset[] = [
     innerBarRadius: 6,
     innerBarMargin: "2px 4px",
     innerBarPadding: "2px 6px",
+    innerBarHeight: 30,
     buttonBg: "var(--overlay)",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--accent)",

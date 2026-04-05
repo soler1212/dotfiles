@@ -30,6 +30,7 @@ class ThemeService {
       `--inner-bar-radius: ${p.innerBarRadius}px;`,
       `--inner-bar-margin: ${p.innerBarMargin};`,
       `--inner-bar-padding: ${p.innerBarPadding};`,
+      `--inner-bar-height: ${p.innerBarHeight}px;`,
       `--button-radius: ${p.buttonRadius};`,
       `--button-bg: ${p.buttonBg};`,
       `--button-fg: ${p.buttonFg};`,

@@ -16,7 +16,7 @@ window.Bar2 {
   padding: var(--inner-bar-padding);
   border-radius: var(--inner-bar-radius);
   border: var(--inner-bar-border);
-  min-height: 32px;
+  min-height: var(--inner-bar-height);
 }
 
 /* 2. Atomic Buttons (Bar) */
