@@ -27,7 +27,10 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
       application={app}
       css={themeService.cssVars}
     >
-      <centerbox>
+      <centerbox 
+        class="bar-inner" 
+        css={themeService.barStyle}
+      >
         <box $type="start" spacing={0} valign={Gtk.Align.CENTER}>
           <box class="module">
             <Workspaces />

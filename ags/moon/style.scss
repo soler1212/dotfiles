@@ -1,4 +1,4 @@
-/* --- COLORS BASE (Gestionats pel ThemeService, aquí només fallbacks) --- */
+/* --- FALLBACKS --- */
 * {
   --base: #1e1e2e;
   --bg: rgba(30, 30, 46, 0.85);
@@ -19,13 +19,8 @@ window.Bar2 {
   font-size: 11px;
 }
 
-window.Bar2 > centerbox {
-  background-color: var(--bg);
-  margin: 4px 10px;
-  padding: 0 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  min-height: 28px;
+/* Styled via inline css in Bar2.tsx for reactivity */
+.bar-inner {
 }
 
 /* --- ESTIL ESTÀNDARD DE POPUPS (AMB CONTRAST ALT) --- */
@@ -34,13 +29,13 @@ window.Bar2 > centerbox {
   background-color: var(--base);
   border: 1px solid var(--mauve);
   border-radius: 12px;
-  padding: 0; /* Remove padding from content to allow scroll area to reach edges if needed */
+  padding: 0;
   margin-top: 6px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
 }
 
 .popup-container {
-  padding: 16px; /* Move padding here */
+  padding: 16px;
 }
 
 .popup-section {
@@ -51,7 +46,6 @@ window.Bar2 > centerbox {
   margin-bottom: 0;
 }
 
-/* Títols de secció: Molt visibles */
 .popup-title {
   font-size: 10px;
   font-weight: 900;
@@ -63,7 +57,6 @@ window.Bar2 > centerbox {
   padding-bottom: 4px;
 }
 
-/* Valor principal gran i blanc per contrast */
 .popup-value-large {
   font-size: 22px;
   font-weight: 900;
@@ -71,14 +64,12 @@ window.Bar2 > centerbox {
   margin-bottom: 4px;
 }
 
-/* Text de descripció o detall */
 .popup-label-detail {
   font-size: 11px;
   color: var(--blue);
   font-weight: 600;
 }
 
-/* Files de dades (Key-Value) */
 .popup-data-row {
   margin: 6px 0;
 }
@@ -95,7 +86,6 @@ window.Bar2 > centerbox {
   color: var(--text);
 }
 
-/* Scroll area */
 .popup-scroll {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 8px;

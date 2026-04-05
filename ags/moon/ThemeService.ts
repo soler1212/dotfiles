@@ -1,37 +1,59 @@
 import { createState, createComputed } from "ags"
-import { themes, Theme } from "./themes"
-
-export const themesState = createState(themes)[0]
+import { themes, Theme, barPresets, BarPreset } from "./themes"
 
 class ThemeService {
-  private _state = createState<Theme>(themes[0])
+  private _theme = createState<Theme>(themes[0])
+  private _preset = createState<BarPreset>(barPresets[1]) // Modern Flat
 
-  // Computed que genera el string de variables CSS cada vegada que el tema canvia
-  private _cssVars = createComputed(() => {
-    const [currentTheme] = this._state
-    const theme = currentTheme()
-    return Object.entries(theme.colors)
+  // Accessors
+  public theme = this._theme[0]
+  public preset = this._preset[0]
+
+  // This generates the full CSS for the bar inner container
+  public barStyle = createComputed(() => {
+    const t = this.theme()
+    const p = this.preset()
+    
+    const barBg = p.transparent ? "transparent" : t.colors.bg
+    const barBorder = p.border ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
+    
+    return `
+      background-color: ${barBg};
+      margin: ${p.margin};
+      padding: ${p.padding};
+      border-radius: ${p.borderRadius}px;
+      border: ${barBorder};
+      min-height: 28px;
+    `
+  })
+
+  // This generates color variables for the rest of the UI (popups, etc)
+  public cssVars = createComputed(() => {
+    const t = this.theme()
+    return Object.entries(t.colors)
       .map(([key, value]) => `--${key.replace("_", "-")}: ${value};`)
       .join(" ")
   })
 
-  get currentTheme() {
-    return this._state[0]
-  }
-
-  get cssVars() {
-    return this._cssVars
-  }
-
   setTheme(name: string) {
-    console.log(`Switching to theme: ${name}`)
     const theme = themes.find((t) => t.name === name)
     if (theme) {
-      const [, setTheme] = this._state
+      const [, setTheme] = this._theme
       setTheme(theme)
     }
   }
+
+  setPreset(name: string) {
+    const preset = barPresets.find((p) => p.name === name)
+    if (preset) {
+      const [, setPreset] = this._preset
+      setPreset(preset)
+    }
+  }
 }
+
+export const themesState = createState(themes)[0]
+export const presetsState = createState(barPresets)[0]
 
 export const themeService = new ThemeService()
 export default themeService
