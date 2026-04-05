@@ -459,6 +459,11 @@ function Disk() {
             percent: parseInt(parts[4].replace("%", "")),
             path: parts[5],
           }))
+          .sort((a, b) => {
+            if (a.path === "/") return -1
+            if (b.path === "/") return 1
+            return a.path.localeCompare(b.path)
+          })
         return res.length > 0
           ? res
           : [
@@ -507,43 +512,50 @@ function Disk() {
               label="Disk Status"
               halign={Gtk.Align.START}
             />
-            <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
-              <For each={disks}>
-                {(d) => (
-                  <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
-                    <box spacing={8}>
-                      <label
-                        class="ssid-label"
-                        label={d.path}
-                        halign={Gtk.Align.START}
-                      />
-                      <label
-                        label={`${d.percent}% Full`}
-                        css={
-                          d.percent > 90
-                            ? "color: #f38ba8; font-weight: bold;"
-                            : "color: #a6adc8;"
-                        }
-                        halign={Gtk.Align.END}
-                        hexpand
-                      />
+            <Gtk.ScrolledWindow
+              vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+              hscrollbarPolicy={Gtk.PolicyType.NEVER}
+              maxContentHeight={300}
+              propagateNaturalHeight={true}
+            >
+              <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
+                <For each={disks}>
+                  {(d) => (
+                    <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+                      <box spacing={8}>
+                        <label
+                          class="ssid-label"
+                          label={d.path}
+                          halign={Gtk.Align.START}
+                        />
+                        <label
+                          label={`${d.percent}% Full`}
+                          css={
+                            d.percent > 90
+                              ? "color: #f38ba8; font-weight: bold;"
+                              : "color: #a6adc8;"
+                          }
+                          halign={Gtk.Align.END}
+                          hexpand
+                        />
+                      </box>
+                      <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+                        <label
+                          class="network-details"
+                          label={`${d.used} of ${d.total} used (${d.free} free)`}
+                          halign={Gtk.Align.START}
+                        />
+                        <label
+                          label={d.filesystem}
+                          css="font-size: 10px; opacity: 0.5;"
+                          halign={Gtk.Align.START}
+                        />
+                      </box>
                     </box>
-                    <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
-                      <label
-                        class="network-details"
-                        label={`${d.used} of ${d.total} used (${d.free} free)`}
-                        halign={Gtk.Align.START}
-                      />
-                      <label
-                        label={d.filesystem}
-                        css="font-size: 10px; opacity: 0.5;"
-                        halign={Gtk.Align.START}
-                      />
-                    </box>
-                  </box>
-                )}
-              </For>
-            </box>
+                  )}
+                </For>
+              </box>
+            </Gtk.ScrolledWindow>
           </box>
         </box>
       </popover>
