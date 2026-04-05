@@ -632,19 +632,83 @@ function Wireless() {
 }
 
 function AudioOutput() {
-  const { defaultSpeaker: speaker } = AstalWp.get_default()!
+  const wp = AstalWp.get_default()!
+  const speaker = wp.defaultSpeaker
 
   return (
     <menubutton>
       <image iconName={createBinding(speaker, "volumeIcon")} />
-      <popover>
-        <box>
-          <slider
-            widthRequest={260}
-            onChangeValue={({ value }) => speaker.set_volume(value)}
-            value={createBinding(speaker, "volume")}
-          />
+      <popover class="network-popover">
+        <box orientation={Gtk.Orientation.VERTICAL} spacing={12} widthRequest={320}>
+          {/* Main Volume Control */}
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
+            <label class="section-title" label="Volum Principal" halign={Gtk.Align.START} />
+            
+            <box spacing={12}>
+              <button 
+                onClicked={() => speaker.mute = !speaker.mute}
+                class="reveal-ip-btn"
+              >
+                <image iconName={createBinding(speaker, "mute").as(m => 
+                  m ? "audio-volume-muted-symbolic" : "audio-volume-high-symbolic"
+                )} />
+              </button>
+              <slider
+                hexpand
+                value={createBinding(speaker, "volume")}
+                $={(self) => self.connect("value-changed", () => {
+                  if (Math.abs(speaker.volume - self.value) > 0.01) {
+                    speaker.volume = self.value
+                  }
+                })}
+              />
+              <label 
+                label={createBinding(speaker, "volume").as(v => `${Math.round(v * 100)}%`)} 
+                css="min-width: 40px; font-weight: bold; font-family: 'JetBrains Mono';" 
+              />
+            </box>
 
+            <label 
+              class="network-details" 
+              label={createBinding(speaker, "description").as(d => d || "Dispositiu desconegut")} 
+              hexpand
+              halign={Gtk.Align.START}
+              maxWidthChars={35}
+            />
+          </box>
+
+          <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+
+          {/* Output Devices Selection */}
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
+            <label class="section-title" label="Dispositius de Sortida" halign={Gtk.Align.START} />
+            <Gtk.ScrolledWindow heightRequest={160} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} hscrollbarPolicy={Gtk.PolicyType.NEVER}>
+              <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+                <For each={createBinding(wp.audio, "speakers")}>
+                  {(s) => (
+                    <button 
+                      class="network-access-points-list-item"
+                      onClicked={() => s.is_default = true}
+                    >
+                      <box spacing={8}>
+                        <image iconName={createBinding(s, "volumeIcon")} />
+                        <label 
+                          label={createBinding(s, "description")} 
+                          hexpand 
+                          halign={Gtk.Align.START} 
+                          maxWidthChars={25}
+                        />
+                        <image 
+                          iconName="object-select-symbolic" 
+                          visible={createBinding(wp, "defaultSpeaker").as(def => def === s)} 
+                        />
+                      </box>
+                    </button>
+                  )}
+                </For>
+              </box>
+            </Gtk.ScrolledWindow>
+          </box>
         </box>
       </popover>
     </menubutton>
