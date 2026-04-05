@@ -1,6 +1,8 @@
 import { createState, createComputed } from "ags"
 import { themes, Theme } from "./themes"
 
+export const themesState = createState(themes)[0]
+
 class ThemeService {
   private _state = createState<Theme>(themes[0])
 
