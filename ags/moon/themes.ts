@@ -2,14 +2,14 @@ export interface BarPreset {
   name: string
   fontSize: string
   showSeparators: boolean
-  
+
   // Bar Container (bar-inner)
   innerBarBg: string
   innerBarBorder: string
   innerBarRadius: number
   innerBarMargin: string
   innerBarPadding: string
-  
+
   // Buttons (innerButton)
   buttonBg: string
   buttonFg: string
@@ -35,7 +35,7 @@ export const barPresets: BarPreset[] = [
     innerBarBorder: "1px solid rgba(255, 255, 255, 0.1)",
     innerBarRadius: 16,
     innerBarMargin: "10px 20px",
-    innerBarPadding: "0 12px",
+    innerBarPadding: "2px 12px",
     buttonBg: "rgba(255, 255, 255, 0.03)",
     buttonFg: "var(--button-fg)",
     buttonHoverBg: "rgba(255, 255, 255, 0.08)",
@@ -122,7 +122,7 @@ export interface Theme {
     overlay: string
     text: string
     subtext: string
-    
+
     // UI
     accent: string
     accent_fg: string
@@ -130,7 +130,7 @@ export interface Theme {
     button_bg: string
     button_fg: string
     border: string
-    
+
     // Status
     red: string
     green: string
