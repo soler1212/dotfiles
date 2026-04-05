@@ -1,168 +1,74 @@
-window.Bar, window.Bar2 {
+/* Ja no definim variables aquí, les gestiona el ThemeService */
+
+window.Bar2 {
   background-color: transparent;
   color: var(--text);
-  font-family: "JetBrains Mono", "Noto Sans", sans-serif;
-  font-size: 14px;
+  font-family: "JetBrains Mono", "monospace";
+  font-size: 11px;
 }
 
-window.Bar > centerbox, window.Bar2 > centerbox {
-  background-color: rgba(24, 24, 37, 0.9);
-  padding: 0 8px;
-  min-height: 32px;
+window.Bar2 > centerbox {
+  background-color: var(--bg);
+  margin: 4px 10px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: 28px;
 }
 
-/* Reset GTK Popover defaults to remove the bluish halo/background */
-popover {
+.module {
   background-color: transparent;
-  padding: 0;
-  border: none;
-  box-shadow: none;
+  padding: 0 6px;
+  margin: 0;
 }
 
-.network-popover > contents {
-  background-color: var(--popover-bg);
-  border: 1px solid rgba(137, 180, 250, 0.2);
-  border-radius: 12px;
-  padding: 16px;
-  margin-top: 6px; /* Space from the bar */
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-}
-
-/* Tarjetas sin fondo, solo estructura */
-.network-card {
-  background-color: transparent;
-  padding: 4px 0;
-}
-
-.status-section {
-  margin-bottom: 12px;
-}
-
-/* Títulos sutiles */
-.section-title {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--mauve);
-  opacity: 0.8;
-  margin-bottom: 12px;
-}
-
-/* Información de Red Principal */
-.ssid-label {
-  font-weight: 800;
-  font-size: 17px;
-  color: #ffffff;
-  margin-bottom: 2px;
-}
-
-.network-details {
-  font-weight: 500;
-  font-size: 12px;
-  color: var(--blue);
-}
-
-/* Separador elegante */
-separator {
-  background-color: rgba(205, 214, 244, 0.1);
-  min-height: 1px;
-  margin: 16px 0;
-}
-
-/* Filas de IP */
-.ip-row {
-  margin: 4px 0;
-}
-
-.ip-label {
-  font-size: 13px;
-  color: var(--text);
-  font-family: "JetBrains Mono";
-}
-
-.ip-icon {
-  margin-right: 8px;
-  opacity: 0.8;
-}
-
-.reveal-ip-btn {
-  background-color: transparent;
-  color: var(--subtext0);
-  border-radius: 6px;
-  padding: 2px 6px;
-  border: 1px solid rgba(137, 180, 250, 0.1);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: rgba(137, 180, 250, 0.1);
-    color: #ffffff;
-    border-color: rgba(137, 180, 250, 0.3);
-  }
-
-  &:checked {
-    background-color: rgba(137, 180, 250, 0.2);
-    color: var(--blue);
-    border-color: rgba(137, 180, 250, 0.5);
-  }
-
-  image {
-    font-size: 14px;
-  }
-}
-
-/* Lista de Redes Disponibles */
-.network-access-points-list-item {
-  all: unset;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.15s ease-out;
-  margin: 1px 0;
-  color: var(--text);
-}
-
-.network-access-points-list-item:hover {
-  background-color: rgba(137, 180, 250, 0.1);
-  color: #ffffff;
-}
-
-/* Estilos de los elementos de la barra */
 .workspaces button {
-  background-color: var(--surface0);
-  opacity: 0.5;
+  all: unset;
   color: var(--subtext0);
-  margin: 4px 2px;
+  margin: 0 2px;
   padding: 0 8px;
   border-radius: 4px;
+  min-height: 20px;
+  transition: all 0.2s ease;
 }
 
 .workspaces button.focused {
   background-color: var(--blue);
   color: var(--base);
-  opacity: 1;
+  font-weight: 800;
 }
 
-.cpu, .memory, .battery, .clock, .disk {
-  padding: 0 8px;
-  font-weight: bold;
+.workspaces button:hover:not(.focused) {
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
-menubutton {
-  all: unset;
-}
-
-.disk {
-  color: var(--yellow);
-}
-
-.cpu {
+.active-window label {
   color: var(--mauve);
+  font-weight: 700;
+  margin-left: 12px;
 }
 
-.memory {
-  color: var(--blue);
+.clock-module {
+  color: var(--text);
+  font-weight: 800;
 }
 
-.battery {
-  color: var(--green);
+.module-separator {
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 6px 4px;
+  min-width: 1px;
+  min-height: 16px;
+}
+
+.module image {
+  -gtk-icon-size: 13px;
+}
+
+.cpu { color: var(--mauve); }
+.memory { color: var(--blue); }
+.disk { color: var(--yellow); }
+.battery-icon { color: var(--green); }
+
+.tray image {
+  margin: 0 3px;
 }

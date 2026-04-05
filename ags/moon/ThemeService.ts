@@ -8,11 +8,16 @@ class ThemeService {
 
   constructor() {
     this._provider = new Gtk.CssProvider()
-    Gtk.StyleContext.add_provider_for_display(
-      Gdk.Display.get_default()!,
-      this._provider,
-      Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )
+    
+    // Usem la prioritat més alta (USER) per sobreposar-nos als estils de l'aplicació
+    const display = Gdk.Display.get_default()
+    if (display) {
+      Gtk.StyleContext.add_provider_for_display(
+        display,
+        this._provider,
+        Gtk.STYLE_PROVIDER_PRIORITY_USER
+      )
+    }
 
     const [currentTheme] = this._state
     createRoot(() => {
@@ -27,6 +32,7 @@ class ThemeService {
   }
 
   setTheme(name: string) {
+    console.log(`Setting theme to: ${name}`)
     const theme = themes.find((t) => t.name === name)
     if (theme) {
       const [, setTheme] = this._state
@@ -39,13 +45,15 @@ class ThemeService {
       .map(([key, value]) => `--${key.replace("_", "-")}: ${value};`)
       .join("\n")
 
+    // GTK 4 sol ser més estable si apliquem les variables a la classe principal de la finestra o a l'asterisc (*)
+    // Sense !important per evitar problemes sintàctics amb les variables
     const css = `* { ${cssVars} }`
     
     try {
-        // GTK 4 load_from_data expects a string or Uint8Array
-        this._provider.load_from_data(css, -1)
+      this._provider.load_from_data(css, -1)
+      console.log(`Theme ${theme.name} applied`)
     } catch (e) {
-        console.error("Failed to apply CSS via CssProvider:", e)
+      console.error("Failed to apply CSS variables:", e)
     }
   }
 }

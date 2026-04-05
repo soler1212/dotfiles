@@ -971,153 +971,145 @@ function Battery() {
   })
 
   return (
-    <box spacing={8}>
-      <CPU />
-      <Memory />
-      <Disk />
-      <menubutton visible={createBinding(battery, "isPresent")}>
-        <box spacing={4}>
-          <image iconName={createBinding(battery, "iconName")} />
-          <label label={percent} />
-        </box>
-        <popover class="network-popover">
-          <box orientation={Gtk.Orientation.VERTICAL} spacing={12} widthRequest={320}>
-            {/* Battery Status Header */}
-            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={12}>
-              <label class="section-title" label="Estat de la Bateria" halign={Gtk.Align.START} />
-              
-              <box spacing={16} valign={Gtk.Align.CENTER}>
-                <image 
-                  iconName={createBinding(battery, "iconName")} 
-                  css="font-size: 40px; color: var(--green);"
- 
-                />
-                <box orientation={Gtk.Orientation.VERTICAL} hexpand>
-                  <box spacing={8}>
-                    <label 
-                      class="ssid-label" 
-                      label={percent} 
-                      halign={Gtk.Align.START} 
-                    />
-                    <label 
-                      class="network-details" 
-                      label={stateLabel} 
-                      halign={Gtk.Align.START} 
-                      valign={Gtk.Align.END}
-                      css="margin-bottom: 4px;"
-                    />
-                  </box>
-                  {/* Visual Level Bar */}
-                  <levelbar 
-                    value={createBinding(battery, "percentage")} 
-                    css="margin-top: 4px; min-height: 8px;"
+    <menubutton class="battery" visible={createBinding(battery, "isPresent")}>
+      <box spacing={4}>
+        <image iconName={createBinding(battery, "iconName")} class="battery-icon" />
+        <label label={percent} />
+      </box>
+      <popover class="network-popover">
+        <box orientation={Gtk.Orientation.VERTICAL} spacing={12} widthRequest={320}>
+          {/* Battery Status Header */}
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={12}>
+            <label class="section-title" label="Estat de la Bateria" halign={Gtk.Align.START} />
+
+            <box spacing={16} valign={Gtk.Align.CENTER}>
+              <image 
+                iconName={createBinding(battery, "iconName")} 
+                css="font-size: 40px; color: var(--green);" 
+              />
+              <box orientation={Gtk.Orientation.VERTICAL} hexpand>
+                <box spacing={8}>
+                  <label 
+                    class="ssid-label" 
+                    label={percent} 
+                    halign={Gtk.Align.START} 
+                  />
+                  <label 
+                    class="network-details" 
+                    label={stateLabel} 
+                    halign={Gtk.Align.START} 
+                    valign={Gtk.Align.END}
+                    css="margin-bottom: 4px;"
                   />
                 </box>
-              </box>
-            </box>
-
-            <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
-
-            {/* Power Details */}
-            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-              <label class="section-title" label="Detalls d'Energia" halign={Gtk.Align.START} />
-              
-              <box spacing={8}>
-                <image iconName="power-profile-balanced-symbolic" class="ip-icon" />
-                <label class="ip-label" label="Consum: " />
-                <label 
-                  class="network-details" 
-                  label={createBinding(battery, "energyRate").as(r => `${r.toFixed(2)} W`)} 
-                  hexpand 
-                  halign={Gtk.Align.END} 
+                {/* Visual Level Bar */}
+                <levelbar 
+                  value={createBinding(battery, "percentage")} 
+                  css="margin-top: 4px; min-height: 8px;"
                 />
-              </box>
-
-              <box spacing={8}>
-                <image iconName="temperature-symbolic" class="ip-icon" />
-                <label class="ip-label" label="Temperatura: " />
-                <label 
-                  class="network-details" 
-                  label={createBinding(battery, "temperature").as(t => `${t.toFixed(1)}°C`)} 
-                  hexpand 
-                  halign={Gtk.Align.END} 
-                />
-              </box>
-
-              <box spacing={8}>
-                <image iconName="time-symbolic" class="ip-icon" />
-                <label class="ip-label" label={createBinding(battery, "state").as(s => 
-                  s === AstalBattery.State.CHARGING ? "Temps per carregar: " : "Temps restant: "
-                )} />
-                <label 
-                  class="network-details" 
-                  label={createBinding(battery, "state").as(s => {
-                    const t = s === AstalBattery.State.CHARGING ? battery.timeToFull : battery.timeToEmpty
-                    if (t <= 0) return "N/A"
-                    const h = Math.floor(t / 3600)
-                    const m = Math.floor((t % 3600) / 60)
-                    return h > 0 ? `${h}h ${m}m` : `${m}m`
-                  })} 
-                  hexpand 
-                  halign={Gtk.Align.END} 
-                />
-              </box>
-
-              <box spacing={8}>
-                <image iconName="battery-health-symbolic" class="ip-icon" />
-                <label class="ip-label" label="Salut bateria: " />
-                <label 
-                  class="network-details" 
-                  label={createBinding(battery, "capacity").as(c => `${Math.round(c * 100)}%`)} 
-                  hexpand 
-                  halign={Gtk.Align.END} 
-                />
-              </box>
-            </box>
-
-            <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
-
-            {/* Power Profiles Selection */}
-            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-              <label class="section-title" label="Perfil de Rendiment" halign={Gtk.Align.START} />
-              <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
-                {powerprofiles.get_profiles().map(({ profile }) => (
-                  <button 
-                    class="network-access-points-list-item"
-                    onClicked={() => powerprofiles.set_active_profile(profile)}
-                  >
-                    <box spacing={8}>
-                      <image 
-                        iconName={
-                          profile === "performance" ? "power-profile-performance-symbolic" :
-                          profile === "balanced" ? "power-profile-balanced-symbolic" :
-                          "power-profile-power-saver-symbolic"
-                        } 
-                      />
-                      <label 
-                        label={profile.charAt(0).toUpperCase() + profile.slice(1)} 
-                        hexpand 
-                        halign={Gtk.Align.START} 
-                      />
-                      <image 
-                        iconName="object-select-symbolic" 
-                        visible={createBinding(powerprofiles, "activeProfile").as(p => p === profile)} 
-                      />
-                    </box>
-                  </button>
-                ))}
               </box>
             </box>
           </box>
-        </popover>
-      </menubutton>
-    </box>
+
+          <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+
+          {/* Power Details */}
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
+            <label class="section-title" label="Detalls d'Energia" halign={Gtk.Align.START} />
+
+            <box spacing={8}>
+              <image iconName="power-profile-balanced-symbolic" class="ip-icon" />
+              <label class="ip-label" label="Consum: " />
+              <label 
+                class="network-details" 
+                label={createBinding(battery, "energyRate").as(r => `${r.toFixed(2)} W`)} 
+                hexpand 
+                halign={Gtk.Align.END} 
+              />
+            </box>
+
+            <box spacing={8}>
+              <image iconName="temperature-symbolic" class="ip-icon" />
+              <label class="ip-label" label="Temperatura: " />
+              <label 
+                class="network-details" 
+                label={createBinding(battery, "temperature").as(t => `${t.toFixed(1)}°C`)} 
+                hexpand 
+                halign={Gtk.Align.END} 
+              />
+            </box>
+
+            <box spacing={8}>
+              <image iconName="time-symbolic" class="ip-icon" />
+              <label class="ip-label" label={createBinding(battery, "state").as(s => 
+                s === AstalBattery.State.CHARGING ? "Temps per carregar: " : "Temps restant: "
+              )} />
+              <label 
+                class="network-details" 
+                label={createBinding(battery, "state").as(s => {
+                  const t = s === AstalBattery.State.CHARGING ? battery.timeToFull : battery.timeToEmpty
+                  if (t <= 0) return "N/A"
+                  const h = Math.floor(t / 3600)
+                  const m = Math.floor((t % 3600) / 60)
+                  return h > 0 ? `${h}h ${m}m` : `${m}m`
+                })} 
+                hexpand 
+                halign={Gtk.Align.END} 
+              />
+            </box>
+
+            <box spacing={8}>
+              <image iconName="battery-health-symbolic" class="ip-icon" />
+              <label class="ip-label" label="Salut bateria: " />
+              <label 
+                class="network-details" 
+                label={createBinding(battery, "capacity").as(c => `${Math.round(c * 100)}%`)} 
+                hexpand 
+                halign={Gtk.Align.END} 
+              />
+            </box>
+          </box>
+
+          <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+
+          {/* Power Profiles Selection */}
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
+            <label class="section-title" label="Perfil de Rendiment" halign={Gtk.Align.START} />
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+              {powerprofiles.get_profiles().map(({ profile }) => (
+                <button 
+                  class="network-access-points-list-item"
+                  onClicked={() => powerprofiles.set_active_profile(profile)}
+                >
+                  <box spacing={8}>
+                    <image 
+                      iconName={
+                        profile === "performance" ? "power-profile-performance-symbolic" :
+                        profile === "balanced" ? "power-profile-balanced-symbolic" :
+                        "power-profile-power-saver-symbolic"
+                      } 
+                    />
+                    <label 
+                      label={profile.charAt(0).toUpperCase() + profile.slice(1)} 
+                      hexpand 
+                      halign={Gtk.Align.START} 
+                    />
+                    <image 
+                      iconName="object-select-symbolic" 
+                      visible={createBinding(powerprofiles, "activeProfile").as(p => p === profile)} 
+                    />
+                  </box>
+                </button>
+              ))}
+            </box>
+          </box>
+        </box>
+      </popover>
+    </menubutton>
   )
 }
 
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
-  // Assuming these are still available in Gtk or ags exports
-  // If Astal is dropped, they might be directly in the window props or Gtk namespace
   return (
     <window
       visible
@@ -1129,20 +1121,54 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
       application={app}
     >
       <centerbox>
-        <box $type="start" spacing={4} >
-          <Workspaces />
+        <box $type="start" spacing={0} valign={Gtk.Align.CENTER}>
+          <box class="module">
+            <Workspaces />
+          </box>
+          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+          <box class="module">
+            <ActiveWindow />
+          </box>
         </box>
-        <box $type="center">
-          <ActiveWindow />
+
+        <box $type="center" valign={Gtk.Align.CENTER}>
+          <box class="module">
+            <Clock format="%H:%M - %A %d %b" />
+          </box>
         </box>
-        <box $type="end" spacing={8}>
-          <ThemeSwitcher />
-          <Tray />
-          <AudioOutput />
-          <Wireless />
-          <Mpris />
-          <Battery />
-          <Clock />
+
+        <box $type="end" spacing={0} valign={Gtk.Align.CENTER}>
+          <box class="module">
+            <Mpris />
+          </box>
+
+          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+
+          <box class="module" spacing={8}>
+            <CPU />
+            <Memory />
+            <Disk />
+            <Battery />
+          </box>
+
+          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+
+          <box class="module" spacing={8}>
+            <AudioOutput />
+            <Wireless />
+          </box>
+
+          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+
+          <box class="module tray">
+            <Tray />
+          </box>
+
+          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+
+          <box class="module">
+            <ThemeSwitcher />
+          </box>
         </box>
       </centerbox>
     </window>
