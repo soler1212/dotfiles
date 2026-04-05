@@ -12,6 +12,7 @@ import { Disk } from "./components/Disk"
 import { AudioOutput } from "./components/AudioOutput"
 import { Wireless } from "./components/Wireless"
 import { Tray } from "./components/Tray"
+import { Bluetooth } from "./components/Bluetooth"
 import { ModuleSeparator } from "./atoms/Layout"
 
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
@@ -50,24 +51,30 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
 
           <ModuleSeparator />
 
-          <box class="module" spacing={8}>
-            <Battery />
+          <box class="module tray" spacing={8}>
+            <Tray />
+            <Bluetooth />
+          </box>
+
+          <ModuleSeparator />
+
+          <box class="module" spacing={12}>
+            <Wireless />
+            <AudioOutput />
+          </box>
+
+          <ModuleSeparator />
+
+          <box class="module" spacing={12}>
+            <Disk />
             <CPU />
             <Memory />
-            <Disk />
           </box>
 
           <ModuleSeparator />
 
-          <box class="module" spacing={8}>
-            <AudioOutput />
-            <Wireless />
-          </box>
-
-          <ModuleSeparator />
-
-          <box class="module tray">
-            <Tray />
+          <box class="module">
+            <Battery />
           </box>
         </box>
       </centerbox>
