@@ -5,6 +5,8 @@ import { useNetwork } from "../../hooks/useNetwork"
 import { CurrentNetworkInfo } from "./current-network-info"
 import { IPsInfo } from "./ips-info"
 import { NetworkAccessPointListItem } from "./network-access-points-list-item"
+import { PopupSection, PopupTitle } from "../atoms/Popup"
+import { PopupScroll } from "../atoms/Layout"
 
 export function Wireless() {
   const { getNetworkBindings, getActiveNetworkData, sortedAccessPoints } = useNetwork();
@@ -32,32 +34,30 @@ export function Wireless() {
               <popover class="network-popover">
                 <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
                   {/* Status Section */}
-                  <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-                    <label class="popup-title" label="Current Network" halign={Gtk.Align.START} />
+                  <PopupSection>
+                    <PopupTitle label="Current Network" />
                     <CurrentNetworkInfo networkData={activeNetwork} />
                     
                     <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.HORIZONTAL} css="margin: 12px 0;" />
                     
-                    <label class="popup-title" label="IP Information" halign={Gtk.Align.START} />
+                    <PopupTitle label="IP Information" />
                     <IPsInfo
                       privateIps={privateIps}
                       publicIp={publicIp}
                     />
-                  </box>
+                  </PopupSection>
 
                   {/* AP List Section */}
-                  <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-                    <label class="popup-title" label="Available Networks" halign={Gtk.Align.START} />
-                    <Gtk.ScrolledWindow heightRequest={200} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
-                      <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
-                        <For each={createBinding(wifi, "accessPoints")(sortedAccessPoints)}>
-                          {(ap: AstalNetwork.AccessPoint) => (
-                            <NetworkAccessPointListItem accessPoint={ap} wifi={wifi} />
-                          )}
-                        </For>
-                      </box>
-                    </Gtk.ScrolledWindow>
-                  </box>
+                  <PopupSection>
+                    <PopupTitle label="Available Networks" />
+                    <PopupScroll height={200}>
+                      <For each={createBinding(wifi, "accessPoints")(sortedAccessPoints)}>
+                        {(ap: AstalNetwork.AccessPoint) => (
+                          <NetworkAccessPointListItem accessPoint={ap} wifi={wifi} />
+                        )}
+                      </For>
+                    </PopupScroll>
+                  </PopupSection>
                 </box>
               </popover>
             </menubutton>

@@ -2,6 +2,9 @@ import { Gtk } from "ags/gtk4"
 import { execAsync } from "ags/process"
 import { For, createBinding } from "ags"
 import AstalWp from "gi://AstalWp"
+import { PopupSection, PopupTitle, PopupDetail } from "../atoms/Popup"
+import { DataRow, DataValue } from "../atoms/Data"
+import { PopupScroll, PopupListItem } from "../atoms/Layout"
 
 export function AudioOutput() {
   const wp = AstalWp.get_default()!
@@ -13,21 +16,20 @@ export function AudioOutput() {
       <image iconName={createBinding(speaker, "volumeIcon")} />
       <popover class="network-popover">
         <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
-          <Gtk.ScrolledWindow heightRequest={450} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
+          <PopupScroll height={450} spacing={16}>
             <box orientation={Gtk.Orientation.VERTICAL} spacing={16} class="popup-container">
               
               {/* Output Volume */}
-              <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-                <label class="popup-title" label="Speaker Volume" halign={Gtk.Align.START} />
-                <box spacing={12} class="popup-data-row">
-                  <button 
+              <PopupSection>
+                <PopupTitle label="Speaker Volume" />
+                <DataRow spacing={12}>
+                  <PopupListItem 
                     onClicked={() => speaker.mute = !speaker.mute}
-                    class="popup-list-item"
                   >
                     <image iconName={createBinding(speaker, "mute").as(m => 
                       m ? "audio-volume-muted-symbolic" : "audio-volume-high-symbolic"
                     )} />
-                  </button>
+                  </PopupListItem>
                   <slider
                     hexpand
                     value={createBinding(speaker, "volume")}
@@ -37,32 +39,29 @@ export function AudioOutput() {
                       }
                     })}
                   />
-                  <label 
+                  <DataValue 
                     label={createBinding(speaker, "volume").as(v => `${Math.round(v * 100)}%`)} 
-                    class="popup-data-value"
                     css="min-width: 35px;"
                   />
-                </box>
-                <label 
-                  class="popup-label-detail" 
+                </DataRow>
+                <PopupDetail 
                   label={createBinding(speaker, "description").as(d => d || "Unknown Device")} 
                   maxWidthChars={30}
                   ellipsize={3}
                 />
-              </box>
+              </PopupSection>
 
               {/* Input Volume */}
-              <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-                <label class="popup-title" label="Microphone Volume" halign={Gtk.Align.START} />
-                <box spacing={12} class="popup-data-row">
-                  <button 
+              <PopupSection>
+                <PopupTitle label="Microphone Volume" />
+                <DataRow spacing={12}>
+                  <PopupListItem 
                     onClicked={() => microphone.mute = !microphone.mute}
-                    class="popup-list-item"
                   >
                     <image iconName={createBinding(microphone, "mute").as(m => 
                       m ? "microphone-sensitivity-muted-symbolic" : "microphone-sensitivity-high-symbolic"
                     )} />
-                  </button>
+                  </PopupListItem>
                   <slider
                     hexpand
                     value={createBinding(microphone, "volume")}
@@ -72,39 +71,36 @@ export function AudioOutput() {
                       }
                     })}
                   />
-                  <label 
+                  <DataValue 
                     label={createBinding(microphone, "volume").as(v => `${Math.round(v * 100)}%`)} 
-                    class="popup-data-value"
                     css="min-width: 35px;"
                   />
-                </box>
-                <label 
-                  class="popup-label-detail" 
+                </DataRow>
+                <PopupDetail 
                   label={createBinding(microphone, "description").as(d => d || "Unknown Mic")} 
                   maxWidthChars={30}
                   ellipsize={3}
                 />
-              </box>
+              </PopupSection>
 
               <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.HORIZONTAL} />
 
               {/* Output Devices Selection */}
-              <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-                <label class="popup-title" label="Output Devices" halign={Gtk.Align.START} />
+              <PopupSection>
+                <PopupTitle label="Output Devices" />
                 <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
                   <For each={createBinding(wp.audio, "speakers")}>
                     {(s) => (
-                      <button 
-                        class="popup-list-item"
+                      <PopupListItem 
                         onClicked={() => s.is_default = true}
                       >
                         <box spacing={8}>
                           <image iconName={createBinding(s, "volumeIcon")} />
-                          <label 
+                          <DataValue 
                             label={createBinding(s, "description")} 
                             hexpand 
                             halign={Gtk.Align.START} 
-                            class="popup-data-key"
+                            css="font-size: 12px; font-weight: 500; color: var(--subtext0);" // popup-data-key style
                             maxWidthChars={22}
                             ellipsize={3}
                           />
@@ -113,29 +109,28 @@ export function AudioOutput() {
                             visible={createBinding(wp, "defaultSpeaker").as(def => def === s)} 
                           />
                         </box>
-                      </button>
+                      </PopupListItem>
                     )}
                   </For>
                 </box>
-              </box>
+              </PopupSection>
 
               {/* Input Devices Selection */}
-              <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-                <label class="popup-title" label="Input Devices" halign={Gtk.Align.START} />
+              <PopupSection>
+                <PopupTitle label="Input Devices" />
                 <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
                   <For each={createBinding(wp.audio, "microphones")}>
                     {(m) => (
-                      <button 
-                        class="popup-list-item"
+                      <PopupListItem 
                         onClicked={() => m.is_default = true}
                       >
                         <box spacing={8}>
                           <image iconName={createBinding(m, "volumeIcon")} />
-                          <label 
+                          <DataValue 
                             label={createBinding(m, "description")} 
                             hexpand 
                             halign={Gtk.Align.START} 
-                            class="popup-data-key"
+                            css="font-size: 12px; font-weight: 500; color: var(--subtext0);"
                             maxWidthChars={22}
                             ellipsize={3}
                           />
@@ -144,24 +139,23 @@ export function AudioOutput() {
                             visible={createBinding(wp, "defaultMicrophone").as(def => def === m)} 
                           />
                         </box>
-                      </button>
+                      </PopupListItem>
                     )}
                   </For>
                 </box>
-              </box>
+              </PopupSection>
 
-              <button 
-                class="popup-list-item"
+              <PopupListItem 
                 onClicked={() => execAsync("pavucontrol")}
                 css="margin-top: 8px; background-color: rgba(255,255,255,0.03);"
               >
                 <box spacing={8} halign={Gtk.Align.CENTER} hexpand>
                   <image iconName="preferences-system-symbolic" />
-                  <label label="Audio Settings" class="popup-data-value" />
+                  <DataValue label="Audio Settings" />
                 </box>
-              </button>
+              </PopupListItem>
             </box>
-          </Gtk.ScrolledWindow>
+          </PopupScroll>
         </box>
       </popover>
     </menubutton>

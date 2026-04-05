@@ -1,6 +1,9 @@
 import { Gtk } from "ags/gtk4"
 import { createPoll } from "ags/time"
 import { For } from "ags"
+import { PopupSection, PopupTitle } from "../atoms/Popup"
+import { DataRow, DataKey, DataValue } from "../atoms/Data"
+import { PopupScroll } from "../atoms/Layout"
 
 export function Disk() {
   const disks = createPoll(
@@ -64,31 +67,28 @@ export function Disk() {
       </box>
       <popover class="network-popover">
         <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
-          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-            <label class="popup-title" label="Disk Status" halign={Gtk.Align.START} />
-            <Gtk.ScrolledWindow heightRequest={240} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
-              <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
-                <For each={disks}>
-                  {(d) => (
-                    <box orientation={Gtk.Orientation.VERTICAL} class="popup-data-row">
-                      <box spacing={8}>
-                        <label class="popup-data-value" label={d.path} halign={Gtk.Align.START} />
-                        <label
-                          label={`${d.percent}%`}
-                          class="popup-data-value"
-                          css={d.percent > 90 ? "color: var(--red);" : "color: var(--mauve);"}
-                          halign={Gtk.Align.END}
-                          hexpand
-                        />
-                      </box>
-                      <label class="popup-data-key" label={`${d.used} of ${d.total} (${d.free} free)`} halign={Gtk.Align.START} />
-                      <label label={d.filesystem} css="font-size: 9px; opacity: 0.4;" class="popup-data-key" />
-                    </box>
-                  )}
-                </For>
-              </box>
-            </Gtk.ScrolledWindow>
-          </box>
+          <PopupSection>
+            <PopupTitle label="Disk Status" />
+            <PopupScroll height={240} spacing={12}>
+              <For each={disks}>
+                {(d) => (
+                  <box orientation={Gtk.Orientation.VERTICAL}>
+                    <DataRow spacing={8}>
+                      <DataValue label={d.path} halign={Gtk.Align.START} />
+                      <DataValue
+                        label={`${d.percent}%`}
+                        css={d.percent > 90 ? "color: var(--red);" : "color: var(--mauve);"}
+                        halign={Gtk.Align.END}
+                        hexpand
+                      />
+                    </DataRow>
+                    <DataKey label={`${d.used} of ${d.total} (${d.free} free)`} />
+                    <label label={d.filesystem} css="font-size: 9px; opacity: 0.4;" class="popup-data-key" />
+                  </box>
+                )}
+              </For>
+            </PopupScroll>
+          </PopupSection>
         </box>
       </popover>
     </menubutton>

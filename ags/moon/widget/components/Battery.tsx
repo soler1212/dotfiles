@@ -2,6 +2,8 @@ import { Gtk } from "ags/gtk4"
 import { createBinding } from "ags"
 import AstalBattery from "gi://AstalBattery"
 import { ThemeSwitcher } from "./ThemeSwitcher"
+import { PopupSection, PopupTitle, PopupValueLarge, PopupDetail } from "../atoms/Popup"
+import { DataRow, DataKey, DataValue } from "../atoms/Data"
 
 export function Battery() {
   const battery = AstalBattery.get_default()
@@ -33,32 +35,32 @@ export function Battery() {
           <ThemeSwitcher />
 
           {/* Battery Info Section */}
-          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-            <label class="popup-title" label="Battery Status" halign={Gtk.Align.START} />
+          <PopupSection>
+            <PopupTitle label="Battery Status" />
             <box spacing={16} valign={Gtk.Align.CENTER}>
               <image iconName={createBinding(battery, "iconName")} css="font-size: 32px; color: var(--green);" />
               <box orientation={Gtk.Orientation.VERTICAL} hexpand>
-                <label class="popup-value-large" label={percent} />
-                <label class="popup-label-detail" label={stateLabel} />
+                <PopupValueLarge label={percent} />
+                <PopupDetail label={stateLabel} />
                 <levelbar value={createBinding(battery, "percentage")} css="margin-top: 6px; min-height: 4px;" />
               </box>
             </box>
-          </box>
+          </PopupSection>
 
           {/* Power Details Section */}
-          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-            <label class="popup-title" label="Energy Details" halign={Gtk.Align.START} />
+          <PopupSection>
+            <PopupTitle label="Energy Details" />
             <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
-              <box class="popup-data-row">
-                <label label="Consumption" class="popup-data-key" hexpand halign={Gtk.Align.START} />
-                <label label={createBinding(battery, "energyRate").as(r => `${r.toFixed(2)} W`)} class="popup-data-value" />
-              </box>
-              <box class="popup-data-row">
-                <label label="Health" class="popup-data-key" hexpand halign={Gtk.Align.START} />
-                <label label={createBinding(battery, "capacity").as(c => `${Math.round(c * 100)}%`)} class="popup-data-value" />
-              </box>
+              <DataRow>
+                <DataKey label="Consumption" hexpand />
+                <DataValue label={createBinding(battery, "energyRate").as(r => `${r.toFixed(2)} W`)} />
+              </DataRow>
+              <DataRow>
+                <DataKey label="Health" hexpand />
+                <DataValue label={createBinding(battery, "capacity").as(c => `${Math.round(c * 100)}%`)} />
+              </DataRow>
             </box>
-          </box>
+          </PopupSection>
         </box>
       </popover>
     </menubutton>

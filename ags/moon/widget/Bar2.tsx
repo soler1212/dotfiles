@@ -12,6 +12,7 @@ import { Disk } from "./components/Disk"
 import { AudioOutput } from "./components/AudioOutput"
 import { Wireless } from "./components/Wireless"
 import { Tray } from "./components/Tray"
+import { ModuleSeparator } from "./atoms/Layout"
 
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
   return (
@@ -30,7 +31,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
           <box class="module">
             <Workspaces />
           </box>
-          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+          <ModuleSeparator />
           <box class="module">
             <ActiveWindow />
           </box>
@@ -47,7 +48,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
             <Mpris />
           </box>
 
-          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+          <ModuleSeparator />
 
           <box class="module" spacing={8}>
             <Battery />
@@ -56,14 +57,14 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
             <Disk />
           </box>
 
-          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+          <ModuleSeparator />
 
           <box class="module" spacing={8}>
             <AudioOutput />
             <Wireless />
           </box>
 
-          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
+          <ModuleSeparator />
 
           <box class="module tray">
             <Tray />

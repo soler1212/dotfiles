@@ -1,5 +1,7 @@
 import { Gtk } from "ags/gtk4"
 import { createPoll } from "ags/time"
+import { PopupSection, PopupTitle, PopupValueLarge, PopupDetail } from "../atoms/Popup"
+import { DataRow, DataKey, DataValue } from "../atoms/Data"
 
 export function Memory() {
   const ram = createPoll(
@@ -81,31 +83,31 @@ export function Memory() {
       </box>
       <popover class="network-popover">
         <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
-          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-            <label class="popup-title" label="Memory Status" halign={Gtk.Align.START} />
-            <label class="popup-value-large" label={ram.as((r) => `${r.percent}% RAM Used`)} halign={Gtk.Align.START} />
-            <label class="popup-label-detail" label={ram.as((r) => `Used: ${formatMB(r.used)} / Total: ${formatMB(r.total)}`)} halign={Gtk.Align.START} />
-          </box>
+          <PopupSection>
+            <PopupTitle label="Memory Status" />
+            <PopupValueLarge label={ram.as((r) => `${r.percent}% RAM Used`)} />
+            <PopupDetail label={ram.as((r) => `Used: ${formatMB(r.used)} / Total: ${formatMB(r.total)}`)} />
+          </PopupSection>
 
-          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
-            <label class="popup-title" label="Breakdown" halign={Gtk.Align.START} />
-            <box spacing={16} class="popup-data-row">
+          <PopupSection>
+            <PopupTitle label="Breakdown" />
+            <DataRow spacing={16}>
               <box orientation={Gtk.Orientation.VERTICAL} hexpand>
-                <label label="Available" class="popup-data-key" />
-                <label label={ram.as((r) => formatMB(r.available))} class="popup-data-value" />
+                <DataKey label="Available" />
+                <DataValue label={ram.as((r) => formatMB(r.available))} halign={Gtk.Align.START} />
               </box>
               <box orientation={Gtk.Orientation.VERTICAL} hexpand>
-                <label label="Cached" class="popup-data-key" />
-                <label label={ram.as((r) => formatMB(r.cache))} class="popup-data-value" />
+                <DataKey label="Cached" />
+                <DataValue label={ram.as((r) => formatMB(r.cache))} halign={Gtk.Align.START} />
               </box>
-            </box>
-          </box>
+            </DataRow>
+          </PopupSection>
 
-          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section" visible={ram.as((r) => r.swapTotal > 0)}>
-            <label class="popup-title" label="Swap Usage" halign={Gtk.Align.START} />
-            <label class="popup-value-large" label={ram.as((r) => `${r.swapPercent}% Used`)} halign={Gtk.Align.START} />
-            <label class="popup-label-detail" label={ram.as((r) => `Used: ${formatMB(r.swapUsed)} / Total: ${formatMB(r.swapTotal)}`)} halign={Gtk.Align.START} />
-          </box>
+          <PopupSection visible={ram.as((r) => r.swapTotal > 0)}>
+            <PopupTitle label="Swap Usage" />
+            <PopupValueLarge label={ram.as((r) => `${r.swapPercent}% Used`)} />
+            <PopupDetail label={ram.as((r) => `Used: ${formatMB(r.swapUsed)} / Total: ${formatMB(r.swapTotal)}`)} />
+          </PopupSection>
         </box>
       </popover>
     </menubutton>
