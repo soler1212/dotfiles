@@ -1,14 +1,6 @@
-$base: #1e1e2e;
-$text: #cdd6f4;
-$subtext0: #bac2de;
-$blue: #89b4fa;
-$green: #a6e3a1;
-$mauve: #cba6f7;
-$surface0: #313244;
-
 window.Bar, window.Bar2 {
   background-color: transparent;
-  color: $text;
+  color: var(--text);
   font-family: "JetBrains Mono", "Noto Sans", sans-serif;
   font-size: 14px;
 }
@@ -28,7 +20,7 @@ popover {
 }
 
 .network-popover > contents {
-  background-color: #0b0b12; /* Deep black background */
+  background-color: var(--popover-bg);
   border: 1px solid rgba(137, 180, 250, 0.2);
   border-radius: 12px;
   padding: 16px;
@@ -52,7 +44,8 @@ popover {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: rgba(203, 166, 247, 0.8);
+  color: var(--mauve);
+  opacity: 0.8;
   margin-bottom: 12px;
 }
 
@@ -67,7 +60,7 @@ popover {
 .network-details {
   font-weight: 500;
   font-size: 12px;
-  color: $blue;
+  color: var(--blue);
 }
 
 /* Separador elegante */
@@ -84,7 +77,7 @@ separator {
 
 .ip-label {
   font-size: 13px;
-  color: $text;
+  color: var(--text);
   font-family: "JetBrains Mono";
 }
 
@@ -95,7 +88,7 @@ separator {
 
 .reveal-ip-btn {
   background-color: transparent;
-  color: $subtext0;
+  color: var(--subtext0);
   border-radius: 6px;
   padding: 2px 6px;
   border: 1px solid rgba(137, 180, 250, 0.1);
@@ -109,7 +102,7 @@ separator {
 
   &:checked {
     background-color: rgba(137, 180, 250, 0.2);
-    color: $blue;
+    color: var(--blue);
     border-color: rgba(137, 180, 250, 0.5);
   }
 
@@ -125,7 +118,7 @@ separator {
   border-radius: 6px;
   transition: all 0.15s ease-out;
   margin: 1px 0;
-  color: $text;
+  color: var(--text);
 }
 
 .network-access-points-list-item:hover {
@@ -135,16 +128,18 @@ separator {
 
 /* Estilos de los elementos de la barra */
 .workspaces button {
-  background-color: rgba(49, 50, 68, 0.5);
-  color: $subtext0;
+  background-color: var(--surface0);
+  opacity: 0.5;
+  color: var(--subtext0);
   margin: 4px 2px;
   padding: 0 8px;
   border-radius: 4px;
 }
 
 .workspaces button.focused {
-  background-color: $blue;
-  color: #11111b;
+  background-color: var(--blue);
+  color: var(--base);
+  opacity: 1;
 }
 
 .cpu, .memory, .battery, .clock, .disk {
@@ -157,5 +152,17 @@ menubutton {
 }
 
 .disk {
-  color: #f9e2af; /* Yellow for disk */
+  color: var(--yellow);
+}
+
+.cpu {
+  color: var(--mauve);
+}
+
+.memory {
+  color: var(--blue);
+}
+
+.battery {
+  color: var(--green);
 }

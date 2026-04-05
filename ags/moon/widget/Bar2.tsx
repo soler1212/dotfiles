@@ -15,6 +15,40 @@ import { useNetwork } from "../hooks/useNetwork"
 import { NetworkAccessPointListItem } from "./components/network-access-points-list-item"
 import { CurrentNetworkInfo } from "./components/current-network-info"
 import { IPsInfo } from "./components/ips-info"
+import { themeService } from "../ThemeService"
+import { themes } from "../themes"
+import { createState } from "ags"
+
+const themesState = createState(themes)[0]
+
+function ThemeSwitcher() {
+  return (
+    <menubutton class="theme-switcher">
+      <image iconName="preferences-desktop-theme-symbolic" />
+      <popover class="network-popover">
+        <box orientation={Gtk.Orientation.VERTICAL} spacing={8}>
+          <label class="section-title" label="Themes" />
+          <For each={themesState}>
+            {(theme) => (
+              <button
+                class="network-access-points-list-item"
+                onClicked={() => themeService.setTheme(theme.name)}
+              >
+                <box spacing={8}>
+                  <label label={theme.name} hexpand halign={Gtk.Align.START} />
+                  <image
+                    iconName="object-select-symbolic"
+                    visible={themeService.currentTheme.as((t) => t.name === theme.name)}
+                  />
+                </box>
+              </button>
+            )}
+          </For>
+        </box>
+      </popover>
+    </menubutton>
+  )
+}
 
 // Workspaces for Sway
 function Workspaces() {
@@ -221,12 +255,12 @@ function CPU() {
                     <box spacing={8} hexpand>
                       <label
                         label={`Core ${pair.c1.id}`}
-                        css="color: #a6adc8;"
+                        css="color: var(--subtext0);"
                         halign={Gtk.Align.START}
                       />
                       <label
                         label={`${pair.c1.val}%`}
-                        css="font-weight: bold; color: #cdd6f4;"
+                        css="font-weight: bold; color: var(--text);"
                         halign={Gtk.Align.END}
                         hexpand
                       />
@@ -235,12 +269,12 @@ function CPU() {
                       <box spacing={8} hexpand>
                         <label
                           label={`Core ${pair.c2.id}`}
-                          css="color: #a6adc8;"
+                          css="color: var(--subtext0);"
                           halign={Gtk.Align.START}
                         />
                         <label
                           label={`${pair.c2.val}%`}
-                          css="font-weight: bold; color: #cdd6f4;"
+                          css="font-weight: bold; color: var(--text);"
                           halign={Gtk.Align.END}
                           hexpand
                         />
@@ -379,24 +413,24 @@ function Memory() {
               <box orientation={Gtk.Orientation.VERTICAL} hexpand>
                 <label
                   label="Available"
-                  css="color: #a6adc8; font-size: 11px;"
+                  css="color: var(--subtext0); font-size: 11px;"
                   halign={Gtk.Align.START}
                 />
                 <label
                   label={ram.as((r) => formatMB(r.available))}
-                  css="font-weight: bold; color: #cdd6f4;"
+                  css="font-weight: bold; color: var(--text);"
                   halign={Gtk.Align.START}
                 />
               </box>
               <box orientation={Gtk.Orientation.VERTICAL} hexpand>
                 <label
                   label="Cache/Buffer"
-                  css="color: #a6adc8; font-size: 11px;"
+                  css="color: var(--subtext0); font-size: 11px;"
                   halign={Gtk.Align.START}
                 />
                 <label
                   label={ram.as((r) => formatMB(r.cache))}
-                  css="font-weight: bold; color: #cdd6f4;"
+                  css="font-weight: bold; color: var(--text);"
                   halign={Gtk.Align.START}
                 />
               </box>
@@ -532,8 +566,8 @@ function Disk() {
                           label={`${d.percent}% Full`}
                           css={
                             d.percent > 90
-                              ? "color: #f38ba8; font-weight: bold;"
-                              : "color: #a6adc8;"
+                              ? "color: var(--red); font-weight: bold;"
+                              : "color: var(--subtext0);"
                           }
                           halign={Gtk.Align.END}
                           hexpand
@@ -955,7 +989,8 @@ function Battery() {
               <box spacing={16} valign={Gtk.Align.CENTER}>
                 <image 
                   iconName={createBinding(battery, "iconName")} 
-                  css="font-size: 40px; color: #a6e3a1;" 
+                  css="font-size: 40px; color: var(--green);"
+ 
                 />
                 <box orientation={Gtk.Orientation.VERTICAL} hexpand>
                   <box spacing={8}>
@@ -1101,6 +1136,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
           <ActiveWindow />
         </box>
         <box $type="end" spacing={8}>
+          <ThemeSwitcher />
           <Tray />
           <AudioOutput />
           <Wireless />
