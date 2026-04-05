@@ -1,4 +1,16 @@
-/* Ja no definim variables aquí, les gestiona el ThemeService */
+/* --- COLORS BASE (Gestionats pel ThemeService, aquí només fallbacks) --- */
+* {
+  --base: #1e1e2e;
+  --bg: rgba(30, 30, 46, 0.85);
+  --text: #cdd6f4;
+  --subtext0: #bac2de;
+  --blue: #89b4fa;
+  --green: #a6e3a1;
+  --mauve: #cba6f7;
+  --surface0: #313244;
+  --red: #f38ba8;
+  --yellow: #f9e2af;
+}
 
 window.Bar2 {
   background-color: transparent;
@@ -16,59 +28,84 @@ window.Bar2 > centerbox {
   min-height: 28px;
 }
 
-.module {
-  background-color: transparent;
-  padding: 0 6px;
-  margin: 0;
+/* --- ESTIL ESTÀNDARD DE POPUPS (AMB CONTRAST ALT) --- */
+
+.network-popover > contents {
+  background-color: var(--base);
+  border: 1px solid var(--mauve); /* Vora de color per contrast */
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 6px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
 }
 
-.workspaces button {
-  all: unset;
-  color: var(--subtext0);
-  margin: 0 2px;
-  padding: 0 8px;
-  border-radius: 4px;
-  min-height: 20px;
-  transition: all 0.2s ease;
+.popup-section {
+  margin-bottom: 20px;
 }
 
-.workspaces button.focused {
-  background-color: var(--blue);
-  color: var(--base);
-  font-weight: 800;
+.popup-section:last-child {
+  margin-bottom: 0;
 }
 
-.workspaces button:hover:not(.focused) {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.active-window label {
+/* Títols de secció: Molt visibles */
+.popup-title {
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   color: var(--mauve);
-  font-weight: 700;
-  margin-left: 12px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(203, 166, 247, 0.2);
+  padding-bottom: 4px;
 }
 
-.clock-module {
-  color: var(--text);
+/* Valor principal gran i blanc per contrast */
+.popup-value-large {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff; /* Blanc pur per contrast màxim */
+  margin-bottom: 4px;
+}
+
+/* Text de descripció o detall */
+.popup-label-detail {
+  font-size: 12px;
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* Files de dades (Key-Value) */
+.popup-data-row {
+  margin: 6px 0;
+}
+
+.popup-data-key {
+  font-size: 12px;
+  color: var(--subtext0);
+  font-weight: 500;
+}
+
+.popup-data-value {
+  font-size: 12px;
   font-weight: 800;
+  color: var(--text);
 }
 
-.module-separator {
-  background-color: rgba(255, 255, 255, 0.1);
-  margin: 6px 4px;
-  min-width: 1px;
-  min-height: 16px;
+/* Scroll area */
+.popup-scroll {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
 }
 
-.module image {
-  -gtk-icon-size: 13px;
-}
-
+/* --- ALTRES --- */
+.module { background-color: transparent; padding: 0 6px; }
+.workspaces button { all: unset; color: var(--subtext0); margin: 0 2px; padding: 0 8px; border-radius: 4px; min-height: 20px; transition: all 0.2s ease; }
+.workspaces button.focused { background-color: var(--blue); color: var(--base); font-weight: 800; }
+.active-window label { color: var(--mauve); font-weight: 700; margin-left: 12px; }
+.module-separator { background-color: rgba(255, 255, 255, 0.1); margin: 6px 4px; min-width: 1px; min-height: 16px; }
 .cpu { color: var(--mauve); }
 .memory { color: var(--blue); }
 .disk { color: var(--yellow); }
 .battery-icon { color: var(--green); }
-
-.tray image {
-  margin: 0 3px;
-}

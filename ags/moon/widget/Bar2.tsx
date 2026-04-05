@@ -193,97 +193,49 @@ function CPU() {
         <label label={cpu.as((c) => `${c.usage}%`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
-          <box
-            orientation={Gtk.Orientation.VERTICAL}
-            class="network-card status-section"
-            spacing={8}
-          >
-            <label
-              class="section-title"
-              label="CPU Status"
-              halign={Gtk.Align.START}
-            />
-            <label
-              class="ssid-label"
-              label={cpu.as((c) => `${c.usage}% Total Usage`)}
-              halign={Gtk.Align.START}
-            />
-            <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
-              <label
-                class="network-details"
-                label={cpu.as((c) => `Load (1/5/15m): ${c.load}`)}
-                halign={Gtk.Align.START}
-              />
-              <label
-                label="Average CPU demand. 1.0 means 1 core fully busy."
-                css="font-size: 10px; opacity: 0.7; margin-top: 2px;"
-                halign={Gtk.Align.START}
-              />
-            </box>
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+            <label class="popup-title" label="CPU Status" halign={Gtk.Align.START} />
+            <label class="popup-value-large" label={cpu.as((c) => `${c.usage}% Usage`)} halign={Gtk.Align.START} />
+            <label class="popup-label-detail" label={cpu.as((c) => `Load: ${c.load}`)} halign={Gtk.Align.START} />
           </box>
 
-          <box
-            orientation={Gtk.Orientation.VERTICAL}
-            class="network-card status-section"
-            spacing={8}
-            visible={cpu.as((c) => c.cores.length > 0)}
-          >
-            <label
-              class="section-title"
-              label="Per-Core Usage"
-              halign={Gtk.Align.START}
-            />
-            <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
-              <For
-                each={cpu.as((c) => {
-                  const pairs = []
-                  for (let i = 0; i < c.cores.length; i += 2) {
-                    pairs.push({
-                      c1: { id: i, val: c.cores[i] },
-                      c2:
-                        c.cores[i + 1] !== undefined
-                          ? { id: i + 1, val: c.cores[i + 1] }
-                          : null,
-                    })
-                  }
-                  return pairs
-                })}
-              >
-                {(pair) => (
-                  <box spacing={24}>
-                    <box spacing={8} hexpand>
-                      <label
-                        label={`Core ${pair.c1.id}`}
-                        css="color: var(--subtext0);"
-                        halign={Gtk.Align.START}
-                      />
-                      <label
-                        label={`${pair.c1.val}%`}
-                        css="font-weight: bold; color: var(--text);"
-                        halign={Gtk.Align.END}
-                        hexpand
-                      />
-                    </box>
-                    {pair.c2 && (
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section" visible={cpu.as((c) => c.cores.length > 0)}>
+            <label class="popup-title" label="Per-Core Usage" halign={Gtk.Align.START} />
+            <Gtk.ScrolledWindow heightRequest={180} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
+              <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+                <For
+                  each={cpu.as((c) => {
+                    const pairs = []
+                    for (let i = 0; i < c.cores.length; i += 2) {
+                      pairs.push({
+                        c1: { id: i, val: c.cores[i] },
+                        c2:
+                          c.cores[i + 1] !== undefined
+                            ? { id: i + 1, val: c.cores[i + 1] }
+                            : null,
+                      })
+                    }
+                    return pairs
+                  })}
+                >
+                  {(pair) => (
+                    <box spacing={16} class="popup-data-row">
                       <box spacing={8} hexpand>
-                        <label
-                          label={`Core ${pair.c2.id}`}
-                          css="color: var(--subtext0);"
-                          halign={Gtk.Align.START}
-                        />
-                        <label
-                          label={`${pair.c2.val}%`}
-                          css="font-weight: bold; color: var(--text);"
-                          halign={Gtk.Align.END}
-                          hexpand
-                        />
+                        <label label={`C${pair.c1.id}`} class="popup-data-key" />
+                        <label label={`${pair.c1.val}%`} class="popup-data-value" hexpand halign={Gtk.Align.END} />
                       </box>
-                    )}
-                  </box>
-                )}
-              </For>
-            </box>
+                      {pair.c2 && (
+                        <box spacing={8} hexpand>
+                          <label label={`C${pair.c2.id}`} class="popup-data-key" />
+                          <label label={`${pair.c2.val}%`} class="popup-data-value" hexpand halign={Gtk.Align.END} />
+                        </box>
+                      )}
+                    </box>
+                  )}
+                </For>
+              </box>
+            </Gtk.ScrolledWindow>
           </box>
         </box>
       </popover>
@@ -371,102 +323,31 @@ function Memory() {
         <label label={ram.as((r) => `${r.percent}%`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
-          {/* Main RAM Info */}
-          <box
-            orientation={Gtk.Orientation.VERTICAL}
-            class="network-card status-section"
-            spacing={8}
-          >
-            <label
-              class="section-title"
-              label="Memory Status"
-              halign={Gtk.Align.START}
-            />
-            <label
-              class="ssid-label"
-              label={ram.as((r) => `${r.percent}% RAM Used`)}
-              halign={Gtk.Align.START}
-            />
-            <label
-              class="network-details"
-              label={ram.as(
-                (r) =>
-                  `Used: ${formatMB(r.used)} / Total: ${formatMB(r.total)}`,
-              )}
-              halign={Gtk.Align.START}
-            />
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+            <label class="popup-title" label="Memory Status" halign={Gtk.Align.START} />
+            <label class="popup-value-large" label={ram.as((r) => `${r.percent}% RAM Used`)} halign={Gtk.Align.START} />
+            <label class="popup-label-detail" label={ram.as((r) => `Used: ${formatMB(r.used)} / Total: ${formatMB(r.total)}`)} halign={Gtk.Align.START} />
           </box>
 
-          {/* Detailed breakdown */}
-          <box
-            orientation={Gtk.Orientation.VERTICAL}
-            class="network-card status-section"
-            spacing={4}
-          >
-            <label
-              class="section-title"
-              label="Breakdown"
-              halign={Gtk.Align.START}
-            />
-            <box spacing={20}>
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+            <label class="popup-title" label="Breakdown" halign={Gtk.Align.START} />
+            <box spacing={16} class="popup-data-row">
               <box orientation={Gtk.Orientation.VERTICAL} hexpand>
-                <label
-                  label="Available"
-                  css="color: var(--subtext0); font-size: 11px;"
-                  halign={Gtk.Align.START}
-                />
-                <label
-                  label={ram.as((r) => formatMB(r.available))}
-                  css="font-weight: bold; color: var(--text);"
-                  halign={Gtk.Align.START}
-                />
+                <label label="Available" class="popup-data-key" />
+                <label label={ram.as((r) => formatMB(r.available))} class="popup-data-value" />
               </box>
               <box orientation={Gtk.Orientation.VERTICAL} hexpand>
-                <label
-                  label="Cache/Buffer"
-                  css="color: var(--subtext0); font-size: 11px;"
-                  halign={Gtk.Align.START}
-                />
-                <label
-                  label={ram.as((r) => formatMB(r.cache))}
-                  css="font-weight: bold; color: var(--text);"
-                  halign={Gtk.Align.START}
-                />
+                <label label="Cached" class="popup-data-key" />
+                <label label={ram.as((r) => formatMB(r.cache))} class="popup-data-value" />
               </box>
             </box>
-            <label
-              label="Available memory is what can be started without swapping."
-              css="font-size: 10px; opacity: 0.7; margin-top: 4px;"
-              halign={Gtk.Align.START}
-            />
           </box>
 
-          {/* Swap Info */}
-          <box
-            orientation={Gtk.Orientation.VERTICAL}
-            class="network-card status-section"
-            spacing={8}
-            visible={ram.as((r) => r.swapTotal > 0)}
-          >
-            <label
-              class="section-title"
-              label="Swap Usage"
-              halign={Gtk.Align.START}
-            />
-            <label
-              class="ssid-label"
-              label={ram.as((r) => `${r.swapPercent}% Swap Used`)}
-              halign={Gtk.Align.START}
-            />
-            <label
-              class="network-details"
-              label={ram.as(
-                (r) =>
-                  `Used: ${formatMB(r.swapUsed)} / Total: ${formatMB(r.swapTotal)}`,
-              )}
-              halign={Gtk.Align.START}
-            />
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section" visible={ram.as((r) => r.swapTotal > 0)}>
+            <label class="popup-title" label="Swap Usage" halign={Gtk.Align.START} />
+            <label class="popup-value-large" label={ram.as((r) => `${r.swapPercent}% Used`)} halign={Gtk.Align.START} />
+            <label class="popup-label-detail" label={ram.as((r) => `Used: ${formatMB(r.swapUsed)} / Total: ${formatMB(r.swapTotal)}`)} halign={Gtk.Align.START} />
           </box>
         </box>
       </popover>
@@ -535,56 +416,26 @@ function Disk() {
         <label label={rootDisk.as((d) => `${d.used}/${d.total}`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
-          <box
-            orientation={Gtk.Orientation.VERTICAL}
-            class="network-card status-section"
-            spacing={8}
-          >
-            <label
-              class="section-title"
-              label="Disk Status"
-              halign={Gtk.Align.START}
-            />
-            <Gtk.ScrolledWindow
-              vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
-              hscrollbarPolicy={Gtk.PolicyType.NEVER}
-              maxContentHeight={300}
-              propagateNaturalHeight={true}
-            >
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+            <label class="popup-title" label="Disk Status" halign={Gtk.Align.START} />
+            <Gtk.ScrolledWindow heightRequest={240} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
               <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
                 <For each={disks}>
                   {(d) => (
-                    <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+                    <box orientation={Gtk.Orientation.VERTICAL} class="popup-data-row">
                       <box spacing={8}>
+                        <label class="popup-data-value" label={d.path} halign={Gtk.Align.START} />
                         <label
-                          class="ssid-label"
-                          label={d.path}
-                          halign={Gtk.Align.START}
-                        />
-                        <label
-                          label={`${d.percent}% Full`}
-                          css={
-                            d.percent > 90
-                              ? "color: var(--red); font-weight: bold;"
-                              : "color: var(--subtext0);"
-                          }
+                          label={`${d.percent}%`}
+                          class="popup-data-value"
+                          css={d.percent > 90 ? "color: var(--red);" : "color: var(--mauve);"}
                           halign={Gtk.Align.END}
                           hexpand
                         />
                       </box>
-                      <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
-                        <label
-                          class="network-details"
-                          label={`${d.used} of ${d.total} used (${d.free} free)`}
-                          halign={Gtk.Align.START}
-                        />
-                        <label
-                          label={d.filesystem}
-                          css="font-size: 10px; opacity: 0.5;"
-                          halign={Gtk.Align.START}
-                        />
-                      </box>
+                      <label class="popup-data-key" label={`${d.used} of ${d.total} (${d.free} free)`} halign={Gtk.Align.START} />
+                      <label label={d.filesystem} css="font-size: 9px; opacity: 0.4;" class="popup-data-key" />
                     </box>
                   )}
                 </For>
@@ -630,11 +481,15 @@ function Wireless() {
                 })}
               />
               <popover class="network-popover">
-                <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
+                <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
                   {/* Status Section */}
-                  <box orientation={Gtk.Orientation.VERTICAL} class="network-card status-section" spacing={8}>
+                  <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+                    <label class="popup-title" label="Current Network" halign={Gtk.Align.START} />
                     <CurrentNetworkInfo networkData={activeNetwork} />
-                    <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+                    
+                    <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.HORIZONTAL} css="margin: 12px 0;" />
+                    
+                    <label class="popup-title" label="IP Information" halign={Gtk.Align.START} />
                     <IPsInfo
                       privateIps={privateIps}
                       publicIp={publicIp}
@@ -642,10 +497,10 @@ function Wireless() {
                   </box>
 
                   {/* AP List Section */}
-                  <box orientation={Gtk.Orientation.VERTICAL} class="network-card list-section" spacing={8}>
-                    <label label="Available Networks" xalign={0} class="section-title" />
-                    <Gtk.ScrolledWindow heightRequest={240} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}>
-                      <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+                  <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+                    <label class="popup-title" label="Available Networks" halign={Gtk.Align.START} />
+                    <Gtk.ScrolledWindow heightRequest={200} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
+                      <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
                         <For each={createBinding(wifi, "accessPoints")(sortedAccessPoints)}>
                           {(ap: AstalNetwork.AccessPoint) => (
                             <NetworkAccessPointListItem accessPoint={ap} wifi={wifi} />
@@ -674,91 +529,90 @@ function AudioOutput() {
     <menubutton>
       <image iconName={createBinding(speaker, "volumeIcon")} />
       <popover class="network-popover">
-        <Gtk.ScrolledWindow heightRequest={500} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} hscrollbarPolicy={Gtk.PolicyType.NEVER}>
-          <box orientation={Gtk.Orientation.VERTICAL} spacing={12} widthRequest={320}>
-            {/* Main Volume Control */}
-            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-              <label class="section-title" label="Volum Principal" halign={Gtk.Align.START} />
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={320}>
+          <Gtk.ScrolledWindow heightRequest={450} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={16} class="popup-container">
               
-              <box spacing={12}>
-                <button 
-                  onClicked={() => speaker.mute = !speaker.mute}
-                  class="reveal-ip-btn"
-                >
-                  <image iconName={createBinding(speaker, "mute").as(m => 
-                    m ? "audio-volume-muted-symbolic" : "audio-volume-high-symbolic"
-                  )} />
-                </button>
-                <slider
-                  hexpand
-                  value={createBinding(speaker, "volume")}
-                  $={(self) => self.connect("value-changed", () => {
-                    if (Math.abs(speaker.volume - self.value) > 0.01) {
-                      speaker.volume = self.value
-                    }
-                  })}
-                />
+              {/* Output Volume */}
+              <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+                <label class="popup-title" label="Speaker Volume" halign={Gtk.Align.START} />
+                <box spacing={12} class="popup-data-row">
+                  <button 
+                    onClicked={() => speaker.mute = !speaker.mute}
+                    class="popup-list-item"
+                  >
+                    <image iconName={createBinding(speaker, "mute").as(m => 
+                      m ? "audio-volume-muted-symbolic" : "audio-volume-high-symbolic"
+                    )} />
+                  </button>
+                  <slider
+                    hexpand
+                    value={createBinding(speaker, "volume")}
+                    $={(self) => self.connect("value-changed", () => {
+                      if (Math.abs(speaker.volume - self.value) > 0.01) {
+                        speaker.volume = self.value
+                      }
+                    })}
+                  />
+                  <label 
+                    label={createBinding(speaker, "volume").as(v => `${Math.round(v * 100)}%`)} 
+                    class="popup-data-value"
+                    css="min-width: 35px;"
+                  />
+                </box>
                 <label 
-                  label={createBinding(speaker, "volume").as(v => `${Math.round(v * 100)}%`)} 
-                  css="min-width: 40px; font-weight: bold; font-family: 'JetBrains Mono';" 
+                  class="popup-label-detail" 
+                  label={createBinding(speaker, "description").as(d => d || "Unknown Device")} 
+                  maxWidthChars={30}
+                  ellipsize={3}
                 />
               </box>
 
-              <label 
-                class="network-details" 
-                label={createBinding(speaker, "description").as(d => d || "Dispositiu desconegut")} 
-                hexpand
-                halign={Gtk.Align.START}
-                maxWidthChars={35}
-              />
-            </box>
-
-            {/* Microphone Volume Control */}
-            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-              <label class="section-title" label="Volum Microfon" halign={Gtk.Align.START} />
-              <box spacing={12}>
-                <button 
-                  onClicked={() => microphone.mute = !microphone.mute}
-                  class="reveal-ip-btn"
-                >
-                  <image iconName={createBinding(microphone, "mute").as(m => 
-                    m ? "microphone-sensitivity-muted-symbolic" : "microphone-sensitivity-high-symbolic"
-                  )} />
-                </button>
-                <slider
-                  hexpand
-                  value={createBinding(microphone, "volume")}
-                  $={(self) => self.connect("value-changed", () => {
-                    if (Math.abs(microphone.volume - self.value) > 0.01) {
-                      microphone.volume = self.value
-                    }
-                  })}
-                />
+              {/* Input Volume */}
+              <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+                <label class="popup-title" label="Microphone Volume" halign={Gtk.Align.START} />
+                <box spacing={12} class="popup-data-row">
+                  <button 
+                    onClicked={() => microphone.mute = !microphone.mute}
+                    class="popup-list-item"
+                  >
+                    <image iconName={createBinding(microphone, "mute").as(m => 
+                      m ? "microphone-sensitivity-muted-symbolic" : "microphone-sensitivity-high-symbolic"
+                    )} />
+                  </button>
+                  <slider
+                    hexpand
+                    value={createBinding(microphone, "volume")}
+                    $={(self) => self.connect("value-changed", () => {
+                      if (Math.abs(microphone.volume - self.value) > 0.01) {
+                        microphone.volume = self.value
+                      }
+                    })}
+                  />
+                  <label 
+                    label={createBinding(microphone, "volume").as(v => `${Math.round(v * 100)}%`)} 
+                    class="popup-data-value"
+                    css="min-width: 35px;"
+                  />
+                </box>
                 <label 
-                  label={createBinding(microphone, "volume").as(v => `${Math.round(v * 100)}%`)} 
-                  css="min-width: 40px; font-weight: bold; font-family: 'JetBrains Mono';" 
+                  class="popup-label-detail" 
+                  label={createBinding(microphone, "description").as(d => d || "Unknown Mic")} 
+                  maxWidthChars={30}
+                  ellipsize={3}
                 />
               </box>
-              <label 
-                class="network-details" 
-                label={createBinding(microphone, "description").as(d => d || "Microfon desconegut")} 
-                hexpand
-                halign={Gtk.Align.START}
-                maxWidthChars={35}
-              />
-            </box>
 
-            <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+              <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.HORIZONTAL} />
 
-            {/* Output Devices Selection */}
-            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-              <label class="section-title" label="Dispositius de Sortida" halign={Gtk.Align.START} />
-              <Gtk.ScrolledWindow heightRequest={160} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} hscrollbarPolicy={Gtk.PolicyType.NEVER}>
-                <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+              {/* Output Devices Selection */}
+              <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+                <label class="popup-title" label="Output Devices" halign={Gtk.Align.START} />
+                <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
                   <For each={createBinding(wp.audio, "speakers")}>
                     {(s) => (
                       <button 
-                        class="network-access-points-list-item"
+                        class="popup-list-item"
                         onClicked={() => s.is_default = true}
                       >
                         <box spacing={8}>
@@ -767,7 +621,9 @@ function AudioOutput() {
                             label={createBinding(s, "description")} 
                             hexpand 
                             halign={Gtk.Align.START} 
-                            maxWidthChars={25}
+                            class="popup-data-key"
+                            maxWidthChars={22}
+                            ellipsize={3}
                           />
                           <image 
                             iconName="object-select-symbolic" 
@@ -778,20 +634,16 @@ function AudioOutput() {
                     )}
                   </For>
                 </box>
-              </Gtk.ScrolledWindow>
-            </box>
+              </box>
 
-            <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
-
-            {/* Input Devices Selection */}
-            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-              <label class="section-title" label="Dispositius d'Entrada" halign={Gtk.Align.START} />
-              <Gtk.ScrolledWindow heightRequest={160} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} hscrollbarPolicy={Gtk.PolicyType.NEVER}>
-                <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+              {/* Input Devices Selection */}
+              <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+                <label class="popup-title" label="Input Devices" halign={Gtk.Align.START} />
+                <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
                   <For each={createBinding(wp.audio, "microphones")}>
                     {(m) => (
                       <button 
-                        class="network-access-points-list-item"
+                        class="popup-list-item"
                         onClicked={() => m.is_default = true}
                       >
                         <box spacing={8}>
@@ -800,7 +652,9 @@ function AudioOutput() {
                             label={createBinding(m, "description")} 
                             hexpand 
                             halign={Gtk.Align.START} 
-                            maxWidthChars={25}
+                            class="popup-data-key"
+                            maxWidthChars={22}
+                            ellipsize={3}
                           />
                           <image 
                             iconName="object-select-symbolic" 
@@ -811,22 +665,21 @@ function AudioOutput() {
                     )}
                   </For>
                 </box>
-              </Gtk.ScrolledWindow>
-            </box>
-
-            <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
-
-            <button 
-              class="reveal-ip-btn"
-              onClicked={() => execAsync("pavucontrol")}
-            >
-              <box spacing={8} halign={Gtk.Align.CENTER}>
-                <image iconName="preferences-system-symbolic" />
-                <label label="Configuració d'Audio" />
               </box>
-            </button>
-          </box>
-        </Gtk.ScrolledWindow>
+
+              <button 
+                class="popup-list-item"
+                onClicked={() => execAsync("pavucontrol")}
+                css="margin-top: 8px; background-color: rgba(255,255,255,0.03);"
+              >
+                <box spacing={8} halign={Gtk.Align.CENTER} hexpand>
+                  <image iconName="preferences-system-symbolic" />
+                  <label label="Audio Settings" class="popup-data-value" />
+                </box>
+              </button>
+            </box>
+          </Gtk.ScrolledWindow>
+        </box>
       </popover>
     </menubutton>
   )
@@ -977,155 +830,57 @@ function Battery() {
         <label label={percent} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} spacing={12} widthRequest={320}>
-          {/* Theme Selection - Ara integrat aquí */}
-          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-            <label class="section-title" label="Temes del Sistema" halign={Gtk.Align.START} />
-            <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
-              <For each={themesState}>
-                {(theme) => (
-                  <button 
-                    class="network-access-points-list-item"
-                    onClicked={() => themeService.setTheme(theme.name)}
-                  >
-                    <box spacing={8}>
-                      <label label={theme.name} hexpand halign={Gtk.Align.START} />
-                      <image 
-                        iconName="object-select-symbolic" 
-                        visible={themeService.currentTheme.as((t) => t.name === theme.name)} 
-                      />
-                    </box>
-                  </button>
-                )}
-              </For>
-            </box>
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+          {/* Theme Selection */}
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+            <label class="popup-title" label="System Themes" halign={Gtk.Align.START} />
+            <Gtk.ScrolledWindow heightRequest={120} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
+              <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+                <For each={themesState}>
+                  {(theme) => (
+                    <button 
+                      class="popup-list-item"
+                      onClicked={() => themeService.setTheme(theme.name)}
+                    >
+                      <box spacing={8}>
+                        <label label={theme.name} hexpand halign={Gtk.Align.START} class="popup-data-key" />
+                        <image 
+                          iconName="object-select-symbolic" 
+                          visible={themeService.currentTheme.as((t) => t.name === theme.name)} 
+                        />
+                      </box>
+                    </button>
+                  )}
+                </For>
+              </box>
+            </Gtk.ScrolledWindow>
           </box>
 
-          <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
-
-          {/* Battery Status Header */}
-          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={12}>
-            <label class="section-title" label="Estat de la Bateria" halign={Gtk.Align.START} />
-
+          {/* Battery Info */}
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+            <label class="popup-title" label="Battery Status" halign={Gtk.Align.START} />
             <box spacing={16} valign={Gtk.Align.CENTER}>
-              <image 
-                iconName={createBinding(battery, "iconName")} 
-                css="font-size: 40px; color: var(--green);" 
-              />
+              <image iconName={createBinding(battery, "iconName")} css="font-size: 32px; color: var(--green);" />
               <box orientation={Gtk.Orientation.VERTICAL} hexpand>
-                <box spacing={8}>
-                  <label 
-                    class="ssid-label" 
-                    label={percent} 
-                    halign={Gtk.Align.START} 
-                  />
-                  <label 
-                    class="network-details" 
-                    label={stateLabel} 
-                    halign={Gtk.Align.START} 
-                    valign={Gtk.Align.END}
-                    css="margin-bottom: 4px;"
-                  />
-                </box>
-                {/* Visual Level Bar */}
-                <levelbar 
-                  value={createBinding(battery, "percentage")} 
-                  css="margin-top: 4px; min-height: 8px;"
-                />
+                <label class="popup-value-large" label={percent} />
+                <label class="popup-label-detail" label={stateLabel} />
+                <levelbar value={createBinding(battery, "percentage")} css="margin-top: 6px; min-height: 4px;" />
               </box>
             </box>
           </box>
 
-          <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
-
           {/* Power Details */}
-          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-            <label class="section-title" label="Detalls d'Energia" halign={Gtk.Align.START} />
-
-            <box spacing={8}>
-              <image iconName="power-profile-balanced-symbolic" class="ip-icon" />
-              <label class="ip-label" label="Consum: " />
-              <label 
-                class="network-details" 
-                label={createBinding(battery, "energyRate").as(r => `${r.toFixed(2)} W`)} 
-                hexpand 
-                halign={Gtk.Align.END} 
-              />
-            </box>
-
-            <box spacing={8}>
-              <image iconName="temperature-symbolic" class="ip-icon" />
-              <label class="ip-label" label="Temperatura: " />
-              <label 
-                class="network-details" 
-                label={createBinding(battery, "temperature").as(t => `${t.toFixed(1)}°C`)} 
-                hexpand 
-                halign={Gtk.Align.END} 
-              />
-            </box>
-
-            <box spacing={8}>
-              <image iconName="time-symbolic" class="ip-icon" />
-              <label class="ip-label" label={createBinding(battery, "state").as(s => 
-                s === AstalBattery.State.CHARGING ? "Temps per carregar: " : "Temps restant: "
-              )} />
-              <label 
-                class="network-details" 
-                label={createBinding(battery, "state").as(s => {
-                  const t = s === AstalBattery.State.CHARGING ? battery.timeToFull : battery.timeToEmpty
-                  if (t <= 0) return "N/A"
-                  const h = Math.floor(t / 3600)
-                  const m = Math.floor((t % 3600) / 60)
-                  return h > 0 ? `${h}h ${m}m` : `${m}m`
-                })} 
-                hexpand 
-                halign={Gtk.Align.END} 
-              />
-            </box>
-
-            <box spacing={8}>
-              <image iconName="battery-health-symbolic" class="ip-icon" />
-              <label class="ip-label" label="Salut bateria: " />
-              <label 
-                class="network-details" 
-                label={createBinding(battery, "capacity").as(c => `${Math.round(c * 100)}%`)} 
-                hexpand 
-                halign={Gtk.Align.END} 
-              />
-            </box>
-          </box>
-
-          <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
-
-          {/* Power Profiles Selection */}
-          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
-            <label class="section-title" label="Perfil de Rendiment" halign={Gtk.Align.START} />
+          <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
+            <label class="popup-title" label="Energy Details" halign={Gtk.Align.START} />
             <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
-              {powerprofiles.get_profiles().map(({ profile }) => (
-                <button 
-                  class="network-access-points-list-item"
-                  onClicked={() => powerprofiles.set_active_profile(profile)}
-                >
-                  <box spacing={8}>
-                    <image 
-                      iconName={
-                        profile === "performance" ? "power-profile-performance-symbolic" :
-                        profile === "balanced" ? "power-profile-balanced-symbolic" :
-                        "power-profile-power-saver-symbolic"
-                      } 
-                    />
-                    <label 
-                      label={profile.charAt(0).toUpperCase() + profile.slice(1)} 
-                      hexpand 
-                      halign={Gtk.Align.START} 
-                    />
-                    <image 
-                      iconName="object-select-symbolic" 
-                      visible={createBinding(powerprofiles, "activeProfile").as(p => p === profile)} 
-                    />
-                  </box>
-                </button>
-              ))}
+              <box class="popup-data-row">
+                <label label="Consumption" class="popup-data-key" hexpand halign={Gtk.Align.START} />
+                <label label={createBinding(battery, "energyRate").as(r => `${r.toFixed(2)} W`)} class="popup-data-value" />
+              </box>
+              <box class="popup-data-row">
+                <label label="Health" class="popup-data-key" hexpand halign={Gtk.Align.START} />
+                <label label={createBinding(battery, "capacity").as(c => `${Math.round(c * 100)}%`)} class="popup-data-value" />
+              </box>
             </box>
           </box>
         </box>
@@ -1144,6 +899,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
       anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}
       application={app}
+      css={themeService.cssVars}
     >
       <centerbox>
         <box $type="start" spacing={0} valign={Gtk.Align.CENTER}>
