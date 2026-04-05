@@ -441,38 +441,109 @@ function Memory() {
 }
 
 function Disk() {
-  const disk = createPoll({ used: "0", total: "0", percent: 0, free: "0", path: "/" }, 5000, "df -h /", (out) => {
-    try {
-      const lines = out.split("\n")
-      if (lines.length < 2) throw new Error("Unexpected df output")
-      const parts = lines[1].split(/\s+/)
-      return {
-        used: parts[2],
-        total: parts[1],
-        free: parts[3],
-        percent: parseInt(parts[4].replace("%", "")),
-        path: parts[5]
+  const disks = createPoll(
+    [{ used: "0", total: "0", percent: 0, free: "0", path: "/", filesystem: "" }],
+    10000,
+    "df -h",
+    (out) => {
+      try {
+        const lines = out.split("\n").slice(1)
+        const res = lines
+          .map((line) => line.trim().split(/\s+/))
+          .filter((parts) => parts.length >= 6 && parts[0].startsWith("/dev/"))
+          .map((parts) => ({
+            filesystem: parts[0],
+            total: parts[1],
+            used: parts[2],
+            free: parts[3],
+            percent: parseInt(parts[4].replace("%", "")),
+            path: parts[5],
+          }))
+        return res.length > 0
+          ? res
+          : [
+              {
+                used: "0",
+                total: "0",
+                percent: 0,
+                free: "0",
+                path: "/",
+                filesystem: "",
+              },
+            ]
+      } catch (e) {
+        console.error("Disk Poll Error:", e)
+        return [
+          {
+            used: "0",
+            total: "0",
+            percent: 0,
+            free: "0",
+            path: "/",
+            filesystem: "",
+          },
+        ]
       }
-    } catch (e) {
-      console.error("Disk Poll Error:", e)
-      return { used: "0", total: "0", percent: 0, free: "0", path: "/" }
-    }
-  })
+    },
+  )
+
+  const rootDisk = disks.as((d) => d.find((disk) => disk.path === "/") || d[0])
 
   return (
     <menubutton class="disk">
       <box spacing={4}>
         <label label="󰋊" />
-        <label label={disk.as((d) => `${d.used}/${d.total}`)} />
+        <label label={rootDisk.as((d) => `${d.used}/${d.total}`)} />
       </box>
       <popover class="network-popover">
         <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
-          <box orientation={Gtk.Orientation.VERTICAL} class="network-card status-section" spacing={8}>
-            <label class="section-title" label="Disk Status" halign={Gtk.Align.START} />
-            <label class="ssid-label" label={disk.as((d) => `${d.percent}% Full`)} halign={Gtk.Align.START} />
-            <label class="network-details" label={disk.as((d) => `${d.used} of ${d.total} used`)} halign={Gtk.Align.START} />
-            <label class="network-details" label={disk.as((d) => `Free: ${d.free}`)} halign={Gtk.Align.START} />
-            <label class="network-details" label={disk.as((d) => `Mount: ${d.path}`)} halign={Gtk.Align.START} />
+          <box
+            orientation={Gtk.Orientation.VERTICAL}
+            class="network-card status-section"
+            spacing={8}
+          >
+            <label
+              class="section-title"
+              label="Disk Status"
+              halign={Gtk.Align.START}
+            />
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
+              <For each={disks}>
+                {(d) => (
+                  <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+                    <box spacing={8}>
+                      <label
+                        class="ssid-label"
+                        label={d.path}
+                        halign={Gtk.Align.START}
+                      />
+                      <label
+                        label={`${d.percent}% Full`}
+                        css={
+                          d.percent > 90
+                            ? "color: #f38ba8; font-weight: bold;"
+                            : "color: #a6adc8;"
+                        }
+                        halign={Gtk.Align.END}
+                        hexpand
+                      />
+                    </box>
+                    <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+                      <label
+                        class="network-details"
+                        label={`${d.used} of ${d.total} used (${d.free} free)`}
+                        halign={Gtk.Align.START}
+                      />
+                      <label
+                        label={d.filesystem}
+                        css="font-size: 10px; opacity: 0.5;"
+                        halign={Gtk.Align.START}
+                      />
+                    </box>
+                  </box>
+                )}
+              </For>
+            </box>
           </box>
         </box>
       </popover>
