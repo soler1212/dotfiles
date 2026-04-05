@@ -46,6 +46,86 @@ export const nord: Theme = {
   },
 }
 
+export const hacker: Theme = {
+  name: "Hacker",
+  colors: {
+    base: "#0d0d0d",
+    text: "#00ff41",
+    subtext0: "#008f11",
+    blue: "#003b00",
+    green: "#00ff41",
+    mauve: "#00ff41",
+    surface0: "#1a1a1a",
+    red: "#ff0000",
+    yellow: "#ccff00",
+    popover_bg: "#050505",
+  },
+}
+
+export const radical: Theme = {
+  name: "Radical",
+  colors: {
+    base: "#141321",
+    text: "#a9fef7",
+    subtext0: "#54607e",
+    blue: "#1a8fff",
+    green: "#b6f584",
+    mauve: "#ff47ee",
+    surface0: "#201e33",
+    red: "#fe5a5a",
+    yellow: "#ffe64d",
+    popover_bg: "#0b0a14",
+  },
+}
+
+export const minimal: Theme = {
+  name: "Minimal",
+  colors: {
+    base: "#ffffff",
+    text: "#000000",
+    subtext0: "#777777",
+    blue: "#333333",
+    green: "#555555",
+    mauve: "#222222",
+    surface0: "#f0f0f0",
+    red: "#000000",
+    yellow: "#999999",
+    popover_bg: "#ffffff",
+  },
+}
+
+export const bubbles: Theme = {
+  name: "Bubbles",
+  colors: {
+    base: "#f3f0ff",
+    text: "#4c4f69",
+    subtext0: "#7c7f93",
+    blue: "#04a5e5",
+    green: "#40a02b",
+    mauve: "#8839ef",
+    surface0: "#e6e9ef",
+    red: "#d20f39",
+    yellow: "#df8e1d",
+    popover_bg: "#ffffff",
+  },
+}
+
+export const contrast: Theme = {
+  name: "Contrast",
+  colors: {
+    base: "#000000",
+    text: "#ffffff",
+    subtext0: "#aaaaaa",
+    blue: "#0000ff",
+    green: "#00ff00",
+    mauve: "#ff00ff",
+    surface0: "#333333",
+    red: "#ff0000",
+    yellow: "#ffff00",
+    popover_bg: "#000000",
+  },
+}
+
 export const gruvbox: Theme = {
   name: "Gruvbox",
   colors: {
@@ -62,4 +142,4 @@ export const gruvbox: Theme = {
   },
 }
 
-export const themes = [catppuccin, nord, gruvbox]
+export const themes = [catppuccin, nord, gruvbox, hacker, radical, minimal, bubbles, contrast]
