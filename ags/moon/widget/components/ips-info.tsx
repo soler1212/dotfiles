@@ -1,33 +1,47 @@
 import { Gtk } from "ags/gtk4"
-import { Binding } from "astal" // Importem Binding per tipar-ho bé
 import { Accessor } from "ags"
 
 export interface Props {
-  // Ara 'privateIps' és un Binding que conté o un array de strings (les IPs) o un string (error/càrrega)
   privateIps: Accessor<string[] | string>
-  // 'publicIp' és un Binding que sempre serà un string
   publicIp: Accessor<string>
 }
 
 export const IPsInfo = ({ privateIps, publicIp }: Props) => {
   return (
-    <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+    <box
+      orientation={Gtk.Orientation.VERTICAL}
+      spacing={8}
+      class="ips-info-container"
+    >
 
-      {/* 1. Resolem les IPs Privades */}
-      <label
-        label={privateIps.as((data) => {
-          // Si 'data' és un string, vol dir que està "Buscant..." o ha donat error
-          if (typeof data === "string") return `Xarxa local: ${data}`;
+      {/* 1. Fila de IPs Privades (Icona + Text) */}
+      <box orientation={Gtk.Orientation.HORIZONTAL} spacing={8} class="ip-row private-ip">
+        <image
+          iconName="network-wired-symbolic" // Icona de xarxa local/cable
+          class="ip-icon"
+        />
+        <label
+          halign={Gtk.Align.START} // Alineem el text a l'esquerra
+          class="ip-label"
+          label={privateIps.as((data) => {
+            if (typeof data === "string") return `Local: ${data}`;
+            return `Local: ${data.join(", ")}`;
+          })}
+        />
+      </box>
 
-          // Com que a la funció nova 'data' ja és directament l'array d'IPs, només fem el join
-          return `IPs Privades: ${data.join(", ")}`;
-        })}
-      />
-
-      {/* 2. Resolem la IP Pública */}
-      <label
-        label={publicIp.as((ip) => `IP Pública: ${ip}`)}
-      />
+      {/* 2. Fila de la IP Pública (Icona + Text) */}
+      <box orientation={Gtk.Orientation.HORIZONTAL} spacing={8} class="ip-row public-ip">
+        <image
+          iconName="applications-internet-symbolic" // Icona de bola del món / internet
+          class="ip-icon"
+        />
+        <label
+          halign={Gtk.Align.START} // Alineem el text a l'esquerra
+          class="ip-label"
+          label={publicIp.as((ip) => `Pública: ${ip}`)}
+        />
+      </box>
 
     </box>
   )

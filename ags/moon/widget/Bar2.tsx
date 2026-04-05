@@ -1,5 +1,5 @@
 import app from "ags/gtk4/app"
-import { Gtk, Gdk } from "ags/gtk4"
+import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { execAsync } from "ags/process"
 import { createPoll } from "ags/time"
 import { Accessor, With, For, createComputed, createBinding } from "ags"
@@ -381,10 +381,8 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
       name="bar2"
       class="Bar2"
       gdkmonitor={gdkmonitor}
-      // exclusivity and anchor might need adjustment if they moved
-      // but let's stick to the props for now as the guide implies JSX handles it
-      exclusivity={1} // EXCLUSIVE
-      anchor={15} // TOP | LEFT | RIGHT
+      exclusivity={Astal.Exclusivity.EXCLUSIVE}
+      anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}
       application={app}
     >
       <centerbox>
