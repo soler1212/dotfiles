@@ -1,59 +1,115 @@
 export interface BarPreset {
   name: string
-  transparent: boolean
-  borderRadius: number
-  margin: string
-  border: boolean
-  padding: string
-  buttonStyle: "pill" | "square" | "subtle" | "outline" | "glass"
-  spacing: number
+  fontSize: string
   showSeparators: boolean
+  
+  // Bar Container (bar-inner)
+  innerBarBg: string
+  innerBarBorder: string
+  innerBarRadius: number
+  innerBarMargin: string
+  innerBarPadding: string
+  
+  // Buttons (innerButton)
+  buttonBg: string
+  buttonFg: string
+  buttonHoverBg: string
+  buttonRadius: string
+  buttonPadding: string
+  buttonBorder: string
+  buttonShadow: string
+  buttonSpacing: number
+
+  // Legacy/Reference
+  transparent: boolean
+  border: boolean
+  buttonStyle: "pill" | "square" | "subtle" | "outline" | "glass"
 }
 
 export const barPresets: BarPreset[] = [
   {
     name: "Ethereal Glass",
+    fontSize: "11px",
+    showSeparators: false,
+    innerBarBg: "rgba(30, 30, 46, 0.4)",
+    innerBarBorder: "1px solid rgba(255, 255, 255, 0.1)",
+    innerBarRadius: 16,
+    innerBarMargin: "10px 20px",
+    innerBarPadding: "0 12px",
+    buttonBg: "rgba(255, 255, 255, 0.03)",
+    buttonFg: "var(--button-fg)",
+    buttonHoverBg: "rgba(255, 255, 255, 0.08)",
+    buttonRadius: "12px",
+    buttonPadding: "0 12px",
+    buttonBorder: "1px solid rgba(255, 255, 255, 0.08)",
+    buttonShadow: "inset 0 1px 1px rgba(255, 255, 255, 0.05)",
+    buttonSpacing: 1,
     transparent: true,
-    borderRadius: 16,
-    margin: "0px 0px",
     border: true,
-    padding: "0px 0px",
-    buttonStyle: "glass",
-    spacing: 0,
-    showSeparators: false
+    buttonStyle: "glass"
   },
   {
     name: "Cyberpunk Edge",
+    fontSize: "12px",
+    showSeparators: true,
+    innerBarBg: "var(--base)",
+    innerBarBorder: "1px solid var(--accent)",
+    innerBarRadius: 0,
+    innerBarMargin: "0px",
+    innerBarPadding: "0 10px",
+    buttonBg: "transparent",
+    buttonFg: "var(--accent)",
+    buttonHoverBg: "var(--accent)",
+    buttonRadius: "0px",
+    buttonPadding: "0 10px",
+    buttonBorder: "1px solid var(--accent)",
+    buttonShadow: "none",
+    buttonSpacing: 0,
     transparent: false,
-    borderRadius: 0,
-    margin: "0px",
     border: true,
-    padding: "0 10px",
-    buttonStyle: "outline",
-    spacing: 0,
-    showSeparators: true
+    buttonStyle: "outline"
   },
   {
     name: "Minimal Floating",
+    fontSize: "11px",
+    showSeparators: false,
+    innerBarBg: "var(--base)",
+    innerBarBorder: "none",
+    innerBarRadius: 30,
+    innerBarMargin: "12px 100px",
+    innerBarPadding: "0 20px",
+    buttonBg: "var(--surface)",
+    buttonFg: "var(--text)",
+    buttonHoverBg: "var(--overlay)",
+    buttonRadius: "24px",
+    buttonPadding: "0 14px",
+    buttonBorder: "none",
+    buttonShadow: "none",
+    buttonSpacing: 16,
     transparent: false,
-    borderRadius: 30,
-    margin: "12px 100px",
     border: false,
-    padding: "0 20px",
-    buttonStyle: "pill",
-    spacing: 16,
-    showSeparators: false
+    buttonStyle: "pill"
   },
   {
     name: "Classic Desktop",
+    fontSize: "11px",
+    showSeparators: true,
+    innerBarBg: "var(--base)",
+    innerBarBorder: "1px solid var(--border)",
+    innerBarRadius: 6,
+    innerBarMargin: "4px 8px",
+    innerBarPadding: "0 10px",
+    buttonBg: "var(--button-bg)",
+    buttonFg: "var(--button-fg)",
+    buttonHoverBg: "var(--overlay)",
+    buttonRadius: "4px",
+    buttonPadding: "0 10px",
+    buttonBorder: "none",
+    buttonShadow: "none",
+    buttonSpacing: 4,
     transparent: false,
-    borderRadius: 6,
-    margin: "4px 8px",
     border: true,
-    padding: "0 10px",
-    buttonStyle: "square",
-    spacing: 4,
-    showSeparators: true
+    buttonStyle: "square"
   }
 ]
 

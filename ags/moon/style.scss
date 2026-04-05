@@ -7,15 +7,15 @@ window.Bar2 {
   background-color: transparent;
   color: var(--text);
   font-family: "JetBrains Mono", "monospace";
-  font-size: 11px;
+  font-size: var(--font-size);
 }
 
 .bar-inner {
-  background-color: var(--bar-bg);
-  margin: var(--bar-margin);
-  padding: var(--bar-padding);
-  border-radius: var(--bar-radius);
-  border: var(--bar-border);
+  background-color: var(--inner-bar-bg);
+  margin: var(--inner-bar-margin);
+  padding: var(--inner-bar-padding);
+  border-radius: var(--inner-bar-radius);
+  border: var(--inner-bar-border);
   min-height: 32px;
 }
 
@@ -23,17 +23,17 @@ window.Bar2 {
 .bar-inner button, 
 .bar-inner menubutton {
   all: unset;
-  // background-color: var(--btn-bg);
-  color: var(--btn-fg);
-  border-radius: var(--btn-radius);
-  // border: var(--btn-border);
-  padding: var(--btn-padding);
-  box-shadow: var(--btn-shadow);
-  margin: 0 calc(var(--btn-spacing) / 2);
+  background-color: var(--button-bg);
+  color: var(--button-fg);
+  border-radius: var(--button-radius);
+  border: var(--button-border);
+  padding: var(--button-padding);
+  box-shadow: var(--button-shadow);
+  margin: 0 calc(var(--button-spacing) / 2);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   
   &:hover {
-    background-color: var(--btn-hover-bg);
+    background-color: var(--button-hover-bg);
     color: var(--accent);
     transform: translateY(-1px);
   }

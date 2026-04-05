@@ -17,7 +17,7 @@ import { Bluetooth } from "./components/Bluetooth"
 import { ModuleSeparator } from "./atoms/Layout"
 
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
-  const spacing = createComputed(() => themeService.preset().spacing)
+  const spacing = createComputed(() => themeService.preset().buttonSpacing)
 
   return (
     <window

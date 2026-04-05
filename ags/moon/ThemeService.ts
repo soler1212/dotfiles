@@ -21,39 +21,23 @@ class ThemeService {
       .map(([key, value]) => `--${key.replace("_", "-")}: ${value};`)
       .join(" ")
 
-    // 2. Bar Layout Logic
-    const barBg = p.transparent ? "transparent" : t.colors.base
-    const barBorder = p.border ? `1px solid ${t.colors.border}` : "none"
-    
-    // 3. Button Dynamics Logic
-    let btnRadius = "4px", btnBg = t.colors.button_bg, btnBorder = "none", btnPadding = "0 10px", btnShadow = "none"
-
-    if (p.buttonStyle === "glass") {
-      btnRadius = "12px"; btnBg = "rgba(255, 255, 255, 0.03)"; btnBorder = "1px solid rgba(255, 255, 255, 0.05)"; btnShadow = "inset 0 1px 1px rgba(255, 255, 255, 0.05)"
-    } else if (p.buttonStyle === "pill") {
-      btnRadius = "24px"; btnBg = t.colors.surface; btnPadding = "0 14px"
-    } else if (p.buttonStyle === "outline") {
-      btnRadius = "0px"; btnBg = "transparent"; btnBorder = `1px solid ${t.colors.accent}`
-    } else if (p.buttonStyle === "subtle") {
-      btnRadius = "4px"; btnBg = "transparent"; btnPadding = "0 6px"
-    }
-
-    // 4. Combined variable map
+    // 2. Combined variable map
     const vars = [
       colors,
-      `--bar-bg: ${barBg};`,
-      `--bar-border: ${barBorder};`,
-      `--bar-radius: ${p.borderRadius}px;`,
-      `--bar-margin: ${p.margin};`,
-      `--bar-padding: ${p.padding};`,
-      `--btn-radius: ${btnRadius};`,
-      `--btn-bg: ${btnBg};`,
-      `--btn-fg: ${t.colors.button_fg};`,
-      `--btn-hover-bg: ${t.colors.overlay};`,
-      `--btn-border: ${btnBorder};`,
-      `--btn-padding: ${btnPadding};`,
-      `--btn-shadow: ${btnShadow};`,
-      `--btn-spacing: ${p.spacing}px;`,
+      `--font-size: ${p.fontSize};`,
+      `--inner-bar-bg: ${p.innerBarBg};`,
+      `--inner-bar-border: ${p.innerBarBorder};`,
+      `--inner-bar-radius: ${p.innerBarRadius}px;`,
+      `--inner-bar-margin: ${p.innerBarMargin};`,
+      `--inner-bar-padding: ${p.innerBarPadding};`,
+      `--button-radius: ${p.buttonRadius};`,
+      `--button-bg: ${p.buttonBg};`,
+      `--button-fg: ${p.buttonFg};`,
+      `--button-hover-bg: ${p.buttonHoverBg};`,
+      `--button-border: ${p.buttonBorder};`,
+      `--button-padding: ${p.buttonPadding};`,
+      `--button-shadow: ${p.buttonShadow};`,
+      `--button-spacing: ${p.buttonSpacing}px;`,
       `--sep-opacity: ${p.showSeparators ? "1" : "0"};`
     ]
 
