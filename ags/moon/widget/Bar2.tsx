@@ -115,56 +115,120 @@ function ActiveWindow() {
 
 // CPU Usage
 function CPU() {
-  const usage = createPoll(0, 2000, "top -bn1", (out) => {
-    const match = out.match(/%Cpu\(s\):\s+([\d.,]+)\s+us/)
-    if (match) {
-      const val = match[1].replace(",", ".")
-      return Math.round(parseFloat(val))
+  const cpu = createPoll({ usage: 0, load: "" }, 2000, "bash -c \"top -bn1 | grep '%Cpu(s)'; uptime\"", (out) => {
+    try {
+      const lines = out.split("\n")
+      const match = (lines[0] || "").match(/%Cpu\(s\):\s+([\d.,]+)\s+us/)
+      const usage = match ? Math.round(parseFloat(match[1].replace(",", "."))) : 0
+      const load = lines[1]?.split("load average: ")[1] || ""
+      return { usage, load }
+    } catch (e) {
+      console.error("CPU Poll Error:", e)
+      return { usage: 0, load: "error" }
     }
-    return 0
   })
+
   return (
-    <box class="cpu" spacing={4}>
-      <label label="󰘚" />
-      <label label={usage.as((u) => `${u}%`)} />
-    </box>
+    <menubutton class="cpu">
+      <box spacing={4}>
+        <label label="󰘚" />
+        <label label={cpu.as((c) => `${c.usage}%`)} />
+      </box>
+      <popover class="network-popover">
+        <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card status-section" spacing={8}>
+            <label class="section-title" label="CPU Status" halign={Gtk.Align.START} />
+            <label class="ssid-label" label={cpu.as((c) => `${c.usage}% Usage`)} halign={Gtk.Align.START} />
+            <label class="network-details" label={cpu.as((c) => `Load: ${c.load}`)} halign={Gtk.Align.START} />
+          </box>
+        </box>
+      </popover>
+    </menubutton>
   )
 }
 
 // Memory Usage
 function Memory() {
-  const ram = createPoll(0, 2000, "free", (out) => {
-    const lines = out.split("\n")
-    const mem = lines[1].trim().split(/\s+/)
-    const total = parseInt(mem[1])
-    const available = parseInt(mem[6])
-    const used = total - available
-    return Math.round((used / total) * 100)
-  })
-  return (
-    <box class="memory" spacing={4}>
-      <label label="󰍛" />
-      <label label={ram.as((r) => `${r}%`)} />
-    </box>
-  )
-}
-
-function Disk() {
-  const disk = createPoll({ used: "0", total: "0", percent: 0 }, 5000, "df -h /", (out) => {
-    const lines = out.split("\n")
-    const parts = lines[1].split(/\s+/)
-    return {
-      used: parts[2],
-      total: parts[1],
-      percent: parseInt(parts[4].replace("%", "")),
+  const ram = createPoll({ percent: 0, used: 0, total: 0, free: 0, available: 0 }, 2000, "free -m", (out) => {
+    try {
+      const lines = out.split("\n")
+      if (lines.length < 2) throw new Error("Unexpected free output")
+      const mem = lines[1].trim().split(/\s+/)
+      const total = parseInt(mem[1])
+      const free = parseInt(mem[3])
+      const available = parseInt(mem[6])
+      const used = total - available
+      const percent = total > 0 ? Math.round((used / total) * 100) : 0
+      return {
+        percent,
+        used,
+        total,
+        free,
+        available
+      }
+    } catch (e) {
+      console.error("Memory Poll Error:", e)
+      return { percent: 0, used: 0, total: 0, free: 0, available: 0 }
     }
   })
 
   return (
-    <box class="disk" spacing={4}>
-      <label label="󰋊" />
-      <label label={disk.as((d) => `${d.used}/${d.total}`)} />
-    </box>
+    <menubutton class="memory">
+      <box spacing={4}>
+        <label label="󰍛" />
+        <label label={ram.as((r) => `${r.percent}%`)} />
+      </box>
+      <popover class="network-popover">
+        <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card status-section" spacing={8}>
+            <label class="section-title" label="Memory Status" halign={Gtk.Align.START} />
+            <label class="ssid-label" label={ram.as((r) => `${r.percent}% Used`)} halign={Gtk.Align.START} />
+            <label class="network-details" label={ram.as((r) => `${r.used}MB / ${r.total}MB`)} halign={Gtk.Align.START} />
+            <label class="network-details" label={ram.as((r) => `Available: ${r.available}MB`)} halign={Gtk.Align.START} />
+          </box>
+        </box>
+      </popover>
+    </menubutton>
+  )
+}
+
+function Disk() {
+  const disk = createPoll({ used: "0", total: "0", percent: 0, free: "0", path: "/" }, 5000, "df -h /", (out) => {
+    try {
+      const lines = out.split("\n")
+      if (lines.length < 2) throw new Error("Unexpected df output")
+      const parts = lines[1].split(/\s+/)
+      return {
+        used: parts[2],
+        total: parts[1],
+        free: parts[3],
+        percent: parseInt(parts[4].replace("%", "")),
+        path: parts[5]
+      }
+    } catch (e) {
+      console.error("Disk Poll Error:", e)
+      return { used: "0", total: "0", percent: 0, free: "0", path: "/" }
+    }
+  })
+
+  return (
+    <menubutton class="disk">
+      <box spacing={4}>
+        <label label="󰋊" />
+        <label label={disk.as((d) => `${d.used}/${d.total}`)} />
+      </box>
+      <popover class="network-popover">
+        <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card status-section" spacing={8}>
+            <label class="section-title" label="Disk Status" halign={Gtk.Align.START} />
+            <label class="ssid-label" label={disk.as((d) => `${d.percent}% Full`)} halign={Gtk.Align.START} />
+            <label class="network-details" label={disk.as((d) => `${d.used} of ${d.total} used`)} halign={Gtk.Align.START} />
+            <label class="network-details" label={disk.as((d) => `Free: ${d.free}`)} halign={Gtk.Align.START} />
+            <label class="network-details" label={disk.as((d) => `Mount: ${d.path}`)} halign={Gtk.Align.START} />
+          </box>
+        </box>
+      </popover>
+    </menubutton>
   )
 }
 
