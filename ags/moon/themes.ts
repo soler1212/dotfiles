@@ -2,14 +2,14 @@ export interface BarPreset {
   name: string
   fontSize: string
   showSeparators: boolean
-
+  
   // Bar Container (bar-inner)
   innerBarBg: string
   innerBarBorder: string
   innerBarRadius: number
   innerBarMargin: string
   innerBarPadding: string
-
+  
   // Buttons (innerButton)
   buttonBg: string
   buttonFg: string
@@ -20,7 +20,7 @@ export interface BarPreset {
   buttonShadow: string
   buttonSpacing: number
 
-  // Legacy/Reference
+  // Legacy/Reference (for internal logic if needed)
   transparent: boolean
   border: boolean
   buttonStyle: "pill" | "square" | "subtle" | "outline" | "glass"
@@ -31,19 +31,19 @@ export const barPresets: BarPreset[] = [
     name: "Ethereal Glass",
     fontSize: "11px",
     showSeparators: false,
-    innerBarBg: "rgba(30, 30, 46, 0.4)",
+    innerBarBg: "rgba(24, 24, 37, 0.45)",
     innerBarBorder: "1px solid rgba(255, 255, 255, 0.1)",
-    innerBarRadius: 16,
-    innerBarMargin: "10px 20px",
-    innerBarPadding: "2px 12px",
-    buttonBg: "rgba(255, 255, 255, 0.03)",
-    buttonFg: "var(--button-fg)",
-    buttonHoverBg: "rgba(255, 255, 255, 0.08)",
-    buttonRadius: "12px",
-    buttonPadding: "0 12px",
-    buttonBorder: "1px solid rgba(255, 255, 255, 0.08)",
-    buttonShadow: "inset 0 1px 1px rgba(255, 255, 255, 0.05)",
-    buttonSpacing: 1,
+    innerBarRadius: 12,
+    innerBarMargin: "8px 12px",
+    innerBarPadding: "4px 8px",
+    buttonBg: "rgba(255, 255, 255, 0.04)",
+    buttonFg: "var(--text)",
+    buttonHoverBg: "rgba(255, 255, 255, 0.1)",
+    buttonRadius: "8px",
+    buttonPadding: "0 10px",
+    buttonBorder: "1px solid rgba(255, 255, 255, 0.05)",
+    buttonShadow: "none",
+    buttonSpacing: 6,
     transparent: true,
     border: true,
     buttonStyle: "glass"
@@ -56,15 +56,15 @@ export const barPresets: BarPreset[] = [
     innerBarBorder: "1px solid var(--accent)",
     innerBarRadius: 0,
     innerBarMargin: "0px",
-    innerBarPadding: "0 10px",
+    innerBarPadding: "2px 4px",
     buttonBg: "transparent",
     buttonFg: "var(--accent)",
-    buttonHoverBg: "var(--accent)",
+    buttonHoverBg: "rgba(0, 242, 255, 0.15)",
     buttonRadius: "0px",
-    buttonPadding: "0 10px",
-    buttonBorder: "1px solid var(--accent)",
+    buttonPadding: "0 12px",
+    buttonBorder: "1px solid transparent",
     buttonShadow: "none",
-    buttonSpacing: 0,
+    buttonSpacing: 4,
     transparent: false,
     border: true,
     buttonStyle: "outline"
@@ -74,18 +74,18 @@ export const barPresets: BarPreset[] = [
     fontSize: "11px",
     showSeparators: false,
     innerBarBg: "var(--base)",
-    innerBarBorder: "none",
-    innerBarRadius: 30,
-    innerBarMargin: "12px 100px",
-    innerBarPadding: "0 20px",
+    innerBarBorder: "1px solid var(--border)",
+    innerBarRadius: 24,
+    innerBarMargin: "10px 80px",
+    innerBarPadding: "4px 12px",
     buttonBg: "var(--surface)",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--overlay)",
-    buttonRadius: "24px",
-    buttonPadding: "0 14px",
+    buttonRadius: "20px",
+    buttonPadding: "0 12px",
     buttonBorder: "none",
-    buttonShadow: "none",
-    buttonSpacing: 16,
+    buttonShadow: "0 2px 4px rgba(0,0,0,0.1)",
+    buttonSpacing: 8,
     transparent: false,
     border: false,
     buttonStyle: "pill"
@@ -94,16 +94,16 @@ export const barPresets: BarPreset[] = [
     name: "Classic Desktop",
     fontSize: "11px",
     showSeparators: true,
-    innerBarBg: "var(--base)",
+    innerBarBg: "var(--surface)",
     innerBarBorder: "1px solid var(--border)",
     innerBarRadius: 6,
-    innerBarMargin: "4px 8px",
-    innerBarPadding: "0 10px",
-    buttonBg: "var(--button-bg)",
-    buttonFg: "var(--button-fg)",
-    buttonHoverBg: "var(--overlay)",
+    innerBarMargin: "2px 4px",
+    innerBarPadding: "2px 6px",
+    buttonBg: "var(--overlay)",
+    buttonFg: "var(--text)",
+    buttonHoverBg: "var(--accent)",
     buttonRadius: "4px",
-    buttonPadding: "0 10px",
+    buttonPadding: "0 8px",
     buttonBorder: "none",
     buttonShadow: "none",
     buttonSpacing: 4,
@@ -116,22 +116,17 @@ export const barPresets: BarPreset[] = [
 export interface Theme {
   name: string
   colors: {
-    // Core
     base: string
     surface: string
     overlay: string
     text: string
     subtext: string
-
-    // UI
     accent: string
     accent_fg: string
     header: string
     button_bg: string
     button_fg: string
     border: string
-
-    // Status
     red: string
     green: string
     yellow: string
@@ -146,7 +141,7 @@ export const themes: Theme[] = [
     name: "Mocha Dream",
     colors: {
       base: "#1e1e2e",
-      surface: "#181825",
+      surface: "#11111b",
       overlay: "#313244",
       text: "#cdd6f4",
       subtext: "#a6adc8",
@@ -155,7 +150,7 @@ export const themes: Theme[] = [
       header: "#f5c2e7",
       button_bg: "#313244",
       button_fg: "#cdd6f4",
-      border: "rgba(203, 166, 247, 0.15)",
+      border: "rgba(203, 166, 247, 0.2)",
       red: "#f38ba8",
       green: "#a6e3a1",
       yellow: "#f9e2af",
@@ -177,7 +172,7 @@ export const themes: Theme[] = [
       header: "#bb9af7",
       button_bg: "#24283b",
       button_fg: "#a9b1d6",
-      border: "rgba(122, 162, 247, 0.2)",
+      border: "rgba(122, 162, 247, 0.25)",
       red: "#f7768e",
       green: "#9ece6a",
       yellow: "#e0af68",
@@ -189,39 +184,39 @@ export const themes: Theme[] = [
   {
     name: "Deep Forest",
     colors: {
-      base: "#1b1f23",
-      surface: "#23282e",
-      overlay: "#2d333b",
-      text: "#adbac7",
-      subtext: "#768390",
-      accent: "#6cb6ff",
-      accent_fg: "#1b1f23",
-      header: "#f69d50",
-      button_bg: "#2d333b",
-      button_fg: "#adbac7",
-      border: "rgba(108, 182, 255, 0.15)",
-      red: "#f47067",
-      green: "#57ab5a",
-      yellow: "#c69026",
-      blue: "#539bf5",
-      magenta: "#b392f0",
-      orange: "#e36209",
+      base: "#0d1117",
+      surface: "#161b22",
+      overlay: "#21262d",
+      text: "#c9d1d9",
+      subtext: "#8b949e",
+      accent: "#58a6ff",
+      accent_fg: "#0d1117",
+      header: "#f0883e",
+      button_bg: "#21262d",
+      button_fg: "#c9d1d9",
+      border: "rgba(240, 136, 62, 0.2)",
+      red: "#ff7b72",
+      green: "#3fb950",
+      yellow: "#d29922",
+      blue: "#58a6ff",
+      magenta: "#bc8cff",
+      orange: "#f0883e",
     }
   },
   {
     name: "Cyber Neon",
     colors: {
-      base: "#0d0d17",
-      surface: "#1a1a2e",
-      overlay: "#2a2a4e",
+      base: "#050505",
+      surface: "#0f0f0f",
+      overlay: "#1a1a1a",
       text: "#ffffff",
       subtext: "#94a3b8",
       accent: "#00f2ff",
-      accent_fg: "#0d0d17",
+      accent_fg: "#000000",
       header: "#ff00ea",
-      button_bg: "#1a1a2e",
+      button_bg: "#1a1a1a",
       button_fg: "#00f2ff",
-      border: "#00f2ff",
+      border: "rgba(0, 242, 255, 0.5)",
       red: "#ff0055",
       green: "#00ff99",
       yellow: "#ffee00",
