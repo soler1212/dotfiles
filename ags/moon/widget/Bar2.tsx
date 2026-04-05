@@ -115,29 +115,55 @@ function ActiveWindow() {
 
 // CPU Usage
 function CPU() {
-  const usage = createPoll("", 2000, "top -bn1", (out) => {
-    const match = out.match(/%Cpu\(s\):\s+([\d.]+)\s+us/)
-    return match ? `${match[1]}% 󰘚` : "0% 󰘚"
+  const usage = createPoll(0, 2000, "top -bn1", (out) => {
+    const match = out.match(/%Cpu\(s\):\s+([\d.,]+)\s+us/)
+    if (match) {
+      const val = match[1].replace(",", ".")
+      return Math.round(parseFloat(val))
+    }
+    return 0
   })
   return (
-    <box class="cpu">
-      <label label={usage} />
+    <box class="cpu" spacing={4}>
+      <label label="󰘚" />
+      <label label={usage.as((u) => `${u}%`)} />
     </box>
   )
 }
 
 // Memory Usage
 function Memory() {
-  const ram = createPoll("", 2000, "free", (out) => {
+  const ram = createPoll(0, 2000, "free", (out) => {
     const lines = out.split("\n")
-    const mem = lines[1].split(/\s+/)
+    const mem = lines[1].trim().split(/\s+/)
     const total = parseInt(mem[1])
-    const used = parseInt(mem[2])
-    return `${Math.round((used / total) * 100)}% 󰍛`
+    const available = parseInt(mem[6])
+    const used = total - available
+    return Math.round((used / total) * 100)
   })
   return (
-    <box class="memory">
-      <label label={ram} />
+    <box class="memory" spacing={4}>
+      <label label="󰍛" />
+      <label label={ram.as((r) => `${r}%`)} />
+    </box>
+  )
+}
+
+function Disk() {
+  const disk = createPoll({ used: "0", total: "0", percent: 0 }, 5000, "df -h /", (out) => {
+    const lines = out.split("\n")
+    const parts = lines[1].split(/\s+/)
+    return {
+      used: parts[2],
+      total: parts[1],
+      percent: parseInt(parts[4].replace("%", "")),
+    }
+  })
+
+  return (
+    <box class="disk" spacing={4}>
+      <label label="󰋊" />
+      <label label={disk.as((d) => `${d.used}/${d.total}`)} />
     </box>
   )
 }
@@ -363,21 +389,26 @@ function Battery() {
   }
 
   return (
-    <menubutton visible={createBinding(battery, "isPresent")}>
-      <box>
-        <image iconName={createBinding(battery, "iconName")} />
-        <label label={percent} />
-      </box>
-      <popover>
-        <box orientation={Gtk.Orientation.VERTICAL}>
-          {powerprofiles.get_profiles().map(({ profile }) => (
-            <button onClicked={() => setProfile(profile)}>
-              <label label={profile} xalign={0} />
-            </button>
-          ))}
+    <box spacing={8}>
+      <CPU />
+      <Memory />
+      <Disk />
+      <menubutton visible={createBinding(battery, "isPresent")}>
+        <box spacing={4}>
+          <image iconName={createBinding(battery, "iconName")} />
+          <label label={percent} />
         </box>
-      </popover>
-    </menubutton>
+        <popover>
+          <box orientation={Gtk.Orientation.VERTICAL}>
+            {powerprofiles.get_profiles().map(({ profile }) => (
+              <button onClicked={() => setProfile(profile)}>
+                <label label={profile} xalign={0} />
+              </button>
+            ))}
+          </box>
+        </popover>
+      </menubutton>
+    </box>
   )
 }
 
@@ -401,17 +432,13 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
         <box $type="center">
           <ActiveWindow />
         </box>
-        <box $type="end" spacing={4}>
+        <box $type="end" spacing={8}>
           <Tray />
           <AudioOutput />
           <Wireless />
           <Mpris />
-          <Clock />
-          {/* <Audio /> */}
-          {/* <Network /> */}
-          {/* <CPU /> */}
-          {/* <Memory /> */}
           <Battery />
+          <Clock />
         </box>
       </centerbox>
     </window>

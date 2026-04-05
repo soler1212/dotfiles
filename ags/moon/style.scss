@@ -123,7 +123,11 @@ separator {
   color: #11111b;
 }
 
-.cpu, .memory, .battery, .clock {
+.cpu, .memory, .battery, .clock, .disk {
   padding: 0 8px;
   font-weight: bold;
+}
+
+.disk {
+  color: #f9e2af; /* Yellow for disk */
 }
