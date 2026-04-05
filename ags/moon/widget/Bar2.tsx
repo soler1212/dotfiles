@@ -193,7 +193,7 @@ function CPU() {
         <label label={cpu.as((c) => `${c.usage}%`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
           <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
             <label class="popup-title" label="CPU Status" halign={Gtk.Align.START} />
             <label class="popup-value-large" label={cpu.as((c) => `${c.usage}% Usage`)} halign={Gtk.Align.START} />
@@ -323,7 +323,7 @@ function Memory() {
         <label label={ram.as((r) => `${r.percent}%`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
           <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
             <label class="popup-title" label="Memory Status" halign={Gtk.Align.START} />
             <label class="popup-value-large" label={ram.as((r) => `${r.percent}% RAM Used`)} halign={Gtk.Align.START} />
@@ -416,7 +416,7 @@ function Disk() {
         <label label={rootDisk.as((d) => `${d.used}/${d.total}`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
           <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
             <label class="popup-title" label="Disk Status" halign={Gtk.Align.START} />
             <Gtk.ScrolledWindow heightRequest={240} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
@@ -481,7 +481,7 @@ function Wireless() {
                 })}
               />
               <popover class="network-popover">
-                <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+                <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
                   {/* Status Section */}
                   <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
                     <label class="popup-title" label="Current Network" halign={Gtk.Align.START} />
@@ -529,7 +529,7 @@ function AudioOutput() {
     <menubutton>
       <image iconName={createBinding(speaker, "volumeIcon")} />
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={320}>
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
           <Gtk.ScrolledWindow heightRequest={450} vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC} class="popup-scroll">
             <box orientation={Gtk.Orientation.VERTICAL} spacing={16} class="popup-container">
               
@@ -830,7 +830,7 @@ function Battery() {
         <label label={percent} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={300}>
+        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
           {/* Theme Selection */}
           <box orientation={Gtk.Orientation.VERTICAL} class="popup-section">
             <label class="popup-title" label="System Themes" halign={Gtk.Align.START} />
