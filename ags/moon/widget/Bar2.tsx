@@ -115,18 +115,42 @@ function ActiveWindow() {
 
 // CPU Usage
 function CPU() {
-  const cpu = createPoll({ usage: 0, load: "" }, 2000, "bash -c \"top -bn1 | grep '%Cpu(s)'; uptime\"", (out) => {
-    try {
-      const lines = out.split("\n")
-      const match = (lines[0] || "").match(/%Cpu\(s\):\s+([\d.,]+)\s+us/)
-      const usage = match ? Math.round(parseFloat(match[1].replace(",", "."))) : 0
-      const load = lines[1]?.split("load average: ")[1] || ""
-      return { usage, load }
-    } catch (e) {
-      console.error("CPU Poll Error:", e)
-      return { usage: 0, load: "error" }
-    }
-  })
+  const cpu = createPoll(
+    { usage: 0, load: "", cores: [] as number[] },
+    2000,
+    'bash -c "top -bn1 | grep -E \'%Cpu\\(s\\)|load average\'; top -bn1 -1 | grep \'%Cpu[0-9]\'\"',
+    (out) => {
+      try {
+        const lines = out.split("\n")
+        let usage = 0
+        const cores: number[] = []
+        let load = ""
+
+        for (const line of lines) {
+          if (line.includes("load average:")) {
+            load = line.split("load average: ")[1] || ""
+          } else if (line.includes("%Cpu(s):")) {
+            const match = line.match(/([\d.,]+)\s+id/)
+            if (match) {
+              usage = Math.round(100 - parseFloat(match[1].replace(",", ".")))
+            }
+          } else if (line.includes("%Cpu")) {
+            const matches = line.matchAll(/%?Cpu(\d+)\s*:.*?([\d.,]+)\s+id/g)
+            for (const m of matches) {
+              const index = parseInt(m[1])
+              cores[index] = Math.round(
+                100 - parseFloat(m[2].replace(",", ".")),
+              )
+            }
+          }
+        }
+        return { usage, load, cores }
+      } catch (e) {
+        console.error("CPU Poll Error:", e)
+        return { usage: 0, load: "error", cores: [] }
+      }
+    },
+  )
 
   return (
     <menubutton class="cpu">
@@ -136,10 +160,96 @@ function CPU() {
       </box>
       <popover class="network-popover">
         <box orientation={Gtk.Orientation.VERTICAL} spacing={12}>
-          <box orientation={Gtk.Orientation.VERTICAL} class="network-card status-section" spacing={8}>
-            <label class="section-title" label="CPU Status" halign={Gtk.Align.START} />
-            <label class="ssid-label" label={cpu.as((c) => `${c.usage}% Usage`)} halign={Gtk.Align.START} />
-            <label class="network-details" label={cpu.as((c) => `Load: ${c.load}`)} halign={Gtk.Align.START} />
+          <box
+            orientation={Gtk.Orientation.VERTICAL}
+            class="network-card status-section"
+            spacing={8}
+          >
+            <label
+              class="section-title"
+              label="CPU Status"
+              halign={Gtk.Align.START}
+            />
+            <label
+              class="ssid-label"
+              label={cpu.as((c) => `${c.usage}% Total Usage`)}
+              halign={Gtk.Align.START}
+            />
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={2}>
+              <label
+                class="network-details"
+                label={cpu.as((c) => `Load (1/5/15m): ${c.load}`)}
+                halign={Gtk.Align.START}
+              />
+              <label
+                label="Average CPU demand. 1.0 means 1 core fully busy."
+                css="font-size: 10px; opacity: 0.7; margin-top: 2px;"
+                halign={Gtk.Align.START}
+              />
+            </box>
+          </box>
+
+          <box
+            orientation={Gtk.Orientation.VERTICAL}
+            class="network-card status-section"
+            spacing={8}
+            visible={cpu.as((c) => c.cores.length > 0)}
+          >
+            <label
+              class="section-title"
+              label="Per-Core Usage"
+              halign={Gtk.Align.START}
+            />
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+              <For
+                each={cpu.as((c) => {
+                  const pairs = []
+                  for (let i = 0; i < c.cores.length; i += 2) {
+                    pairs.push({
+                      c1: { id: i, val: c.cores[i] },
+                      c2:
+                        c.cores[i + 1] !== undefined
+                          ? { id: i + 1, val: c.cores[i + 1] }
+                          : null,
+                    })
+                  }
+                  return pairs
+                })}
+              >
+                {(pair) => (
+                  <box spacing={24}>
+                    <box spacing={8} hexpand>
+                      <label
+                        label={`Core ${pair.c1.id}`}
+                        css="color: #a6adc8;"
+                        halign={Gtk.Align.START}
+                      />
+                      <label
+                        label={`${pair.c1.val}%`}
+                        css="font-weight: bold; color: #cdd6f4;"
+                        halign={Gtk.Align.END}
+                        hexpand
+                      />
+                    </box>
+                    {pair.c2 && (
+                      <box spacing={8} hexpand>
+                        <label
+                          label={`Core ${pair.c2.id}`}
+                          css="color: #a6adc8;"
+                          halign={Gtk.Align.START}
+                        />
+                        <label
+                          label={`${pair.c2.val}%`}
+                          css="font-weight: bold; color: #cdd6f4;"
+                          halign={Gtk.Align.END}
+                          hexpand
+                        />
+                      </box>
+                    )}
+                  </box>
+                )}
+              </For>
+            </box>
           </box>
         </box>
       </popover>
