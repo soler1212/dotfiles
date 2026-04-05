@@ -926,9 +926,15 @@ function Battery() {
     "percentage",
   )((p) => `${Math.floor(p * 100)}%`)
 
-  const setProfile = (profile: string) => {
-    powerprofiles.set_active_profile(profile)
-  }
+  const stateLabel = createBinding(battery, "state").as(s => {
+    switch(s) {
+      case AstalBattery.State.CHARGING: return "Carregant"
+      case AstalBattery.State.DISCHARGING: return "Descarregant"
+      case AstalBattery.State.FULLY_CHARGED: return "Completament carregada"
+      case AstalBattery.State.EMPTY: return "Buida"
+      default: return "Desconegut"
+    }
+  })
 
   return (
     <box spacing={8}>
@@ -940,13 +946,133 @@ function Battery() {
           <image iconName={createBinding(battery, "iconName")} />
           <label label={percent} />
         </box>
-        <popover>
-          <box orientation={Gtk.Orientation.VERTICAL}>
-            {powerprofiles.get_profiles().map(({ profile }) => (
-              <button onClicked={() => setProfile(profile)}>
-                <label label={profile} xalign={0} />
-              </button>
-            ))}
+        <popover class="network-popover">
+          <box orientation={Gtk.Orientation.VERTICAL} spacing={12} widthRequest={320}>
+            {/* Battery Status Header */}
+            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={12}>
+              <label class="section-title" label="Estat de la Bateria" halign={Gtk.Align.START} />
+              
+              <box spacing={16} valign={Gtk.Align.CENTER}>
+                <image 
+                  iconName={createBinding(battery, "iconName")} 
+                  css="font-size: 40px; color: #a6e3a1;" 
+                />
+                <box orientation={Gtk.Orientation.VERTICAL} hexpand>
+                  <box spacing={8}>
+                    <label 
+                      class="ssid-label" 
+                      label={percent} 
+                      halign={Gtk.Align.START} 
+                    />
+                    <label 
+                      class="network-details" 
+                      label={stateLabel} 
+                      halign={Gtk.Align.START} 
+                      valign={Gtk.Align.END}
+                      css="margin-bottom: 4px;"
+                    />
+                  </box>
+                  {/* Visual Level Bar */}
+                  <levelbar 
+                    value={createBinding(battery, "percentage")} 
+                    css="margin-top: 4px; min-height: 8px;"
+                  />
+                </box>
+              </box>
+            </box>
+
+            <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+
+            {/* Power Details */}
+            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
+              <label class="section-title" label="Detalls d'Energia" halign={Gtk.Align.START} />
+              
+              <box spacing={8}>
+                <image iconName="power-profile-balanced-symbolic" class="ip-icon" />
+                <label class="ip-label" label="Consum: " />
+                <label 
+                  class="network-details" 
+                  label={createBinding(battery, "energyRate").as(r => `${r.toFixed(2)} W`)} 
+                  hexpand 
+                  halign={Gtk.Align.END} 
+                />
+              </box>
+
+              <box spacing={8}>
+                <image iconName="temperature-symbolic" class="ip-icon" />
+                <label class="ip-label" label="Temperatura: " />
+                <label 
+                  class="network-details" 
+                  label={createBinding(battery, "temperature").as(t => `${t.toFixed(1)}°C`)} 
+                  hexpand 
+                  halign={Gtk.Align.END} 
+                />
+              </box>
+
+              <box spacing={8}>
+                <image iconName="time-symbolic" class="ip-icon" />
+                <label class="ip-label" label={createBinding(battery, "state").as(s => 
+                  s === AstalBattery.State.CHARGING ? "Temps per carregar: " : "Temps restant: "
+                )} />
+                <label 
+                  class="network-details" 
+                  label={createBinding(battery, "state").as(s => {
+                    const t = s === AstalBattery.State.CHARGING ? battery.timeToFull : battery.timeToEmpty
+                    if (t <= 0) return "N/A"
+                    const h = Math.floor(t / 3600)
+                    const m = Math.floor((t % 3600) / 60)
+                    return h > 0 ? `${h}h ${m}m` : `${m}m`
+                  })} 
+                  hexpand 
+                  halign={Gtk.Align.END} 
+                />
+              </box>
+
+              <box spacing={8}>
+                <image iconName="battery-health-symbolic" class="ip-icon" />
+                <label class="ip-label" label="Salut bateria: " />
+                <label 
+                  class="network-details" 
+                  label={createBinding(battery, "capacity").as(c => `${Math.round(c * 100)}%`)} 
+                  hexpand 
+                  halign={Gtk.Align.END} 
+                />
+              </box>
+            </box>
+
+            <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+
+            {/* Power Profiles Selection */}
+            <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
+              <label class="section-title" label="Perfil de Rendiment" halign={Gtk.Align.START} />
+              <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+                {powerprofiles.get_profiles().map(({ profile }) => (
+                  <button 
+                    class="network-access-points-list-item"
+                    onClicked={() => powerprofiles.set_active_profile(profile)}
+                  >
+                    <box spacing={8}>
+                      <image 
+                        iconName={
+                          profile === "performance" ? "power-profile-performance-symbolic" :
+                          profile === "balanced" ? "power-profile-balanced-symbolic" :
+                          "power-profile-power-saver-symbolic"
+                        } 
+                      />
+                      <label 
+                        label={profile.charAt(0).toUpperCase() + profile.slice(1)} 
+                        hexpand 
+                        halign={Gtk.Align.START} 
+                      />
+                      <image 
+                        iconName="object-select-symbolic" 
+                        visible={createBinding(powerprofiles, "activeProfile").as(p => p === profile)} 
+                      />
+                    </box>
+                  </button>
+                ))}
+              </box>
+            </box>
           </box>
         </popover>
       </menubutton>
