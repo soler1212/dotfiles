@@ -779,6 +779,18 @@ function AudioOutput() {
                 </box>
               </Gtk.ScrolledWindow>
             </box>
+
+            <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+
+            <button 
+              class="reveal-ip-btn"
+              onClicked={() => execAsync("pavucontrol")}
+            >
+              <box spacing={8} halign={Gtk.Align.CENTER}>
+                <image iconName="preferences-system-symbolic" />
+                <label label="Configuració d'Audio" />
+              </box>
+            </button>
           </box>
         </Gtk.ScrolledWindow>
       </popover>
