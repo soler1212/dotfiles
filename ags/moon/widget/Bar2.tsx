@@ -978,6 +978,31 @@ function Battery() {
       </box>
       <popover class="network-popover">
         <box orientation={Gtk.Orientation.VERTICAL} spacing={12} widthRequest={320}>
+          {/* Theme Selection - Ara integrat aquí */}
+          <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={8}>
+            <label class="section-title" label="Temes del Sistema" halign={Gtk.Align.START} />
+            <box orientation={Gtk.Orientation.VERTICAL} spacing={4}>
+              <For each={themesState}>
+                {(theme) => (
+                  <button 
+                    class="network-access-points-list-item"
+                    onClicked={() => themeService.setTheme(theme.name)}
+                  >
+                    <box spacing={8}>
+                      <label label={theme.name} hexpand halign={Gtk.Align.START} />
+                      <image 
+                        iconName="object-select-symbolic" 
+                        visible={themeService.currentTheme.as((t) => t.name === theme.name)} 
+                      />
+                    </box>
+                  </button>
+                )}
+              </For>
+            </box>
+          </box>
+
+          <Gtk.Separator orientation={Gtk.Orientation.HORIZONTAL} />
+
           {/* Battery Status Header */}
           <box orientation={Gtk.Orientation.VERTICAL} class="network-card" spacing={12}>
             <label class="section-title" label="Estat de la Bateria" halign={Gtk.Align.START} />
@@ -1145,10 +1170,10 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
           <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
 
           <box class="module" spacing={8}>
+            <Battery />
             <CPU />
             <Memory />
             <Disk />
-            <Battery />
           </box>
 
           <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
@@ -1162,12 +1187,6 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
 
           <box class="module tray">
             <Tray />
-          </box>
-
-          <Gtk.Separator class="module-separator" orientation={Gtk.Orientation.VERTICAL} />
-
-          <box class="module">
-            <ThemeSwitcher />
           </box>
         </box>
       </centerbox>
