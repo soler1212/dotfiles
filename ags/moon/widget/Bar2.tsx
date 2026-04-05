@@ -30,10 +30,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
       application={app}
       css={themeService.cssVars}
     >
-      <centerbox 
-        class="bar-inner" 
-        css={themeService.barStyle}
-      >
+      <centerbox class="bar-inner">
         <box $type="start" valign={Gtk.Align.CENTER} spacing={spacing}>
           <box class="module" spacing={spacing}>
             <Workspaces />
@@ -56,7 +53,6 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
           </box>
 
           <ModuleSeparator />
-
           <box class="module tray" spacing={spacing}>
             <Tray />
             <Bluetooth />

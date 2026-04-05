@@ -15,11 +15,11 @@ export const barPresets: BarPreset[] = [
     name: "Ethereal Glass",
     transparent: true,
     borderRadius: 16,
-    margin: "10px 20px",
+    margin: "0px 0px",
     border: true,
-    padding: "0 12px",
+    padding: "0px 0px",
     buttonStyle: "glass",
-    spacing: 12,
+    spacing: 0,
     showSeparators: false
   },
   {

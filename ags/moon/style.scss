@@ -1,34 +1,8 @@
-/* --- FALLBACKS --- */
-* {
-  --base: #1e1e2e;
-  --surface: #181825;
-  --overlay: #313244;
-  --text: #cdd6f4;
-  --subtext: #a6adc8;
-  --accent: #cba6f7;
-  --accent-fg: #11111b;
-  --header: #f5c2e7;
-  --button-bg: #313244;
-  --button-fg: #cdd6f4;
-  --border: rgba(203, 166, 247, 0.15);
-  
-  --red: #f38ba8;
-  --green: #a6e3a1;
-  --yellow: #f9e2af;
-  --blue: #89b4fa;
-  --magenta: #f5c2e7;
-  --orange: #fab387;
+/* ==========================================================================
+   AGS MOON - Modular SCSS (Variable Driven)
+   ========================================================================== */
 
-  /* Button Dynamics (Injected by ThemeService) */
-  --btn-radius: 8px;
-  --btn-bg: var(--surface);
-  --btn-border: none;
-  --btn-padding: 0 10px;
-  --btn-spacing: 8px;
-  --btn-shadow: none;
-  --sep-opacity: 1;
-}
-
+/* 1. Base Window & Layout */
 window.Bar2 {
   background-color: transparent;
   color: var(--text);
@@ -36,47 +10,51 @@ window.Bar2 {
   font-size: 11px;
 }
 
-/* Base button style for all bar modules */
+.bar-inner {
+  background-color: var(--bar-bg);
+  margin: var(--bar-margin);
+  padding: var(--bar-padding);
+  border-radius: var(--bar-radius);
+  border: var(--bar-border);
+  min-height: 32px;
+}
+
+/* 2. Atomic Buttons (Bar) */
 .bar-inner button, 
 .bar-inner menubutton {
   all: unset;
-  background-color: var(--btn-bg);
-  color: var(--button-fg);
+  // background-color: var(--btn-bg);
+  color: var(--btn-fg);
   border-radius: var(--btn-radius);
-  border: var(--btn-border);
+  // border: var(--btn-border);
   padding: var(--btn-padding);
   box-shadow: var(--btn-shadow);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 24px;
+  margin: 0 calc(var(--btn-spacing) / 2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
 }
 
-.bar-inner button:hover,
-.bar-inner menubutton:hover {
-  background-color: var(--overlay);
-  color: var(--accent);
-  transform: translateY(-1px);
-}
-
-.bar-inner button:active,
-.bar-inner menubutton:active {
-  transform: translateY(0);
-  opacity: 0.8;
-}
-
-/* --- POPUPS --- */
+/* 3. Global Popups */
 .network-popover > contents {
   background-color: var(--base);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 0;
   margin-top: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .popup-container { padding: 16px; }
 .popup-section { margin-bottom: 20px; }
-.popup-section:last-child { margin-bottom: 0; }
-
 .popup-title {
   font-size: 10px;
   font-weight: 900;
@@ -84,68 +62,45 @@ window.Bar2 {
   letter-spacing: 1.5px;
   color: var(--header);
   margin-bottom: 12px;
-  opacity: 0.8;
 }
 
 .popup-value-large { font-size: 24px; font-weight: 900; color: #ffffff; margin-bottom: 4px; }
-.popup-label-detail { font-size: 11px; color: var(--accent); font-weight: 600; opacity: 0.9; }
+.popup-label-detail { font-size: 11px; color: var(--accent); font-weight: 600; }
 .popup-data-key { font-size: 11px; color: var(--subtext); font-weight: 500; }
 .popup-data-value { font-size: 11px; font-weight: 800; color: var(--text); }
-
 .popup-scroll { background-color: var(--surface); border-radius: 8px; margin: 8px 0; }
 
-/* Popup buttons should NOT look like bar buttons */
+/* Popup List Items (Standard List Pattern) */
 .popup-list-item {
   all: unset;
   padding: 10px 12px;
   border-radius: 8px;
   transition: all 0.2s ease;
   color: var(--text);
-}
-.popup-list-item:hover { 
-  background-color: var(--overlay); 
-  color: var(--accent);
-}
-
-scrollbar {
-  &.vertical {
-    background-color: transparent;
-    transition: all 0.2s ease;
-    min-width: 4px;
-    slider {
-      background-color: var(--border);
-      border-radius: 10px;
-      min-width: 4px;
-      margin: 2px;
-    }
-    &:hover slider { background-color: var(--accent); }
+  
+  &:hover {
+    background-color: var(--overlay);
+    color: var(--accent);
   }
 }
 
-/* --- MODULE SPECIFICS --- */
+/* 4. Modules Specifics */
 .workspaces button { 
   padding: 0 10px; 
   background-color: transparent; 
   border: none;
   box-shadow: none;
-}
-.workspaces button.focused { 
-  background-color: var(--accent); 
-  color: var(--accent-fg); 
-  font-weight: 900; 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-.workspaces button.urgent {
-  background-color: var(--red);
-  color: var(--accent-fg);
+  
+  &.focused { 
+    background-color: var(--accent); 
+    color: var(--accent-fg); 
+    font-weight: 900; 
+  }
+  
+  &.urgent { background-color: var(--red); color: var(--accent-fg); }
 }
 
-.active-window label { 
-  color: var(--accent); 
-  font-weight: 800; 
-  margin-left: 8px;
-  font-size: 12px;
-}
+.active-window label { color: var(--accent); font-weight: 800; margin-left: 8px; }
 
 .module-separator { 
   background-color: var(--border); 
@@ -155,7 +110,20 @@ scrollbar {
   opacity: var(--sep-opacity);
 }
 
+/* Colors for specific monitoring icons */
 .cpu { color: var(--magenta); }
 .memory { color: var(--blue); }
 .disk { color: var(--yellow); }
 .battery-icon { color: var(--green); }
+
+/* 5. Scrollbars */
+scrollbar.vertical {
+  background-color: transparent;
+  min-width: 4px;
+  slider {
+    background-color: var(--border);
+    border-radius: 10px;
+    min-width: 4px;
+  }
+  &:hover slider { background-color: var(--accent); }
+}
