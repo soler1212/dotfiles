@@ -1,6 +1,6 @@
 import { Gtk } from "ags/gtk4"
 import { For } from "ags"
-import { PopupSection, PopupTitle } from "../atoms/Popup"
+import { PopupContainer, PopupSection, PopupTitle } from "../atoms/Popup"
 import { DataRow, DataKey, DataValue } from "../atoms/Data"
 import { PopupScroll } from "../atoms/Layout"
 import { disks, rootDisk } from "../../services/disk"
@@ -13,7 +13,7 @@ export function Disk() {
         <label label={rootDisk.as((d) => `${d.used}/${d.total}`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
+        <PopupContainer>
           <PopupSection>
             <PopupTitle label="Disk Status" />
             <PopupScroll height={240} spacing={12}>
@@ -36,7 +36,7 @@ export function Disk() {
               </For>
             </PopupScroll>
           </PopupSection>
-        </box>
+        </PopupContainer>
       </popover>
     </menubutton>
   )

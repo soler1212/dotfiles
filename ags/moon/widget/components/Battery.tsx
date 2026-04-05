@@ -2,7 +2,7 @@ import { Gtk } from "ags/gtk4"
 import { createBinding } from "ags"
 import AstalBattery from "gi://AstalBattery"
 import { ThemeSwitcher } from "./ThemeSwitcher"
-import { PopupSection, PopupTitle, PopupValueLarge, PopupDetail } from "../atoms/Popup"
+import { PopupContainer, PopupSection, PopupTitle, PopupValueLarge, PopupDetail } from "../atoms/Popup"
 import { DataRow, DataKey, DataValue } from "../atoms/Data"
 
 export function Battery() {
@@ -30,7 +30,7 @@ export function Battery() {
         <label label={percent} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
+        <PopupContainer>
           {/* Theme Selection Section */}
           <ThemeSwitcher />
 
@@ -61,7 +61,7 @@ export function Battery() {
               </DataRow>
             </box>
           </PopupSection>
-        </box>
+        </PopupContainer>
       </popover>
     </menubutton>
   )

@@ -1,6 +1,6 @@
 import { Gtk } from "ags/gtk4"
 import { For } from "ags"
-import { PopupSection, PopupTitle, PopupValueLarge, PopupDetail } from "../atoms/Popup"
+import { PopupContainer, PopupSection, PopupTitle, PopupValueLarge, PopupDetail } from "../atoms/Popup"
 import { DataRow, DataKey, DataValue } from "../atoms/Data"
 import { PopupScroll } from "../atoms/Layout"
 import { cpu } from "../../services/cpu"
@@ -13,7 +13,7 @@ export function CPU() {
         <label label={cpu.as((c) => `${c.usage}%`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
+        <PopupContainer>
           <PopupSection>
             <PopupTitle label="CPU Status" />
             <PopupValueLarge label={cpu.as((c) => `${c.usage}% Usage`)} />
@@ -55,7 +55,7 @@ export function CPU() {
               </For>
             </PopupScroll>
           </PopupSection>
-        </box>
+        </PopupContainer>
       </popover>
     </menubutton>
   )

@@ -5,7 +5,7 @@ import { useNetwork } from "../../hooks/useNetwork"
 import { CurrentNetworkInfo } from "./current-network-info"
 import { IPsInfo } from "./ips-info"
 import { NetworkAccessPointListItem } from "./network-access-points-list-item"
-import { PopupSection, PopupTitle } from "../atoms/Popup"
+import { PopupContainer, PopupSection, PopupTitle } from "../atoms/Popup"
 import { PopupScroll } from "../atoms/Layout"
 
 export function Wireless() {
@@ -32,7 +32,7 @@ export function Wireless() {
                 })}
               />
               <popover class="network-popover">
-                <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
+                <PopupContainer>
                   {/* Status Section */}
                   <PopupSection>
                     <PopupTitle label="Current Network" />
@@ -58,7 +58,7 @@ export function Wireless() {
                       </For>
                     </PopupScroll>
                   </PopupSection>
-                </box>
+                </PopupContainer>
               </popover>
             </menubutton>
           )

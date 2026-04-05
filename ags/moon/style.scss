@@ -32,11 +32,15 @@ window.Bar2 > centerbox {
 
 .network-popover > contents {
   background-color: var(--base);
-  border: 1px solid var(--mauve); /* Vora de color per contrast */
+  border: 1px solid var(--mauve);
   border-radius: 12px;
-  padding: 16px;
+  padding: 0; /* Remove padding from content to allow scroll area to reach edges if needed */
   margin-top: 6px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+}
+
+.popup-container {
+  padding: 16px; /* Move padding here */
 }
 
 .popup-section {
@@ -63,13 +67,13 @@ window.Bar2 > centerbox {
 .popup-value-large {
   font-size: 22px;
   font-weight: 900;
-  color: #ffffff; /* Blanc pur per contrast màxim */
+  color: #ffffff;
   margin-bottom: 4px;
 }
 
 /* Text de descripció o detall */
 .popup-label-detail {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--blue);
   font-weight: 600;
 }
@@ -80,23 +84,52 @@ window.Bar2 > centerbox {
 }
 
 .popup-data-key {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--subtext0);
   font-weight: 500;
 }
 
 .popup-data-value {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   color: var(--text);
 }
 
 /* Scroll area */
 .popup-scroll {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  padding: 8px;
   margin: 8px 0;
+}
+
+.popup-list-item {
+  all: unset;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.popup-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+scrollbar {
+  &.vertical {
+    background-color: transparent;
+    transition: all 0.2s ease;
+    min-width: 4px;
+    
+    slider {
+      background-color: rgba(203, 166, 247, 0.2);
+      border-radius: 10px;
+      min-width: 4px;
+      margin: 2px;
+    }
+    
+    &:hover slider {
+      background-color: rgba(203, 166, 247, 0.4);
+    }
+  }
 }
 
 /* --- ALTRES --- */

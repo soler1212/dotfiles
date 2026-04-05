@@ -1,6 +1,12 @@
 import { Gtk } from "ags/gtk4"
 import { Binding } from "ags"
 
+export const PopupContainer = ({ children, width = 400 }: { children: any, width?: number }) => (
+  <box orientation={Gtk.Orientation.VERTICAL} widthRequest={width} class="popup-container">
+    {children}
+  </box>
+)
+
 export const PopupSection = ({ children, visible = true }: { children: any, visible?: boolean | Binding<boolean> }) => (
   <box orientation={Gtk.Orientation.VERTICAL} class="popup-section" visible={visible}>
     {children}

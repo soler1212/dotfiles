@@ -1,5 +1,5 @@
 import { Gtk } from "ags/gtk4"
-import { PopupSection, PopupTitle, PopupValueLarge, PopupDetail } from "../atoms/Popup"
+import { PopupContainer, PopupSection, PopupTitle, PopupValueLarge, PopupDetail } from "../atoms/Popup"
 import { DataRow, DataKey, DataValue } from "../atoms/Data"
 import { memory, formatMB } from "../../services/memory"
 
@@ -11,7 +11,7 @@ export function Memory() {
         <label label={memory.as((r) => `${r.percent}%`)} />
       </box>
       <popover class="network-popover">
-        <box orientation={Gtk.Orientation.VERTICAL} widthRequest={380}>
+        <PopupContainer>
           <PopupSection>
             <PopupTitle label="Memory Status" />
             <PopupValueLarge label={memory.as((r) => `${r.percent}% RAM Used`)} />
@@ -37,7 +37,7 @@ export function Memory() {
             <PopupValueLarge label={memory.as((r) => `${r.swapPercent}% Used`)} />
             <PopupDetail label={memory.as((r) => `Used: ${formatMB(r.swapUsed)} / Total: ${formatMB(r.swapTotal)}`)} />
           </PopupSection>
-        </box>
+        </PopupContainer>
       </popover>
     </menubutton>
   )
