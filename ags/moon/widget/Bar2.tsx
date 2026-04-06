@@ -1,6 +1,7 @@
 import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { createComputed } from "ags"
+import GLib from "gi://GLib"
 import { themeService } from "../ThemeService"
 import { Workspaces } from "./components/Workspaces"
 import { ActiveWindow } from "./components/ActiveWindow"
@@ -15,6 +16,14 @@ import { Wireless } from "./components/Wireless"
 import { Tray } from "./components/Tray"
 import { Bluetooth } from "./components/Bluetooth"
 import { ModuleSeparator } from "./atoms/Layout"
+
+const clockFormat = () => {
+  const now = GLib.DateTime.new_now_local()
+  const monthName = now.format("%B")!.toLowerCase()
+  const weekday = now.format("%A")!.toLowerCase()
+  const preposition = /^[aeiouh]/.test(monthName) ? "d'" : "de "
+  return `${weekday} [${now.format("%d")}], ${preposition}${monthName} [${now.format("%m")}] [W${now.format("%V")}] - ${now.format("%H:%M:%S")}`
+}
 
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
   const spacing = createComputed(() => themeService.preset().buttonSpacing)
@@ -46,7 +55,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
 
         <box $type="center" valign={Gtk.Align.CENTER} spacing={spacing}>
           <box class="module" spacing={spacing}>
-            <Clock format="%H:%M - %A %d %b" />
+            <Clock format={clockFormat} />
           </box>
         </box>
 

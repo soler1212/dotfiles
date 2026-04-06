@@ -2,7 +2,7 @@ import { Gtk } from "ags/gtk4"
 import { createClockPoll } from "../../services/clock"
 
 interface ClockProps {
-  format?: string
+  format?: string | (() => string)
 }
 
 export function Clock({ format = "%H:%M" }: ClockProps) {
