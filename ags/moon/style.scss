@@ -179,18 +179,25 @@ scrollbar.vertical {
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-.moon-title {
+.moon-title-cat {
   font-size: 18px;
   font-weight: 800;
   color: var(--text);
-  margin-bottom: 12px;
+}
+
+.moon-title-en {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--subtext);
+  font-style: italic;
+  margin-bottom: 8px;
 }
 
 .moon-divider {
   background-color: var(--accent);
   min-height: 2px;
-  margin: 8px 0 16px 0;
-  opacity: 0.4;
+  margin: 4px 0 12px 0;
+  opacity: 0.3;
   border-radius: 2px;
 }
 
@@ -200,13 +207,30 @@ scrollbar.vertical {
 
 .moon-info {
   font-size: 13px;
-  font-weight: 600;
-  color: var(--subtext);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.moon-info-accent {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--accent);
 }
 
 .moon-info-small {
   font-size: 11px;
+  font-weight: 600;
+  color: var(--subtext);
+  margin: 4px 0;
+}
+
+.moon-times {
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+.moon-info-tiny {
+  font-size: 10px;
   font-weight: 500;
   color: var(--accent);
-  opacity: 0.8;
 }

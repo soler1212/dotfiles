@@ -19,24 +19,43 @@ export default function MoonWidget(monitor = 0) {
                     class="moon-phase"
                     label={moonService.as(m => m.phase_emoji)} 
                 />
-                <label 
-                    class="moon-title"
-                    label={moonService.as(m => m.phase_name)}
-                />
+                <box orientation={Gtk.Orientation.VERTICAL}>
+                  <label 
+                      class="moon-title-cat"
+                      label={moonService.as(m => m.phase_name_cat)}
+                  />
+                  <label 
+                      class="moon-title-en"
+                      label={moonService.as(m => `(${m.phase_name})`)}
+                  />
+                </box>
+                
                 <box class="moon-divider" />
+                
                 <box orientation={Gtk.Orientation.VERTICAL} spacing={4} class="moon-details">
-                    <label 
-                        class="moon-info" 
-                        label={moonService.as(m => `Il·luminació: ${m.illumination}%`)} 
-                        halign={Gtk.Align.START} 
-                    />
-                    <box spacing={12}>
+                    <box spacing={8}>
                         <label 
-                            class="moon-info-small" 
+                            class="moon-info-accent" 
+                            label={moonService.as(m => `${m.illumination}%`)} 
+                        />
+                        <label 
+                            class="moon-info" 
+                            label={moonService.as(m => m.is_waxing ? "Creixent" : "Minvant")} 
+                        />
+                    </box>
+                    
+                    <label 
+                        class="moon-info-small" 
+                        label={moonService.as(m => `Proper estat: ${m.next_phase}`)} 
+                    />
+
+                    <box spacing={12} class="moon-times">
+                        <label 
+                            class="moon-info-tiny" 
                             label={moonService.as(m => `Sortida: ${m.moonrise}`)} 
                         />
                         <label 
-                            class="moon-info-small" 
+                            class="moon-info-tiny" 
                             label={moonService.as(m => `Posta: ${m.moonset}`)} 
                         />
                     </box>
