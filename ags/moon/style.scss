@@ -168,24 +168,25 @@ scrollbar.vertical {
 }
 
 .hacker-terminal {
-  background-color: rgba(30, 30, 46, 0.85); /* More mocha-like, semi-transparent */
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  background-color: rgba(17, 17, 27, 0.4); /* Molt més transparent */
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Vora gairebé invisible */
+  border-radius: 12px;
   padding: 0;
-  margin: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  margin: 24px; /* Més aprop de la cantonada */
+  box-shadow: none; /* Eliminem l'ombra per treure l'efecte de flotació */
   min-width: 300px;
   font-family: "JetBrains Mono", monospace;
 }
 
 .terminal-header {
-  background-color: var(--accent);
+  background-color: rgba(203, 166, 247, 0.2); /* Accent molt subtil i transparent */
   padding: 6px 14px;
-  border-radius: 8px 8px 0 0;
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   
-  .terminal-prompt { color: var(--accent-fg); font-weight: 900; }
-  .terminal-title { color: var(--accent-fg); font-weight: 800; font-size: 11px; }
-  .terminal-status { color: var(--accent-fg); font-weight: 700; font-size: 10px; opacity: 0.8; }
+  .terminal-prompt { color: var(--accent); font-weight: 900; }
+  .terminal-title { color: var(--text); font-weight: 800; font-size: 11px; opacity: 0.8; }
+  .terminal-status { color: var(--accent); font-weight: 700; font-size: 10px; opacity: 0.6; }
 }
 
 .terminal-body {
