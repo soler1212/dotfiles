@@ -75,7 +75,7 @@ export const barPresets: BarPreset[] = [
     buttonPadding: "0 10px",
     buttonBorder: "1px solid rgba(255, 255, 255, 0.05)",
     buttonShadow: "none",
-    buttonSpacing: 6,
+    buttonSpacing: 3,
     transparent: true,
     border: true,
     buttonStyle: "glass"
@@ -123,7 +123,7 @@ export const barPresets: BarPreset[] = [
     buttonPadding: "0 12px",
     buttonBorder: "none",
     buttonShadow: "0 2px 4px rgba(0,0,0,0.1)",
-    buttonSpacing: 8,
+    buttonSpacing: 4,
     transparent: false,
     border: false,
     buttonStyle: "pill"
