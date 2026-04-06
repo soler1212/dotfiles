@@ -2,7 +2,7 @@ import { createPoll } from "ags/time"
 
 const cmd = 'bash -c "export SWAYSOCK=$(ls /run/user/1000/sway-ipc.*.sock 2>/dev/null | head -n 1); [ -n \'$SWAYSOCK\' ] && swaymsg -r -t get_tree || echo \'{}\' "'
 
-export const windowName = createPoll("", 500, cmd, (out) => {
+export const windowName = createPoll("", 200, cmd, (out) => {
   try {
     const jsonStart = out.indexOf("{")
     if (jsonStart === -1) return ""
