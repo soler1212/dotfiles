@@ -19,6 +19,8 @@ import { ModuleSeparator } from "./atoms/Layout"
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
   const spacing = createComputed(() => themeService.preset().buttonSpacing)
 
+  const height = createComputed(() => themeService.preset().innerBarHeight)
+
   return (
     <window
       visible
@@ -29,8 +31,9 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
       anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}
       application={app}
       css={themeService.cssVars}
+      heightRequest={height}
     >
-      <centerbox class="bar-inner">
+      <centerbox class="bar-inner" heightRequest={height}>
         <box $type="start" valign={Gtk.Align.CENTER} spacing={spacing}>
           <box class="module" spacing={spacing}>
             <Workspaces />

@@ -116,9 +116,9 @@ window.Bar2 {
 
 .module-separator { 
   background-color: var(--border); 
-  margin: 8px 0;
+  margin: var(--sep-margin-v) 0;
   min-width: 1px; 
-  min-height: 16px;
+  min-height: 4px;
   opacity: var(--sep-opacity);
 }
 

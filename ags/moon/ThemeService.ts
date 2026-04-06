@@ -31,6 +31,7 @@ class ThemeService {
       `--inner-bar-margin: ${p.innerBarMargin};`,
       `--inner-bar-padding: ${p.innerBarPadding};`,
       `--inner-bar-height: ${p.innerBarHeight}px;`,
+      `--sep-margin-v: ${p.sepMarginV}px;`,
       `--button-radius: ${p.buttonRadius};`,
       `--button-bg: ${p.buttonBg};`,
       `--button-fg: ${p.buttonFg};`,
