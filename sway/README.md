@@ -3,7 +3,7 @@
 ## Dependencies
 ```bash
 # Core
-sway swaylock swayidle swaybg mako waybar grim slurp wl-clipboard jq
+sway swaylock swayidle swaybg mako ags grim slurp wl-clipboard jq
 
 # Audio (PipeWire Migration for Ubuntu 22.04)
 pipewire pipewire-pulse wireplumber libspa-0.2-bluetooth pavucontrol
