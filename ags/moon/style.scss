@@ -1,4 +1,8 @@
-/* Base styles */
+/* ==========================================================================
+   AGS MOON - Modular SCSS
+   ========================================================================== */
+
+/* 1. Base Window & Layout */
 window.Bar2 {
   background-color: transparent;
   color: var(--text);
@@ -13,68 +17,107 @@ window.Bar2 {
   border: var(--inner-bar-border);
 }
 
-.bar-inner image {
-  -gtk-icon-size: var(--icon-size);
-}
-
-/* Modules */
-.module button {
+/* 2. Atomic Buttons (Bar) */
+.bar-inner .module button, 
+.bar-inner .module togglebutton,
+.bar-inner .module menubutton > button {
   all: unset;
   background-color: var(--button-bg);
   color: var(--button-fg);
   border-radius: var(--button-radius);
+  border: var(--button-border);
   padding: var(--button-padding);
   margin: 0 calc(var(--button-spacing) / 2);
 }
 
-.workspaces button.focused {
-  background-color: var(--accent);
-  color: var(--accent-fg);
+.bar-inner .module button:hover {
+  background-color: var(--button-hover-bg);
+  color: var(--accent);
 }
 
-.sway-mode {
-  background-color: var(--red);
-  color: white;
-  padding: 0 10px;
-  border-radius: var(--button-radius);
-  font-weight: bold;
+/* 3. Modules Specifics */
+.workspaces button { 
+  padding: 0 10px; 
+  background-color: transparent; 
 }
 
-/* Central Window */
+.workspaces button.focused { 
+  background-color: var(--accent); 
+  color: var(--accent-fg); 
+}
+
+.active-window label { color: var(--accent); font-weight: 800; margin-left: 8px; }
+
+.module-separator { 
+  background-color: var(--border); 
+  min-width: 1px; 
+  min-height: 4px;
+}
+
+/* ==========================================================================
+   HACKER OSD (Adaptat al Tema i Ample Automàtic)
+   ========================================================================== */
 .SwayModeWindow {
   background-color: transparent;
 }
 
-.sway-mode-container {
-  background-color: var(--inner-bar-bg);
-  border: 2px solid var(--accent);
-  border-radius: 20px;
-  padding: 24px 40px;
-  min-width: 300px;
+.hacker-container {
+  background-color: var(--surface); /* Fons sòlid del teu tema */
+  border: 1px solid var(--accent);
+  border-radius: var(--inner-bar-radius);
+  padding: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
-.sway-mode-title {
-  font-size: 10px;
-  font-weight: 900;
-  color: var(--subtext);
-  letter-spacing: 2px;
+.hacker-header {
+  background-color: var(--accent);
+  padding: 4px 12px;
 }
 
-.sway-mode-text {
-  font-size: 28px;
-  font-weight: 900;
+.hacker-status { 
+  color: var(--accent-fg); 
+  font-weight: 900; 
+  font-size: 9px; 
+}
+
+.hacker-content {
+  padding: 10px 20px;
+}
+
+.hacker-prefix {
   color: var(--accent);
-  text-transform: uppercase;
+  font-size: 9px;
+  opacity: 0.7;
+  margin-bottom: 2px;
 }
 
-.module-separator {
+.hacker-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+.hacker-bracket {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.hacker-footer {
+  padding: 4px 10px;
+  border-top: 1px solid var(--border);
+}
+
+.hacker-hint {
+  color: var(--subtext);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+/* 4. Scrollbars */
+scrollbar.vertical slider {
   background-color: var(--border);
-  min-width: 1px;
-  min-height: 4px;
+  border-radius: 10px;
+  min-width: 4px;
 }
-
-/* Monitoring icons */
-.cpu { color: var(--magenta); }
-.memory { color: var(--blue); }
-.disk { color: var(--yellow); }
-.battery-icon { color: var(--green); }

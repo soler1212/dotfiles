@@ -9,11 +9,11 @@ export function SwayModeWindow(gdkmonitor: Gdk.Monitor) {
     return mode !== "default" && mode !== ""
   })
 
-  const modeText = createComputed(() => swayMode())
+  const modeText = createComputed(() => swayMode().toUpperCase())
 
   return (
     <window
-      name="sway-mode-window"
+      name={`sway-mode-${gdkmonitor.get_model() || "unknown"}`}
       class="SwayModeWindow"
       visible={isVisible}
       gdkmonitor={gdkmonitor}
@@ -21,12 +21,29 @@ export function SwayModeWindow(gdkmonitor: Gdk.Monitor) {
       exclusivity={Astal.Exclusivity.IGNORE}
       application={app}
     >
-      <box class="sway-mode-container" orientation={Gtk.Orientation.VERTICAL}>
-        <label class="sway-mode-title" label="SWAY MODE" />
-        <box class="sway-mode-content">
-          <label class="sway-mode-text" label={modeText} />
+      <box 
+        class="hacker-container" 
+        orientation={Gtk.Orientation.VERTICAL}
+        halign={Gtk.Align.CENTER}
+        valign={Gtk.Align.CENTER}
+      >
+        <box class="hacker-header" halign={Gtk.Align.FILL}>
+            <label class="hacker-status" label="● SYSTEM_MODE" />
+            <box hexpand />
         </box>
-        <label class="sway-mode-hint" label="Prems ESC per sortir" />
+        
+        <box class="hacker-content" orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
+            <label class="hacker-prefix" label=">>> ACCESSING:" halign={Gtk.Align.START} />
+            <box spacing={8} halign={Gtk.Align.CENTER}>
+                <label class="hacker-bracket" label="[" />
+                <label class="hacker-text" label={modeText} />
+                <label class="hacker-bracket" label="]" />
+            </box>
+        </box>
+
+        <box class="hacker-footer" halign={Gtk.Align.FILL}>
+            <label class="hacker-hint" label="TERMINATE WITH [ESC]" halign={Gtk.Align.CENTER} hexpand />
+        </box>
       </box>
     </window>
   )
