@@ -13,7 +13,7 @@ export function AudioOutput() {
 
   return (
     <menubutton>
-      <image iconName={createBinding(speaker, "volumeIcon")} />
+      <image pixelSize={14} iconName={createBinding(speaker, "volumeIcon")} />
       <popover class="network-popover">
         <PopupContainer width={400}>
           {/* Fixed Top: Volume Controls */}

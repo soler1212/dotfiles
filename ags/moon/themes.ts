@@ -11,8 +11,9 @@ export interface BarPreset {
   innerBarPadding: string
   innerBarHeight: number
   
-  // Separator
+  // Separator & Icons
   sepMarginV: number
+  iconSize: number
   
   // Buttons (innerButton)
   buttonBg: string
@@ -24,7 +25,7 @@ export interface BarPreset {
   buttonShadow: string
   buttonSpacing: number
 
-  // Legacy/Reference (for internal logic if needed)
+  // Legacy/Reference
   transparent: boolean
   border: boolean
   buttonStyle: "pill" | "square" | "subtle" | "outline" | "glass"
@@ -42,6 +43,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "0px 4px",
     innerBarHeight: 22,
     sepMarginV: 2,
+    iconSize: 12,
     buttonBg: "transparent",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--overlay)",
@@ -65,6 +67,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "4px 8px",
     innerBarHeight: 32,
     sepMarginV: 8,
+    iconSize: 15,
     buttonBg: "rgba(255, 255, 255, 0.04)",
     buttonFg: "var(--text)",
     buttonHoverBg: "rgba(255, 255, 255, 0.1)",
@@ -88,6 +91,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "2px 4px",
     innerBarHeight: 32,
     sepMarginV: 4,
+    iconSize: 15,
     buttonBg: "transparent",
     buttonFg: "var(--accent)",
     buttonHoverBg: "rgba(0, 242, 255, 0.15)",
@@ -111,6 +115,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "4px 12px",
     innerBarHeight: 36,
     sepMarginV: 10,
+    iconSize: 16,
     buttonBg: "var(--surface)",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--overlay)",
@@ -134,6 +139,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "2px 6px",
     innerBarHeight: 30,
     sepMarginV: 6,
+    iconSize: 14,
     buttonBg: "var(--overlay)",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--accent)",
