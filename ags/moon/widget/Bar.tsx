@@ -20,7 +20,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       <centerbox cssName="centerbox">
         <button
           $type="start"
-          onClicked={() => execAsync("echo hello").then(console.log)}
+          onClicked={() => execAsync("echo hello").then(console.log).catch(console.error)}
           hexpand
           halign={Gtk.Align.CENTER}
         >

@@ -32,6 +32,7 @@ class ThemeService {
       `--inner-bar-padding: ${p.innerBarPadding};`,
       `--inner-bar-height: ${p.innerBarHeight}px;`,
       `--sep-margin-v: ${p.sepMarginV}px;`,
+      `--icon-size: ${p.iconSize}px;`,
       `--button-radius: ${p.buttonRadius};`,
       `--button-bg: ${p.buttonBg};`,
       `--button-fg: ${p.buttonFg};`,
@@ -44,6 +45,32 @@ class ThemeService {
     ]
 
     return vars.join(" ")
+  })
+
+  // Parsed Margins for Window props
+  public getMargins = createComputed(() => {
+    const marginStr = this.preset().innerBarMargin
+    const parts = marginStr.split(" ").map(p => parseInt(p) || 0)
+    
+    let top = 0, right = 0, bottom = 0, left = 0
+
+    if (parts.length === 1) {
+      top = right = bottom = left = parts[0]
+    } else if (parts.length === 2) {
+      top = bottom = parts[0]
+      right = left = parts[1]
+    } else if (parts.length === 3) {
+      top = parts[0]
+      right = left = parts[1]
+      bottom = parts[2]
+    } else if (parts.length === 4) {
+      top = parts[0]
+      right = parts[1]
+      bottom = parts[2]
+      left = parts[3]
+    }
+
+    return { top, right, bottom, left }
   })
 
   setTheme(name: string) {

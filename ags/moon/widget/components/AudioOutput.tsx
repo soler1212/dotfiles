@@ -13,7 +13,7 @@ export function AudioOutput() {
 
   return (
     <menubutton>
-      <image iconName={createBinding(speaker, "volumeIcon")} />
+      <image pixelSize={14} iconName={createBinding(speaker, "volumeIcon")} />
       <popover class="network-popover">
         <PopupContainer width={400}>
           {/* Fixed Top: Volume Controls */}
@@ -138,7 +138,7 @@ export function AudioOutput() {
 
           {/* Fixed Bottom: Settings Button */}
           <PopupListItem 
-            onClicked={() => execAsync("pavucontrol")}
+            onClicked={() => execAsync("pavucontrol").catch(console.error)}
             css="margin-top: 12px; background-color: rgba(255,255,255,0.03);"
           >
             <box spacing={8} halign={Gtk.Align.CENTER} hexpand>

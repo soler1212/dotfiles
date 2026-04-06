@@ -22,6 +22,7 @@ export function Wireless() {
           wifi && (
             <menubutton>
               <image
+                pixelSize={14}
                 iconName={activeNetwork.as((data) => {
                   if (typeof data === "string") return "network-wireless-signal-none-symbolic";
                   return data.icon.iconName;

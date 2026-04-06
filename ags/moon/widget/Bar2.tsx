@@ -26,9 +26,13 @@ const clockFormat = () => {
 }
 
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
-  const spacing = createComputed(() => themeService.preset().buttonSpacing)
-
   const height = createComputed(() => themeService.preset().innerBarHeight)
+  const spacing = createComputed(() => themeService.preset().buttonSpacing)
+  
+  const marginTop = createComputed(() => themeService.getMargins().top)
+  const marginBottom = createComputed(() => themeService.getMargins().bottom)
+  const marginLeft = createComputed(() => themeService.getMargins().left)
+  const marginRight = createComputed(() => themeService.getMargins().right)
 
   return (
     <window
@@ -37,13 +41,24 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
       class="Bar2"
       gdkmonitor={gdkmonitor}
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
+      /* Ancoratges: LEFT i RIGHT garanteixen l'ample total en qualsevol monitor */
       anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}
       application={app}
       css={themeService.cssVars}
+      marginTop={marginTop}
+      marginBottom={marginBottom}
+      marginLeft={marginLeft}
+      marginRight={marginRight}
       heightRequest={height}
     >
-      <centerbox class="bar-inner" heightRequest={height}>
-        <box $type="start" valign={Gtk.Align.CENTER} spacing={spacing}>
+      <centerbox 
+        class="bar-inner" 
+        heightRequest={height} 
+        valign={Gtk.Align.START}
+        halign={Gtk.Align.FILL}
+        hexpand
+      >
+        <box $type="start" valign={Gtk.Align.CENTER} spacing={spacing} hexpand>
           <box class="module" spacing={spacing}>
             <Workspaces />
           </box>
@@ -59,7 +74,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
           </box>
         </box>
 
-        <box $type="end" valign={Gtk.Align.CENTER} spacing={spacing}>
+        <box $type="end" valign={Gtk.Align.CENTER} spacing={spacing} hexpand halign={Gtk.Align.END}>
           <box class="module" spacing={spacing}>
             <Mpris />
           </box>

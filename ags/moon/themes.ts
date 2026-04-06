@@ -11,8 +11,9 @@ export interface BarPreset {
   innerBarPadding: string
   innerBarHeight: number
   
-  // Separator
+  // Separator & Icons
   sepMarginV: number
+  iconSize: number
   
   // Buttons (innerButton)
   buttonBg: string
@@ -24,7 +25,7 @@ export interface BarPreset {
   buttonShadow: string
   buttonSpacing: number
 
-  // Legacy/Reference (for internal logic if needed)
+  // Legacy/Reference
   transparent: boolean
   border: boolean
   buttonStyle: "pill" | "square" | "subtle" | "outline" | "glass"
@@ -42,6 +43,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "0px 4px",
     innerBarHeight: 22,
     sepMarginV: 2,
+    iconSize: 12,
     buttonBg: "transparent",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--overlay)",
@@ -65,6 +67,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "4px 8px",
     innerBarHeight: 32,
     sepMarginV: 8,
+    iconSize: 15,
     buttonBg: "rgba(255, 255, 255, 0.04)",
     buttonFg: "var(--text)",
     buttonHoverBg: "rgba(255, 255, 255, 0.1)",
@@ -72,7 +75,7 @@ export const barPresets: BarPreset[] = [
     buttonPadding: "0 10px",
     buttonBorder: "1px solid rgba(255, 255, 255, 0.05)",
     buttonShadow: "none",
-    buttonSpacing: 6,
+    buttonSpacing: 3,
     transparent: true,
     border: true,
     buttonStyle: "glass"
@@ -88,6 +91,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "2px 4px",
     innerBarHeight: 32,
     sepMarginV: 4,
+    iconSize: 15,
     buttonBg: "transparent",
     buttonFg: "var(--accent)",
     buttonHoverBg: "rgba(0, 242, 255, 0.15)",
@@ -111,6 +115,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "4px 12px",
     innerBarHeight: 36,
     sepMarginV: 10,
+    iconSize: 16,
     buttonBg: "var(--surface)",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--overlay)",
@@ -118,7 +123,7 @@ export const barPresets: BarPreset[] = [
     buttonPadding: "0 12px",
     buttonBorder: "none",
     buttonShadow: "0 2px 4px rgba(0,0,0,0.1)",
-    buttonSpacing: 8,
+    buttonSpacing: 4,
     transparent: false,
     border: false,
     buttonStyle: "pill"
@@ -134,6 +139,7 @@ export const barPresets: BarPreset[] = [
     innerBarPadding: "2px 6px",
     innerBarHeight: 30,
     sepMarginV: 6,
+    iconSize: 14,
     buttonBg: "var(--overlay)",
     buttonFg: "var(--text)",
     buttonHoverBg: "var(--accent)",
@@ -145,6 +151,78 @@ export const barPresets: BarPreset[] = [
     transparent: false,
     border: true,
     buttonStyle: "square"
+  },
+  {
+    name: "Retro Terminal",
+    fontSize: "12px",
+    showSeparators: true,
+    innerBarBg: "var(--base)",
+    innerBarBorder: "2px solid var(--accent)",
+    innerBarRadius: 0,
+    innerBarMargin: "4px 8px",
+    innerBarPadding: "4px 10px",
+    innerBarHeight: 34,
+    sepMarginV: 4,
+    iconSize: 14,
+    buttonBg: "transparent",
+    buttonFg: "var(--text)",
+    buttonHoverBg: "var(--accent)",
+    buttonRadius: "0px",
+    buttonPadding: "0 10px",
+    buttonBorder: "1px solid var(--border)",
+    buttonShadow: "none",
+    buttonSpacing: 4,
+    transparent: false,
+    border: true,
+    buttonStyle: "square"
+  },
+  {
+    name: "Nordic Minimal",
+    fontSize: "11px",
+    showSeparators: false,
+    innerBarBg: "var(--base)",
+    innerBarBorder: "1px solid var(--border)",
+    innerBarRadius: 30,
+    innerBarMargin: "8px 120px",
+    innerBarPadding: "2px 10px",
+    innerBarHeight: 32,
+    sepMarginV: 8,
+    iconSize: 14,
+    buttonBg: "transparent",
+    buttonFg: "var(--text)",
+    buttonHoverBg: "var(--overlay)",
+    buttonRadius: "25px",
+    buttonPadding: "0 8px",
+    buttonBorder: "none",
+    buttonShadow: "none",
+    buttonSpacing: 2,
+    transparent: false,
+    border: false,
+    buttonStyle: "pill"
+  },
+  {
+    name: "Ultra Glassy Floating",
+    fontSize: "12px",
+    showSeparators: false,
+    innerBarBg: "rgba(0, 0, 0, 0.25)",
+    innerBarBorder: "1px solid rgba(255, 255, 255, 0.15)",
+    innerBarRadius: 18,
+    innerBarMargin: "12px 16px",
+    innerBarPadding: "6px 12px",
+    innerBarHeight: 40,
+    sepMarginV: 12,
+    iconSize: 16,
+    buttonBg: "rgba(255, 255, 255, 0.05)",
+    buttonFg: "var(--text)",
+    buttonHoverBg: "rgba(255, 255, 255, 0.15)",
+    buttonRadius: "12px",
+    buttonPadding: "0 14px",
+    buttonBorder: "1px solid rgba(255, 255, 255, 0.1)",
+    buttonShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+    buttonSpacing: 5,
+    transparent: true,
+    border: true,
+    buttonStyle: "glass"
   }
 ]
 
@@ -258,6 +336,94 @@ export const themes: Theme[] = [
       blue: "#00f2ff",
       magenta: "#ff00ea",
       orange: "#ff9900",
+    }
+  },
+  {
+    name: "Nordic Frost",
+    colors: {
+      base: "#2e3440",
+      surface: "#3b4252",
+      overlay: "#434c5e",
+      text: "#eceff4",
+      subtext: "#d8dee9",
+      accent: "#88c0d0",
+      accent_fg: "#2e3440",
+      header: "#81a1c1",
+      button_bg: "#3b4252",
+      button_fg: "#eceff4",
+      border: "rgba(136, 192, 208, 0.2)",
+      red: "#bf616a",
+      green: "#a3be8c",
+      yellow: "#ebcb8b",
+      blue: "#81a1c1",
+      magenta: "#b48ead",
+      orange: "#d08770",
+    }
+  },
+  {
+    name: "Rose Pine",
+    colors: {
+      base: "#191724",
+      surface: "#1f1d2e",
+      overlay: "#26233a",
+      text: "#e0def4",
+      subtext: "#908caa",
+      accent: "#ebbcba",
+      accent_fg: "#191724",
+      header: "#c4a7e7",
+      button_bg: "#26233a",
+      button_fg: "#e0def4",
+      border: "rgba(235, 188, 186, 0.2)",
+      red: "#eb6f92",
+      green: "#31748f",
+      yellow: "#f6c177",
+      blue: "#9ccfd8",
+      magenta: "#c4a7e7",
+      orange: "#ebbcba",
+    }
+  },
+  {
+    name: "Everforest",
+    colors: {
+      base: "#2b3339",
+      surface: "#323c41",
+      overlay: "#3a454a",
+      text: "#d3c6aa",
+      subtext: "#9da9a0",
+      accent: "#a7c080",
+      accent_fg: "#2b3339",
+      header: "#dbbc7f",
+      button_bg: "#3a454a",
+      button_fg: "#d3c6aa",
+      border: "rgba(167, 192, 128, 0.2)",
+      red: "#e67e80",
+      green: "#a7c080",
+      yellow: "#dbbc7f",
+      blue: "#7fbbb3",
+      magenta: "#d699b6",
+      orange: "#e69875",
+    }
+  },
+  {
+    name: "Dracula Midnight",
+    colors: {
+      base: "#282a36",
+      surface: "#21222c",
+      overlay: "#44475a",
+      text: "#f8f8f2",
+      subtext: "#6272a4",
+      accent: "#bd93f9",
+      accent_fg: "#282a36",
+      header: "#ff79c6",
+      button_bg: "#44475a",
+      button_fg: "#f8f8f2",
+      border: "rgba(189, 147, 249, 0.3)",
+      red: "#ff5555",
+      green: "#50fa7b",
+      yellow: "#f1fa8c",
+      blue: "#8be9fd",
+      magenta: "#ff79c6",
+      orange: "#ffb86c",
     }
   }
 ]
