@@ -16,9 +16,23 @@ class ThemeService {
     const t = this.theme()
     const p = this.preset()
     
+    // Helper to convert hex to rgb components
+    const hexToRgb = (hex: string) => {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+      return result ? 
+        `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
+        null
+    }
+
     // 1. Core Color Palette
     const colors = Object.entries(t.colors)
-      .map(([key, value]) => `--${key.replace("_", "-")}: ${value};`)
+      .flatMap(([key, value]) => {
+        const k = key.replace("_", "-")
+        const vars = [`--${k}: ${value};`]
+        const rgb = hexToRgb(value)
+        if (rgb) vars.push(`--${k}-rgb: ${rgb};`)
+        return vars
+      })
       .join(" ")
 
     // 2. Combined variable map

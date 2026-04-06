@@ -2,6 +2,7 @@ import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { createComputed } from "ags"
 import { swayMode } from "../services/sway"
+import { themeService } from "../ThemeService"
 
 export function SwayModeWindow(gdkmonitor: Gdk.Monitor) {
   const isVisible = createComputed(() => {
@@ -17,32 +18,24 @@ export function SwayModeWindow(gdkmonitor: Gdk.Monitor) {
       class="SwayModeWindow"
       visible={isVisible}
       gdkmonitor={gdkmonitor}
-      anchor={Astal.WindowAnchor.NONE}
+      anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT}
+      layer={Astal.Layer.OVERLAY}
       exclusivity={Astal.Exclusivity.IGNORE}
       application={app}
+      marginTop={12}
+      marginRight={12}
+      css={themeService.cssVars}
     >
       <box 
-        class="hacker-container" 
-        orientation={Gtk.Orientation.VERTICAL}
-        halign={Gtk.Align.CENTER}
-        valign={Gtk.Align.CENTER}
+        class="mode-card-compact" 
+        spacing={12}
+        valign={Gtk.Align.START}
+        halign={Gtk.Align.END}
       >
-        <box class="hacker-header" halign={Gtk.Align.FILL}>
-            <label class="hacker-status" label="● SYSTEM_MODE" />
-            <box hexpand />
-        </box>
-        
-        <box class="hacker-content" orientation={Gtk.Orientation.VERTICAL} halign={Gtk.Align.CENTER}>
-            <label class="hacker-prefix" label=">>> ACCESSING:" halign={Gtk.Align.START} />
-            <box spacing={8} halign={Gtk.Align.CENTER}>
-                <label class="hacker-bracket" label="[" />
-                <label class="hacker-text" label={modeText} />
-                <label class="hacker-bracket" label="]" />
-            </box>
-        </box>
-
-        <box class="hacker-footer" halign={Gtk.Align.FILL}>
-            <label class="hacker-hint" label="TERMINATE WITH [ESC]" halign={Gtk.Align.CENTER} hexpand />
+        <label class="mode-icon-small" label="󱄅" />
+        <box orientation={Gtk.Orientation.VERTICAL} valign={Gtk.Align.CENTER}>
+          <label class="mode-label-small" label="Mode actiu" halign={Gtk.Align.START} />
+          <label class="mode-value-small" label={modeText} halign={Gtk.Align.START} />
         </box>
       </box>
     </window>
