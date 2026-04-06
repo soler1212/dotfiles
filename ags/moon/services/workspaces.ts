@@ -6,7 +6,10 @@ export interface Workspace {
   urgent: boolean
 }
 
-export const workspaces = createPoll([], 1000, `bash -c "swaymsg -r -t get_workspaces || echo '[]' "`, (out) => {
+// Shell command that finds the socket and gets workspaces, returning [] if anything fails
+const cmd = 'bash -c "export SWAYSOCK=$(ls /run/user/1000/sway-ipc.*.sock 2>/dev/null | head -n 1); [ -n \'$SWAYSOCK\' ] && swaymsg -r -t get_workspaces || echo \'[]\' "'
+
+export const workspaces = createPoll([], 1000, cmd, (out) => {
   try {
     const jsonStart = out.indexOf("[")
     if (jsonStart !== -1) {
