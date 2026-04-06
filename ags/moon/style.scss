@@ -131,6 +131,18 @@ window.Bar2 {
 
 .active-window label { color: var(--accent); font-weight: 800; margin-left: 8px; }
 
+.sway-mode {
+  background-color: var(--red);
+  color: white;
+  padding: 0 10px;
+  border-radius: var(--button-radius);
+  font-weight: bold;
+  margin: 0 5px;
+  label {
+    color: white;
+  }
+}
+
 .module-separator { 
   background-color: var(--border); 
   margin: var(--sep-margin-v) 0;

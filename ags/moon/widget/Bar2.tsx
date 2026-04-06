@@ -4,6 +4,7 @@ import { createComputed } from "ags"
 import GLib from "gi://GLib"
 import { themeService } from "../ThemeService"
 import { Workspaces } from "./components/Workspaces"
+import { SwayMode } from "./components/SwayMode"
 import { ActiveWindow } from "./components/ActiveWindow"
 import { Clock } from "./components/Clock"
 import { Mpris } from "./components/Mpris"
@@ -61,6 +62,7 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
         <box $type="start" valign={Gtk.Align.CENTER} spacing={spacing} hexpand>
           <box class="module" spacing={spacing}>
             <Workspaces />
+            <SwayMode />
           </box>
           <ModuleSeparator />
           <box class="module" spacing={spacing}>
