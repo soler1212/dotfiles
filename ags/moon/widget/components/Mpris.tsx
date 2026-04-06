@@ -9,7 +9,7 @@ export function Mpris() {
   const players = createBinding(mpris, "players")
 
   return (
-    <menubutton>
+    <menubutton visible={players((p) => p.length > 0)}>
       <box>
         <For each={players}>
           {(player) => {
