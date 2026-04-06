@@ -7,6 +7,8 @@ export interface MoonData {
   illumination: string
   moonrise: string
   moonset: string
+  sunrise: string
+  sunset: string
   is_waxing: boolean
   next_phase: string
 }
@@ -18,6 +20,8 @@ const DEFAULT_MOON: MoonData = {
   illumination: "0",
   moonrise: "--:--",
   moonset: "--:--",
+  sunrise: "--:--",
+  sunset: "--:--",
   is_waxing: true,
   next_phase: "Unknown"
 }
@@ -51,6 +55,8 @@ export const moonService = createPoll<MoonData>(
         illumination: astro.moon_illumination,
         moonrise: astro.moonrise,
         moonset: astro.moonset,
+        sunrise: astro.sunrise,
+        sunset: astro.sunset,
         is_waxing: info.waxing,
         next_phase: PHASE_INFO[info.next]?.cat || info.next
       }

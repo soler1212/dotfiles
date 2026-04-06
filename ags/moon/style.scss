@@ -162,75 +162,112 @@ scrollbar.vertical {
   background-color: transparent;
 }
 
-.moon-container {
-  background-color: rgba(30, 30, 46, 0.7);
-  border: 1px solid rgba(203, 166, 247, 0.3);
-  border-radius: 24px;
-  padding: 24px;
+/* 6. Moon Hacker/Terminal Widget (Themed) */
+.MoonWindow {
+  background-color: transparent;
+}
+
+.hacker-terminal {
+  background-color: rgba(30, 30, 46, 0.85); /* More mocha-like, semi-transparent */
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0;
   margin: 40px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-  min-width: 220px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  min-width: 300px;
+  font-family: "JetBrains Mono", monospace;
 }
 
-.moon-phase {
-  font-size: 80px;
+.terminal-header {
+  background-color: var(--accent);
+  padding: 6px 14px;
+  border-radius: 8px 8px 0 0;
+  
+  .terminal-prompt { color: var(--accent-fg); font-weight: 900; }
+  .terminal-title { color: var(--accent-fg); font-weight: 800; font-size: 11px; }
+  .terminal-status { color: var(--accent-fg); font-weight: 700; font-size: 10px; opacity: 0.8; }
+}
+
+.terminal-body {
+  padding: 20px;
+}
+
+.hacker-hero-emoji {
+  font-size: 60px;
   color: #ffffff;
-  margin-bottom: 4px;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
-.moon-title-cat {
+.hacker-phase-name {
   font-size: 18px;
-  font-weight: 800;
-  color: var(--text);
+  font-weight: 900;
+  color: #ffffff;
 }
 
-.moon-title-en {
-  font-size: 12px;
-  font-weight: 500;
+.hacker-phase-en {
+  font-size: 11px;
   color: var(--subtext);
   font-style: italic;
-  margin-bottom: 8px;
 }
 
-.moon-divider {
-  background-color: var(--accent);
-  min-height: 2px;
-  margin: 4px 0 12px 0;
-  opacity: 0.3;
-  border-radius: 2px;
-}
-
-.moon-details {
-  margin-top: 4px;
-}
-
-.moon-info {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.moon-info-accent {
-  font-size: 14px;
+.hacker-label-small {
+  font-size: 10px;
   font-weight: 900;
   color: var(--accent);
 }
 
-.moon-info-small {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--subtext);
-  margin: 4px 0;
+.hacker-value-small {
+  font-size: 12px;
+  font-weight: 900;
+  &.accent { color: var(--accent); }
 }
 
-.moon-times {
-  margin-top: 8px;
-  opacity: 0.8;
+/* Custom LevelBar (Progress Bar) */
+.hacker-bar {
+  min-height: 6px;
+  trough {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+  block {
+    background-color: var(--accent);
+    border-radius: 3px;
+  }
 }
 
-.moon-info-tiny {
+.hacker-data-grid {
+  margin-top: 4px;
+}
+
+.hacker-row {
+  .hacker-label { font-size: 11px; font-weight: 700; color: var(--subtext); opacity: 0.8; }
+  .hacker-value { font-size: 11px; font-weight: 900; color: #ffffff; }
+}
+
+.terminal-divider {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 900;
   color: var(--accent);
+  opacity: 0.4;
+  margin: 8px 0;
 }
+
+.hacker-mini-label { font-size: 10px; font-weight: 800; color: var(--subtext); }
+.hacker-mini-value { font-size: 10px; font-weight: 900; color: var(--text); }
+
+.terminal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 6px 14px;
+  
+  .terminal-timestamp, .terminal-user {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--subtext);
+    opacity: 0.5;
+  }
+}
+
+/* Semantics (using theme variables when possible or keeping specific hacker accents) */
+.green { color: var(--green); }
+.red { color: var(--red); }
+.yellow { color: var(--yellow); }
