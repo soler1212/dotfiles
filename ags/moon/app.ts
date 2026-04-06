@@ -1,15 +1,17 @@
 import app from "ags/gtk4/app"
-import style from "./style.scss"
 import Bar2 from "./widget/Bar2"
+import { SwayModeWindow } from "./widget/SwayModeWindow"
 
-// Strip @charset if present, as GTK 4 doesn't like it
-const css = style.startsWith("@charset") 
-  ? style.split("\n").slice(1).join("\n") 
-  : style
+// Ruta del fitxer SCSS neta
+const css = "./style.scss"
 
 app.start({
   css: css,
   main() {
-    app.get_monitors().map(Bar2)
+    const monitors = app.get_monitors()
+    for (const monitor of monitors) {
+      Bar2(monitor)
+      SwayModeWindow(monitor)
+    }
   },
 })
