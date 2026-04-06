@@ -18,7 +18,7 @@ export function Workspaces() {
             class={item.focused ? "focused" : item.urgent ? "urgent" : ""}
             onClicked={() => execAsync(`swaymsg workspace ${item.name}`).catch(console.error)}
           >
-            <label label={item.focused ? icons.focused : item.urgent ? icons.urgent : item.name} />
+            <label label={item.urgent ? icons.urgent : item.name} />
           </button>
         )}
       </For>
