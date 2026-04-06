@@ -1,8 +1,7 @@
 /* ==========================================================================
-   AGS MOON - Modular SCSS (Variable Driven)
+   AGS MOON - Original Bar Styles Restored
    ========================================================================== */
 
-/* 1. Base Window & Layout */
 window.Bar2 {
   background-color: transparent;
   color: var(--text);
@@ -36,7 +35,6 @@ window.Bar2 {
   line-height: 1;
 }
 
-/* 2. Atomic Buttons (Bar) */
 .bar-inner .module button, 
 .bar-inner .module togglebutton,
 .bar-inner .module menubutton > button,
@@ -49,37 +47,19 @@ window.Bar2 {
   padding: var(--button-padding);
   box-shadow: var(--button-shadow);
   margin: 0 calc(var(--button-spacing) / 2);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 0;
+  transition: all 0.2s ease;
   
   &:hover {
     background-color: var(--button-hover-bg);
     color: var(--accent);
-    transform: translateY(-1px);
-  }
-  
-  &:active {
-    transform: translateY(0);
-    opacity: 0.8;
   }
 }
 
-.bar-inner .module menubutton {
-  all: unset;
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  box-shadow: none;
-}
-
-/* 3. Global Popups */
 .network-popover > contents {
   background-color: var(--base);
   border: 1px solid var(--border);
   border-radius: 12px;
   margin-top: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .popup-container { padding: 16px; }
@@ -88,45 +68,19 @@ window.Bar2 {
   font-size: 10px;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
   color: var(--header);
   margin-bottom: 12px;
 }
 
-.popup-value-large { font-size: 24px; font-weight: 900; color: #ffffff; margin-bottom: 4px; }
-.popup-label-detail { font-size: 11px; color: var(--accent); font-weight: 600; }
-.popup-data-key { font-size: 11px; color: var(--subtext); font-weight: 500; }
-.popup-data-value { font-size: 11px; font-weight: 800; color: var(--text); }
-.popup-scroll { background-color: var(--surface); border-radius: 8px; margin: 8px 0; }
-
-/* Popup List Items (Standard List Pattern) */
-.popup-list-item {
-  all: unset;
-  padding: 10px 12px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  color: var(--text);
-  
-  &:hover {
-    background-color: var(--overlay);
-    color: var(--accent);
-  }
-}
-
-/* 4. Modules Specifics */
 .workspaces button { 
   padding: 0 10px; 
   background-color: transparent; 
   border: none;
-  box-shadow: none;
   
   &.focused { 
     background-color: var(--accent); 
     color: var(--accent-fg); 
-    font-weight: 900; 
   }
-  
-  &.urgent { background-color: var(--red); color: var(--accent-fg); }
 }
 
 .active-window label { color: var(--accent); font-weight: 800; margin-left: 8px; }
@@ -136,192 +90,132 @@ window.Bar2 {
   margin: var(--sep-margin-v) 0;
   min-width: 1px; 
   min-height: 4px;
-  opacity: var(--sep-opacity);
 }
 
-/* Colors for specific monitoring icons */
 .cpu { color: var(--magenta); }
 .memory { color: var(--blue); }
 .disk { color: var(--yellow); }
-.battery-icon { color: var(--green); }
 
-/* 5. Scrollbars */
-scrollbar.vertical {
-  background-color: transparent;
-  min-width: 4px;
-  slider {
-    background-color: var(--border);
-    border-radius: 10px;
-    min-width: 4px;
-  }
-  &:hover slider { background-color: var(--accent); }
-}
+/* ==========================================================================
+   MOON WIDGET - EL PC DE L'ALEIX (Ubuntu Style)
+   ========================================================================== */
 
-/* 6. Moon Widget */
 .MoonWindow {
   background-color: transparent;
 }
 
-/* 6. Moon Hacker/Terminal Widget (Themed) */
-.MoonWindow {
-  background-color: transparent;
-}
-
-.hacker-terminal {
+.aleix-widget {
   background-color: rgba(10, 10, 15, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  padding: 0;
   margin: 24px;
-  box-shadow: none;
-  min-width: 320px;
-  min-height: 420px; /* Fixed height to avoid jumping when switching to help */
+  min-width: 300px;
+  min-height: 380px;
   font-family: "JetBrains Mono", monospace;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
-.hacker-help-mini {
-  all: unset;
-  background: none;
-  border: none;
-  padding: 0 4px;
-  color: var(--accent);
+.aleix-body {
+  padding: 24px;
+}
+
+.aleix-header-title {
+  font-size: 12px;
   font-weight: 900;
-  font-size: 10px;
-  opacity: 0.5;
-  transition: all 0.2s ease;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.aleix-help-btn {
+  all: unset;
+  color: var(--subtext);
+  font-size: 14px;
+  opacity: 0.4;
   
   &:hover {
     opacity: 1;
-    transform: scale(1.1);
+    color: var(--accent);
   }
 }
 
-.help-title {
-  font-size: 14px;
+.aleix-main-info {
+  margin: 15px 0;
+}
+
+.aleix-emoji {
+  font-size: 64px;
+  color: #ffffff;
+}
+
+.aleix-phase-cat {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.aleix-phase-en {
+  font-size: 12px;
+  color: var(--subtext);
+  opacity: 0.7;
+}
+
+.aleix-label {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--subtext);
+  opacity: 0.6;
+}
+
+.aleix-value-accent {
+  font-size: 18px;
   font-weight: 900;
   color: var(--accent);
 }
 
-.help-body {
-  font-size: 11px;
-  line-height: 1.5;
-  color: var(--text);
-  opacity: 0.9;
+.aleix-bar {
+  min-height: 5px;
+  trough {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+  }
+  block {
+    background-color: var(--accent);
+    border-radius: 4px;
+  }
 }
 
-.terminal-divider-sub {
+.aleix-astro-section {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.aleix-mini-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.aleix-divider {
   min-height: 1px;
   background-color: var(--accent);
   opacity: 0.2;
+  margin: 12px 0;
 }
 
-.hacker-close-btn {
+.aleix-return-btn {
   all: unset;
   background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px;
-  border-radius: 4px;
+  padding: 12px;
+  border-radius: 6px;
   color: var(--accent);
   font-weight: 900;
   font-size: 10px;
+  text-align: center;
   
   &:hover {
     background-color: var(--accent);
     color: var(--accent-fg);
   }
 }
-
-.terminal-header {
-  background-color: rgba(203, 166, 247, 0.2); /* Accent molt subtil i transparent */
-  padding: 6px 14px;
-  border-radius: 12px 12px 0 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  
-  .terminal-prompt { color: var(--accent); font-weight: 900; }
-  .terminal-title { color: var(--text); font-weight: 800; font-size: 11px; opacity: 0.8; }
-  .terminal-status { color: var(--accent); font-weight: 700; font-size: 10px; opacity: 0.6; }
-}
-
-.terminal-body {
-  padding: 20px;
-}
-
-.hacker-hero-emoji {
-  font-size: 60px;
-  color: #ffffff;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-}
-
-.hacker-phase-name {
-  font-size: 18px;
-  font-weight: 900;
-  color: #ffffff;
-}
-
-.hacker-phase-en {
-  font-size: 11px;
-  color: var(--subtext);
-  font-style: italic;
-}
-
-.hacker-label-small {
-  font-size: 10px;
-  font-weight: 900;
-  color: var(--accent);
-}
-
-.hacker-value-small {
-  font-size: 12px;
-  font-weight: 900;
-  &.accent { color: var(--accent); }
-}
-
-/* Custom LevelBar (Progress Bar) */
-.hacker-bar {
-  min-height: 6px;
-  trough {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-  }
-  block {
-    background-color: var(--accent);
-    border-radius: 3px;
-  }
-}
-
-.hacker-data-grid {
-  margin-top: 4px;
-}
-
-.hacker-row {
-  .hacker-label { font-size: 11px; font-weight: 700; color: var(--subtext); opacity: 0.8; }
-  .hacker-value { font-size: 11px; font-weight: 900; color: #ffffff; }
-}
-
-.terminal-divider {
-  font-size: 10px;
-  font-weight: 900;
-  color: var(--accent);
-  opacity: 0.4;
-  margin: 8px 0;
-}
-
-.hacker-mini-label { font-size: 10px; font-weight: 800; color: var(--subtext); }
-.hacker-mini-value { font-size: 10px; font-weight: 900; color: var(--text); }
-
-.terminal-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 6px 14px;
-  
-  .terminal-timestamp, .terminal-user {
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--subtext);
-    opacity: 0.5;
-  }
-}
-
-/* Semantics (using theme variables when possible or keeping specific hacker accents) */
-.green { color: var(--green); }
-.red { color: var(--red); }
-.yellow { color: var(--yellow); }
