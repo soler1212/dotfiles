@@ -1,4 +1,6 @@
-import { createPoll } from "ags/time"
+import { createState } from "ags"
+import { execAsync } from "ags/process"
+import { timeout } from "ags/time"
 
 export interface Workspace {
   name: string
@@ -6,32 +8,47 @@ export interface Workspace {
   urgent: boolean
 }
 
-// Shell command that finds the socket and gets workspaces, returning [] if anything fails
-const cmd = 'bash -c "export SWAYSOCK=$(ls /run/user/1000/sway-ipc.*.sock 2>/dev/null | head -n 1); [ -n \'$SWAYSOCK\' ] && swaymsg -r -t get_workspaces || echo \'[]\' "'
+const findSocketCmd = "ls /run/user/1000/sway-ipc.*.sock 2>/dev/null | head -n 1"
+const getWorkspacesCmd = `bash -c "export SWAYSOCK=$(${findSocketCmd}); [ -n '\\$SWAYSOCK' ] && swaymsg -r -t get_workspaces || echo '[]' "`
 
-export const workspaces = createPoll([], 200, cmd, (out) => {
-  try {
-    const jsonStart = out.indexOf("[")
-    if (jsonStart !== -1) {
-      const res = JSON.parse(out.substring(jsonStart))
-      return res.sort((a: any, b: any) => a.name.localeCompare(b.name, undefined, { numeric: true }))
-    }
-  } catch (e) {
-    // JSON failed, continue to regex fallback
-  }
+const [workspacesGetter, setWorkspaces] = createState<Workspace[]>([])
+export const workspaces = workspacesGetter
 
-  // Fallback to regex parsing for pretty-print text
-  const res: Workspace[] = []
-  const lines = out.split("\n")
-  for (const line of lines) {
-    const match = line.trim().match(/^Workspace\s+(.+?)(?:\s+\(([^)]+)\))?$/)
-    if (match) {
-      res.push({
-        name: match[1],
-        focused: (match[2] || "").includes("focused"),
-        urgent: (match[2] || "").includes("urgent"),
-      })
-    }
-  }
-  return res.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
-})
+function updateWorkspaces() {
+  execAsync(getWorkspacesCmd)
+    .then((out) => {
+      try {
+        const jsonStart = out.indexOf("[")
+        if (jsonStart !== -1) {
+          const res = JSON.parse(out.substring(jsonStart))
+          const sorted = res.sort((a: any, b: any) => 
+            a.name.localeCompare(b.name, undefined, { numeric: true })
+          )
+          setWorkspaces(sorted)
+        }
+      } catch (e) {
+        console.error("Error parsing workspaces:", e)
+      }
+    })
+    .catch(console.error)
+}
+
+function listenToSwayWorkspaces() {
+  const subscribeCmd = `bash -c "export SWAYSOCK=$(${findSocketCmd}); [ -n '\\$SWAYSOCK' ] && swaymsg -t subscribe '[\\\"workspace\\\"]'"`
+
+  execAsync(subscribeCmd)
+    .then(() => {
+      // Quan rebem un esdeveniment, actualitzem la llista completa
+      updateWorkspaces()
+      // Tornem a escoltar pel següent esdeveniment
+      listenToSwayWorkspaces()
+    })
+    .catch(() => {
+      // Si falla la subscripció, reintentem en 1 segon
+      timeout(1000, listenToSwayWorkspaces)
+    })
+}
+
+// Inicialització
+updateWorkspaces()
+listenToSwayWorkspaces()
