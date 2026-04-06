@@ -15,11 +15,9 @@ window.Bar2 {
 
 .bar-inner {
   background-color: var(--inner-bar-bg);
-  margin: var(--inner-bar-margin);
   padding: var(--inner-bar-padding);
   border-radius: var(--inner-bar-radius);
   border: var(--inner-bar-border);
-  min-height: var(--inner-bar-height);
 }
 
 .bar-inner image {

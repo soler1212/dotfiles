@@ -19,6 +19,11 @@ import { ModuleSeparator } from "./atoms/Layout"
 export default function Bar2(gdkmonitor: Gdk.Monitor) {
   const height = createComputed(() => themeService.preset().innerBarHeight)
   const spacing = createComputed(() => themeService.preset().buttonSpacing)
+  
+  const marginTop = createComputed(() => themeService.getMargins().top)
+  const marginBottom = createComputed(() => themeService.getMargins().bottom)
+  const marginLeft = createComputed(() => themeService.getMargins().left)
+  const marginRight = createComputed(() => themeService.getMargins().right)
 
   return (
     <window
@@ -31,6 +36,11 @@ export default function Bar2(gdkmonitor: Gdk.Monitor) {
       anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}
       application={app}
       css={themeService.cssVars}
+      marginTop={marginTop}
+      marginBottom={marginBottom}
+      marginLeft={marginLeft}
+      marginRight={marginRight}
+      heightRequest={height}
     >
       <centerbox 
         class="bar-inner" 
