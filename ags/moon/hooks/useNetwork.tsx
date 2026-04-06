@@ -14,7 +14,7 @@ export const useNetwork = () => {
     const privateIps = createPoll<string[] | string>(
       "Buscant...",
       5000,
-      "hostname -I",
+      `bash -c "hostname -I || true"`,
       (out) => {
         try {
           const ips = out.trim().split(" ").filter(ip => ip.length > 0);
@@ -29,7 +29,7 @@ export const useNetwork = () => {
     const publicIp = createPoll<string>(
       "Buscant...",
       3600000, // 1 hora
-      "curl -s -m 2 ifconfig.me",
+      `bash -c "curl -s -m 2 ifconfig.me || echo 'No disponible'"`,
       (out) => out.trim() || "No disponible"
     );
 
@@ -41,7 +41,7 @@ export const useNetwork = () => {
     return createPoll<NetworkData | string>(
       "Buscant... 󰤫",
       5000,
-      "nmcli -t -f IN-USE,SSID,RATE,SIGNAL dev wifi",
+      `bash -c "nmcli -t -f IN-USE,SSID,RATE,SIGNAL dev wifi || true"`,
       (out) => {
         try {
           const active = out.split("\n").find(line => line.startsWith("*"))

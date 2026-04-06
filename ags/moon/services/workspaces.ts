@@ -6,7 +6,7 @@ export interface Workspace {
   urgent: boolean
 }
 
-export const workspaces = createPoll([], 1000, "swaymsg -r -t get_workspaces", (out) => {
+export const workspaces = createPoll([], 1000, `bash -c "swaymsg -r -t get_workspaces || echo '[]' "`, (out) => {
   try {
     const jsonStart = out.indexOf("[")
     if (jsonStart !== -1) {

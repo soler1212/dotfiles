@@ -1,19 +1,20 @@
-import app from "ags/gtk4/app"
-import { Astal } from "ags/gtk4"
+import { Astal, Gtk } from "ags/gtk4"
 import { createPoll } from "ags/time"
+import { execAsync } from "ags/process"
 
-const moonPhase = createPoll("🌑", 3600000, `bash -c "curl -s 'wttr.in/?format=%m'"`)
+const moonPhase = createPoll("🌑", 3600000, `bash -c "curl -s 'wttr.in/?format=%m' || echo '🌑' "`)
 
-function Bar(monitor = 0) {
-const { BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
+export function MoonWidget(monitor = 0) {
+const { BOTTOM, RIGHT } = Astal.WindowAnchor
 
     return (
       <window
         visible
-      anchor={BOTTOM  | RIGHT}>
+        name={`moon-${monitor}`}
+        anchor={BOTTOM  | RIGHT}>
         <button
           $type="start"
-          onClicked={() => execAsync("echo hello").then(console.log)}
+          onClicked={() => execAsync("echo hello").then(console.log).catch(console.error)}
           hexpand
           halign={Gtk.Align.CENTER}
         >
@@ -28,9 +29,3 @@ const { BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
       </window>
     )
 }
-
-app.start({
-  main() {
-    Bar(1);
-  },
-})

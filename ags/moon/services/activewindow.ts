@@ -1,6 +1,6 @@
 import { createPoll } from "ags/time"
 
-export const windowName = createPoll("", 500, "swaymsg -r -t get_tree", (out) => {
+export const windowName = createPoll("", 500, `bash -c "swaymsg -r -t get_tree || echo '{}' "`, (out) => {
   try {
     const jsonStart = out.indexOf("{")
     if (jsonStart === -1) return ""

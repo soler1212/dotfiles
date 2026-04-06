@@ -1,7 +1,6 @@
 import AstalNetwork from "gi://AstalNetwork"
 import { Accessor, createBinding } from "ags"
 import { useNetwork } from "../../hooks/useNetwork";
-import { Accessor } from "ags"
 
 export interface Props {
   accessPoint: AstalNetwork.AccessPoint;
