@@ -156,3 +156,32 @@ scrollbar.vertical {
   }
   &:hover slider { background-color: var(--accent); }
 }
+
+/* 6. Moon Widget */
+.MoonWindow {
+  background-color: transparent;
+}
+
+.moon-container {
+  background-color: var(--base);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  min-width: 120px;
+}
+
+.moon-phase {
+  font-size: 64px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.moon-label {
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
