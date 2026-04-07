@@ -1,4 +1,5 @@
-import { createPoll } from "ags/time"
+import { createState } from "ags"
+import { execAsync } from "ags/process"
 
 export interface MoonData {
   phase_emoji: string
@@ -37,32 +38,39 @@ const PHASE_INFO: Record<string, { emoji: string, cat: string, next: string, wax
   "Waning Crescent": { emoji: "🌘", cat: "Lluna Minvant", next: "New Moon", waxing: false }
 }
 
-export const moonService = createPoll<MoonData>(
-  DEFAULT_MOON,
-  3600000,
-  'bash -c "curl -s \'wttr.in/?format=j1\'"',
-  (out) => {
-    try {
-      const data = JSON.parse(out)
-      const astro = data.weather[0].astronomy[0]
-      const phase = astro.moon_phase
-      const info = PHASE_INFO[phase] || PHASE_INFO["New Moon"]
-      
-      return {
-        phase_emoji: info.emoji,
-        phase_name: phase,
-        phase_name_cat: info.cat,
-        illumination: astro.moon_illumination,
-        moonrise: astro.moonrise,
-        moonset: astro.moonset,
-        sunrise: astro.sunrise,
-        sunset: astro.sunset,
-        is_waxing: info.waxing,
-        next_phase: PHASE_INFO[info.next]?.cat || info.next
-      }
-    } catch (e) {
-      console.error("Moon Service Error:", e)
-      return DEFAULT_MOON
-    }
+const [state, setMoon] = createState<MoonData>(DEFAULT_MOON)
+export const moonService = state
+
+async function updateMoon() {
+  try {
+    // Afegim -m 10 per evitar que curl es quedi penjat si la xarxa no respon
+    const out = await execAsync('bash -c "curl -s -m 10 \'wttr.in/?format=j1\'"')
+    const data = JSON.parse(out)
+    const astro = data.weather[0].astronomy[0]
+    const phase = astro.moon_phase
+    const info = PHASE_INFO[phase] || PHASE_INFO["New Moon"]
+    
+    setMoon({
+      phase_emoji: info.emoji,
+      phase_name: phase,
+      phase_name_cat: info.cat,
+      illumination: astro.moon_illumination,
+      moonrise: astro.moonrise,
+      moonset: astro.moonset,
+      sunrise: astro.sunrise,
+      sunset: astro.sunset,
+      is_waxing: info.waxing,
+      next_phase: PHASE_INFO[info.next]?.cat || info.next
+    })
+    
+    // Si ha anat bé, actualitzem cada hora
+    setTimeout(updateMoon, 3600000)
+  } catch (e) {
+    // Si falla (segurament per falta d'internet a l'inici), reintentem cada 10 segons
+    console.error("Moon Service Error (retrying in 10s):", e)
+    setTimeout(updateMoon, 10000)
   }
-)
+}
+
+// Primera crida
+updateMoon()
