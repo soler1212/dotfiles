@@ -61,7 +61,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
       >
         <box $type="start" valign={Gtk.Align.CENTER} spacing={spacing} hexpand>
           <box class="module" spacing={spacing}>
-            <Workspaces />
+            <Workspaces monitor={gdkmonitor} />
             <SwayMode />
           </box>
           <ModuleSeparator />
