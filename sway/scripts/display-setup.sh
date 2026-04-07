@@ -69,9 +69,10 @@ apply_config() {
         notify-send "Display Configuration" "Multiple displays detected - manual configuration may be needed"
     fi
     
-    # Restart waybar to adjust to new display configuration
+    # Restart ags to adjust to new display configuration
+    pkill my-shell
     pkill waybar
-    waybar &
+    /nix/var/nix/profiles/default/bin/nix --extra-experimental-features 'nix-command flakes' run /home/soler1212/Desenvolupament/my-configs/ags#default &
 }
 
 # Monitor for display changes

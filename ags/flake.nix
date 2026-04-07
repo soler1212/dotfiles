@@ -19,16 +19,24 @@
     self,
     nixpkgs,
     ags,
+    astal,
   }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     pname = "my-shell";
-    entry = "app.ts";
+    entry = "moon/app.ts";
 
     astalPackages = with ags.packages.${system}; [
       io
-      astal4 # or astal3 for gtk3
-      # notifd tray wireplumber
+      astal4
+      apps
+      battery
+      bluetooth
+      mpris
+      network
+      notifd
+      tray
+      wireplumber
     ];
 
     extraPackages =
@@ -36,6 +44,7 @@
       ++ [
         pkgs.libadwaita
         pkgs.libsoup_3
+        pkgs.webkitgtk_6_0
       ];
   in {
     packages.${system} = {
@@ -44,7 +53,7 @@
         src = ./.;
 
         nativeBuildInputs = with pkgs; [
-          wrapGAppsHook3
+          wrapGAppsHook4
           gobject-introspection
           ags.packages.${system}.default
         ];
@@ -56,8 +65,15 @@
 
           mkdir -p $out/bin
           mkdir -p $out/share
-          cp -r * $out/share
-          ags bundle ${entry} $out/bin/${pname} -d "SRC='$out/share'"
+          # Copy only relevant files to avoid including node_modules if possible
+          # but ags bundle might need them. Let's copy everything except .git and node_modules
+          # if we want to be clean, but for now let's just ensure it works.
+          cp -r moon $out/share/
+          
+          # ags bundle entry output -d "SRC='...'"
+          # We need to be in the directory where app.ts can resolve its imports
+          cd $out/share
+          ags bundle ${entry} $out/bin/${pname}
 
           runHook postInstall
         '';
