@@ -5,6 +5,7 @@ import { timeout } from "ags/time"
 export interface Workspace {
   name: string
   focused: boolean
+  visible: boolean
   urgent: boolean
   output: string
   rect: { x: number, y: number, width: number, height: number }
@@ -39,6 +40,7 @@ function updateWorkspaces() {
         return {
           name: ws.name,
           focused: ws.focused,
+          visible: ws.visible,
           urgent: ws.urgent,
           output: ws.output,
           rect: output ? output.rect : { x: 0, y: 0, width: 0, height: 0 }
@@ -54,9 +56,8 @@ function updateWorkspaces() {
     }
   }).catch(console.error)
 }
-
 function listenToSwayWorkspaces() {
-  const subscribeCmd = `bash -c "export SWAYSOCK=$(${findSocketCmd}); [ -n '\\$SWAYSOCK' ] && swaymsg -t subscribe '[\\\"workspace\\\", \\\"output\\\"]'"`
+  const subscribeCmd = `bash -c "export SWAYSOCK=$(${findSocketCmd}); [ -n '\\$SWAYSOCK' ] && swaymsg -t subscribe '[\\\"workspace\\\", \\\"output\\\"]' | head -n 1"`
 
   execAsync(subscribeCmd)
     .then(() => {

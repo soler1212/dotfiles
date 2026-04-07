@@ -100,6 +100,12 @@ window.Bar {
   border: none;
 }
 
+.workspaces button.active { 
+  background-color: var(--button-hover-bg); 
+  color: var(--accent); 
+  font-weight: 800; 
+}
+
 .workspaces button.focused { 
   background-color: var(--accent); 
   color: var(--accent-fg); 

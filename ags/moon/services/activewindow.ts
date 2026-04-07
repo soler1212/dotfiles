@@ -41,7 +41,7 @@ function updateActiveWindow() {
 
 function listenToSwayWindowEvents() {
   // Escoltarem esdeveniments de finestra i de workspace (per quan canviem de workspace)
-  const subscribeCmd = `bash -c "export SWAYSOCK=$(${findSocketCmd}); [ -n '\\$SWAYSOCK' ] && swaymsg -t subscribe '[\\\"window\\\", \\\"workspace\\\"]'"`
+  const subscribeCmd = `bash -c "export SWAYSOCK=$(${findSocketCmd}); [ -n '\\$SWAYSOCK' ] && swaymsg -t subscribe '[\\\"window\\\", \\\"workspace\\\"]' | head -n 1"`
 
   execAsync(subscribeCmd)
     .then(() => {

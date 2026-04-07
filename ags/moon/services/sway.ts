@@ -8,7 +8,7 @@ export const swayMode = swayModeGetter
 function listenToSwayMode() {
   const findSocketCmd = "ls /run/user/1000/sway-ipc.*.sock 2>/dev/null | head -n 1"
   // Escoltarem només UN esdeveniment i el procés s'acabarà
-  const cmd = `bash -c "export SWAYSOCK=$(${findSocketCmd}); [ -n '\\$SWAYSOCK' ] && swaymsg -t subscribe '[\\\"mode\\\"]'"`
+  const cmd = `bash -c "export SWAYSOCK=$(${findSocketCmd}); [ -n '\\$SWAYSOCK' ] && swaymsg -t subscribe '[\\\"mode\\\"]' | head -n 1"`
 
   execAsync(cmd)
     .then((out) => {

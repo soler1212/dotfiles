@@ -26,7 +26,11 @@ export function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
       <For each={filtered}>
         {(item, index: Accessor<number>) => (
           <button
-            class={item.focused ? "focused" : item.urgent ? "urgent" : ""}
+            class={[
+              item.visible ? "active" : "",
+              item.focused ? "focused" : "",
+              item.urgent ? "urgent" : ""
+            ].join(" ")}
             onClicked={() => execAsync(`swaymsg workspace ${item.name}`).catch(console.error)}
           >
             <label label={item.urgent ? icons.urgent : item.name} />
