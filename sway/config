@@ -28,14 +28,15 @@ exec ~/.config/sway/scripts/portal-setup.sh
 # Core services
 exec_always {
     # Kill existing instances first
-    pkill my-shell
+    pkill ags
     pkill waybar
     pkill mako
     pkill nm-applet
     pkill blueman-applet
     
     # Start services
-    /nix/var/nix/profiles/default/bin/nix --extra-experimental-features 'nix-command flakes' run /home/soler1212/Desenvolupament/my-configs/ags#default > /tmp/ags.log 2>&1 &
+    exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+    bash -lc "cd /home/soler1212/Desenvolupament/my-configs/ags && /nix/var/nix/profiles/default/bin/nix run github:aylur/ags#agsFull --extra-experimental-features 'nix-command flakes' -- run moon/" > /tmp/ags.log 2>&1 &
     mako
     nm-applet --indicator
     blueman-applet

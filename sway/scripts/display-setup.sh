@@ -70,9 +70,9 @@ apply_config() {
     fi
     
     # Restart ags to adjust to new display configuration
-    pkill my-shell
+    pkill ags
     pkill waybar
-    /nix/var/nix/profiles/default/bin/nix --extra-experimental-features 'nix-command flakes' run /home/soler1212/Desenvolupament/my-configs/ags#default &
+    bash -lc "cd /home/soler1212/Desenvolupament/my-configs/ags && /nix/var/nix/profiles/default/bin/nix run github:aylur/ags#agsFull --extra-experimental-features 'nix-command flakes' -- run moon/" &
 }
 
 # Monitor for display changes
