@@ -24,7 +24,7 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     pname = "my-shell";
-    entry = "moon/app.ts";
+    entry = "moon/app.tsx";
 
     astalPackages = with ags.packages.${system}; [
       io
