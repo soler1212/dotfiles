@@ -84,7 +84,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <ModuleSeparator />
           <box class="module tray" spacing={spacing}>
             <Tray />
-            <Bluetooth />
           </box>
 
           <ModuleSeparator />
