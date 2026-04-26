@@ -1,0 +1,63 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+
+# 1. Sortir si no és una shell interactiva
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# 2. Variables d'Entorn i Rutes (Exports)
+export BROWSER="zen"
+export PATH="$PATH:$HOME/.local/bin"
+export PROJECT_HOME="$HOME/Desenvolupament"
+
+# Configuració NVM
+export NVM_DIR="$HOME/.nvm"
+
+# Configuració Virtualenvwrapper
+export WORKON_HOME="$HOME/.virtualenvs"
+export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
+
+# 3. Configuració de l'Historial i Opcions de Bash
+HISTSIZE=100000
+HISTFILESIZE=200000
+HISTTIMEFORMAT="%F %T "
+HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+
+shopt -s histappend
+shopt -s checkwinsize
+
+# Dreceres de teclat per l'historial i autocompletat
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+bind 'set show-all-if-ambiguous on'
+
+# 4. Utilitats Base del Sistema
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias grep='grep --color=auto'
+fi
+
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
+# 5. Inicialització d'Eines de Desenvolupament
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -f /usr/local/bin/virtualenvwrapper.sh ] && source /usr/local/bin/virtualenvwrapper.sh
+
+# 6. Eines Modernes (FZF, Zoxide, Oh-My-Posh)
+eval "$(fzf --bash)"
+eval "$(zoxide init bash --cmd cd)" # Substitueix 'cd' de forma nativa
+eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/aleix-custom.omp.json)"
+
+# 7. Àlies (Aliases)
+alias ls="eza --icons --group-directories-first" # Et recomano afegir aquests flags, queda genial!
+alias cat="batcat"
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
