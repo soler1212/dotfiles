@@ -73,7 +73,7 @@ apply_config() {
     pkill -9 ags
     pkill waybar
     sleep 0.5
-    bash -lc "cd /home/soler1212/Desenvolupament/my-configs/ags && /nix/var/nix/profiles/default/bin/nix run github:aylur/ags#agsFull --extra-experimental-features 'nix-command flakes' -- run moon/" &
+    bash -lc "cd ~/.config/ags && /nix/var/nix/profiles/default/bin/nix run github:aylur/ags#agsFull --extra-experimental-features 'nix-command flakes' -- run moon/" &
 }
 
 # Monitor for display changes

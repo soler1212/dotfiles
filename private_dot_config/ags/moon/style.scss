@@ -1,0 +1,293 @@
+/* ==========================================================================
+   AGS MOON - Modular SCSS (Flattened for GTK compatibility)
+   ========================================================================== */
+
+/* 1. Base Window & Layout */
+window.Bar {
+  background-color: transparent;
+  color: var(--text);
+  font-family: "JetBrains Mono", "monospace";
+  font-size: var(--font-size);
+}
+
+.bar-inner {
+  background-color: var(--inner-bar-bg);
+  padding: var(--inner-bar-padding);
+  border-radius: var(--inner-bar-radius);
+  border: var(--inner-bar-border);
+}
+
+.bar-inner image {
+  -gtk-icon-size: var(--icon-size);
+  font-size: var(--icon-size);
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.bar-inner label {
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+  line-height: 1;
+}
+
+/* 2. Atomic Buttons (Bar) */
+.bar-inner .module button, 
+.bar-inner .module togglebutton,
+.bar-inner .module menubutton > button {
+  all: unset;
+  background-color: var(--button-bg);
+  color: var(--button-fg);
+  border-radius: var(--button-radius);
+  border: var(--button-border);
+  padding: var(--button-padding);
+  margin: 0 calc(var(--button-spacing) / 2);
+  transition: all 0.2s ease;
+}
+
+.bar-inner .module button:hover, 
+.bar-inner .module togglebutton:hover,
+.bar-inner .module menubutton > button:hover {
+  background-color: var(--button-hover-bg);
+  color: var(--accent);
+}
+
+.network-popover > contents {
+  background-color: var(--base);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.popup-container { padding: 16px; }
+.popup-section { margin-bottom: 20px; }
+.popup-title {
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--header);
+  margin-bottom: 12px;
+}
+
+.popup-value-large { font-size: 24px; font-weight: 900; color: #ffffff; margin-bottom: 4px; }
+.popup-label-detail { font-size: 11px; color: var(--accent); font-weight: 600; }
+.popup-data-key { font-size: 11px; color: var(--subtext); font-weight: 500; }
+.popup-data-value { font-size: 11px; font-weight: 800; color: var(--text); }
+.popup-scroll { background-color: var(--surface); border-radius: 8px; margin: 8px 0; }
+
+/* Popup List Items (Standard List Pattern) */
+.popup-list-item {
+  all: unset;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  color: var(--text);
+}
+
+.popup-list-item:hover {
+  background-color: var(--overlay);
+  color: var(--accent);
+}
+
+/* 3. Modules Specifics */
+.workspaces button { 
+  padding: 0 10px; 
+  background-color: transparent; 
+  border: none;
+}
+
+.workspaces button.active { 
+  background-color: var(--button-hover-bg); 
+  color: var(--accent); 
+  font-weight: 800; 
+}
+
+.workspaces button.focused { 
+  background-color: var(--accent); 
+  color: var(--accent-fg); 
+  font-weight: 900; 
+}
+
+.workspaces button.urgent { 
+  background-color: var(--red); 
+  color: var(--accent-fg); 
+}
+
+.active-window label { color: var(--accent); font-weight: 800; margin-left: 8px; }
+
+.module-separator { 
+  background-color: var(--border); 
+  min-width: 1px; 
+  min-height: 4px;
+}
+
+/* Colors for specific monitoring icons */
+.cpu { color: var(--magenta); }
+.memory { color: var(--blue); }
+.disk { color: var(--yellow); }
+.battery-icon { color: var(--green); }
+
+/* 4. SYSTEM MODE POPUP (Compact Top-Right) */
+.SwayModeWindow {
+  background-color: transparent;
+}
+
+.mode-card-compact {
+  background-color: #11111b; /* Color sòlid (Mocha base) com a fallback */
+  background: var(--base);    /* Preferir variable si està disponible */
+  border: 3px solid var(--accent); /* Marc ben clar i gruixut */
+  border-radius: 8px;
+  padding: 12px 24px;
+  min-width: 180px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); /* Ombra molt forta per contrastar */
+}
+
+.mode-icon-small {
+  color: var(--accent);
+  font-size: 16px;
+}
+
+.mode-label-small {
+  color: var(--subtext);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mode-value-small {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* 5. MOON WIDGET - EL PC DE L'ALEIX (Ubuntu Style) */
+.MoonWindow {
+  background-color: transparent;
+}
+
+.aleix-widget {
+  background-color: rgba(10, 10, 15, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin: 24px;
+  min-width: 300px;
+  min-height: 380px;
+  font-family: "JetBrains Mono", monospace;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.aleix-body {
+  padding: 24px;
+}
+
+.aleix-header-title {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.aleix-help-btn {
+  all: unset;
+  color: var(--subtext);
+  font-size: 14px;
+  opacity: 0.4;
+}
+
+.aleix-help-btn:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+
+.aleix-main-info {
+  margin: 15px 0;
+}
+
+.aleix-emoji {
+  font-size: 64px;
+  color: #ffffff;
+}
+
+.aleix-phase-cat {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.aleix-phase-en {
+  font-size: 12px;
+  color: var(--subtext);
+  opacity: 0.7;
+}
+
+.aleix-label {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--subtext);
+  opacity: 0.6;
+}
+
+.aleix-value-accent {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.aleix-bar trough {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  min-height: 5px;
+}
+
+.aleix-bar block {
+  background-color: var(--accent);
+  border-radius: 4px;
+  min-height: 5px;
+}
+
+.aleix-astro-section {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.aleix-mini-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.aleix-divider {
+  min-height: 1px;
+  background-color: var(--accent);
+  opacity: 0.2;
+  margin: 12px 0;
+}
+
+.aleix-return-btn {
+  all: unset;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 6px;
+  color: var(--accent);
+  font-weight: 900;
+  font-size: 10px;
+}
+
+.aleix-return-btn:hover {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+/* 6. Scrollbars */
+scrollbar.vertical slider {
+  background-color: var(--border);
+  border-radius: 10px;
+  min-width: 4px;
+}

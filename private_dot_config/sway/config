@@ -28,7 +28,7 @@ exec ~/.config/sway/scripts/portal-setup.sh
 # Core services
 exec_always {
     # Call the dedicated restart script to ensure clean process management
-    bash -lc "/home/soler1212/Desenvolupament/my-configs/sway/scripts/ags-restart.sh" > /tmp/ags.log 2>&1 &
+    bash -lc "~/.config/sway/scripts/ags-restart.sh" > /tmp/ags.log 2>&1 &
     
     pkill waybar
     pkill mako

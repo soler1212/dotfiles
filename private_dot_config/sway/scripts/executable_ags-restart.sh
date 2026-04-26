@@ -8,5 +8,5 @@ pkill -f "nix run.*agsFull"
 sleep 1
 
 # Llançar ags tal i com ho fas manualment
-cd /home/soler1212/Desenvolupament/my-configs/ags
+cd ~/.config/ags
 /nix/var/nix/profiles/default/bin/nix run github:aylur/ags#agsFull --extra-experimental-features 'nix-command flakes' -- run moon/
