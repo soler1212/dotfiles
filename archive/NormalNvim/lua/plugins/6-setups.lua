@@ -1,3 +1,0 @@
-require("encourage").setup()
-
-return {}

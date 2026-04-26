@@ -1,92 +1,67 @@
 # Dotfiles
 
-Sway-based Wayland desktop environment with Neovim development setup.
+Personal configuration files managed with [chezmoi](https://www.chezmoi.io/).
 
-## Quick Install
+This repository contains my personal setup for a productive development environment on Linux, featuring a Sway-based Wayland desktop, Neovim, and highly customized terminal tools.
+
+## Core Components
+
+- **Window Manager**: [Sway](https://swaywm.org/) (i3-compatible Wayland compositor)
+- **Widgets & Bar**: [AGS (Aylur's GTK Shell)](https://github.com/Aylur/ags)
+- **Editor**: [Neovim](https://neovim.io/) (Lua-based configuration)
+- **Terminal**: [WezTerm](https://wezfurlong.org/wezterm/)
+- **Shell**: Bash with [Oh My Posh](https://ohmyposh.dev/) prompts
+- **Tools**: fzf, bat, nvim, ripgrep, and more.
+
+## Installation
+
+### 1. Install chezmoi
 
 ```bash
-# Clone dotfiles
-git clone <your-repo> ~/.dotfiles
-cd ~/.dotfiles
-
-# Install all dependencies
-sudo apt install sway swaylock swayidle waybar mako-notifier grim slurp \
-  wl-clipboard brightnessctl playerctl pamixer blueman network-manager-gnome \
-  polkit-gnome wezterm neovim ripgrep fd-find nodejs npm fonts-jetbrains-mono \
-  papirus-icon-theme ulauncher wofi pavucontrol jq
-
-# Symlink configs
-ln -sf ~/.dotfiles/sway ~/.config/
-ln -sf ~/.dotfiles/waybar ~/.config/
-ln -sf ~/.dotfiles/nvim ~/.config/
-ln -sf ~/.dotfiles/wezterm ~/.config/
-
-# Make scripts executable
-chmod +x ~/.config/sway/scripts/*.sh
+sh -c "$(curl -fsLS get.chezmoi.io)"
 ```
 
-## Stack Overview
+### 2. Initialize and Apply
 
-### Window Manager
-- **Sway** - i3-compatible Wayland compositor
-- **Waybar** - Status bar
-- **Mako** - Notifications
-- **Ulauncher** - Application launcher
-
-### Terminal & Editor
-- **WezTerm** - GPU-accelerated terminal
-- **Neovim** - Modal editor with LSP support
-
-### Theme
-- **Catppuccin Mocha** - Consistent dark theme
-- **JetBrains Mono** - Programming font
-- **Papirus Dark** - Icon theme
-
-## Key Bindings Philosophy
-- **Super** - Window management
-- **Super + Shift** - System actions
-- **Super + Ctrl** - Move and follow
-- **Space** - Leader key in Neovim
-
-## Directory Structure
-```
-~/.config/
-├── sway/          # Window manager
-├── waybar/        # Status bar
-├── nvim/          # Editor
-├── wezterm/       # Terminal
-└── mako/          # Notifications (auto-generated)
-```
-
-## Session Workflow
-1. Login to Sway
-2. Display auto-detection starts
-3. Waybar loads with system info
-4. Open terminal with `Super + Enter`
-5. Neovim session management via dashboard
-
-## Development Workflow
-1. `Super + 2` - Development workspace
-2. `nvim` - Opens dashboard
-3. `<leader>sl` - Load project session
-4. `<leader>ff` - Find files
-5. `LSP` auto-configures per language
-
-## Quick Reference
-- **Lock**: `Super + l`
-- **Power menu**: `Super + Shift + e`
-- **Screenshot**: `Super + Shift + s`
-- **Terminal**: `Super + Enter`
-- **Editor**: `nvim` in terminal
-
-## Troubleshooting
 ```bash
-# Check Sway logs
-journalctl --user -u sway
+# Initialize with this repository
+chezmoi init https://github.com/soler1212/dotfiles.git
 
-# Test Waybar modules
-waybar -l debug
+# Review changes
+chezmoi diff
 
-# Neovim health
-nvim +checkhealth
+# Apply configurations
+chezmoi apply
 ```
+
+## Structure
+
+- `dot_bashrc`: Bash configuration.
+- `dot_poshthemes/`: Oh My Posh theme definitions.
+- `private_dot_config/`:
+    - `ags/`: Desktop widgets and UI components.
+    - `nvim/`: Neovim IDE-like setup.
+    - `sway/`: Window manager keybindings and rules.
+    - `wezterm/`: Terminal emulator configuration.
+
+## Maintenance
+
+To update your local configuration with the latest changes from the repository:
+
+```bash
+chezmoi update
+```
+
+To edit a managed file:
+
+```bash
+chezmoi edit <file_path>
+```
+
+---
+
+**Note: Automated Dependency Installation**
+
+The automated installation of system dependencies (e.g., `fzf`, `bat`, `nvim`) via `run_once_` or `run_onchange_` scripts is currently pending implementation. 
+
+For more information on how to implement this using chezmoi scripts, refer to the [official documentation on scripts](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#understand-how-scripts-work).
