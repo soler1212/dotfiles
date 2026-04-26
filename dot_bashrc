@@ -8,7 +8,7 @@ esac
 
 # 2. Variables d'Entorn i Rutes (Exports)
 export BROWSER="zen"
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.fzf/bin"
 export PROJECT_HOME="$HOME/Desenvolupament"
 
 # Configuració NVM
