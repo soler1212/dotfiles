@@ -1,0 +1,3 @@
+-- This file used to manually require all plugin configs.
+-- Now, plugin configs are loaded via the 'config' function in their respective plugin specs
+-- to allow for better lazy loading and organization.
