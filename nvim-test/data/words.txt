@@ -1,0 +1,10 @@
+HTML CSS JavaScript TypeScript Python Rust Go Java C C++
+Algorithm Data Structure Design Pattern API REST GraphQL
+Database SQL PostgreSQL MongoDB Redis Cache Memory Disk
+Git GitHub GitLab SVN Mercurial Branch Merge Rebase Commit
+Linux Unix macOS Windows Server Container Docker Kubernetes
+Network TCP IP HTTP HTTPS WebSocket WebRTC DNS DHCP
+Security Encryption Hash Authentication Authorization JWT OAuth
+Testing Unit Integration E2E Jest Pytest RSpec Cypress
+CI/CD Pipeline Jenkins Travis GitHub Actions GitLab CI
+Agile Scrum Kanban Sprint Backlog Standup Review Retro

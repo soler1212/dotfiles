@@ -1,0 +1,17 @@
+[lazy]
+plugins = [
+  { name = "telescope", branch = "main" },
+  { name = "nvim-treesitter", branch = "main" },
+  { name = "nvim-lspconfig", branch = "main" },
+]
+
+[colorscheme]
+name = "catppuccin-mocha"
+
+[options]
+clipboard = "unnamedplus"
+encoding = "utf-8"
+number = true
+relativenumber = true
+cursorline = true
+termguicolors = true

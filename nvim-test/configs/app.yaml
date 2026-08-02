@@ -1,0 +1,51 @@
+# Global Configuration
+name: nvim-test
+version: 1.0
+
+# Server settings
+server:
+  host: localhost
+  port: 8080
+  timeout: 30
+  cors:
+    enabled: true
+    origins:
+      - http://localhost:3000
+      - https://app.example.com
+
+# Database configuration
+database:
+  driver: postgres
+  host: db.example.com
+  port: 5432
+  name: myapp_dev
+  pool:
+    min: 2
+    max: 10
+  ssl: true
+
+# Logging
+logging:
+  level: debug
+  outputs:
+    - type: stdout
+      format: json
+    - type: file
+      path: /var/log/app.log
+      rotate:
+        max_size: 100MB
+        max_files: 10
+
+# Feature flags
+features:
+  - auth
+  - analytics
+  - notifications
+  - experimental:
+      enabled: true
+      name: "new-dashboard"
+
+# Environment variables
+env:
+  NODE_ENV: development
+  API_URL: https://api.example.com/v1

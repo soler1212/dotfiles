@@ -1,0 +1,13 @@
+2024-01-15 10:30:45 INFO  Application started on port 8080
+2024-01-15 10:30:46 INFO  Database connection established
+2024-01-15 10:30:47 INFO  Cache warm-up completed
+2024-01-15 10:31:02 WARN  Slow query detected: SELECT * FROM users (423ms)
+2024-01-15 10:31:15 INFO  User alice logged in from 192.168.1.100
+2024-01-15 10:31:20 ERROR Failed to send email to charlie@example.com: connection timeout
+2024-01-15 10:32:00 INFO  Background job started: cleanup_old_sessions
+2024-01-15 10:32:30 INFO  Background job completed: cleanup_old_sessions (30s)
+2024-01-15 10:35:00 WARN  Rate limit exceeded for API endpoint /api/users from 10.0.0.55
+2024-01-15 10:36:15 INFO  User bob uploaded file document.pdf (2.3MB)
+2024-01-15 10:40:00 ERROR Database connection lost: server went away
+2024-01-15 10:40:05 INFO  Reconnecting to database...
+2024-01-15 10:40:06 INFO  Database connection restored
