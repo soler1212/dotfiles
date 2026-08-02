@@ -109,6 +109,46 @@ npm -v # Should print "11.12.1".
     - `sway/`: Window manager keybindings and rules.
     - `wezterm/`: Terminal emulator configuration.
 
+## AGS Widgets (ags/moon)
+
+Desktop widgets built with [AGS](https://github.com/Aylur/ags) for the Sway Wayland compositor.
+
+### Deployment Flow
+
+```
+~/.local/share/chezmoi/private_dot_config/ags/moon/  (source - chezmoi)
+                    ↓ chezmoi apply
+~/.config/ags/moon/  (deployed - actual config)
+```
+
+### Development Commands
+
+```bash
+# Apply chezmoi changes to ~/.config/ags
+chezmoi apply
+
+# Restart ags to see changes
+~/.config/sway/scripts/ags-restart.sh
+
+# View ags logs (if needed)
+agctl logs
+```
+
+### Architecture
+
+- `app.tsx` - Entry point, creates widgets per monitor
+- `widget/` - UI components (Bar, MoonWidget, DateTimeWidget)
+- `services/` - Data services (clock, moon, cpu, memory, workspaces)
+- `style.scss` - All styling
+- `ThemeService.ts` - Theme management and CSS variables
+
+### Key Patterns
+
+- **Widgets**: `WidgetName(monitor)` returns a GTK window
+- **State**: `createState<T>(default)` for reactive state
+- **Polling**: `createPoll(default, interval, cmd, parser)` for periodic data
+- **Window anchors**: `BOTTOM | LEFT | RIGHT | TOP` combinations
+
 ## Maintenance
 
 To update your local configuration with the latest changes from the repository:
