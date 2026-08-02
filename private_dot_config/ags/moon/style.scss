@@ -291,3 +291,32 @@ scrollbar.vertical slider {
   border-radius: 10px;
   min-width: 4px;
 }
+
+/* 7. DATETIME WIDGET */
+.DateTimeWindow {
+  background-color: transparent;
+}
+
+.aleix-datetime-widget {
+  background-color: rgba(10, 10, 15, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin: 24px;
+  padding: 12px 20px;
+  font-family: "JetBrains Mono", monospace;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+.aleix-datetime-date {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+.aleix-datetime-time {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
