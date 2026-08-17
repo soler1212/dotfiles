@@ -55,7 +55,10 @@ fi
 # 6. Eines Modernes (FZF, Zoxide, Oh-My-Posh)
 eval "$(fzf --bash)"
 eval "$(zoxide init bash --cmd cd)"
-eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/aleix-custom.omp.json)"
+#eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/aleix-custom.omp.json)"
+eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/aleix-custom-2.omp.json)"
+#eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/amro.omp.json)"
+
 
 # 7. Àlies (Aliases)
 alias ls="eza --icons --group-directories-first"
