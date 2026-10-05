@@ -6,6 +6,7 @@ This repository contains my personal setup for a productive development environm
 
 ## Core Components
 
+
 - **Window Manager**: [Sway](https://swaywm.org/) (i3-compatible Wayland compositor)
 - **Widgets & Bar**: [AGS (Aylur's GTK Shell)](https://github.com/Aylur/ags)
 - **Editor**: [Neovim](https://neovim.io/) (Lua-based configuration)

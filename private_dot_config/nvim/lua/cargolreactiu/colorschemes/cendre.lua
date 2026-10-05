@@ -4,9 +4,12 @@ return {
   priority = 1000,
   config = function()
     require("cendre").setup({
-      background = "hard",
-      italic_virtual_text = true,
+      background = "hard", -- "hard" | "medium" | "soft"
+      italic_virtual_text = false,
     })
-    vim.cmd "colorscheme cendre"
   end,
+},
+{
+  "LazyVim/LazyVim",
+  opts = { colorscheme = "cendre" },
 }

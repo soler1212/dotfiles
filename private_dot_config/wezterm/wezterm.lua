@@ -1,5 +1,8 @@
 local wezterm = require "wezterm"
+
+local act = wezterm.action
 local config = {}
+
 
 config.enable_scroll_bar = true
 config.window_background_opacity = 1
@@ -60,6 +63,12 @@ config.colors = {
       fg_color = "#c5b8d9",
     },
   },
+}
+
+
+config.keys = {
+  { key = 'PageUp', mods = 'SHIFT', action = act.ScrollByPage(-1) },
+  { key = 'PageDown', mods = 'SHIFT', action = act.ScrollByPage(1) },
 }
 
 return config
