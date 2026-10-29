@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""Print the current lunar details as a Waybar custom-module JSON object."""
+
+import json
+import os
+import tempfile
+import time
+from pathlib import Path
+from urllib.request import Request, urlopen
+
+
+PHASES = {
+    "New Moon": ("🌑", "Lluna nova", "Lluna creixent", True),
+    "Waxing Crescent": ("🌒", "Lluna creixent", "Quart creixent", True),
+    "First Quarter": ("🌓", "Quart creixent", "Lluna gibosa creixent", True),
+    "Waxing Gibbous": ("🌔", "Lluna gibosa creixent", "Lluna plena", True),
+    "Full Moon": ("🌕", "Lluna plena", "Lluna gibosa minvant", False),
+    "Waning Gibbous": ("🌖", "Lluna gibosa minvant", "Quart minvant", False),
+    "Last Quarter": ("🌗", "Quart minvant", "Lluna minvant", False),
+    "Waning Crescent": ("🌘", "Lluna minvant", "Lluna nova", False),
+}
+
+
+def cache_path() -> Path:
+    cache_home = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache"))
+    return cache_home / "pm-moon" / "astronomy.json"
+
+
+def read_cache(path: Path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
+def fetch_data():
+    request = Request("https://wttr.in/?format=j1", headers={"User-Agent": "pm-moon/1.0"})
+    with urlopen(request, timeout=8) as response:
+        payload = json.load(response)
+    astro = payload["weather"][0]["astronomy"][0]
+    phase = astro["moon_phase"]
+    emoji, catalan, next_phase, waxing = PHASES.get(
+        phase, ("🌑", "Desconeguda", "Desconeguda", True)
+    )
+    return {
+        "fetched_at": int(time.time()),
+        "emoji": emoji,
+        "phase": phase,
+        "phase_cat": catalan,
+        "illumination": astro.get("moon_illumination", "--"),
+        "moonrise": astro.get("moonrise", "--:--"),
+        "moonset": astro.get("moonset", "--:--"),
+        "sunrise": astro.get("sunrise", "--:--"),
+        "sunset": astro.get("sunset", "--:--"),
+        "trend": "Creixent" if waxing else "Minvant",
+        "next_phase": next_phase,
+    }
+
+
+def save_cache(path: Path, data) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(dir=path.parent, prefix="astronomy-")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as cache_file:
+            json.dump(data, cache_file, ensure_ascii=False)
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def output(data, stale=False) -> None:
+    status = " (dades desades)" if stale else ""
+    tooltip = "\n".join(
+        [
+            "EL PC DE L'ALEIX",
+            f"{data['phase_cat']} ({data['phase']}){status}",
+            f"Il·luminació: {data['illumination']}% · {data['trend']}",
+            f"Propera fase: {data['next_phase']}",
+            f"Lluna: {data['moonrise']} / {data['moonset']}",
+            f"Sol: {data['sunrise']} / {data['sunset']}",
+            "Fases: nova → creixent → quart → gibosa → plena → minvant.",
+            "Dades aproximades per ubicació detectada per wttr.in.",
+        ]
+    )
+    print(json.dumps({"text": data["emoji"], "tooltip": tooltip}, ensure_ascii=False))
+
+
+def main() -> None:
+    path = cache_path()
+    cached = read_cache(path)
+    if cached and time.time() - cached.get("fetched_at", 0) < 3600:
+        output(cached)
+        return
+
+    try:
+        data = fetch_data()
+        save_cache(path, data)
+        output(data)
+    except Exception as error:  # Waybar should remain usable when offline.
+        if cached:
+            output(cached, stale=True)
+        else:
+            print(json.dumps({"text": "🌑", "tooltip": f"Dades lunars no disponibles: {error}"}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

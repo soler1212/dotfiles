@@ -43,6 +43,8 @@ window#waybar {
 
 #window,
 #clock,
+#custom-moon,
+#mpris,
 #cpu,
 #memory,
 #disk,
@@ -57,6 +59,15 @@ window#waybar {
 #clock {
   color: #f5c2e7;
   font-weight: bold;
+}
+
+#custom-moon {
+  color: #f9e2af;
+  font-size: 15px;
+}
+
+#mpris {
+  color: #cba6f7;
 }
 
 #pulseaudio.muted,

@@ -5,7 +5,7 @@
 - El repositori ja es gestiona amb chezmoi. No cal substituir-lo per Stow ni canviar l'organització existent.
 - La configuració d'escriptori actual és Sway. Els seus fitxers es conserven com a font de veritat per als keybinds, però diversos scripts i ginys d'AGS invoquen `swaymsg` i no funcionaran a Hyprland.
 - Hi ha instruccions d'Ubuntu (`apt`, repositori d'eza) al README antic; no s'han executat ni migrat amb scripts d'instal·lació.
-- AGS inclou dos enllaços absoluts a `/nix/store` i accedeix a l'IPC de Sway. Es deixa inactiu durant la prova; Waybar té una barra inicial amb mòduls natius, però no reprodueix encara els ginys específics d'AGS (lluna, canvi de tema i selector de wallpapers).
+- AGS inclou dos enllaços absoluts a `/nix/store` i accedeix a l'IPC de Sway. Es deixa inactiu durant la prova. Waybar recupera l'indicador lunar d'AGS (fase, il·luminació, propera fase i horaris al tooltip) i el reproductor MPRIS. Els controls interactius del giny lunar, el canvi de tema i el selector de wallpapers encara no s'han traslladat.
 - Neovim és una configuració pròpia amb lazy.nvim, `lazy-lock.json`, LSP/Mason, Treesitter, Telescope, Neo-tree, Gitsigns, Trouble i Lspsaga. Es conserva sense modernització massiva.
 - `dot_bashrc` inclou `batcat`, nom d'executable habitual a Debian que pot no existir a Arch (on el paquet `bat` acostuma a instal·lar `bat`). També depèn de fzf, zoxide, Oh My Posh, NVM i configuració local de Python.
 - Un tema d'Oh My Posh conté camps que semblen tokens, però els valors semblen placeholders. No s'han copiat a la nova configuració ni exposat.
@@ -17,17 +17,17 @@ La configuració nova és `~/.config/hypr/hyprland.lua` i necessita Hyprland 0.5
 
 L'autostart està desactivat amb `ENABLE_AUTOSTART = false`. Així no s'inicien Waybar, Mako, Hyprpaper, Hypridle, `nm-applet`, `blueman-applet` ni serveis de clipboard. PipeWire, NetworkManager i els portals s'han de mantenir sota systemd/D-Bus; no es dupliquen des del compositor. Les dreceres de teclat funcionen quan el programa requerit ja hi és.
 
-La configuració de Sway i AGS es queda al repositori, però no l'apliquis per fer aquesta prova. Els fitxers existents de Bash, WezTerm i Neovim tampoc no es despleguen amb les ordres de prova d'aquest README. La barra Waybar inicial viu a `~/.config/waybar/config` i `~/.config/waybar/style.css`; inicia-la manualment amb `waybar` quan vulguis provar-la.
+La configuració de Sway i AGS es queda al repositori, però no l'apliquis per fer aquesta prova. Els fitxers existents de Bash, WezTerm i Neovim tampoc no es despleguen amb les ordres de prova d'aquest README. Waybar i el seu script lunar viuen a `~/.config/waybar/` i `~/.local/bin/pm-moon`; aplica'ls explícitament i inicia `waybar` manualment quan vulguis provar-los. El mòdul lunar reutilitza wttr.in, com l'AGS original: el servei pot inferir la ubicació per IP. Desa la resposta localment durant una hora i mostra dades desades si falla la xarxa.
 
 ## Paquets per comprovar (no instal·lar en bloc)
 
 Primer compara la llista amb el sistema. Els components que ja funcionen no s'han de reinstal·lar:
 
 ```bash
-pacman -Q hyprland kitty fuzzel firefox thunar waybar mako hyprpaper hyprlock hypridle
+pacman -Q hyprland kitty fuzzel firefox thunar waybar mako hyprpaper hyprlock hypridle playerctl
 pacman -Q xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
 pacman -Q pipewire wireplumber networkmanager polkit
-pacman -Q grim slurp wl-clipboard cliphist jq brightnessctl playerctl
+pacman -Q grim slurp wl-clipboard cliphist jq brightnessctl
 pacman -Q neovim ripgrep fd nodejs npm git
 ```
 
@@ -40,7 +40,7 @@ Components referenciats per aquesta configuració:
 | Captures | `grim`, `slurp`, `wl-clipboard` | Essencial per les dreceres de captura |
 | Historial de clipboard | `cliphist`, `wl-clipboard` | Opcional; només s'utilitza en demanar l'historial |
 | Àudio | `pipewire`, `wireplumber` (`wpctl`) | Es manté la instal·lació existent; les dreceres fan servir `wpctl` |
-| Brillantor i controls multimèdia | `brightnessctl`, `playerctl` | Opcional si es volen aquestes tecles |
+| Brillantor i controls multimèdia/MPRIS | `brightnessctl`, `playerctl` | Opcional si es volen aquestes tecles i el mòdul MPRIS |
 | Retalls de captura de finestra | `jq` | Opcional per l'opció `Super+Print`, després `w` |
 | Portals Wayland | `xdg-desktop-portal`, `xdg-desktop-portal-hyprland`, `xdg-desktop-portal-gtk` | Només cal corregir si no funcionen els selectors o els diàlegs |
 | Barra | `waybar` | Config inicial disponible; no s'inicia per defecte |
@@ -109,5 +109,5 @@ La configuració de Neovim utilitza Mason per als LSP; comprova el resultat de `
 - Fer el mapa complet de les dreceres restants i comprovar col·lisions amb `hyprctl binds`; en particular, validar la selecció `previous` de workspace.
 - Detectar els noms de sortida reals i traslladar els perfils Sway a funcions segures de Hyprland.
 - Convertir el selector de wallpapers i els scripts de `swaymsg` a IPC de Hyprland/Hyprpaper.
-- Reproduir els ginys d'AGS que vulguis conservar (lluna, selector de tema i wallpapers) en Waybar o eines equivalents; configurar Mako, Hyprpaper, Hyprlock i Hypridle sense duplicar serveis.
+- Completar els ginys d'AGS pendents (controls gràfics lunar, selector de tema i wallpapers) amb Waybar o eines equivalents; configurar Mako, Hyprpaper, Hyprlock i Hypridle sense duplicar serveis.
 - Provar la configuració Neovim a Linux i validar els executables externs utilitzats realment pels plugins.
