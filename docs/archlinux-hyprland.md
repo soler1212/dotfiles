@@ -92,8 +92,14 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | --- | --- |
 | `Super + Return` | Kitty |
 | `Super + D` | Launcher Fuzzel |
+| `Super + Shift + D` | Launcher Fuzzel (drecera alternativa conservada) |
+| `Super + Shift + Return` | Obre Kitty com a finestra flotant centrada |
 | `Super + Shift + B` | Firefox |
 | `Super + Shift + F` | Thunar |
+| `Super + C` | Centra la finestra flotant |
+| `Super + Shift + Space` | Alterna la finestra entre flotant i en mosaic |
+| `Super + Space` | Canvia el focus entre finestres flotants i en mosaic |
+| `Super + F` | Alterna pantalla completa |
 | `Super + Shift + Q` | Tanca finestra focalitzada |
 | `Super + Shift + C` | Recarrega Hyprland |
 | `Super + Shift + I` | Mostra la classe i el títol de la finestra activa |
