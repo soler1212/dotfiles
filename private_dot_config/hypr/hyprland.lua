@@ -1,9 +1,9 @@
 -- Arch Linux + Hyprland 0.55+ configuration.
--- This file is deliberately opt-in: chezmoi init does not apply it, and
--- desktop services below are not started unless ENABLE_AUTOSTART is changed.
+-- chezmoi init only clones this file; apply it explicitly after reviewing the diff.
 
-local ENABLE_AUTOSTART = false
+local ENABLE_AUTOSTART = true
 local ENABLE_WAYBAR_AUTOSTART = true
+local ENABLE_WALLPAPER_AUTOSTART = true
 
 local terminal = "kitty"
 local launcher = "fuzzel"
@@ -77,6 +77,8 @@ hl.window_rule({ match = { class = "^(gnome-calculator|gnome-system-monitor|pavu
 hl.window_rule({ match = { class = "^(pinentry|floating)$" }, float = true, center = true })
 hl.window_rule({ match = { class = "^firefox$", title = ".*Picture-in-Picture.*" }, float = true, pin = true })
 hl.window_rule({ match = { class = "^mpv$" }, float = true, pin = true, size = { 640, 360 }, center = true })
+hl.window_rule({ match = { class = "^steam$", title = "^(Friends List|Steam - News|.* - Chat)$" }, float = true })
+hl.window_rule({ match = { class = "^zoom$", title = "^(zoom|Choose ONE of the audio conference options)$" }, float = true, center = true })
 
 local function bind(keys, dispatcher, description)
   hl.bind(keys, dispatcher, { description = description })
@@ -153,8 +155,16 @@ for key, workspace in pairs({ ["1"] = 1, ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] 
   bind("SUPER + CTRL + " .. key, hl.dsp.window.move({ workspace = workspace, follow = true }), "Move window and follow to workspace " .. workspace)
 end
 
+for key, workspace in pairs({ KP_1 = 1, KP_2 = 2, KP_3 = 3, KP_4 = 4, KP_5 = 5, KP_6 = 6, KP_7 = 7, KP_8 = 8, KP_9 = 9, KP_0 = 10 }) do
+  bind("SUPER + " .. key, hl.dsp.focus({ workspace = workspace }), "Switch to workspace " .. workspace)
+  bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = workspace }), "Move window to workspace " .. workspace)
+  bind("SUPER + CTRL + " .. key, hl.dsp.window.move({ workspace = workspace, follow = true }), "Move window and follow to workspace " .. workspace)
+end
+
 bind("SUPER + TAB", hl.dsp.focus({ workspace = "e+1" }), "Next workspace")
 bind("SUPER + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }), "Previous workspace")
+bind("SUPER + bracketright", hl.dsp.focus({ workspace = "e+1" }), "Next workspace")
+bind("SUPER + bracketleft", hl.dsp.focus({ workspace = "e-1" }), "Previous workspace")
 bind("SUPER + M", hl.dsp.focus({ workspace = "previous" }), "Return to previous workspace")
 bind("SUPER + SHIFT + M", hl.dsp.window.move({ workspace = "previous" }), "Move window to previous workspace")
 for key, direction in pairs({ left = "l", right = "r", up = "u", down = "d" }) do
@@ -190,6 +200,8 @@ bind("Print", hl.dsp.exec_cmd("mkdir -p " .. screenshot_dir .. " && grim " .. sc
 bind("SUPER + PRINT", hl.dsp.submap("screenshot"), "Screenshot menu")
 bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"), "Copy selected area")
 bind("SUPER + SHIFT + V", hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"), "Clipboard history")
+bind("SUPER + ALT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper next"), "Next wallpaper")
+bind("SUPER + ALT + SHIFT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper select"), "Select wallpaper")
 
 hl.define_submap("screenshot", function()
   local function screenshot(command)
@@ -209,25 +221,30 @@ end)
 -- Reboot and shutdown require a second confirmation; logout is not offered.
 bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("$HOME/.local/bin/pm-power-menu"), "Open power menu")
 
--- Waybar is the only desktop UI started automatically. Passing both paths
--- explicitly ensures the intended modules and stylesheet are loaded.
+-- Waybar starts with the selected config and stylesheet, not system defaults.
 if ENABLE_WAYBAR_AUTOSTART then
   hl.on("hyprland.start", function()
     hl.exec_cmd('waybar --config "$HOME/.config/waybar/config" --style "$HOME/.config/waybar/style.css"')
   end)
 end
 
--- Other services remain opt-in. PipeWire, NetworkManager and portals are
--- managed by systemd/D-Bus on Arch; do not launch duplicate instances here.
+-- Arch desktop services. NetworkManager, Bluetooth and audio daemons themselves
+-- are system services; only their user applets/agents run in this session.
 if ENABLE_AUTOSTART then
   hl.on("hyprland.start", function()
-    hl.exec_cmd("waybar")
+    if ENABLE_WALLPAPER_AUTOSTART then
+      hl.exec_cmd("hyprpaper")
+      hl.exec_cmd("$HOME/.local/bin/pm-wallpaper restore")
+    end
     hl.exec_cmd("mako")
-    hl.exec_cmd("hyprpaper")
-    hl.exec_cmd("hypridle")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("blueman-applet")
+    hl.exec_cmd("systemctl --user start hyprpolkitagent.service")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"')
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"')
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface cursor-theme "Adwaita"')
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface font-name "Noto Sans 11"')
   end)
 end

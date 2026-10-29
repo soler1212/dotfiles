@@ -2,7 +2,7 @@
 
 ## Dependencies
 ```bash
-neovim ripgrep fd-find nodejs npm
+neovim ripgrep fd nodejs npm
 # LSP servers installed via Mason
 ```
 

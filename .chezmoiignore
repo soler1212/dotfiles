@@ -1,0 +1,2 @@
+# Test fixtures stay in the repository and are not copied into the home directory.
+nvim-test

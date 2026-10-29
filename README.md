@@ -1,85 +1,49 @@
 # Dotfiles: Arch Linux + Hyprland
 
-Dotfiles personals gestionats amb [chezmoi](https://www.chezmoi.io/). La branca `archlinux` prepara la migració de l'entorn anterior Ubuntu + Sway cap a Arch Linux + Hyprland, mantenint Neovim, els keybinds principals i les eines personals.
+Repositori personal gestionat amb [chezmoi](https://www.chezmoi.io/), adaptat perquè Arch Linux + Hyprland sigui l'entorn principal. La configuració anterior de Sway, AGS i swaylock s'ha retirat; les parts útils s'han traslladat a Hyprland, Waybar, Mako i eines natives de Wayland.
 
-## Estat de la migració
+<!-- Hyprland, Waybar, notification, wallpaper, and helper configuration tracked by chezmoi -->
 
-La configuració nova de Hyprland és optativa. Waybar s'inicia quan entres a Hyprland; la resta de serveis automàtics continuen desactivats. `chezmoi init` només clona la font: no executis `chezmoi apply` sense revisar abans el diff, perquè la resta del repositori encara conté la configuració antiga de Sway, AGS, Bash, WezTerm i Neovim.
+- Hyprland: `private_dot_config/hypr/` (configuració Lua, Hyprlock, Hyprpaper i galeria de fons).
+- Waybar: `private_dot_config/waybar/`, amb estil Catppuccin, fase lunar, MPRIS i safata.
+- Mako: notificacions amb estil Catppuccin.
+- Eines: `pm-moon`, `pm-power-menu` i `pm-wallpaper` a `~/.local/bin`.
+- Neovim: configuració amb lazy.nvim; el projecte de prova `nvim-test` no es desplega.
+- Bash, Oh My Posh i WezTerm continuen disponibles; WezTerm és opcional perquè Kitty és el terminal de les dreceres.
+- Paquets, instal·lació inicial i mapa de dreceres: [guia Arch + Hyprland](docs/archlinux-hyprland.md).
 
-<!-- Hyprland autostart toggles and Waybar/script destinations from private_dot_config/hypr/hyprland.lua, private_dot_config/waybar/, and private_dot_local/bin/ -->
+## Instal·lació a l'Arch
 
-- Configuració Hyprland Lua: `private_dot_config/hypr/hyprland.lua` → `~/.config/hypr/hyprland.lua`.
-- Barra Waybar, amb fase lunar i reproductor MPRIS: `private_dot_config/waybar/` → `~/.config/waybar/`; s'inicia amb Hyprland.
-- Script lunar: `private_dot_local/bin/executable_pm-moon` → `~/.local/bin/pm-moon`; consulta wttr.in i desa les dades una hora.
-- Menú gràfic d'energia: `private_dot_local/bin/executable_pm-power-menu` → `~/.local/bin/pm-power-menu`; l'apagada i el reinici demanen confirmació.
-- Autostart: Waybar activat (`ENABLE_WAYBAR_AUTOSTART = true`); la resta desactivada (`ENABLE_AUTOSTART = false`).
-- Versió necessària: Hyprland 0.55 o posterior per carregar configuració Lua nativa.
-- Inventari, dependències i mapa de dreceres: [docs/archlinux-hyprland.md](docs/archlinux-hyprland.md).
-
-## Preparar la prova a Arch
-
-Primer comprova si chezmoi ja hi és:
-
-```bash
-command -v chezmoi
-```
-
-Si falta chezmoi o Git, instal·la'ls des dels repositoris oficials. `--needed` evita reinstal·lar paquets que ja hi siguin:
+Després que publiquis la branca `archlinux`, instal·la chezmoi i clona-la així:
 
 ```bash
 sudo pacman -S --needed chezmoi git
+chezmoi init --branch archlinux https://github.com/soler1212/dotfiles.git
 ```
 
-La branca `archlinux` encara és local i no s'ha publicat a GitHub. `chezmoi init` pot clonar el repositori públic actual, però encara no conté aquests canvis. Per provar exactament aquesta adaptació sense fer push, copia el bundle creat al costat del checkout cap a l'Arch (per exemple, amb una memòria USB) i importa la branca local:
-
-```bash
-chezmoi init https://github.com/soler1212/dotfiles.git
-git -C ~/.local/share/chezmoi fetch /ruta/al/dotfiles-archlinux.bundle archlinux:refs/heads/archlinux
-git -C ~/.local/share/chezmoi switch archlinux
-```
-
-Substitueix `/ruta/al/dotfiles-archlinux.bundle` per la ubicació on hagis copiat el bundle. `chezmoi init` només clona la font; no desplega cap dotfile.
-
-Revisa el diff general i després el del fitxer Hyprland:
+Instal·la les dependències d'escriptori descrites a la guia i revisa els canvis que chezmoi proposa:
 
 ```bash
 chezmoi diff
-chezmoi diff ~/.config/hypr/hyprland.lua
 ```
 
-Per desplegar Hyprland, el menú d'energia i els fitxers necessaris de Waybar, aplica només aquests destins:
+Aplica la configuració i els scripts d'escriptori:
 
 ```bash
-chezmoi apply ~/.config/hypr/hyprland.lua ~/.local/bin/pm-power-menu ~/.config/waybar/config ~/.config/waybar/style.css ~/.local/bin/pm-moon
+chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako \
+  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
 ```
 
-Després tanca la sessió i torna a entrar a Hyprland perquè Waybar s'iniciï automàticament. Per iniciar-la immediatament a la sessió actual, executa `waybar` una vegada des d'un terminal.
+Després, tanca la sessió gràfica i entra a Hyprland. La barra, notificacions, paper de paret, safates de xarxa/Bluetooth i historial del porta-retalls s'inicien amb la sessió. Els dimonis de PipeWire, NetworkManager i Bluetooth s'han d'activar com indica la guia.
 
-Si només vols actualitzar la barra en una sessió Hyprland existent, aplica els seus fitxers i reinicia Waybar perquè carregui també el CSS:
+Si chezmoi mostra conflictes, no sobreescriguis cegament els teus fitxers locals: mira `chezmoi diff` i resol-los abans d'aplicar. Per actualitzar més endavant, fes `chezmoi update`, revisa el diff i aplica els canvis.
 
-```bash
-chezmoi apply ~/.config/waybar/config ~/.config/waybar/style.css ~/.local/bin/pm-moon
-pkill waybar; waybar
-```
+## Dreceres noves d'escriptori
 
-Entra a la sessió Hyprland des del gestor d'inici de sessió. Si Hyprland ja era obert abans d'afegir el fitxer Lua, reinicia la sessió perquè la detecció del fitxer de configuració es fa en iniciar el compositor.
+- `Super + Shift + E`: menú gràfic per bloquejar, suspendre, reiniciar o apagar. Reiniciar i apagar demanen confirmació; no hi ha opció de logout.
+- `Super + L`: manté el focus cap a la dreta; no bloqueja ni tanca la sessió.
+- `Super + Alt + W`: següent fons de pantalla.
+- `Super + Alt + Shift + W`: selector de fons amb Fuzzel.
+- `Super + Shift + C`: recarrega la configuració Hyprland.
 
-## Desplegament i reversió
-
-No facis servir `chezmoi init --apply` ni `chezmoi apply` sense indicar el destí mentre la migració sigui en proves. Per retirar el fitxer de prova, tanca la sessió Hyprland i executa:
-
-```bash
-chezmoi destroy ~/.config/hypr/hyprland.lua ~/.config/waybar/config ~/.config/waybar/style.css ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu
-```
-
-Confirma que el destí és exactament aquest fitxer abans d'acceptar la retirada. El repositori local de chezmoi es pot conservar per reprendre la prova o eliminar manualment quan ja no el necessitis.
-
-## Configuració anterior
-
-Els fitxers originals de Sway i AGS es conserven com a referència durant la migració. El panell lunar i la informació MPRIS ja tenen una adaptació inicial a Waybar; els controls gràfics del giny lunar, els selectors de tema i de wallpaper encara no s'han traslladat. Altres scripts depenen de `swaymsg` o de rutes Nix antigues; no els activis en una sessió Hyprland.
-
-## Components personals
-
-- Neovim amb lazy.nvim, LSP i mapatges personalitzats.
-- Bash, Oh My Posh i WezTerm.
-- Configuració anterior de Sway i ginys AGS, conservada com a referència.
+La resta de dreceres i equivalències respecte de Sway són a la [guia](docs/archlinux-hyprland.md).

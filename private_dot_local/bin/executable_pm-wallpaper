@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+wallpaper_dir="$HOME/.config/hypr/wallpapers"
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/pm-dotfiles"
+state_file="$state_dir/current-wallpaper"
+
+mapfile -d '' wallpapers < <(
+  find "$wallpaper_dir" -maxdepth 1 -type f \
+    \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) \
+    -print0 | sort -z
+)
+
+if ((${#wallpapers[@]} == 0)); then
+  notify-send "Wallpaper" "No hi ha imatges a $wallpaper_dir" 2>/dev/null || true
+  exit 1
+fi
+
+set_wallpaper() {
+  local image="$1"
+  hyprctl hyprpaper wallpaper ",$image,cover"
+  mkdir -p "$state_dir"
+  printf '%s\n' "$image" > "$state_file"
+}
+
+case "${1:-next}" in
+  next)
+    current=""
+    [[ ! -f "$state_file" ]] || current="$(<"$state_file")"
+    current_index=-1
+    for index in "${!wallpapers[@]}"; do
+      if [[ "${wallpapers[$index]}" == "$current" ]]; then
+        current_index="$index"
+        break
+      fi
+    done
+    next_index=$(( (current_index + 1) % ${#wallpapers[@]} ))
+    set_wallpaper "${wallpapers[$next_index]}"
+    ;;
+  select)
+    names=()
+    for image in "${wallpapers[@]}"; do names+=("${image##*/}"); done
+    selected="$(printf '%s\n' "${names[@]}" | fuzzel --dmenu --prompt='Fons > ' --lines=12 --width=52)" || exit 0
+    [[ -n "$selected" ]] || exit 0
+    for image in "${wallpapers[@]}"; do
+      if [[ "${image##*/}" == "$selected" ]]; then
+        set_wallpaper "$image"
+        exit 0
+      fi
+    done
+    exit 1
+    ;;
+  restore)
+    [[ -f "$state_file" ]] || exit 0
+    saved="$(<"$state_file")"
+    [[ -f "$saved" ]] || exit 0
+    for _ in {1..40}; do
+      if hyprctl hyprpaper listactive >/dev/null 2>&1 && set_wallpaper "$saved" >/dev/null 2>&1; then exit 0; fi
+      sleep 0.25
+    done
+    exit 1
+    ;;
+  *)
+    printf 'Usage: %s {next|select|restore}\n' "$0" >&2
+    exit 2
+    ;;
+esac

@@ -7,7 +7,7 @@ wezterm
 
 ## Configuration
 - **Font**: JetBrains Mono
-- **Opacity**: 0.88
+- **Opacity**: 1.0 (opaque)
 - **Tab bar**: Hidden when single tab
 - **Scrollbar**: Enabled
 
