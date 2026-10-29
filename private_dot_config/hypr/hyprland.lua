@@ -12,6 +12,11 @@ local file_manager = "thunar"
 local screenshot_dir = "$HOME/Pictures/Screenshots"
 local screenshot_timestamp = "$(date +%Y-%m-%d-%H%M%S-%N)"
 
+local function screenshot_command(arguments)
+  local file = screenshot_dir .. "/" .. screenshot_timestamp .. ".png"
+  return 'file="' .. file .. '"; mkdir -p "' .. screenshot_dir .. '" && grim ' .. arguments .. ' "$file" && notify-send "Captura desada" "${file##*/}"'
+end
+
 -- Environment for Wayland applications and XDG portal selection.
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
@@ -205,7 +210,7 @@ bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), "Previous track")
 bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"), "Stop playback")
 
 -- Screenshots run on demand; cliphist watchers start with the session below.
-bind("Print", hl.dsp.exec_cmd("mkdir -p " .. screenshot_dir .. " && grim " .. screenshot_dir .. "/" .. screenshot_timestamp .. ".png"), "Save full-screen screenshot")
+bind("Print", hl.dsp.exec_cmd(screenshot_command("")), "Save full-screen screenshot")
 bind("SUPER + PRINT", hl.dsp.submap("screenshot"), "Screenshot menu")
 bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"), "Copy selected area")
 bind("SUPER + SHIFT + V", hl.dsp.exec_cmd('selection=$(cliphist list | fuzzel --dmenu) && [ -n "$selection" ] && printf "%s\\n" "$selection" | cliphist decode | wl-copy'), "Clipboard history")
@@ -218,10 +223,10 @@ hl.define_submap("screenshot", function()
     hl.dispatch(hl.dsp.submap("reset"))
   end
   local active_window_geometry = [["$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')"]]
-  hl.bind("s", function() screenshot("mkdir -p " .. screenshot_dir .. " && grim " .. screenshot_dir .. "/" .. screenshot_timestamp .. ".png") end)
-  hl.bind("a", function() screenshot("mkdir -p " .. screenshot_dir .. " && grim -g \"$(slurp)\" " .. screenshot_dir .. "/" .. screenshot_timestamp .. ".png") end)
-  hl.bind("w", function() screenshot("mkdir -p " .. screenshot_dir .. " && grim -g " .. active_window_geometry .. " " .. screenshot_dir .. "/" .. screenshot_timestamp .. ".png") end)
-  hl.bind("SHIFT + A", function() screenshot("grim -g \"$(slurp)\" - | wl-copy") end)
+  hl.bind("s", function() screenshot(screenshot_command("")) end)
+  hl.bind("a", function() screenshot(screenshot_command('-g "$(slurp)"')) end)
+  hl.bind("w", function() screenshot(screenshot_command("-g " .. active_window_geometry)) end)
+  hl.bind("SHIFT + A", function() screenshot([[bash -o pipefail -c 'grim -g "$(slurp)" - | wl-copy && notify-send "Àrea copiada al porta-retalls"']]) end)
   hl.bind("Return", hl.dsp.submap("reset"))
   hl.bind("Escape", hl.dsp.submap("reset"))
 end)
