@@ -1,6 +1,6 @@
 # Arch Linux + Hyprland
 
-Guia d'instal·lació i operació per a aquesta branca de chezmoi. La configuració assumeix Arch Linux, sessió Wayland amb Hyprland i el teclat espanyol. Els serveis d'escriptori s'activen automàticament a la sessió.
+Guia d'instal·lació i operació per a aquesta branca de chezmoi. La configuració assumeix Arch Linux, sessió Wayland amb Hyprland i el teclat espanyol. El mòdul lunar necessita Python. Els serveis d'escriptori s'activen automàticament a la sessió.
 
 ## Paquets necessaris
 
@@ -8,16 +8,16 @@ Instal·la els components que cobreixen les dreceres, barra, bloqueig, notificac
 
 ```bash
 sudo pacman -S --needed \
-  hyprland hyprpaper hyprlock hyprpolkitagent \
+  hyprland hyprpaper hyprlock hypridle hyprpolkitagent \
   waybar mako fuzzel kitty firefox thunar \
   grim slurp wl-clipboard cliphist jq \
-  pipewire wireplumber pipewire-pulse \
+  pipewire pipewire-audio pipewire-alsa wireplumber pipewire-pulse \
   networkmanager network-manager-applet \
   bluez bluez-utils blueman \
   pavucontrol playerctl brightnessctl \
   xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
   gsettings-desktop-schemas adwaita-gtk-theme adwaita-cursors papirus-icon-theme \
-  noto-fonts ttf-jetbrains-mono ttf-nerd-fonts-symbols
+  python glib2 libnotify noto-fonts ttf-jetbrains-mono ttf-nerd-fonts-symbols
 ```
 
 Per posar en marxa xarxa i Bluetooth una sola vegada:
@@ -26,18 +26,29 @@ Per posar en marxa xarxa i Bluetooth una sola vegada:
 sudo systemctl enable --now NetworkManager bluetooth
 ```
 
-Activa els sockets d'àudio si la instal·lació encara no els ha activat automàticament: `systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service`. Els portals s'activen via D-Bus; no cal cap script que els mati o reiniciï.
+Activa les unitats d'àudio d'usuari si no arrenquen automàticament: `systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service`. Els portals s'activen via D-Bus; no cal cap script que els mati o reiniciï.
 
 Si uses un gestor d'inici de sessió, tria la sessió Hyprland. Per una sessió TTY, inicia `Hyprland` després d'entrar. La configuració utilitza Hyprland 0.55+ perquè està escrita amb la seva API Lua nativa. Si el paquet estable de la teva màquina encara és anterior, actualitza Arch abans d'aplicar-la.
 
 ### Components opcionals segons ús
 
 ```bash
-sudo pacman -S --needed neovim git ripgrep fd nodejs npm python python-pipx \
+sudo pacman -S --needed neovim git ripgrep fd nodejs npm python-pipx \
   bat fzf zoxide eza wezterm
 ```
 
 Aquests són per a l'entorn de terminal i Neovim; `wezterm` és opcional perquè les dreceres obren Kitty. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). Bash ara simplement n'omet la inicialització si no hi és. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
+
+## Pantalla gràfica d'inici de sessió
+
+Si aquest Arch encara no té cap gestor d'inici de sessió, SDDM és una opció dels repositoris oficials i detecta les sessions Wayland instal·lades. Si ja en tens un, conserva aquell i no n'activis un segon:
+
+```bash
+sudo pacman -S --needed sddm
+sudo systemctl enable --now sddm
+```
+
+A la pantalla d'entrada, selecciona **Hyprland**. Per iniciar la sessió des d'un terminal virtual, fes servir `start-hyprland` després d'iniciar sessió.
 
 ## Clonar i aplicar
 
@@ -68,7 +79,7 @@ chezmoi apply
 
 ## Què s'inicia amb Hyprland
 
-A `private_dot_config/hypr/hyprland.lua`, els toggles d'autostart estan activats. En entrar a la sessió s'inicien Waybar amb la config/CSS del repositori, Hyprpaper amb l'últim wallpaper triat, Mako, l'applet de NetworkManager, Blueman, l'agent polkit de Hyprland i dos watchers de cliphist. També s'aplica el tema GTK fosc i Papirus.
+A `private_dot_config/hypr/hyprland.lua`, els toggles d'autostart estan activats. En entrar a la sessió es propaga l'entorn Wayland a D-Bus/systemd, i s'inicien Waybar amb la config/CSS del repositori, Hyprpaper amb l'últim wallpaper triat, Hypridle, Mako, l'applet de NetworkManager, Blueman, l'agent polkit de Hyprland i dos watchers de cliphist. També s'aplica el tema GTK fosc i Papirus. Hypridle bloqueja la sessió abans de suspendre; no imposa un temporitzador de bloqueig ni de suspensió per inactivitat.
 
 NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` una vegada. PipeWire/WirePlumber i els portals són gestionats per systemd/D-Bus. No s'inicia AGS, swaybar, Sway IPC ni cap component de Nix.
 
@@ -123,6 +134,7 @@ Dwindle/Master i els grups Hyprland no són idèntics als modes tabbed/stacking 
 - Barra: comprova que `waybar` i `ttf-jetbrains-mono` estiguin instal·lats i reinicia la sessió Hyprland després d'aplicar.
 - Captura/compartició: comprova `xdg-desktop-portal-hyprland` i `xdg-desktop-portal-gtk`; no executis scripts de reinici de portal.
 - Àudio: comprova `wpctl status`, PipeWire i WirePlumber.
+- Bloqueig abans de suspendre: confirma que Hypridle està actiu i que `loginctl lock-session` inicia Hyprlock.
 - Xarxa/Bluetooth: comprova `systemctl status NetworkManager bluetooth`.
 - Neovim: els paquets d'LSP i formatadors s'han d'instal·lar segons els plugins habilitats.
 

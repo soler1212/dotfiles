@@ -194,12 +194,11 @@ bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), "Next track")
 bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), "Previous track")
 bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"), "Stop playback")
 
--- Screenshots and clipboard history. These run only when the corresponding
--- key is pressed; no clipboard watcher is started automatically.
+-- Screenshots run on demand; cliphist watchers start with the session below.
 bind("Print", hl.dsp.exec_cmd("mkdir -p " .. screenshot_dir .. " && grim " .. screenshot_dir .. "/$(date +%Y-%m-%d-%H%M%S).png"), "Save full-screen screenshot")
 bind("SUPER + PRINT", hl.dsp.submap("screenshot"), "Screenshot menu")
 bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"), "Copy selected area")
-bind("SUPER + SHIFT + V", hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"), "Clipboard history")
+bind("SUPER + SHIFT + V", hl.dsp.exec_cmd('selection=$(cliphist list | fuzzel --dmenu) && [ -n "$selection" ] && printf "%s\\n" "$selection" | cliphist decode | wl-copy'), "Clipboard history")
 bind("SUPER + ALT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper next"), "Next wallpaper")
 bind("SUPER + ALT + SHIFT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper select"), "Select wallpaper")
 
@@ -232,10 +231,12 @@ end
 -- are system services; only their user applets/agents run in this session.
 if ENABLE_AUTOSTART then
   hl.on("hyprland.start", function()
+    hl.exec_cmd("dbus-update-activation-environment --systemd --all")
     if ENABLE_WALLPAPER_AUTOSTART then
       hl.exec_cmd("hyprpaper")
       hl.exec_cmd("$HOME/.local/bin/pm-wallpaper restore")
     end
+    hl.exec_cmd("hypridle")
     hl.exec_cmd("mako")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("blueman-applet")

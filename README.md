@@ -34,7 +34,7 @@ chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako \
   ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
 ```
 
-Després, tanca la sessió gràfica i entra a Hyprland. La barra, notificacions, paper de paret, safates de xarxa/Bluetooth i historial del porta-retalls s'inicien amb la sessió. Els dimonis de PipeWire, NetworkManager i Bluetooth s'han d'activar com indica la guia.
+Després, tria Hyprland al gestor gràfic d'inici de sessió (la guia explica SDDM si encara no en tens cap) i entra. Waybar, Hypridle, notificacions, paper de paret, safates de xarxa/Bluetooth i historial del porta-retalls s'inicien amb la sessió. En suspendre, Hypridle bloqueja la pantalla abans que l'ordinador dormi. Els dimonis de PipeWire, NetworkManager i Bluetooth s'han d'activar com indica la guia.
 
 Si chezmoi mostra conflictes, no sobreescriguis cegament els teus fitxers locals: mira `chezmoi diff` i resol-los abans d'aplicar. Per actualitzar més endavant, fes `chezmoi update`, revisa el diff i aplica els canvis.
 
