@@ -4,6 +4,8 @@ Aquesta guia instal·la els paquets que fan servir aquests dotfiles, prepara che
 
 Si Arch ja està instal·lat, no repeteixis el particionament, el formatatge ni la instal·lació del sistema base. Segueix el [perfil de la instal·lació existent](arch-installation-profile.md) i comença per comprovar els paquets i serveis.
 
+Per instal·lar programes més endavant, consulta el [manual curt de paquets per a Arch](installar-paquets-arch.md), que explica `pacman`, `yay`/AUR, Flatpak i AppImage.
+
 ## 1. Actualitzar Arch
 
 Entra amb el teu usuari habitual, que ha de tenir permisos `sudo`, i actualitza el sistema:

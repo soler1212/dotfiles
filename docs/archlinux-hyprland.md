@@ -2,6 +2,8 @@
 
 Guia d'instal·lació i operació per a aquesta branca de chezmoi. La configuració assumeix Arch Linux, sessió Wayland amb Hyprland, teclat espanyol i touchpad amb toc per clicar, arrossegament amb bloqueig i emulació del botó central. El mòdul lunar necessita Python. Els serveis d'escriptori s'activen automàticament a la sessió.
 
+Per saber com instal·lar altres aplicacions amb `pacman`, `yay`/AUR, Flatpak o AppImage, consulta el [manual d'instal·lació de paquets](installar-paquets-arch.md).
+
 ## Paquets necessaris
 
 Instal·la els components que cobreixen les dreceres, barra, bloqueig, notificacions, wallpaper, captura, àudio, xarxa i Bluetooth:

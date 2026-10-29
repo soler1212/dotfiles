@@ -15,6 +15,8 @@ Neovim, Oh My Posh i WezTerm continuen al repositori però `.chezmoiignore` els 
 
 ## Instal·lació a l'Arch
 
+Per instal·lar altres aplicacions amb `pacman`, `yay`/AUR, Flatpak o AppImage, consulta el [manual d'instal·lació de paquets](docs/installar-paquets-arch.md).
+
 Després que publiquis la branca `archlinux`, instal·la chezmoi i clona-la així:
 
 ```bash
