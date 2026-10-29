@@ -53,6 +53,8 @@ A la pantalla d'entrada, selecciona **Hyprland**. Per iniciar la sessió des d'u
 
 ## Clonar i aplicar
 
+Per a una instal·lació des de zero, segueix el [manual pas a pas](setup-archlinux-hyprland.md).
+
 Quan la branca `archlinux` sigui disponible a GitHub:
 
 ```bash
@@ -72,13 +74,16 @@ La configuració d'escriptori Hyprland és l'única activa per defecte. `.chezmo
 
 Tanca la sessió gràfica i entra a Hyprland perquè arrenquin els serveis d'usuari. Els directoris gestionats contenen únicament la configuració nova; Sway, AGS i swaylock s'han retirat del repositori.
 
-Abans d'aplicar, si ja tens personalitzacions als mateixos destins, revisa-les amb `chezmoi diff` i fusiona-les. Per actualitzar després que hagis fet `git push` de canvis a la branca:
+Abans d'aplicar, si ja tens personalitzacions als mateixos destins, revisa-les amb `chezmoi diff` i fusiona-les. Per actualitzar i revisar els canvis abans d'aplicar-los:
 
 ```bash
-chezmoi update
+chezmoi git -- pull --autostash --rebase origin archlinux
 chezmoi diff
-chezmoi apply
+chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
+  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
 ```
+
+`chezmoi update` aplica automàticament després de baixar els canvis; consulta el manual per revisar primer i aplicar només els camins d'escriptori.
 
 ## Què s'inicia amb Hyprland
 
