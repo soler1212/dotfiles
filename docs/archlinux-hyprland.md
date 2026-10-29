@@ -66,6 +66,8 @@ chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
   ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
 ```
 
+La configuració d'escriptori Hyprland és l'única activa per defecte. `.chezmoiignore` manté `.bashrc`, Neovim, WezTerm i els temes d'Oh My Posh fora de qualsevol `chezmoi apply` fins que també es migrin explícitament a Arch.
+
 Tanca la sessió gràfica i entra a Hyprland perquè arrenquin els serveis d'usuari. Els directoris gestionats contenen únicament la configuració nova; Sway, AGS i swaylock s'han retirat del repositori.
 
 Abans d'aplicar, si ja tens personalitzacions als mateixos destins, revisa-les amb `chezmoi diff` i fusiona-les. Per actualitzar després que hagis fet `git push` de canvis a la branca:

@@ -1,2 +1,8 @@
 # Test fixtures stay in the repository and are not copied into the home directory.
 nvim-test
+
+# Keep non-desktop dotfiles inactive until they are explicitly migrated to Arch.
+.bashrc
+.poshthemes/**
+.config/nvim/**
+.config/wezterm/**
