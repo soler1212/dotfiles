@@ -168,11 +168,11 @@ bind("SUPER + bracketright", hl.dsp.focus({ workspace = "e+1" }), "Next workspac
 bind("SUPER + bracketleft", hl.dsp.focus({ workspace = "e-1" }), "Previous workspace")
 bind("SUPER + M", hl.dsp.focus({ workspace = "previous" }), "Return to previous workspace")
 bind("SUPER + SHIFT + M", hl.dsp.window.move({ workspace = "previous" }), "Move window to previous workspace")
-for key, direction in pairs({ left = "l", right = "r", up = "u", down = "d" }) do
+for key, direction in pairs({ left = "left", right = "right", up = "up", down = "down" }) do
   bind("SUPER + CTRL + SHIFT + " .. key, hl.dsp.workspace.move({ monitor = direction }), "Move workspace to output " .. direction)
 end
-bind("SUPER + SHIFT + F7", hl.dsp.workspace.move({ monitor = "l" }), "Move workspace to left output")
-bind("SUPER + SHIFT + F8", hl.dsp.workspace.move({ monitor = "r" }), "Move workspace to right output")
+bind("SUPER + SHIFT + F7", hl.dsp.workspace.move({ monitor = "left" }), "Move workspace to left output")
+bind("SUPER + SHIFT + F8", hl.dsp.workspace.move({ monitor = "right" }), "Move workspace to right output")
 
 -- Display-dependent Sway profiles (Super+F7 and Super+P) are intentionally
 -- omitted until the Arch machine's output names are confirmed with `hyprctl monitors all`.
