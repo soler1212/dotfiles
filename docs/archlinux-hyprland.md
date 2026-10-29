@@ -69,17 +69,20 @@ La configuració de Neovim utilitza Mason per als LSP; comprova el resultat de `
 | `Super+f` | Fullscreen | Fullscreen | Equivalent |
 | `Super+c` | Centrar floating | Centrar finestra | La finestra ha de ser flotant |
 | `Super+a`, `Super+Shift+a` | Focus parent/child | Sense bind | Hyprland no té l'arbre de contenidors Sway |
-| `Super+s`, `Super+w` | Stacking/tabbed | Toggle de grup Hyprland | Un grup s'assembla a les pestanyes, però no és el mateix layout |
+| `Super+s` | Layout stacking | Sense bind | Hyprland no ofereix el layout stacking de Sway |
+| `Super+w` | Layout tabbed | Toggle de grup Hyprland | Un grup s'assembla a les pestanyes, però no és el mateix layout |
 | `Super+b/v` | Split horitzontal/vertical | Preseleccionar direcció Dwindle | Orienta la propera finestra; no fixa un split de contenidor |
 | `Super+e` | Toggle split layout | Canviar Dwindle/Master | Canvi de layout més proper disponible |
 | `Super+1..9/0` | Canviar workspace | Workspaces 1..10 | Mateix mapping |
 | `Super+Shift+1..9/0` | Moure finestra a workspace | Moure finestra | Mateix mapping |
 | `Super+Ctrl+1..9/0` | Moure i seguir | Moure i seguir | Mateix mapping |
 | `Super+Tab`, `Super+Shift+Tab` | Workspace següent/anterior | Selector relatiu `e+1` / `e-1` | Ordre segons els workspaces creats |
-| `Super+m` | Workspace anterior | Focalitzar l'última finestra | No és idèntic al back-and-forth de workspace |
+| `Super+m` | Tornar al workspace anterior | Focalitzar el workspace `previous` | Equivalent previst |
+| `Super+Shift+m` | Moure finestra al workspace anterior | Moure finestra a `previous` | Equivalent previst; comprovar amb dos workspaces |
 | `Super+Ctrl+Shift+fletxes` | Moure workspace a una sortida | Dispatcher de workspace a sortida | Verificar amb més d'un monitor |
+| `Super+Shift+F7/F8` | Moure workspace a sortida esquerra/dreta | Moure workspace a monitor esquerre/dret | Verificar amb més d'un monitor |
 | `Super+Shift+e` | Mode d'energia | Submap d'energia | Suspend/reboot/shutdown; hibernate requereix configuració pròpia |
-| `Super+l` | Bloquejar pantalla | Hyprlock | `hyprlock` |
+| `Super+Shift+e`, després `l` | Bloquejar pantalla des del mode d'energia | Hyprlock dins del submap d'energia | `Super+l` queda com a focus cap a la dreta |
 | `Print` | Captura de pantalla | Grim pantalla completa | `grim` |
 | `Super+Print`, després `s/a/w/Shift+a` | Menú de captures | Submap: pantalla/àrea/finestra/àrea clipboard | `grim`, `slurp`, i `jq` per captura de finestra |
 | `Super+Shift+s` | Àrea al clipboard | Àrea al clipboard | `grim`, `slurp`, `wl-copy` |
@@ -103,7 +106,7 @@ La configuració de Neovim utilitza Mason per als LSP; comprova el resultat de `
 ## Pendents abans d'activar l'escriptori complet
 
 - Comparar paquets instal·lats a l'Arch i corregir les diferències reals de Bash (`batcat`/`bat`, `fd-find`/`fd`, versions de Node i executables LSP).
-- Fer el mapa complet de les dreceres restants i comprovar col·lisions amb `hyprctl binds`.
+- Fer el mapa complet de les dreceres restants i comprovar col·lisions amb `hyprctl binds`; en particular, validar la selecció `previous` de workspace.
 - Detectar els noms de sortida reals i traslladar els perfils Sway a funcions segures de Hyprland.
 - Convertir el selector de wallpapers i els scripts de `swaymsg` a IPC de Hyprland/Hyprpaper.
 - Reproduir els ginys d'AGS que vulguis conservar (lluna, selector de tema i wallpapers) en Waybar o eines equivalents; configurar Mako, Hyprpaper, Hyprlock i Hypridle sense duplicar serveis.

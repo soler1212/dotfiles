@@ -133,9 +133,8 @@ hl.define_submap("resize", function()
   hl.bind("SUPER + R", hl.dsp.submap("reset"))
 end)
 
--- Layouts: Hyprland has no Sway stacking/tabbed/split tree. Groups approximate
--- tabbed/stacked containers; Dwindle split direction applies to the next window.
-bind("SUPER + S", hl.dsp.group.toggle(), "Toggle a window group")
+-- Layouts: Hyprland has no Sway stacking layout. Groups approximate tabbed
+-- containers; Dwindle split direction applies to the next window.
 bind("SUPER + W", hl.dsp.group.toggle(), "Toggle a window group")
 bind("SUPER + B", hl.dsp.layout("preselect r"), "Preselect a horizontal split")
 bind("SUPER + V", hl.dsp.layout("preselect b"), "Preselect a vertical split")
@@ -155,10 +154,13 @@ end
 
 bind("SUPER + TAB", hl.dsp.focus({ workspace = "e+1" }), "Next workspace")
 bind("SUPER + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }), "Previous workspace")
-bind("SUPER + M", hl.dsp.focus({ last = true }), "Return to last window/workspace")
+bind("SUPER + M", hl.dsp.focus({ workspace = "previous" }), "Return to previous workspace")
+bind("SUPER + SHIFT + M", hl.dsp.window.move({ workspace = "previous" }), "Move window to previous workspace")
 for key, direction in pairs({ left = "l", right = "r", up = "u", down = "d" }) do
   bind("SUPER + CTRL + SHIFT + " .. key, hl.dsp.workspace.move({ monitor = direction }), "Move workspace to output " .. direction)
 end
+bind("SUPER + SHIFT + F7", hl.dsp.workspace.move({ monitor = "l" }), "Move workspace to left output")
+bind("SUPER + SHIFT + F8", hl.dsp.workspace.move({ monitor = "r" }), "Move workspace to right output")
 
 -- Display-dependent Sway profiles (Super+F7 and Super+P) are intentionally
 -- omitted until the Arch machine's output names are confirmed with `hyprctl monitors all`.
@@ -202,9 +204,9 @@ hl.define_submap("screenshot", function()
   hl.bind("Escape", hl.dsp.submap("reset"))
 end)
 
--- Lock and power menu. hibernate is included for workflow parity; it requires
--- a separately configured Arch hibernation target and may otherwise fail.
-bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"), "Lock screen")
+-- The lock action is intentionally available only inside the power submap,
+-- matching the original Sway flow: SUPER + SHIFT + E, then L.
+-- hibernate requires a separately configured Arch hibernation target.
 bind("SUPER + SHIFT + E", hl.dsp.submap("power"), "Power menu")
 hl.define_submap("power", function()
   hl.bind("l", hl.dsp.exec_cmd("hyprlock"))
