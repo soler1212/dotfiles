@@ -8,7 +8,7 @@ Instal·la els components que cobreixen les dreceres, barra, bloqueig, notificac
 
 ```bash
 sudo pacman -S --needed \
-  hyprland hyprpaper hyprlock hypridle hyprpolkitagent \
+  hyprland hyprpaper hyprlock hypridle polkit hyprpolkitagent \
   waybar mako fuzzel kitty firefox thunar neovim git ripgrep fd nodejs npm \
   grim slurp wl-clipboard cliphist jq \
   pipewire pipewire-audio pipewire-alsa wireplumber pipewire-pulse \
@@ -80,7 +80,7 @@ chezmoi apply
 
 ## Què s'inicia amb Hyprland
 
-A `private_dot_config/hypr/hyprland.lua`, els toggles d'autostart estan activats. En entrar a la sessió es propaga l'entorn Wayland a D-Bus/systemd, i s'inicien Waybar amb la config/CSS del repositori, Hyprpaper amb l'últim wallpaper triat, Hypridle, Mako, l'applet de NetworkManager, Blueman, l'agent polkit de Hyprland i dos watchers de cliphist. També s'aplica el tema GTK fosc i Papirus. Hypridle bloqueja la sessió abans de suspendre; no imposa un temporitzador de bloqueig ni de suspensió per inactivitat.
+A `private_dot_config/hypr/hyprland.lua`, els toggles d'autostart estan activats. En entrar a la sessió es propaga l'entorn Wayland a D-Bus/systemd, i s'inicien Waybar amb la config/CSS del repositori, Hyprpaper amb l'últim wallpaper triat, Hypridle, Mako, l'applet de NetworkManager, Blueman, l'agent d'autenticació Hyprpolkitagent i dos watchers de cliphist. El paquet `polkit` proporciona el servei d'autorització del sistema que l'agent gràfic necessita. També s'aplica el tema GTK fosc i Papirus. Hypridle bloqueja la sessió abans de suspendre; no imposa un temporitzador de bloqueig ni de suspensió per inactivitat.
 
 NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` una vegada. PipeWire/WirePlumber i els portals són gestionats per systemd/D-Bus. No s'inicia AGS, swaybar, Sway IPC ni cap component de Nix.
 
