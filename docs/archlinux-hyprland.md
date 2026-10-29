@@ -1,6 +1,6 @@
 # Arch Linux + Hyprland
 
-Guia d'instal·lació i operació per a aquesta branca de chezmoi. La configuració assumeix Arch Linux, sessió Wayland amb Hyprland i el teclat espanyol. El mòdul lunar necessita Python. Els serveis d'escriptori s'activen automàticament a la sessió.
+Guia d'instal·lació i operació per a aquesta branca de chezmoi. La configuració assumeix Arch Linux, sessió Wayland amb Hyprland, teclat espanyol i touchpad amb toc per clicar, arrossegament amb bloqueig i emulació del botó central. El mòdul lunar necessita Python. Els serveis d'escriptori s'activen automàticament a la sessió.
 
 ## Paquets necessaris
 
