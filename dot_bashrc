@@ -1,77 +1,15 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# Minimal Arch Linux shell configuration managed by chezmoi.
 
-# 1. Sortir si no és una shell interactiva
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+  *) return ;;
 esac
 
-# 2. Variables d'Entorn i Rutes (Exports)
-export BROWSER="firefox"
-export PATH="$PATH:$HOME/.local/bin:$HOME/.fzf/bin"
-export PROJECT_HOME="$HOME/Desenvolupament"
-
-# Configuració NVM
-export NVM_DIR="$HOME/.nvm"
-
-# Configuració Virtualenvwrapper
-export WORKON_HOME="$HOME/.virtualenvs"
-export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
-
-# 3. Configuració de l'Historial i Opcions de Bash
-HISTSIZE=100000
-HISTFILESIZE=200000
-HISTTIMEFORMAT="%F %T "
-HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
-
-shopt -s histappend
-shopt -s checkwinsize
-
-# Dreceres de teclat per l'historial i autocompletat
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
-bind 'set show-all-if-ambiguous on'
-
-# 4. Utilitats Base del Sistema
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias grep='grep --color=auto'
-fi
-
-if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
-
-# 5. Inicialització d'Eines de Desenvolupament
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-for virtualenvwrapper_script in "$HOME/.local/bin/virtualenvwrapper.sh" /usr/bin/virtualenvwrapper.sh /usr/local/bin/virtualenvwrapper.sh; do
-    if [ -f "$virtualenvwrapper_script" ]; then
-        source "$virtualenvwrapper_script"
-        break
-    fi
-done
-
-# 6. Eines Modernes (FZF, Zoxide, Oh-My-Posh)
-if command -v fzf >/dev/null 2>&1; then eval "$(fzf --bash)"; fi
-if command -v zoxide >/dev/null 2>&1; then eval "$(zoxide init bash --cmd cd)"; fi
-if command -v oh-my-posh >/dev/null 2>&1; then
-    eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/aleix-custom-2.omp.json)"
-fi
-
-
-# 7. Àlies (Aliases)
-if command -v eza >/dev/null 2>&1; then
-    alias ls="eza --icons --group-directories-first"
-else
-    alias ls="ls --color=auto"
-fi
-if command -v bat >/dev/null 2>&1; then alias cat="bat"; fi
-if command -v notify-send >/dev/null 2>&1; then
-    alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-fi
+# Update Arch packages and AUR packages (including Zen) when yay is installed.
+update() {
+  if command -v yay >/dev/null 2>&1; then
+    yay -Syu "$@"
+  else
+    sudo pacman -Syu "$@"
+  fi
+}

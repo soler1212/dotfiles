@@ -45,7 +45,7 @@ sudo pacman -S --needed \
   bat fzf zoxide eza wezterm obs-studio
 ```
 
-Aquests paquets són opcionals: `base-devel`, `curl`, `wget`, `htop`, `fastfetch` i `pciutils` són eines de construcció i diagnòstic; `qt5-wayland` i `qt6-wayland` són per a aplicacions Qt; `neovim`, `ripgrep`, `fd`, `nodejs` i `npm` són per a l'entorn de desenvolupament i Neovim, que encara està exclòs de l'aplicació de chezmoi; `bat`, `fzf`, `zoxide` i `eza` són eines de terminal; `wezterm` és opcional perquè les dreceres obren Kitty; `obs-studio` només cal si vols enregistrar o transmetre pantalla. `python-pipx` només cal si instal·les eines Python a nivell d'usuari. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). Bash n'omet la inicialització si no hi és. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
+Aquests paquets són opcionals: `base-devel`, `curl`, `wget`, `htop`, `fastfetch` i `pciutils` són eines de construcció i diagnòstic; `qt5-wayland` i `qt6-wayland` són per a aplicacions Qt; `neovim`, `ripgrep`, `fd`, `nodejs` i `npm` són per a l'entorn de desenvolupament i Neovim, que encara està exclòs de l'aplicació de chezmoi; `bat`, `fzf`, `zoxide` i `eza` són eines de terminal; `wezterm` és opcional perquè les dreceres obren Kitty; `obs-studio` només cal si vols enregistrar o transmetre pantalla. `python-pipx` només cal si instal·les eines Python a nivell d'usuari. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). El `.bashrc` mínim del repositori no els inicialitza. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
 
 ## Pantalla gràfica d'inici de sessió
 
@@ -76,10 +76,10 @@ chezmoi diff
 
 ```bash
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
-  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
+  ~/.bashrc ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
 ```
 
-La configuració d'escriptori Hyprland és l'única activa per defecte. `.chezmoiignore` també exclou `README.md`, `docs/`, `.bashrc`, Neovim, WezTerm, els temes d'Oh My Posh i `nvim-test` perquè no acabin a la carpeta personal en una aplicació general.
+La configuració d'escriptori Hyprland i el `.bashrc` mínim per Arch són els únics dotfiles actius. `.chezmoiignore` també exclou `README.md`, `docs/`, Neovim, WezTerm, els temes d'Oh My Posh i `nvim-test` perquè no acabin a la carpeta personal en una aplicació general. L'ordre `update` executa `yay -Syu` quan `yay` està instal·lat i, altrament, `sudo pacman -Syu`.
 
 Tanca la sessió gràfica i entra a Hyprland perquè arrenquin els serveis d'usuari. Els directoris gestionats contenen únicament la configuració nova; Sway, AGS i swaylock s'han retirat del repositori.
 
@@ -89,7 +89,7 @@ Abans d'aplicar, si ja tens personalitzacions als mateixos destins, revisa-les a
 chezmoi git pull -- --autostash --rebase origin archlinux
 chezmoi diff
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
-  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
+  ~/.bashrc ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
 ```
 
 `chezmoi update` aplica automàticament després de baixar els canvis; consulta el manual per revisar primer i aplicar només els camins d'escriptori.

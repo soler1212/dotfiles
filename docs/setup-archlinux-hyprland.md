@@ -81,7 +81,7 @@ Revisa els canvis que chezmoi proposa:
 chezmoi diff
 ```
 
-La configuració deixa fora `.bashrc`, Neovim, WezTerm i Oh My Posh. Si ja tens fitxers propis als camins Hyprland, Waybar, Mako o Fuzzel, desa'n una còpia abans d'aplicar; el diff t'ensenyarà què es modificarà.
+La configuració deixa fora Neovim, WezTerm i Oh My Posh. El `.bashrc` d'aquesta branca només afegeix l'ordre `update` per actualitzar Arch. Si ja tens fitxers propis als camins Hyprland, Waybar, Mako, Fuzzel o `.bashrc`, desa'n una còpia abans d'aplicar; el diff t'ensenyarà què es modificarà.
 
 ## 4. Aplicar només la configuració de l'escriptori
 
@@ -89,10 +89,10 @@ Aplica els camins de Hyprland i les utilitats que aquesta sessió necessita:
 
 ```bash
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
-  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
+  ~/.bashrc ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
 ```
 
-No facis un `chezmoi apply` sense camins durant la configuració inicial: aquesta branca manté altres dotfiles fora de l'aplicació per defecte i aquí volem activar només l'escriptori.
+No facis un `chezmoi apply` sense camins durant la configuració inicial: aquesta branca manté la resta de dotfiles fora de l'aplicació per defecte i aquí volem activar l'escriptori i l'ordre mínima `update` de Bash.
 
 ## 5. Configurar la pantalla d'inici de sessió
 
@@ -137,7 +137,7 @@ chezmoi git status -- --short --branch
 chezmoi git pull -- --autostash --rebase origin archlinux
 chezmoi diff
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
-  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
+  ~/.bashrc ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
 ```
 
 Si no vols aplicar una actualització, atura't després de `chezmoi diff`. `chezmoi apply` no publica ni puja canvis a GitHub.

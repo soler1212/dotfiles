@@ -11,7 +11,7 @@ Repositori personal gestionat amb [chezmoi](https://www.chezmoi.io/), adaptat pe
 - Eines: `pm-moon`, `pm-power-menu`, `pm-screenshot-menu` i `pm-wallpaper` a `~/.local/bin`.
 - Paquets, instal·lació inicial i mapa de dreceres: [guia Arch + Hyprland](docs/archlinux-hyprland.md).
 
-Neovim, Bash, Oh My Posh i WezTerm continuen al repositori, però `.chezmoiignore` els manté fora de l'aplicació automàtica mentre es migren i revisen per separat. El mateix fitxer exclou `README.md`, `docs/` i la fixture `nvim-test` perquè no es copiïn a la carpeta personal. Kitty continua sent el terminal de les dreceres.
+Neovim, Oh My Posh i WezTerm continuen al repositori però `.chezmoiignore` els manté fora de l'aplicació. Bash té una configuració mínima per Arch amb l'ordre `update`, que actualitza els paquets oficials i els de l'AUR amb `yay` (o només els oficials amb `pacman` si `yay` no està instal·lat). El mateix fitxer exclou `README.md`, `docs/` i la fixture `nvim-test` perquè no es copiïn a la carpeta personal. Kitty continua sent el terminal de les dreceres.
 
 ## Instal·lació a l'Arch
 
@@ -32,7 +32,7 @@ Aplica la configuració i els scripts d'escriptori:
 
 ```bash
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
-  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
+  ~/.bashrc ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
 ```
 
 Després, tria Hyprland al gestor gràfic d'inici de sessió (la guia explica SDDM si encara no en tens cap) i entra. Waybar, Hypridle, notificacions, paper de paret, safates de xarxa/Bluetooth i historial del porta-retalls s'inicien amb la sessió. En suspendre, Hypridle bloqueja la pantalla abans que l'ordinador dormi. Els dimonis de PipeWire, NetworkManager i Bluetooth s'han d'activar com indica la guia.

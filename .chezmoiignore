@@ -7,8 +7,7 @@ README.md
 docs/
 docs/**
 
-# Keep non-desktop dotfiles inactive until they are explicitly migrated to Arch.
-.bashrc
+# Bash has a minimal Arch-specific update command; keep the other non-desktop dotfiles inactive.
 .poshthemes/
 .poshthemes/**
 .config/nvim/
