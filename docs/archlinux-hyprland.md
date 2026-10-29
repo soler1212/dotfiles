@@ -35,10 +35,10 @@ Si uses un gestor d'inici de sessió, tria la sessió Hyprland. Per iniciar-la d
 ### Components opcionals segons ús
 
 ```bash
-sudo pacman -S --needed bat fzf zoxide eza wezterm
+sudo pacman -S --needed bat fzf zoxide eza wezterm obs-studio
 ```
 
-Aquests paquets són eines de terminal opcionals; `wezterm` és opcional perquè les dreceres obren Kitty. `python-pipx` només cal si instal·les eines Python a nivell d'usuari. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). Bash n'omet la inicialització si no hi és. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
+Aquests paquets són opcionals: `bat`, `fzf`, `zoxide` i `eza` són eines de terminal; `wezterm` és opcional perquè les dreceres obren Kitty; `obs-studio` només cal si vols enregistrar o transmetre pantalla. `python-pipx` només cal si instal·les eines Python a nivell d'usuari. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). Bash n'omet la inicialització si no hi és. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
 
 ## Pantalla gràfica d'inici de sessió
 
