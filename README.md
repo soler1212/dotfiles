@@ -1,173 +1,81 @@
-# Dotfiles
+# Dotfiles: Arch Linux + Hyprland
 
-Personal configuration files managed with [chezmoi](https://www.chezmoi.io/).
+Dotfiles personals gestionats amb [chezmoi](https://www.chezmoi.io/). La branca `archlinux` prepara la migració de l'entorn anterior Ubuntu + Sway cap a Arch Linux + Hyprland, mantenint Neovim, els keybinds principals i les eines personals.
 
-This repository contains my personal setup for a productive development environment on Linux, featuring a Sway-based Wayland desktop, Neovim, and highly customized terminal tools.
+## Estat de la migració
 
-## Core Components
+La configuració nova de Hyprland és optativa i no inicia serveis automàticament. `chezmoi init` només clona la font: no executis `chezmoi apply` sense revisar abans el diff, perquè la resta del repositori encara conté la configuració antiga de Sway, AGS, Bash, WezTerm i Neovim.
 
+<!-- Hyprland autostart toggle and Waybar destinations from private_dot_config/hypr/hyprland.lua and private_dot_config/waybar/ -->
 
-- **Window Manager**: [Sway](https://swaywm.org/) (i3-compatible Wayland compositor)
-- **Widgets & Bar**: [AGS (Aylur's GTK Shell)](https://github.com/Aylur/ags)
-- **Editor**: [Neovim](https://neovim.io/) (Lua-based configuration)
-- **Terminal**: [WezTerm](https://wezfurlong.org/wezterm/)
-- **Shell**: Bash with [Oh My Posh](https://ohmyposh.dev/) prompts
-- **Tools**: fzf, bat, nvim, eza, ripgrep, and more.
+- Configuració Hyprland Lua: `private_dot_config/hypr/hyprland.lua` → `~/.config/hypr/hyprland.lua`.
+- Barra inicial: `private_dot_config/waybar/` → `~/.config/waybar/`; no s'inicia automàticament.
+- Autostart per defecte: desactivat (`ENABLE_AUTOSTART = false`).
+- Versió necessària: Hyprland 0.55 o posterior per carregar configuració Lua nativa.
+- Inventari, dependències i mapa de dreceres: [docs/archlinux-hyprland.md](docs/archlinux-hyprland.md).
 
-## Installation
+## Preparar la prova a Arch
 
-### 1. Install chezmoi
+Primer comprova si chezmoi ja hi és:
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io)"
+command -v chezmoi
 ```
 
-### 2. Initialize and Apply
+Si falta chezmoi o Git, instal·la'ls des dels repositoris oficials. `--needed` evita reinstal·lar paquets que ja hi siguin:
 
 ```bash
-# Initialize with this repository
+sudo pacman -S --needed chezmoi git
+```
+
+La branca `archlinux` encara és local i no s'ha publicat a GitHub. `chezmoi init` pot clonar el repositori públic actual, però encara no conté aquests canvis. Per provar exactament aquesta adaptació sense fer push, copia el bundle creat al costat del checkout cap a l'Arch (per exemple, amb una memòria USB) i importa la branca local:
+
+```bash
 chezmoi init https://github.com/soler1212/dotfiles.git
+git -C ~/.local/share/chezmoi fetch /ruta/al/dotfiles-archlinux.bundle archlinux:refs/heads/archlinux
+git -C ~/.local/share/chezmoi switch archlinux
+```
 
-# Review changes
+Substitueix `/ruta/al/dotfiles-archlinux.bundle` per la ubicació on hagis copiat el bundle. `chezmoi init` només clona la font; no desplega cap dotfile.
+
+Revisa el diff general i després el del fitxer Hyprland:
+
+```bash
 chezmoi diff
-
-# Apply configurations
-chezmoi apply
+chezmoi diff ~/.config/hypr/hyprland.lua
 ```
 
-## System Dependencies
-
-### Bat
-
-> https://github.com/sharkdp/bat#installation
-
-```
-sudo apt install bat
-```
-
-### Zoxide
-
-> https://github.com/ajeetdsouza/zoxide#installation
-
-```
-curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-```
-
-### FZF
-
-> https://github.com/junegunn/fzf
-
-```
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
-```
-
-### Eza
-
-> https://github.com/eza-community/eza/blob/main/INSTALL.md
-
-```
-sudo apt update
-sudo apt install -y gpg
-
-sudo mkdir -p /etc/apt/keyrings
-wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
-sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-sudo apt update
-sudo apt install -y eza
-```
-
-### Node
-
-> https://nodejs.org/en/download
-
-```
-# Download and install nvm:
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
-
-# in lieu of restarting the shell
-\. "$HOME/.nvm/nvm.sh"
-
-# Download and install Node.js:
-nvm install 24
-
-# Verify the Node.js version:
-node -v # Should print "v24.15.0".
-
-# Verify npm version:
-npm -v # Should print "11.12.1".
-```
-
-
-## Structure
-
-- `dot_bashrc`: Bash configuration.
-- `dot_poshthemes/`: Oh My Posh theme definitions.
-- `private_dot_config/`:
-    - `ags/`: Desktop widgets and UI components.
-    - `nvim/`: Neovim IDE-like setup.
-    - `sway/`: Window manager keybindings and rules.
-    - `wezterm/`: Terminal emulator configuration.
-
-## AGS Widgets (ags/moon)
-
-Desktop widgets built with [AGS](https://github.com/Aylur/ags) for the Sway Wayland compositor.
-
-### Deployment Flow
-
-```
-~/.local/share/chezmoi/private_dot_config/ags/moon/  (source - chezmoi)
-                    ↓ chezmoi apply
-~/.config/ags/moon/  (deployed - actual config)
-```
-
-### Development Commands
+Quan vulguis provar només Hyprland, aplica únicament aquest destí:
 
 ```bash
-# Apply chezmoi changes to ~/.config/ags
-chezmoi apply
-
-# Restart ags to see changes
-~/.config/sway/scripts/ags-restart.sh
-
-# View ags logs (if needed)
-agctl logs
+chezmoi apply ~/.config/hypr/hyprland.lua
 ```
 
-### Architecture
-
-- `app.tsx` - Entry point, creates widgets per monitor
-- `widget/` - UI components (Bar, MoonWidget, DateTimeWidget)
-- `services/` - Data services (clock, moon, cpu, memory, workspaces)
-- `style.scss` - All styling
-- `ThemeService.ts` - Theme management and CSS variables
-
-### Key Patterns
-
-- **Widgets**: `WidgetName(monitor)` returns a GTK window
-- **State**: `createState<T>(default)` for reactive state
-- **Polling**: `createPoll(default, interval, cmd, parser)` for periodic data
-- **Window anchors**: `BOTTOM | LEFT | RIGHT | TOP` combinations
-
-## Maintenance
-
-To update your local configuration with the latest changes from the repository:
+Si després vols provar la barra, aplica els seus dos fitxers i inicia `waybar` manualment des d'un terminal dins Hyprland:
 
 ```bash
-chezmoi update
+chezmoi apply ~/.config/waybar/config ~/.config/waybar/style.css
+waybar
 ```
 
-To edit a managed file:
+Entra a la sessió Hyprland des del gestor d'inici de sessió. Si Hyprland ja era obert abans d'afegir el fitxer Lua, reinicia la sessió perquè la detecció del fitxer de configuració es fa en iniciar el compositor.
+
+## Desplegament i reversió
+
+No facis servir `chezmoi init --apply` ni `chezmoi apply` sense indicar el destí mentre la migració sigui en proves. Per retirar el fitxer de prova, tanca la sessió Hyprland i executa:
 
 ```bash
-chezmoi edit <file_path>
+chezmoi destroy ~/.config/hypr/hyprland.lua ~/.config/waybar/config ~/.config/waybar/style.css
 ```
 
----
+Confirma que el destí és exactament aquest fitxer abans d'acceptar la retirada. El repositori local de chezmoi es pot conservar per reprendre la prova o eliminar manualment quan ja no el necessitis.
 
-**Note: Automated Dependency Installation**
+## Configuració anterior
 
-The automated installation of system dependencies (e.g., `fzf`, `bat`, `nvim`) via `run_once_` or `run_onchange_` scripts is currently pending implementation. 
+Els fitxers originals de Sway i AGS es conserven com a referència durant la migració. Encara no s'han convertit a Hyprland/Waybar i alguns scripts depenen de `swaymsg` o de rutes Nix antigues; no els activis en una sessió Hyprland.
 
-For more information on how to implement this using chezmoi scripts, refer to the [official documentation on scripts](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#understand-how-scripts-work).
+## Components personals
+
+- Neovim amb lazy.nvim, LSP i mapatges personalitzats.
+- Bash, Oh My Posh i WezTerm.
+- Antiga configuració d'escriptori Sway i ginys AGS, conservada sense migrar.
