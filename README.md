@@ -9,9 +9,9 @@ Repositori personal gestionat amb [chezmoi](https://www.chezmoi.io/), adaptat pe
 - Waybar: `private_dot_config/waybar/`, amb estil Catppuccin, fase lunar, MPRIS i safata.
 - Mako: notificacions amb estil Catppuccin.
 - Eines: `pm-moon`, `pm-power-menu` i `pm-wallpaper` a `~/.local/bin`.
-- Neovim: configuració amb lazy.nvim; el projecte de prova `nvim-test` no es desplega.
-- Bash, Oh My Posh i WezTerm continuen disponibles; WezTerm és opcional perquè Kitty és el terminal de les dreceres.
 - Paquets, instal·lació inicial i mapa de dreceres: [guia Arch + Hyprland](docs/archlinux-hyprland.md).
+
+Neovim, Bash, Oh My Posh i WezTerm continuen al repositori, però `.chezmoiignore` els manté fora de l'aplicació automàtica mentre es migren i revisen per separat. `nvim-test` és una fixture i tampoc es desplega. Kitty continua sent el terminal de les dreceres.
 
 ## Instal·lació a l'Arch
 
@@ -37,7 +37,7 @@ chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
 
 Després, tria Hyprland al gestor gràfic d'inici de sessió (la guia explica SDDM si encara no en tens cap) i entra. Waybar, Hypridle, notificacions, paper de paret, safates de xarxa/Bluetooth i historial del porta-retalls s'inicien amb la sessió. En suspendre, Hypridle bloqueja la pantalla abans que l'ordinador dormi. Els dimonis de PipeWire, NetworkManager i Bluetooth s'han d'activar com indica la guia.
 
-Si chezmoi mostra conflictes, no sobreescriguis cegament els teus fitxers locals: mira `chezmoi diff` i resol-los abans d'aplicar. Per actualitzar més endavant, fes `chezmoi update`, revisa el diff i aplica els canvis.
+Si chezmoi mostra conflictes, no sobreescriguis cegament els teus fitxers locals: mira `chezmoi diff` i resol-los abans d'aplicar. Per actualitzar més endavant, baixa primer els canvis amb `chezmoi git -- pull --autostash --rebase origin archlinux`, revisa `chezmoi diff` i aplica només els camins d'escriptori amb l'ordre de dalt. `chezmoi update` aplica els canvis automàticament.
 
 ## Dreceres noves d'escriptori
 

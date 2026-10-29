@@ -23,7 +23,7 @@ sudo pacman -S --needed \
   chezmoi git \
   hyprland xorg-xwayland hyprpaper hyprlock hypridle polkit hyprpolkitagent \
   waybar mako fuzzel kitty firefox thunar thunar-volman gvfs tumbler \
-  udisks2 udiskie xdg-user-dirs neovim ripgrep fd nodejs npm \
+  udisks2 udiskie xdg-user-dirs \
   grim slurp wl-clipboard cliphist jq \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
   networkmanager network-manager-applet nm-connection-editor \
@@ -54,6 +54,8 @@ systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.
 ```
 
 Pacman utilitza `--needed`, així que els paquets que ja tens instal·lats no es tornen a instal·lar.
+
+Neovim i les eines per als seus plugins no formen part de l'escriptori actiu en aquesta branca. Si també vols preparar aquest entorn de desenvolupament, consulta la [guia de Neovim](neovim.md) i instal·la `neovim`, `ripgrep`, `fd`, `nodejs` i `npm` segons les necessitats dels plugins.
 
 El paquet antic `polkit-kde-agent` pot continuar instal·lat. Aquesta configuració utilitza `hyprpolkitagent`; si `plasma-polkit-agent.service` continua actiu després d'aplicar-la, atura aquell agent abans de tornar a entrar a Hyprland per evitar dos agents d'autenticació alhora:
 
