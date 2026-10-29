@@ -28,9 +28,26 @@ def cache_path() -> Path:
 
 def read_cache(path: Path):
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
+    if not isinstance(data, dict) or not isinstance(data.get("fetched_at"), int):
+        return None
+    text_fields = (
+        "emoji",
+        "phase",
+        "phase_cat",
+        "illumination",
+        "moonrise",
+        "moonset",
+        "sunrise",
+        "sunset",
+        "trend",
+        "next_phase",
+    )
+    if not all(isinstance(data.get(field), str) for field in text_fields):
+        return None
+    return data
 
 
 def fetch_data():
@@ -89,7 +106,7 @@ def output(data, stale=False) -> None:
 def main() -> None:
     path = cache_path()
     cached = read_cache(path)
-    if cached and time.time() - cached.get("fetched_at", 0) < 3600:
+    if cached and 0 <= time.time() - cached["fetched_at"] < 3600:
         output(cached)
         return
 
