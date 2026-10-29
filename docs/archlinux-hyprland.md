@@ -94,6 +94,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Shift + F` | Thunar |
 | `Super + Shift + Q` | Tanca finestra focalitzada |
 | `Super + Shift + C` | Recarrega Hyprland |
+| `Super + Shift + I` | Mostra la classe i el títol de la finestra activa |
 | `Super + H/J/K/L` o fletxes | Mou el focus |
 | `Super + Shift + H/J/K/L` o fletxes | Mou la finestra |
 | `Super + R` | Mode resize; fletxes o HJKL, `Shift` per moviment fi, `Esc` per sortir |
@@ -116,6 +117,8 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | Tecles multimèdia/volum/brillantor | `playerctl`, `wpctl`, `brightnessctl` |
 
 Dwindle/Master i els grups Hyprland no són idèntics als modes tabbed/stacking de Sway. Els selectors de perfil de monitor s'han deixat fora perquè depenien de noms i resolucions específics de les sortides. Mira `hyprctl monitors all` abans de crear-los per a la màquina concreta.
+
+Les dreceres Sway `Super + A` / `Super + Shift + A` per enfocar el pare/fill de l'arbre no tenen un equivalent directe en Hyprland; no les he reassignat a una acció diferent. `Super + Shift + R` reiniciava Sway; Hyprland recarrega la configuració en desar-la (`Super + Shift + C` també ho força), i per reiniciar el compositor cal sortir de la sessió i tornar-hi a entrar.
 
 ## Canvis respecte de Sway + AGS
 

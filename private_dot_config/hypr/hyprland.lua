@@ -94,6 +94,8 @@ bind("SUPER + SHIFT + B", hl.dsp.exec_cmd(browser), "Browser")
 bind("SUPER + SHIFT + F", hl.dsp.exec_cmd(file_manager), "File manager")
 bind("SUPER + SHIFT + Q", hl.dsp.window.close(), "Close focused window")
 bind("SUPER + SHIFT + C", hl.dsp.reload_config(), "Reload Hyprland configuration")
+local window_info_command = [[notify-send "Window Info" "$(hyprctl activewindow -j | jq -r '"class: \(.class // "N/A")\ninitial class: \(.initialClass // "N/A")\ntitle: \(.title // "N/A")"')"]]
+bind("SUPER + SHIFT + I", hl.dsp.exec_cmd(window_info_command), "Show focused window details")
 
 -- Focus and move windows. Both Vim keys and arrows keep the Sway muscle memory.
 for key, direction in pairs({ H = "l", J = "d", K = "u", L = "r" }) do
