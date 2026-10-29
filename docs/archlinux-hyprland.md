@@ -146,6 +146,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Shift + S` | Selecciona una àrea i la copia |
 | `Super + Shift + V` | Historial del porta-retalls |
 | Tecles multimèdia/volum/brillantor | `playerctl`, `wpctl`, `brightnessctl` |
+| Clic a `BT` de Waybar | Obre Blueman per cercar, aparellar i connectar dispositius Bluetooth |
 
 Dwindle/Master i els grups Hyprland no són idèntics als modes tabbed/stacking de Sway. Els selectors de perfil de monitor s'han deixat fora perquè depenien de noms i resolucions específics de les sortides. Mira `hyprctl monitors all` abans de crear-los per a la màquina concreta.
 
@@ -175,7 +176,8 @@ Les dreceres Sway `Super + A` / `Super + Shift + A` per enfocar el pare/fill de 
 - Àudio: comprova `wpctl status`, PipeWire i WirePlumber.
 - Notificacions: Mako s'inicia amb la sessió; `Super + N` o `makoctl restore` recupera l'última notificació caducada. `makoctl mode` mostra els modes actius i `makoctl mode -t do-not-disturb` alterna No molestar.
 - Bloqueig abans de suspendre: confirma que Hypridle està actiu i que `loginctl lock-session` inicia Hyprlock.
-- Xarxa/Bluetooth: comprova `systemctl status NetworkManager bluetooth`.
+- Bluetooth: si Waybar mostra `BT no-controller`, comprova `systemctl status bluetooth --no-pager`, `bluetoothctl list` i `rfkill list bluetooth`. Si la unitat no existeix, instal·la `bluez bluez-utils blueman` i executa `sudo systemctl enable --now bluetooth`. El clic a `BT` obre `blueman-manager`; l'applet de Blueman també posa un menú a la safata.
+- Xarxa: comprova `systemctl status NetworkManager`.
 - Wallpaper: `hyprctl hyprpaper listactive` comprova el fons actual; si no respon, revisa que Hyprpaper estigui actiu a la sessió.
 - Neovim: els paquets d'LSP i formatadors s'han d'instal·lar segons els plugins habilitats.
 

@@ -43,11 +43,14 @@ sudo pacman -S --needed \
 sudo pacman -S --needed obs-studio
 ```
 
-Activa els serveis de xarxa i Bluetooth una sola vegada:
+BlueZ (`bluez` i `bluez-utils`) proporciona el servei Bluetooth i `blueman` el gestor gràfic de dispositius. Si `systemctl` diu que `bluetooth.service` no existeix, instal·la aquests paquets i activa el servei:
 
 ```bash
+sudo pacman -S --needed bluez bluez-utils blueman
 sudo systemctl enable --now NetworkManager bluetooth
 ```
+
+El mòdul `BT` de Waybar obre `blueman-manager` en fer-hi clic: des d'allà pots cercar, aparellar, connectar i desconnectar dispositius. L'applet `blueman-applet` també s'inicia amb Hyprland i posa un menú Bluetooth a la safata de Waybar.
 
 PipeWire i WirePlumber normalment s'inicien automàticament. Si no hi ha àudio després d'entrar a la sessió, activa'ls com a usuari:
 
@@ -147,7 +150,9 @@ Si no vols aplicar una actualització, atura't després de `chezmoi diff`. `chez
 ## 8. Problemes habituals
 
 - **Waybar no apareix:** comprova si s'ha iniciat amb `pgrep -a waybar`, si és instal·lat amb `command -v waybar` i si existeixen els fitxers amb `ls -l ~/.config/waybar/config ~/.config/waybar/style.css`. Si el procés no hi és, executa `waybar --log-level debug --config ~/.config/waybar/config --style ~/.config/waybar/style.css` des d'un terminal per veure l'error d'arrencada. Després de corregir-lo, tanca la sessió Hyprland i torna-hi a entrar.
-- **Falta la icona de xarxa o Bluetooth:** comprova els serveis amb `systemctl status NetworkManager bluetooth`, els processos amb `pgrep -a nm-applet` i `pgrep -a blueman-applet`, i que Waybar tingui activat el mòdul `tray` amb `grep -n '"tray"' ~/.config/waybar/config`. La safata és necessària perquè les icones dels applets apareguin a la barra.
+- **Waybar mostra `BT no-controller` o Bluetooth no té controlador:** comprova `systemctl status bluetooth --no-pager`, `bluetoothctl list` i `rfkill list bluetooth`. Si la unitat no existeix, instal·la `bluez bluez-utils blueman` amb `sudo pacman -S --needed bluez bluez-utils blueman` i activa-la amb `sudo systemctl enable --now bluetooth`. Si `rfkill` mostra un bloqueig suau, executa `sudo rfkill unblock bluetooth`. Si `bluetoothctl list` continua buit, comprova que l'adaptador estigui activat a l'ordinador i que el nucli el detecti.
+- **El clic a `BT` no obre el gestor:** comprova `command -v blueman-manager` i prova `blueman-manager` des d'un terminal. El clic del mòdul Bluetooth executa aquesta ordre; el menú de la safata depèn del procés `blueman-applet`. Si falta, instal·la `blueman` i torna a entrar a Hyprland.
+- **Falta la icona de xarxa o Bluetooth a la safata:** comprova els serveis amb `systemctl status NetworkManager bluetooth`, els processos amb `pgrep -a nm-applet` i `pgrep -a blueman-applet`, i que Waybar tingui activat el mòdul `tray` amb `grep -n '"tray"' ~/.config/waybar/config`. La safata és necessària perquè les icones dels applets apareguin a la barra.
 - **Àudio no funciona:** comprova `wpctl status` i, si cal, activa les unitats PipeWire del pas 2.
 - **Hypridle no s'inicia:** comprova `pgrep -a hypridle` i revisa `~/.config/hypr/hypridle.conf`.
 - **Compartició de pantalla no mostra cap selector:** comprova `systemctl --user status xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk` i els registres amb `journalctl --user -b -u xdg-desktop-portal -u xdg-desktop-portal-hyprland -u xdg-desktop-portal-gtk`. Els portals s'activen sota demanda; no cal matar ni reiniciar manualment els backends.
