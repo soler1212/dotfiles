@@ -11,10 +11,10 @@ Les ordres del registre configuren `Europe/Madrid`, `en_US.UTF-8` com a idioma p
 Abans de seguir qualsevol pas de particionament o de Snapper, comprova el que hi ha realment muntat:
 
 ```bash
-findmnt -no SOURCE,FSTYPE,OPTIONS / /home /.snapshots /var/log /var/cache /boot
+findmnt --list --output TARGET,SOURCE,FSTYPE,OPTIONS
 ```
 
-No tornis a executar ordres de particionament o formatatge sobre aquesta instal·lació. Les dades del disc i els subvolums d'aquesta secció serveixen per identificar el sistema existent.
+Revisa en aquesta llista les entrades de `/`, `/home`, `/.snapshots`, `/var/log`, `/var/cache` i `/boot`; si algun camí no hi apareix, no és un punt de muntatge separat. No tornis a executar ordres de particionament o formatatge sobre aquesta instal·lació. Les dades del disc i els subvolums d'aquesta secció serveixen per identificar el sistema existent.
 
 ## Memòria, zram i snapshots
 
