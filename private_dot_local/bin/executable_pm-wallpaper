@@ -53,7 +53,12 @@ case "${1:-next}" in
   restore)
     [[ -f "$state_file" ]] || exit 0
     saved="$(<"$state_file")"
-    [[ -f "$saved" ]] || exit 0
+    if [[ -z "$saved" || ! -f "$saved" ]]; then
+      fallback="$wallpaper_dir/wallpaper.jpg"
+      [[ -f "$fallback" ]] || fallback="${wallpapers[0]}"
+      notify-send "Wallpaper" "El fons desat ja no existeix; recupero ${fallback##*/}." 2>/dev/null || true
+      saved="$fallback"
+    fi
     for _ in {1..40}; do
       if set_wallpaper "$saved" >/dev/null 2>&1; then exit 0; fi
       sleep 0.25
