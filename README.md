@@ -11,7 +11,7 @@ Repositori personal gestionat amb [chezmoi](https://www.chezmoi.io/), adaptat pe
 - Eines: `pm-moon`, `pm-power-menu` i `pm-wallpaper` a `~/.local/bin`.
 - Paquets, instal·lació inicial i mapa de dreceres: [guia Arch + Hyprland](docs/archlinux-hyprland.md).
 
-Neovim, Bash, Oh My Posh i WezTerm continuen al repositori, però `.chezmoiignore` els manté fora de l'aplicació automàtica mentre es migren i revisen per separat. `nvim-test` és una fixture i tampoc es desplega. Kitty continua sent el terminal de les dreceres.
+Neovim, Bash, Oh My Posh i WezTerm continuen al repositori, però `.chezmoiignore` els manté fora de l'aplicació automàtica mentre es migren i revisen per separat. El mateix fitxer exclou `README.md`, `docs/` i la fixture `nvim-test` perquè no es copiïn a la carpeta personal. Kitty continua sent el terminal de les dreceres.
 
 ## Instal·lació a l'Arch
 
