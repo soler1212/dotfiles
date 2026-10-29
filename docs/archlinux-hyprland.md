@@ -76,7 +76,7 @@ chezmoi diff
 
 ```bash
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
-  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
+  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
 ```
 
 La configuració d'escriptori Hyprland és l'única activa per defecte. `.chezmoiignore` també exclou `README.md`, `docs/`, `.bashrc`, Neovim, WezTerm, els temes d'Oh My Posh i `nvim-test` perquè no acabin a la carpeta personal en una aplicació general.
@@ -89,7 +89,7 @@ Abans d'aplicar, si ja tens personalitzacions als mateixos destins, revisa-les a
 chezmoi git pull -- --autostash --rebase origin archlinux
 chezmoi diff
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
-  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
+  ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
 ```
 
 `chezmoi update` aplica automàticament després de baixar els canvis; consulta el manual per revisar primer i aplicar només els camins d'escriptori.
@@ -139,7 +139,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Alt + W` | Canvia al següent wallpaper |
 | `Super + Alt + Shift + W` | Tria wallpaper amb Fuzzel |
 | `Print` | Captura de tots els monitors |
-| `Super + Print`, després `S/A/W/Shift+A` | Captura pantalla/àrea/finestra/àrea al porta-retalls; `Esc` o `Return` cancel·la el menú |
+| `Super + Print` | Obre un menú per capturar pantalla completa, una àrea, la finestra activa o copiar una àrea al porta-retalls; `Esc` cancel·la |
 | `Super + Shift + S` | Selecciona una àrea i la copia |
 | `Super + Shift + V` | Historial del porta-retalls |
 | Tecles multimèdia/volum/brillantor | `playerctl`, `wpctl`, `brightnessctl` |

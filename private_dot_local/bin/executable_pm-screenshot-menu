@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+screenshot_dir="$HOME/Pictures/Screenshots"
+timestamp="$(date +%Y-%m-%d-%H%M%S-%N)"
+file="$screenshot_dir/$timestamp.png"
+
+choice="$(printf '%s\n' \
+  "Pantalla completa" \
+  "Selecciona una àrea" \
+  "Finestra activa" \
+  "Àrea al porta-retalls" \
+  "Cancel·la" \
+  | fuzzel --dmenu --prompt='Captura > ' --lines=5 --width=36)" || exit 0
+
+save_capture() {
+  mkdir -p "$screenshot_dir"
+  grim "$@" "$file"
+  notify-send "Captura desada" "${file##*/}"
+}
+
+select_area() {
+  local geometry
+  geometry="$(slurp)" || return 1
+  printf '%s' "$geometry"
+}
+
+case "$choice" in
+  "Pantalla completa") save_capture ;;
+  "Selecciona una àrea")
+    geometry="$(select_area)" || exit 0
+    save_capture -g "$geometry"
+    ;;
+  "Finestra activa")
+    geometry="$(hyprctl activewindow -j | jq -er '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')" || {
+      notify-send "No s'ha pogut capturar" "No hi ha cap finestra activa."
+      exit 1
+    }
+    save_capture -g "$geometry"
+    ;;
+  "Àrea al porta-retalls")
+    geometry="$(select_area)" || exit 0
+    grim -g "$geometry" - | wl-copy
+    notify-send "Captura copiada" "L'àrea és al porta-retalls."
+    ;;
+  *) exit 0 ;;
+esac

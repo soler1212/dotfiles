@@ -221,25 +221,11 @@ bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"), "Stop playback")
 
 -- Screenshots run on demand; cliphist watchers start with the session below.
 bind("Print", hl.dsp.exec_cmd(screenshot_command("")), "Save full-screen screenshot")
-bind("SUPER + PRINT", hl.dsp.submap("screenshot"), "Screenshot menu")
+bind("SUPER + PRINT", hl.dsp.exec_cmd("$HOME/.local/bin/pm-screenshot-menu"), "Open screenshot menu")
 bind("SUPER + SHIFT + S", hl.dsp.exec_cmd([[bash -o pipefail -c 'grim -g "$(slurp)" - | wl-copy && notify-send "Àrea copiada al porta-retalls"']]), "Copy selected area")
 bind("SUPER + SHIFT + V", hl.dsp.exec_cmd('selection=$(cliphist list | fuzzel --dmenu) && [ -n "$selection" ] && printf "%s\\n" "$selection" | cliphist decode | wl-copy'), "Clipboard history")
 bind("SUPER + ALT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper next"), "Next wallpaper")
 bind("SUPER + ALT + SHIFT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper select"), "Select wallpaper")
-
-hl.define_submap("screenshot", function()
-  local function screenshot(command)
-    hl.dispatch(hl.dsp.exec_cmd(command))
-    hl.dispatch(hl.dsp.submap("reset"))
-  end
-  local active_window_geometry = [["$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')"]]
-  hl.bind("s", function() screenshot(screenshot_command("")) end)
-  hl.bind("a", function() screenshot(screenshot_command('-g "$(slurp)"')) end)
-  hl.bind("w", function() screenshot(screenshot_command("-g " .. active_window_geometry)) end)
-  hl.bind("SHIFT + A", function() screenshot([[bash -o pipefail -c 'grim -g "$(slurp)" - | wl-copy && notify-send "Àrea copiada al porta-retalls"']]) end)
-  hl.bind("Return", hl.dsp.submap("reset"))
-  hl.bind("Escape", hl.dsp.submap("reset"))
-end)
 
 -- Show a selectable menu instead of running power actions from a submap.
 -- Reboot and shutdown require a second confirmation; logout is not offered.
