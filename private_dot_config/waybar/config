@@ -10,7 +10,7 @@
   "hyprland/workspaces": {
     "format": "{name}",
     "on-click": "activate",
-    "sort-by-number": true,
+    "sort-by": "number",
     "all-outputs": true
   },
   "hyprland/submap": {
