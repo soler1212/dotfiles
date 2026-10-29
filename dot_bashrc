@@ -1,9 +1,64 @@
-# Minimal Arch Linux shell configuration managed by chezmoi.
+# Bash configuration for Arch Linux, managed by chezmoi.
 
 case $- in
   *i*) ;;
   *) return ;;
 esac
+
+# Keep useful command history across sessions and support partial history search
+# with the up/down arrow keys.
+HISTSIZE=100000
+HISTFILESIZE=200000
+HISTTIMEFORMAT="%F %T "
+HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+shopt -s histappend checkwinsize
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+bind 'set show-all-if-ambiguous on'
+
+# Load the standard completion and pager helpers when available.
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+  . /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+  . /etc/bash_completion
+fi
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Optional shell integrations. Each one is enabled only when installed.
+if command -v fzf >/dev/null 2>&1; then
+  eval "$(fzf --bash)"
+fi
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init bash --cmd cd)"
+fi
+
+# Restore development environments only when their user-level installs exist.
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+export WORKON_HOME="$HOME/.virtualenvs"
+export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
+for virtualenvwrapper_script in "$HOME/.local/bin/virtualenvwrapper.sh" /usr/bin/virtualenvwrapper.sh /usr/local/bin/virtualenvwrapper.sh; do
+  if [ -f "$virtualenvwrapper_script" ]; then
+    . "$virtualenvwrapper_script"
+    break
+  fi
+done
+
+# Prefer modern tools when present, and keep sensible system defaults otherwise.
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --icons --group-directories-first'
+else
+  alias ls='ls --color=auto'
+fi
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat'
+fi
+if command -v dircolors >/dev/null 2>&1; then
+  eval "$(dircolors -b)"
+  alias grep='grep --color=auto'
+fi
 
 # Update Arch packages and AUR packages (including Zen) when yay is installed.
 update() {

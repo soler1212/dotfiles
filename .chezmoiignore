@@ -7,7 +7,7 @@ README.md
 docs/
 docs/**
 
-# Bash has a minimal Arch-specific update command; keep the other non-desktop dotfiles inactive.
+# Bash has Arch-specific shell conveniences; keep other non-desktop dotfiles inactive.
 .poshthemes/
 .poshthemes/**
 .config/wezterm/

@@ -83,7 +83,7 @@ Revisa els canvis que chezmoi proposa:
 chezmoi diff
 ```
 
-La configuració deixa fora WezTerm i Oh My Posh. Neovim és opcional i s'instal·la a part seguint la [guia de Neovim](neovim.md). El `.bashrc` d'aquesta branca només afegeix l'ordre `update` per actualitzar Arch. Si ja tens fitxers propis als camins Hyprland, Waybar, Mako, Fuzzel o `.bashrc`, desa'n una còpia abans d'aplicar; el diff t'ensenyarà què es modificarà.
+La configuració deixa fora WezTerm i Oh My Posh. Neovim és opcional i s'instal·la a part seguint la [guia de Neovim](neovim.md). El `.bashrc` afegeix l'ordre `update`, cerca d'historial amb les fletxes i carrega les integracions FZF, Zoxide, Eza i Bat només si estan instal·lades. Si ja tens fitxers propis als camins Hyprland, Waybar, Mako, Fuzzel o `.bashrc`, desa'n una còpia abans d'aplicar; el diff t'ensenyarà què es modificarà.
 
 ## 4. Aplicar només la configuració de l'escriptori
 
@@ -94,7 +94,7 @@ chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
   ~/.bashrc ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-screenshot-menu ~/.local/bin/pm-wallpaper
 ```
 
-No facis un `chezmoi apply` sense camins durant la configuració inicial: aquesta branca manté la resta de dotfiles fora de l'aplicació per defecte i aquí volem activar l'escriptori i l'ordre mínima `update` de Bash.
+No facis un `chezmoi apply` sense camins durant la configuració inicial: aquesta branca manté la resta de dotfiles fora de l'aplicació per defecte i aquí volem activar l'escriptori i el `.bashrc` d'Arch.
 
 ## 5. Configurar la pantalla d'inici de sessió
 
