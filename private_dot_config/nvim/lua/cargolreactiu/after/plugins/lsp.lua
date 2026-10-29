@@ -140,10 +140,6 @@ for _, server in ipairs(mason_servers) do
   vim.lsp.enable(server)
 end
 
--- Installed outside Mason.
-vim.lsp.config('anakin_language_server', {}) -- Per python estic fent tests
-vim.lsp.enable('anakin_language_server')
-
 require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = mason_servers,

@@ -2,9 +2,10 @@
 
 Repositori personal gestionat amb [chezmoi](https://www.chezmoi.io/), adaptat perquè Arch Linux + Hyprland sigui l'entorn principal. La configuració anterior de Sway, AGS i swaylock s'ha retirat; les parts útils s'han traslladat a Hyprland, Waybar, Mako i eines natives de Wayland.
 
-<!-- Hyprland, Waybar, notification, wallpaper, and helper configuration tracked by chezmoi -->
+<!-- Hyprland, Waybar, launcher, notification, wallpaper, and helper configuration tracked by chezmoi -->
 
 - Hyprland: `private_dot_config/hypr/` (configuració Lua, Hyprlock, Hyprpaper i galeria de fons).
+- Fuzzel: launcher i menús d'energia/clipboard/fons amb colors Catppuccin.
 - Waybar: `private_dot_config/waybar/`, amb estil Catppuccin, fase lunar, MPRIS i safata.
 - Mako: notificacions amb estil Catppuccin.
 - Eines: `pm-moon`, `pm-power-menu` i `pm-wallpaper` a `~/.local/bin`.
@@ -30,7 +31,7 @@ chezmoi diff
 Aplica la configuració i els scripts d'escriptori:
 
 ```bash
-chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako \
+chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
   ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
 ```
 

@@ -9,7 +9,7 @@ Instal·la els components que cobreixen les dreceres, barra, bloqueig, notificac
 ```bash
 sudo pacman -S --needed \
   hyprland hyprpaper hyprlock hypridle hyprpolkitagent \
-  waybar mako fuzzel kitty firefox thunar \
+  waybar mako fuzzel kitty firefox thunar neovim git ripgrep fd nodejs npm \
   grim slurp wl-clipboard cliphist jq \
   pipewire pipewire-audio pipewire-alsa wireplumber pipewire-pulse \
   networkmanager network-manager-applet \
@@ -33,11 +33,10 @@ Si uses un gestor d'inici de sessió, tria la sessió Hyprland. Per una sessió 
 ### Components opcionals segons ús
 
 ```bash
-sudo pacman -S --needed neovim git ripgrep fd nodejs npm python-pipx \
-  bat fzf zoxide eza wezterm
+sudo pacman -S --needed bat fzf zoxide eza wezterm
 ```
 
-Aquests són per a l'entorn de terminal i Neovim; `wezterm` és opcional perquè les dreceres obren Kitty. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). Bash ara simplement n'omet la inicialització si no hi és. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
+Aquests paquets són eines de terminal opcionals; `wezterm` és opcional perquè les dreceres obren Kitty. `python-pipx` només cal si instal·les eines Python a nivell d'usuari. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). Bash n'omet la inicialització si no hi és. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
 
 ## Pantalla gràfica d'inici de sessió
 
@@ -63,7 +62,7 @@ chezmoi diff
 `chezmoi init` només prepara la font; el diff et deixa revisar els fitxers que s'escriuran. Després d'instal·lar els paquets requerits, aplica l'escriptori:
 
 ```bash
-chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako \
+chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
   ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
 ```
 

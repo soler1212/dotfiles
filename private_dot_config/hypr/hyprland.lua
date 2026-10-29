@@ -74,6 +74,7 @@ end
 
 hl.window_rule({ match = { modal = true }, float = true, center = true })
 hl.window_rule({ match = { class = "^(gnome-calculator|gnome-system-monitor|pavucontrol|nm-connection-editor|blueman-manager)$" }, float = true, center = true })
+hl.window_rule({ match = { title = "^(Open|Save) (File|Folder|As)( .*)?$" }, float = true, center = true, size = { 1030, 710 } })
 hl.window_rule({ match = { class = "^(pinentry|floating)$" }, float = true, center = true })
 hl.window_rule({ match = { class = "^firefox$", title = ".*Picture-in-Picture.*" }, float = true, pin = true })
 hl.window_rule({ match = { class = "^mpv$" }, float = true, pin = true, size = { 640, 360 }, center = true })

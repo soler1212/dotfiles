@@ -1,10 +1,14 @@
 # Neovim Configuration
 
 ## Dependencies
+
+<!-- Arch Linux packages required by the Neovim configuration -->
+
 ```bash
-neovim ripgrep fd nodejs npm
-# LSP servers installed via Mason
+sudo pacman -S --needed neovim git ripgrep fd nodejs npm python
 ```
+
+The configured language servers and Treesitter parsers install through Mason and the plugin manager. The experimental `anakin_language_server` entry was removed because this repository did not define or install that server.
 
 ## Plugin Manager
 - **Lazy.nvim** - Auto-installs on first run
