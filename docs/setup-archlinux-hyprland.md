@@ -133,8 +133,8 @@ Les dreceres d'ús habitual són `Super + D` per obrir Fuzzel, `Super + Return` 
 `chezmoi update` baixa canvis i els aplica immediatament per defecte ([manual oficial](https://www.chezmoi.io/reference/commands/update/)). Per revisar primer què ha canviat, actualitza només la font, inspecciona el diff i aplica després els mateixos camins explícits:
 
 ```bash
-chezmoi git -- status --short --branch
-chezmoi git -- pull --autostash --rebase origin archlinux
+chezmoi git status -- --short --branch
+chezmoi git pull -- --autostash --rebase origin archlinux
 chezmoi diff
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
   ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper

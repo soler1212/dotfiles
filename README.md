@@ -37,7 +37,7 @@ chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
 
 Després, tria Hyprland al gestor gràfic d'inici de sessió (la guia explica SDDM si encara no en tens cap) i entra. Waybar, Hypridle, notificacions, paper de paret, safates de xarxa/Bluetooth i historial del porta-retalls s'inicien amb la sessió. En suspendre, Hypridle bloqueja la pantalla abans que l'ordinador dormi. Els dimonis de PipeWire, NetworkManager i Bluetooth s'han d'activar com indica la guia.
 
-Si chezmoi mostra conflictes, no sobreescriguis cegament els teus fitxers locals: mira `chezmoi diff` i resol-los abans d'aplicar. Per actualitzar més endavant, baixa primer els canvis amb `chezmoi git -- pull --autostash --rebase origin archlinux`, revisa `chezmoi diff` i aplica només els camins d'escriptori amb l'ordre de dalt. `chezmoi update` aplica els canvis automàticament.
+Si chezmoi mostra conflictes, no sobreescriguis cegament els teus fitxers locals: mira `chezmoi diff` i resol-los abans d'aplicar. Per actualitzar més endavant, baixa primer els canvis amb `chezmoi git pull -- --autostash --rebase origin archlinux`, revisa `chezmoi diff` i aplica només els camins d'escriptori amb l'ordre de dalt. `chezmoi update` aplica els canvis automàticament.
 
 ## Dreceres noves d'escriptori
 

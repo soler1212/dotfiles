@@ -86,7 +86,7 @@ Tanca la sessió gràfica i entra a Hyprland perquè arrenquin els serveis d'usu
 Abans d'aplicar, si ja tens personalitzacions als mateixos destins, revisa-les amb `chezmoi diff` i fusiona-les. Per actualitzar i revisar els canvis abans d'aplicar-los:
 
 ```bash
-chezmoi git -- pull --autostash --rebase origin archlinux
+chezmoi git pull -- --autostash --rebase origin archlinux
 chezmoi diff
 chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
   ~/.local/bin/pm-moon ~/.local/bin/pm-power-menu ~/.local/bin/pm-wallpaper
