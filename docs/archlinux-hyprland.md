@@ -123,7 +123,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Shift + H/J/K/L` o fletxes | Mou la finestra |
 | `Super + R` | Mode resize; fletxes o HJKL, `Shift` per moviment fi, `Esc` o `Return` per sortir |
 | `Super + W` | Alterna grup de finestres (aproxima les pestanyes de Sway) |
-| `Super + B` / `Super + V` | Preselecciona direcció del següent split |
+| `Super + B` / `Super + V` | Preselecciona un split horitzontal / vertical a Dwindle; no fa res a Master |
 | `Super + E` | Alterna layouts Dwindle i Master |
 | `Super + 1..9/0` | Canvia als espais 1..10; també funciona amb teclat numèric |
 | `Super + Shift + 1..9/0` | Mou finestra a l'espai; també teclat numèric |

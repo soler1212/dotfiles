@@ -154,8 +154,14 @@ end)
 -- Layouts: Hyprland has no Sway stacking layout. Groups approximate tabbed
 -- containers; Dwindle split direction applies to the next window.
 bind("SUPER + W", hl.dsp.group.toggle(), "Toggle a window group")
-bind("SUPER + B", hl.dsp.layout("preselect r"), "Preselect a horizontal split")
-bind("SUPER + V", hl.dsp.layout("preselect b"), "Preselect a vertical split")
+local function preselect_split(direction)
+  local workspace = hl.get_active_workspace()
+  if workspace and workspace.tiled_layout == "dwindle" then
+    hl.dispatch(hl.dsp.layout("preselect " .. direction))
+  end
+end
+bind("SUPER + B", function() preselect_split("r") end, "Preselect a horizontal split")
+bind("SUPER + V", function() preselect_split("d") end, "Preselect a vertical split")
 
 local active_layout = "dwindle"
 bind("SUPER + E", function()
