@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+choose() {
+  local prompt="$1"
+  local lines="$2"
+  shift 2
+  printf '%s\n' "$@" | fuzzel --dmenu --prompt="$prompt" --lines="$lines" --width=32
+}
+
+confirm() {
+  local label="$1"
+  local answer
+  answer="$(choose "Confirma > " 2 "Cancel·la" "$label")" || return 1
+  [[ "$answer" == "$label" ]]
+}
+
+choice="$(choose "Energia > " 5 \
+  "Bloqueja la pantalla" \
+  "Suspèn" \
+  "Reinicia…" \
+  "Apaga l'ordinador…" \
+  "Cancel·la")" || exit 0
+
+case "$choice" in
+  "Bloqueja la pantalla") exec hyprlock ;;
+  "Suspèn") exec systemctl suspend ;;
+  "Reinicia…")
+    confirm "Sí, reinicia" && exec systemctl reboot
+    ;;
+  "Apaga l'ordinador…")
+    confirm "Sí, apaga l'ordinador" && exec systemctl poweroff
+    ;;
+  *) exit 0 ;;
+esac

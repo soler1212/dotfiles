@@ -204,26 +204,9 @@ hl.define_submap("screenshot", function()
   hl.bind("Escape", hl.dsp.submap("reset"))
 end)
 
--- The lock action is intentionally available only inside the power submap,
--- matching the original Sway flow: SUPER + SHIFT + E, then L.
--- hibernate requires a separately configured Arch hibernation target.
-bind("SUPER + SHIFT + E", hl.dsp.submap("power"), "Power menu")
-hl.define_submap("power", function()
-  local function power_action(command)
-    return function()
-      hl.dispatch(hl.dsp.submap("reset"))
-      hl.dispatch(hl.dsp.exec_cmd(command))
-    end
-  end
-
-  hl.bind("l", power_action("hyprlock"))
-  hl.bind("s", power_action("systemctl suspend"))
-  hl.bind("h", power_action("systemctl hibernate"))
-  hl.bind("r", power_action("systemctl reboot"))
-  hl.bind("SHIFT + S", power_action("systemctl poweroff"))
-  hl.bind("Return", hl.dsp.submap("reset"))
-  hl.bind("Escape", hl.dsp.submap("reset"))
-end)
+-- Show a selectable menu instead of running power actions from a submap.
+-- Reboot and shutdown require a second confirmation; logout is not offered.
+bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("$HOME/.local/bin/pm-power-menu"), "Open power menu")
 
 -- This opt-in is intentionally off. PipeWire, NetworkManager and portals are
 -- managed by systemd/D-Bus on Arch; do not launch duplicate instances here.
