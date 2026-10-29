@@ -26,10 +26,12 @@ case "$choice" in
   "Bloqueja la pantalla") exec hyprlock ;;
   "Suspèn") exec systemctl suspend ;;
   "Reinicia…")
-    confirm "Sí, reinicia" && exec systemctl reboot
+    if ! confirm "Sí, reinicia"; then exit 0; fi
+    exec systemctl reboot
     ;;
   "Apaga l'ordinador…")
-    confirm "Sí, apaga l'ordinador" && exec systemctl poweroff
+    if ! confirm "Sí, apaga l'ordinador"; then exit 0; fi
+    exec systemctl poweroff
     ;;
   *) exit 0 ;;
 esac
