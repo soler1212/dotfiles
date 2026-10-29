@@ -10,7 +10,7 @@ Instal·la els components que cobreixen les dreceres, barra, bloqueig, notificac
 sudo pacman -S --needed \
   hyprland xorg-xwayland hyprpaper hyprlock hypridle polkit hyprpolkitagent \
   waybar mako fuzzel kitty firefox thunar thunar-volman gvfs tumbler \
-  udisks2 udiskie neovim git ripgrep fd nodejs npm \
+  udisks2 udiskie xdg-user-dirs neovim git ripgrep fd nodejs npm \
   grim slurp wl-clipboard cliphist jq \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
   networkmanager network-manager-applet nm-connection-editor \
@@ -38,10 +38,12 @@ Si uses un gestor d'inici de sessió, tria la sessió Hyprland. Per iniciar-la d
 ### Components opcionals segons ús
 
 ```bash
-sudo pacman -S --needed bat fzf zoxide eza wezterm obs-studio
+sudo pacman -S --needed \
+  base-devel curl wget htop fastfetch pciutils \
+  qt5-wayland qt6-wayland bat fzf zoxide eza wezterm obs-studio
 ```
 
-Aquests paquets són opcionals: `bat`, `fzf`, `zoxide` i `eza` són eines de terminal; `wezterm` és opcional perquè les dreceres obren Kitty; `obs-studio` només cal si vols enregistrar o transmetre pantalla. `python-pipx` només cal si instal·les eines Python a nivell d'usuari. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). Bash n'omet la inicialització si no hi és. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
+Aquests paquets són opcionals: `base-devel`, `curl`, `wget`, `htop`, `fastfetch` i `pciutils` són eines de construcció i diagnòstic; `qt5-wayland` i `qt6-wayland` són per a aplicacions Qt; `bat`, `fzf`, `zoxide` i `eza` són eines de terminal; `wezterm` és opcional perquè les dreceres obren Kitty; `obs-studio` només cal si vols enregistrar o transmetre pantalla. `python-pipx` només cal si instal·les eines Python a nivell d'usuari. Oh My Posh, NVM i virtualenvwrapper són components separats; instal·la'ls només si els fas servir. Oh My Posh es pot instal·lar amb `curl -s https://ohmyposh.dev/install.sh | bash -s` (guia oficial: https://ohmyposh.dev/docs/installation/linux). Bash n'omet la inicialització si no hi és. Instal·la també els LSP, formatadors i eines de desenvolupament que els plugins de Neovim demanin.
 
 ## Pantalla gràfica d'inici de sessió
 

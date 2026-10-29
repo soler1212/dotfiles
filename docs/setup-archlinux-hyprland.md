@@ -23,7 +23,7 @@ sudo pacman -S --needed \
   chezmoi git \
   hyprland xorg-xwayland hyprpaper hyprlock hypridle polkit hyprpolkitagent \
   waybar mako fuzzel kitty firefox thunar thunar-volman gvfs tumbler \
-  udisks2 udiskie neovim ripgrep fd nodejs npm \
+  udisks2 udiskie xdg-user-dirs neovim ripgrep fd nodejs npm \
   grim slurp wl-clipboard cliphist jq \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
   networkmanager network-manager-applet nm-connection-editor \
