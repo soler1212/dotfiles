@@ -1,5 +1,6 @@
 # Test fixtures stay in the repository and are not copied into the home directory.
 nvim-test
+nvim-test/**
 
 # Repository documentation belongs in the source repository, not in the home directory.
 README.md
@@ -8,6 +9,9 @@ docs/**
 
 # Keep non-desktop dotfiles inactive until they are explicitly migrated to Arch.
 .bashrc
+.poshthemes/
 .poshthemes/**
+.config/nvim/
 .config/nvim/**
+.config/wezterm/
 .config/wezterm/**
