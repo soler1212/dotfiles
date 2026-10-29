@@ -154,6 +154,8 @@ end)
 -- Layouts: Hyprland has no Sway stacking layout. Groups approximate tabbed
 -- containers; Dwindle split direction applies to the next window.
 bind("SUPER + W", hl.dsp.group.toggle(), "Toggle a window group")
+bind("SUPER + ALT + TAB", hl.dsp.group.next(), "Focus next window in group")
+bind("SUPER + ALT + SHIFT + TAB", hl.dsp.group.prev(), "Focus previous window in group")
 for key, direction in pairs({ H = "l", J = "d", K = "u", L = "r", left = "l", down = "d", up = "u", right = "r" }) do
   bind("SUPER + CTRL + " .. key, hl.dsp.window.move({ into_or_create_group = direction }), "Move window into or create group " .. direction)
 end

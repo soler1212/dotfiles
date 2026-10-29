@@ -123,6 +123,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Shift + H/J/K/L` o fletxes | Mou la finestra |
 | `Super + R` | Mode resize; fletxes o HJKL, `Shift` per moviment fi, `Esc` o `Return` per sortir |
 | `Super + W` | Alterna si la finestra focalitzada forma un grup |
+| `Super + Alt + Tab` / `Super + Alt + Shift + Tab` | Pestanya següent/anterior del grup |
 | `Super + Ctrl + H/J/K/L` o fletxes | Afegeix la finestra al grup adjacent en aquella direcció o crea el grup |
 | `Super + Ctrl + Shift + W` | Treu la finestra focalitzada del grup |
 | `Super + B` / `Super + V` | Preselecciona un split horitzontal / vertical a Dwindle; no fa res a Master |
