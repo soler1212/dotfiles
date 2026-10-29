@@ -145,7 +145,7 @@ Si no vols aplicar una actualització, atura't després de `chezmoi diff`. `chez
 ## 8. Problemes habituals
 
 - **Waybar no apareix:** comprova si s'ha iniciat amb `pgrep -a waybar`, si és instal·lat amb `command -v waybar` i si existeixen els fitxers amb `ls -l ~/.config/waybar/config ~/.config/waybar/style.css`. Si el procés no hi és, executa `waybar --log-level debug --config ~/.config/waybar/config --style ~/.config/waybar/style.css` des d'un terminal per veure l'error d'arrencada. Després de corregir-lo, tanca la sessió Hyprland i torna-hi a entrar.
-- **Xarxa o Bluetooth no funcionen:** comprova `systemctl status NetworkManager bluetooth`.
+- **Falta la icona de xarxa o Bluetooth:** comprova els serveis amb `systemctl status NetworkManager bluetooth`, els processos amb `pgrep -a nm-applet` i `pgrep -a blueman-applet`, i que Waybar tingui activat el mòdul `tray` amb `grep -n '"tray"' ~/.config/waybar/config`. La safata és necessària perquè les icones dels applets apareguin a la barra.
 - **Àudio no funciona:** comprova `wpctl status` i, si cal, activa les unitats PipeWire del pas 2.
 - **Hypridle no s'inicia:** comprova `pgrep -a hypridle` i revisa `~/.config/hypr/hypridle.conf`.
 - **Compartició de pantalla no mostra cap selector:** comprova `systemctl --user status xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk` i els registres amb `journalctl --user -b -u xdg-desktop-portal -u xdg-desktop-portal-hyprland -u xdg-desktop-portal-gtk`. Els portals s'activen sota demanda; no cal matar ni reiniciar manualment els backends.
