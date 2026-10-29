@@ -212,7 +212,7 @@ bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"), "Stop playback")
 -- Screenshots run on demand; cliphist watchers start with the session below.
 bind("Print", hl.dsp.exec_cmd(screenshot_command("")), "Save full-screen screenshot")
 bind("SUPER + PRINT", hl.dsp.submap("screenshot"), "Screenshot menu")
-bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"), "Copy selected area")
+bind("SUPER + SHIFT + S", hl.dsp.exec_cmd([[bash -o pipefail -c 'grim -g "$(slurp)" - | wl-copy && notify-send "Àrea copiada al porta-retalls"']]), "Copy selected area")
 bind("SUPER + SHIFT + V", hl.dsp.exec_cmd('selection=$(cliphist list | fuzzel --dmenu) && [ -n "$selection" ] && printf "%s\\n" "$selection" | cliphist decode | wl-copy'), "Clipboard history")
 bind("SUPER + ALT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper next"), "Next wallpaper")
 bind("SUPER + ALT + SHIFT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper select"), "Select wallpaper")
