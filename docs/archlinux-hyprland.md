@@ -121,14 +121,14 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Shift + N` | Activa/desactiva el mode No molestar de Mako; Waybar mostra `DND` quan és actiu i també permet alternar-lo amb clic |
 | `Super + H/J/K/L` o fletxes | Mou el focus |
 | `Super + Shift + H/J/K/L` o fletxes | Mou la finestra |
-| `Super + R` | Mode resize; fletxes o HJKL, `Shift` per moviment fi, `Esc` per sortir |
+| `Super + R` | Mode resize; fletxes o HJKL, `Shift` per moviment fi, `Esc` o `Return` per sortir |
 | `Super + W` | Alterna grup de finestres (aproxima les pestanyes de Sway) |
 | `Super + B` / `Super + V` | Preselecciona direcció del següent split |
 | `Super + E` | Alterna layouts Dwindle i Master |
 | `Super + 1..9/0` | Canvia als espais 1..10; també funciona amb teclat numèric |
 | `Super + Shift + 1..9/0` | Mou finestra a l'espai; també teclat numèric |
 | `Super + Ctrl + 1..9/0` | Mou finestra i segueix l'espai; també teclat numèric |
-| `Super + Tab` / `Super + Shift + Tab` | Espai següent/anterior |
+| `Super + Tab` / `Super + Shift + Tab` / `Super + ]` / `Super + [` | Espai següent/anterior |
 | `Super + M` / `Super + Shift + M` | Espai anterior / mou-hi la finestra |
 | `Super + Ctrl + Shift + fletxa` | Mou l'espai actual al monitor en aquella direcció |
 | `Super + Shift + F7` / `Super + Shift + F8` | Mou l'espai actual al monitor de l'esquerra / dreta |
@@ -137,7 +137,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Alt + W` | Canvia al següent wallpaper |
 | `Super + Alt + Shift + W` | Tria wallpaper amb Fuzzel |
 | `Print` | Captura de tots els monitors |
-| `Super + Print`, després `S/A/W/Shift+A` | Captura pantalla/àrea/finestra/àrea al porta-retalls |
+| `Super + Print`, després `S/A/W/Shift+A` | Captura pantalla/àrea/finestra/àrea al porta-retalls; `Esc` o `Return` cancel·la el menú |
 | `Super + Shift + S` | Selecciona una àrea i la copia |
 | `Super + Shift + V` | Historial del porta-retalls |
 | Tecles multimèdia/volum/brillantor | `playerctl`, `wpctl`, `brightnessctl` |
