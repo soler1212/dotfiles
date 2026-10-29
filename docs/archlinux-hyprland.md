@@ -122,7 +122,7 @@ Dwindle/Master i els grups Hyprland no són idèntics als modes tabbed/stacking 
 - El panell lunar continua a Waybar; consulta wttr.in, cacheja la resposta una hora i mostra la informació al tooltip.
 - El control MPRIS és a Waybar i permet play/pause, anterior i següent amb clics. El gran giny AGS amb caràtula no s'ha traslladat perquè Waybar ja resol els controls diaris.
 - Els controls d'àudio es fan amb les tecles multimèdia i el clic a `Audio` obre `pavucontrol`.
-- La xarxa i el Bluetooth es gestionen amb icones de Waybar i els applets de NetworkManager/Blueman. La finestra de connexions del sistema substitueix la llista AP/IP personalitzada d'AGS.
+- La xarxa i el Bluetooth es gestionen des de Waybar i els applets de NetworkManager/Blueman. Waybar mostra SSID, intensitat i IP; el clic obre l'editor de connexions o el gestor Bluetooth, i el menú de l'applet de xarxa conserva la selecció de punts d'accés.
 - El selector de wallpaper és Fuzzel + Hyprpaper i conserva l'últim fons a `~/.local/state/pm-dotfiles/`.
 - El tema s'ha fixat en Catppuccin a Waybar/Mako i Adwaita-dark + Papirus a GTK; s'ha eliminat el selector de temes d'AGS.
 - Sway, AGS, swaylock, scripts amb `swaymsg`, perfils de monitors no portables i restes Nix s'han tret. Les imatges de fons s'han mogut a Hyprland.

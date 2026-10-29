@@ -63,10 +63,13 @@
   },
   "network": {
     "interval": 5,
-    "format-wifi": "Wi-Fi {signalStrength}%",
+    "format-wifi": "Wi-Fi {essid} {signalStrength}%",
     "format-ethernet": "LAN {ipaddr}",
     "format-disconnected": "Offline",
-    "tooltip-format": "{ifname}: {ipaddr}/{cidr}"
+    "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+    "tooltip-format-wifi": "{essid} · {signalStrength}%\n{ipaddr}/{cidr} · Gateway {gwaddr}",
+    "on-click": "nm-connection-editor",
+    "max-length": 28
   },
   "pulseaudio": {
     "scroll-step": 1,
@@ -78,7 +81,10 @@
     "format": "BT {status}",
     "format-connected": "BT {num_connections}",
     "format-disabled": "",
-    "tooltip-format": "{device_alias}"
+    "tooltip-format": "{controller_alias}",
+    "tooltip-format-connected": "{controller_alias}\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "on-click": "blueman-manager"
   },
   "battery": {
     "states": { "warning": 30, "critical": 15 },
