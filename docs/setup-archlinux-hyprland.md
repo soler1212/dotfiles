@@ -31,10 +31,11 @@ sudo pacman -S --needed \
   pavucontrol playerctl brightnessctl \
   xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
   gsettings-desktop-schemas adwaita-gtk-theme adwaita-cursors papirus-icon-theme \
-  python glib2 libnotify noto-fonts ttf-jetbrains-mono ttf-nerd-fonts-symbols
+  python glib2 libnotify noto-fonts noto-fonts-emoji \
+  ttf-jetbrains-mono ttf-nerd-fonts-symbols
 ```
 
-`xorg-xwayland` és per a les aplicacions gràfiques que encara necessiten X11. `obs-studio` és opcional i només cal si vols enregistrar o transmetre pantalla:
+`xorg-xwayland` és per a les aplicacions gràfiques que encara necessiten X11. `noto-fonts-emoji` proporciona les icones emoji que mostra el mòdul lunar de Waybar. `obs-studio` és opcional i només cal si vols enregistrar o transmetre pantalla:
 
 ```bash
 sudo pacman -S --needed obs-studio

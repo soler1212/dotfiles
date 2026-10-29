@@ -18,7 +18,8 @@ sudo pacman -S --needed \
   pavucontrol playerctl brightnessctl \
   xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
   gsettings-desktop-schemas adwaita-gtk-theme adwaita-cursors papirus-icon-theme \
-  python glib2 libnotify noto-fonts ttf-jetbrains-mono ttf-nerd-fonts-symbols
+  python glib2 libnotify noto-fonts noto-fonts-emoji \
+  ttf-jetbrains-mono ttf-nerd-fonts-symbols
 ```
 
 Per posar en marxa xarxa i Bluetooth una sola vegada:
@@ -32,6 +33,7 @@ Activa les unitats d'àudio d'usuari si no arrenquen automàticament: `systemctl
 Si uses un gestor d'inici de sessió, tria la sessió Hyprland. Per iniciar-la des d'un TTY, executa `start-hyprland` després d'entrar; és el wrapper recomanat, amb recuperació d'errors i mode segur. La configuració utilitza Hyprland 0.55+ perquè està escrita amb la seva API Lua nativa. Si el paquet estable de la teva màquina encara és anterior, actualitza Arch abans d'aplicar-la.
 
 `xorg-xwayland` permet executar aplicacions gràfiques antigues que encara necessiten X11 dins la sessió Wayland.
+`noto-fonts-emoji` proporciona les icones emoji que mostra el mòdul lunar de Waybar.
 
 ### Components opcionals segons ús
 
