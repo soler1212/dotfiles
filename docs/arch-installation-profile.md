@@ -46,7 +46,7 @@ El registre marca Hyprland, Kitty i NetworkManager com a instal·lats; altres pa
 pacman -Q hyprland kitty networkmanager waybar mako fuzzel thunar \
   gvfs tumbler thunar-volman udisks2 udiskie hyprpaper hyprlock hypridle \
   xdg-user-dirs xdg-desktop-portal-hyprland pipewire wireplumber pipewire-jack \
-  noto-fonts-emoji qt5-wayland qt6-wayland zram-generator \
+  noto-fonts-emoji qt5-wayland qt6-wayland dconf zram-generator \
   polkit-kde-agent hyprpolkitagent snapper
 ```
 

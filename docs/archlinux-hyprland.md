@@ -17,7 +17,7 @@ sudo pacman -S --needed \
   bluez bluez-utils blueman \
   pavucontrol playerctl brightnessctl \
   xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
-  gsettings-desktop-schemas adwaita-gtk-theme adwaita-cursors papirus-icon-theme \
+  dconf gsettings-desktop-schemas adwaita-gtk-theme adwaita-cursors papirus-icon-theme \
   python glib2 libnotify noto-fonts noto-fonts-emoji \
   ttf-jetbrains-mono ttf-nerd-fonts-symbols
 ```
@@ -34,6 +34,7 @@ Si uses un gestor d'inici de sessió, tria la sessió Hyprland. Per iniciar-la d
 
 `xorg-xwayland` permet executar aplicacions gràfiques antigues que encara necessiten X11 dins la sessió Wayland.
 `noto-fonts-emoji` proporciona les icones emoji que mostra el mòdul lunar de Waybar.
+`dconf` permet que les preferències GTK establertes amb `gsettings` es desin entre sessions.
 
 ### Components opcionals segons ús
 

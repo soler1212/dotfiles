@@ -30,7 +30,7 @@ sudo pacman -S --needed \
   bluez bluez-utils blueman \
   pavucontrol playerctl brightnessctl \
   xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
-  gsettings-desktop-schemas adwaita-gtk-theme adwaita-cursors papirus-icon-theme \
+  dconf gsettings-desktop-schemas adwaita-gtk-theme adwaita-cursors papirus-icon-theme \
   python glib2 libnotify noto-fonts noto-fonts-emoji \
   ttf-jetbrains-mono ttf-nerd-fonts-symbols
 ```
