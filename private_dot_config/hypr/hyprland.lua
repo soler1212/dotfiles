@@ -99,7 +99,7 @@ end
 bind("SUPER + Return", hl.dsp.exec_cmd(terminal), "Terminal")
 bind("SUPER + SHIFT + Return", hl.dsp.exec_cmd(terminal .. " --class floating", { float = true, center = true }), "Floating terminal")
 bind("SUPER + D", hl.dsp.exec_cmd(launcher), "Application launcher")
-bind("SUPER + SHIFT + D", hl.dsp.exec_cmd(launcher), "Application launcher")
+bind("SUPER + SHIFT + D", hl.dsp.exec_cmd(launcher .. " --show-actions"), "Application launcher with desktop actions")
 bind("SUPER + SHIFT + B", hl.dsp.exec_cmd(browser), "Browser")
 bind("SUPER + SHIFT + F", hl.dsp.exec_cmd(file_manager), "File manager")
 bind("SUPER + SHIFT + Q", hl.dsp.window.close(), "Close focused window")

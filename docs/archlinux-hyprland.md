@@ -92,7 +92,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | --- | --- |
 | `Super + Return` | Kitty |
 | `Super + D` | Launcher Fuzzel |
-| `Super + Shift + D` | Launcher Fuzzel (drecera alternativa conservada) |
+| `Super + Shift + D` | Fuzzel amb accions addicionals de les aplicacions, com ara obrir una finestra nova |
 | `Super + Shift + Return` | Obre Kitty com a finestra flotant centrada |
 | `Super + Shift + B` | Firefox |
 | `Super + Shift + F` | Thunar |
