@@ -8,7 +8,7 @@ Instal·la els components que cobreixen les dreceres, barra, bloqueig, notificac
 
 ```bash
 sudo pacman -S --needed \
-  hyprland hyprpaper hyprlock hypridle polkit hyprpolkitagent \
+  hyprland xorg-xwayland hyprpaper hyprlock hypridle polkit hyprpolkitagent \
   waybar mako fuzzel kitty firefox thunar neovim git ripgrep fd nodejs npm \
   grim slurp wl-clipboard cliphist jq \
   pipewire pipewire-audio pipewire-alsa wireplumber pipewire-pulse \
@@ -29,6 +29,8 @@ sudo systemctl enable --now NetworkManager bluetooth
 Activa les unitats d'àudio d'usuari si no arrenquen automàticament: `systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service`. Els portals s'activen via D-Bus; no cal cap script que els mati o reiniciï.
 
 Si uses un gestor d'inici de sessió, tria la sessió Hyprland. Per iniciar-la des d'un TTY, executa `start-hyprland` després d'entrar; és el wrapper recomanat, amb recuperació d'errors i mode segur. La configuració utilitza Hyprland 0.55+ perquè està escrita amb la seva API Lua nativa. Si el paquet estable de la teva màquina encara és anterior, actualitza Arch abans d'aplicar-la.
+
+`xorg-xwayland` permet executar aplicacions gràfiques antigues que encara necessiten X11 dins la sessió Wayland.
 
 ### Components opcionals segons ús
 
