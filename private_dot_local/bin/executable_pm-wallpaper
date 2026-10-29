@@ -55,7 +55,7 @@ case "${1:-next}" in
     saved="$(<"$state_file")"
     [[ -f "$saved" ]] || exit 0
     for _ in {1..40}; do
-      if hyprctl hyprpaper listactive >/dev/null 2>&1 && set_wallpaper "$saved" >/dev/null 2>&1; then exit 0; fi
+      if set_wallpaper "$saved" >/dev/null 2>&1; then exit 0; fi
       sleep 0.25
     done
     exit 1
