@@ -1,8 +1,7 @@
--- Nvim Treesitter (Rama master - Congelada para Neovim 0.11.x)
+-- Current nvim-treesitter API for Neovim 0.12+.
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "master",
-  commit = "cf12346a", -- Commit estable documentat
+  branch = "main",
   build = ":TSUpdate",
   lazy = false,
   config = function()

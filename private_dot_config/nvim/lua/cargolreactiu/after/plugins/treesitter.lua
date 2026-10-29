@@ -1,58 +1,32 @@
--- Configuración estable de nvim-treesitter (Vanilla Style)
--- Totalment optimitzat per a Neovim 0.11.x
+local parsers = {
+  "javascript",
+  "typescript",
+  "python",
+  "lua",
+  "vim",
+  "vimdoc",
+  "query",
+  "markdown",
+  "markdown_inline",
+}
 
-require('nvim-treesitter.configs').setup({
-  -- Parsers que volem assegurar-nos que estiguin instal·lats
-  ensure_installed = {
-    "javascript",
-    "typescript",
-    "python",
-    "lua",
-    "vim",
-    "vimdoc",
-    "query",
-    "markdown",
-    "markdown_inline"
-  },
+require("nvim-treesitter").setup({})
+require("nvim-treesitter").install(parsers)
 
-  -- Instal·lació automàtica silenciosa
-  auto_install = true,
-
-  -- Resaltat natiu (Estable en 0.11)
-  highlight = {
-    enable = true,
-    -- Desactivem resaltat Regex addicional per a velocitat
-    additional_vim_regex_highlighting = false,
-    -- Protecció per a fitxers grans
-    disable = function(lang, buf)
-      local max_filesize = vim.g.big_file.size or (100 * 1024) -- 100 KB
-      local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
-      if ok and stats and stats.size > max_filesize then
-        return true
-      end
-    end,
-  },
-
-  -- Indentació intel·ligent
-  indent = {
-    enable = true,
-  },
-})
-
--- [[ Funcionalitats Natives (Optimitzades) ]]
-
--- Plegat (Folding) amb Treesitter per a la v0.11
+-- Use native Treesitter highlighting and folding when a parser is installed.
 vim.api.nvim_create_autocmd('FileType', {
-  desc = 'Activar plegat per Treesitter (v0.11)',
+  desc = 'Start Treesitter for supported filetypes',
   callback = function(args)
-    -- Si el fitxer és gran, no activem plegats pesats
     local max_filesize = vim.g.big_file.size or (100 * 1024)
     local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(args.buf))
-    if ok and stats and stats.size > max_filesize then return end
+    if ok and stats and stats.size > max_filesize then
+      return
+    end
 
-    if pcall(vim.treesitter.get_parser, args.buf) then
+    if pcall(vim.treesitter.start, args.buf) then
       vim.wo.foldmethod = 'expr'
       vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end
   end,
 })

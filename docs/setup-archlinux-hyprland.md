@@ -83,7 +83,7 @@ Revisa els canvis que chezmoi proposa:
 chezmoi diff
 ```
 
-La configuració deixa fora Neovim, WezTerm i Oh My Posh. El `.bashrc` d'aquesta branca només afegeix l'ordre `update` per actualitzar Arch. Si ja tens fitxers propis als camins Hyprland, Waybar, Mako, Fuzzel o `.bashrc`, desa'n una còpia abans d'aplicar; el diff t'ensenyarà què es modificarà.
+La configuració deixa fora WezTerm i Oh My Posh. Neovim és opcional i s'instal·la a part seguint la [guia de Neovim](neovim.md). El `.bashrc` d'aquesta branca només afegeix l'ordre `update` per actualitzar Arch. Si ja tens fitxers propis als camins Hyprland, Waybar, Mako, Fuzzel o `.bashrc`, desa'n una còpia abans d'aplicar; el diff t'ensenyarà què es modificarà.
 
 ## 4. Aplicar només la configuració de l'escriptori
 

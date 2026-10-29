@@ -2,16 +2,17 @@
 
 Repositori personal gestionat amb [chezmoi](https://www.chezmoi.io/), adaptat perquè Arch Linux + Hyprland sigui l'entorn principal. La configuració anterior de Sway, AGS i swaylock s'ha retirat; les parts útils s'han traslladat a Hyprland, Waybar, Mako i eines natives de Wayland.
 
-<!-- Hyprland, Waybar, launcher, notification, wallpaper, and helper configuration tracked by chezmoi -->
+<!-- Hyprland, Waybar, Neovim, launcher, notification, wallpaper, and helper configuration tracked by chezmoi -->
 
 - Hyprland: `private_dot_config/hypr/` (configuració Lua, Hyprlock, Hyprpaper i galeria de fons).
 - Fuzzel: launcher i menús d'energia/clipboard/fons amb colors Catppuccin.
 - Waybar: `private_dot_config/waybar/`, amb estil Catppuccin, fase lunar, MPRIS i safata.
 - Mako: notificacions amb estil Catppuccin.
+- Neovim: configuració Lua i plugins; consulta la [guia per instal·lar-la](docs/neovim.md).
 - Eines: `pm-moon`, `pm-power-menu`, `pm-screenshot-menu` i `pm-wallpaper` a `~/.local/bin`.
 - Paquets, instal·lació inicial i mapa de dreceres: [guia Arch + Hyprland](docs/archlinux-hyprland.md).
 
-Neovim, Oh My Posh i WezTerm continuen al repositori però `.chezmoiignore` els manté fora de l'aplicació. Bash té una configuració mínima per Arch amb l'ordre `update`, que actualitza els paquets oficials i els de l'AUR amb `yay` (o només els oficials amb `pacman` si `yay` no està instal·lat). El mateix fitxer exclou `README.md`, `docs/` i la fixture `nvim-test` perquè no es copiïn a la carpeta personal. Kitty continua sent el terminal de les dreceres.
+Neovim també està gestionat per chezmoi; consulta la [guia d'instal·lació de Neovim](docs/neovim.md) per instal·lar les seves dependències i aplicar-lo. Oh My Posh i WezTerm continuen exclosos de l'aplicació. Bash té una configuració mínima per Arch amb l'ordre `update`, que actualitza els paquets oficials i els de l'AUR amb `yay` (o només els oficials amb `pacman` si `yay` no està instal·lat). `.chezmoiignore` exclou `README.md`, `docs/` i la fixture `nvim-test` perquè no es copiïn a la carpeta personal. Kitty continua sent el terminal de les dreceres.
 
 ## Instal·lació a l'Arch
 
