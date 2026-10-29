@@ -12,7 +12,7 @@ sudo pacman -S --needed \
   waybar mako fuzzel kitty firefox thunar neovim git ripgrep fd nodejs npm \
   grim slurp wl-clipboard cliphist jq \
   pipewire pipewire-audio pipewire-alsa wireplumber pipewire-pulse \
-  networkmanager network-manager-applet \
+  networkmanager network-manager-applet nm-connection-editor \
   bluez bluez-utils blueman \
   pavucontrol playerctl brightnessctl \
   xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk \
