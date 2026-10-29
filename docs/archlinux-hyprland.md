@@ -127,6 +127,7 @@ Les dreceres Sway `Super + A` / `Super + Shift + A` per enfocar el pare/fill de 
 - Els controls d'àudio es fan amb les tecles multimèdia i el clic a `Audio` obre `pavucontrol`.
 - La xarxa i el Bluetooth es gestionen des de Waybar i els applets de NetworkManager/Blueman. Waybar mostra SSID, intensitat i IP; el clic obre l'editor de connexions o el gestor Bluetooth, i el menú de l'applet de xarxa conserva la selecció de punts d'accés.
 - El selector de wallpaper és Fuzzel + Hyprpaper i conserva l'últim fons a `~/.local/state/pm-dotfiles/`.
+- Les videotrucades i les aplicacions de captura comparteixen pantalla a través de PipeWire i `xdg-desktop-portal-hyprland`; el portal GTK cobreix altres diàlegs com el selector de fitxers.
 - El tema s'ha fixat en Catppuccin a Waybar/Mako i Adwaita-dark + Papirus a GTK; s'ha eliminat el selector de temes d'AGS.
 - Sway, AGS, swaylock, scripts amb `swaymsg`, perfils de monitors no portables i restes Nix s'han tret. Les imatges de fons s'han mogut a Hyprland.
 - `nvim-test` és una fixture de proves de Neovim i queda exclosa del desplegament de chezmoi.
@@ -136,7 +137,10 @@ Les dreceres Sway `Super + A` / `Super + Shift + A` per enfocar el pare/fill de 
 - Errors de config: `hyprctl configerrors`.
 - Sortides de pantalla: `hyprctl monitors all`.
 - Barra: comprova que `waybar` i `ttf-jetbrains-mono` estiguin instal·lats i reinicia la sessió Hyprland després d'aplicar.
-- Captura/compartició: comprova `xdg-desktop-portal-hyprland` i `xdg-desktop-portal-gtk`; no executis scripts de reinici de portal.
+- Compartir pantalla: obre el selector de pantalla dins la videotrucada o aplicació. Hauria d'aparèixer el selector de Hyprland, amb opcions per compartir monitor, finestra o regió segons l'aplicació. Per provar l'enregistrament amb OBS, selecciona una font de captura de pantalla/portal.
+- Si no apareix el selector, comprova que la sessió és Wayland i que systemd d'usuari ha rebut les variables gràfiques: `echo "$XDG_SESSION_TYPE $WAYLAND_DISPLAY $XDG_CURRENT_DESKTOP"` i `systemctl --user show-environment | grep -E '^(WAYLAND_DISPLAY|XDG_CURRENT_DESKTOP|XDG_SESSION_TYPE)='`. Aquí Hyprland les publica en iniciar-se.
+- Comprova els serveis i els registres després d'intentar compartir: `systemctl --user status xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk` i `journalctl --user -b -u xdg-desktop-portal -u xdg-desktop-portal-hyprland -u xdg-desktop-portal-gtk`. També comprova PipeWire amb `wpctl status`.
+- El portal s'activa sota demanda per D-Bus; no cal habilitar-lo manualment ni matar altres backends. Si queda penjat, tanca primer la videotrucada i torna a entrar a Hyprland. Consulta els registres abans de canviar configuració de systemd o reinstal·lar paquets.
 - Àudio: comprova `wpctl status`, PipeWire i WirePlumber.
 - Bloqueig abans de suspendre: confirma que Hypridle està actiu i que `loginctl lock-session` inicia Hyprlock.
 - Xarxa/Bluetooth: comprova `systemctl status NetworkManager bluetooth`.
