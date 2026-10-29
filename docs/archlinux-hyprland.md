@@ -95,7 +95,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Shift + Q` | Tanca finestra focalitzada |
 | `Super + Shift + C` | Recarrega Hyprland |
 | `Super + Shift + I` | Mostra la classe i el títol de la finestra activa |
-| `Super + Shift + N` | Activa/desactiva el mode No molestar de Mako |
+| `Super + Shift + N` | Activa/desactiva el mode No molestar de Mako; Waybar mostra `DND` quan és actiu i també permet alternar-lo amb clic |
 | `Super + H/J/K/L` o fletxes | Mou el focus |
 | `Super + Shift + H/J/K/L` o fletxes | Mou la finestra |
 | `Super + R` | Mode resize; fletxes o HJKL, `Shift` per moviment fi, `Esc` per sortir |

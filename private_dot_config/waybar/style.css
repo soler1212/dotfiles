@@ -66,6 +66,13 @@ window#waybar {
   font-size: 15px;
 }
 
+#custom-dnd {
+  color: #1e1e2e;
+  background: #f9e2af;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
 #mpris {
   color: #cba6f7;
 }

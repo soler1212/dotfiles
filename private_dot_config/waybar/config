@@ -5,7 +5,7 @@
   "spacing": 6,
   "modules-left": ["hyprland/workspaces", "hyprland/submap", "hyprland/window"],
   "modules-center": ["clock"],
-  "modules-right": ["custom/moon", "mpris", "cpu", "memory", "disk", "network", "pulseaudio", "bluetooth", "battery", "tray"],
+  "modules-right": ["custom/moon", "mpris", "cpu", "memory", "disk", "network", "pulseaudio", "custom/dnd", "bluetooth", "battery", "tray"],
 
   "hyprland/workspaces": {
     "format": "{name}",
@@ -76,6 +76,13 @@
     "format": "Audio {volume}%",
     "format-muted": "Audio muted",
     "on-click": "pavucontrol"
+  },
+  "custom/dnd": {
+    "exec": "if makoctl mode | grep -qx do-not-disturb; then printf 'DND'; fi",
+    "interval": 2,
+    "format": "{}",
+    "tooltip": false,
+    "on-click": "makoctl mode -t do-not-disturb"
   },
   "bluetooth": {
     "format": "BT {status}",
