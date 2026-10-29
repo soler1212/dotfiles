@@ -130,6 +130,8 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Ctrl + 1..9/0` | Mou finestra i segueix l'espai; també teclat numèric |
 | `Super + Tab` / `Super + Shift + Tab` | Espai següent/anterior |
 | `Super + M` / `Super + Shift + M` | Espai anterior / mou-hi la finestra |
+| `Super + Ctrl + Shift + fletxa` | Mou l'espai actual al monitor en aquella direcció |
+| `Super + Shift + F7` / `Super + Shift + F8` | Mou l'espai actual al monitor de l'esquerra / dreta |
 | `Super + Shift + E` | Menú per bloquejar, suspendre, reiniciar o apagar; les dues últimes amb confirmació |
 | `Super + L` | Manté el focus cap a la dreta; no és una drecera de logout ni bloqueig |
 | `Super + Alt + W` | Canvia al següent wallpaper |
