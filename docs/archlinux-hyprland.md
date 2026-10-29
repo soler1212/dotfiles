@@ -81,8 +81,8 @@ La configuració de Neovim utilitza Mason per als LSP; comprova el resultat de `
 | `Super+Shift+m` | Moure finestra al workspace anterior | Moure finestra a `previous` | Equivalent previst; comprovar amb dos workspaces |
 | `Super+Ctrl+Shift+fletxes` | Moure workspace a una sortida | Dispatcher de workspace a sortida | Verificar amb més d'un monitor |
 | `Super+Shift+F7/F8` | Moure workspace a sortida esquerra/dreta | Moure workspace a monitor esquerre/dret | Verificar amb més d'un monitor |
-| `Super+Shift+e` | Mode d'energia | Submap d'energia | Suspend/reboot/shutdown; hibernate requereix configuració pròpia |
-| `Super+Shift+e`, després `l` | Bloquejar pantalla des del mode d'energia | Hyprlock dins del submap d'energia | `Super+l` queda com a focus cap a la dreta |
+| `Super+Shift+e` | Mode d'energia | Submap d'energia visible a Waybar | Després: `l` bloqueja, `s` suspèn, `h` hiberna, `r` reinicia, `Shift+s` apaga; no hi ha drecera per sortir/logout |
+| `Super+l` | Focus cap a la dreta | Focus cap a la dreta | No bloqueja ni tanca la sessió |
 | `Print` | Captura de pantalla | Grim pantalla completa | `grim` |
 | `Super+Print`, després `s/a/w/Shift+a` | Menú de captures | Submap: pantalla/àrea/finestra/àrea clipboard | `grim`, `slurp`, i `jq` per captura de finestra |
 | `Super+Shift+s` | Àrea al clipboard | Àrea al clipboard | `grim`, `slurp`, `wl-copy` |
@@ -107,6 +107,7 @@ La configuració de Neovim utilitza Mason per als LSP; comprova el resultat de `
 
 - Comparar paquets instal·lats a l'Arch i corregir les diferències reals de Bash (`batcat`/`bat`, `fd-find`/`fd`, versions de Node i executables LSP).
 - Fer el mapa complet de les dreceres restants i comprovar col·lisions amb `hyprctl binds`; en particular, validar la selecció `previous` de workspace.
+- Confirmar que `hyprlock` i la hibernació estan instal·lats/configurats abans d'usar aquestes opcions del submapa d'energia.
 - Detectar els noms de sortida reals i traslladar els perfils Sway a funcions segures de Hyprland.
 - Convertir el selector de wallpapers i els scripts de `swaymsg` a IPC de Hyprland/Hyprpaper.
 - Completar els ginys d'AGS pendents (controls gràfics lunar, selector de tema i wallpapers) amb Waybar o eines equivalents; configurar Mako, Hyprpaper, Hyprlock i Hypridle sense duplicar serveis.
