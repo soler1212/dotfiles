@@ -4,15 +4,15 @@ Dotfiles personals gestionats amb [chezmoi](https://www.chezmoi.io/). La branca 
 
 ## Estat de la migració
 
-La configuració nova de Hyprland és optativa i no inicia serveis automàticament. `chezmoi init` només clona la font: no executis `chezmoi apply` sense revisar abans el diff, perquè la resta del repositori encara conté la configuració antiga de Sway, AGS, Bash, WezTerm i Neovim.
+La configuració nova de Hyprland és optativa. Waybar s'inicia quan entres a Hyprland; la resta de serveis automàtics continuen desactivats. `chezmoi init` només clona la font: no executis `chezmoi apply` sense revisar abans el diff, perquè la resta del repositori encara conté la configuració antiga de Sway, AGS, Bash, WezTerm i Neovim.
 
-<!-- Hyprland autostart toggle and Waybar/script destinations from private_dot_config/hypr/hyprland.lua, private_dot_config/waybar/, and private_dot_local/bin/ -->
+<!-- Hyprland autostart toggles and Waybar/script destinations from private_dot_config/hypr/hyprland.lua, private_dot_config/waybar/, and private_dot_local/bin/ -->
 
 - Configuració Hyprland Lua: `private_dot_config/hypr/hyprland.lua` → `~/.config/hypr/hyprland.lua`.
-- Barra Waybar, amb fase lunar i reproductor MPRIS: `private_dot_config/waybar/` → `~/.config/waybar/`; no s'inicia automàticament.
+- Barra Waybar, amb fase lunar i reproductor MPRIS: `private_dot_config/waybar/` → `~/.config/waybar/`; s'inicia amb Hyprland.
 - Script lunar: `private_dot_local/bin/executable_pm-moon` → `~/.local/bin/pm-moon`; consulta wttr.in i desa les dades una hora.
 - Menú gràfic d'energia: `private_dot_local/bin/executable_pm-power-menu` → `~/.local/bin/pm-power-menu`; l'apagada i el reinici demanen confirmació.
-- Autostart per defecte: desactivat (`ENABLE_AUTOSTART = false`).
+- Autostart: Waybar activat (`ENABLE_WAYBAR_AUTOSTART = true`); la resta desactivada (`ENABLE_AUTOSTART = false`).
 - Versió necessària: Hyprland 0.55 o posterior per carregar configuració Lua nativa.
 - Inventari, dependències i mapa de dreceres: [docs/archlinux-hyprland.md](docs/archlinux-hyprland.md).
 
@@ -47,17 +47,19 @@ chezmoi diff
 chezmoi diff ~/.config/hypr/hyprland.lua
 ```
 
-Quan vulguis provar només Hyprland, aplica únicament aquest destí:
+Per desplegar Hyprland, el menú d'energia i els fitxers necessaris de Waybar, aplica només aquests destins:
 
 ```bash
-chezmoi apply ~/.config/hypr/hyprland.lua ~/.local/bin/pm-power-menu
+chezmoi apply ~/.config/hypr/hyprland.lua ~/.local/bin/pm-power-menu ~/.config/waybar/config ~/.config/waybar/style.css ~/.local/bin/pm-moon
 ```
 
-Si després vols provar la barra, aplica la configuració i l'script lunar i inicia `waybar` manualment des d'un terminal dins Hyprland:
+Després tanca la sessió i torna a entrar a Hyprland perquè Waybar s'iniciï automàticament. Per iniciar-la immediatament a la sessió actual, executa `waybar` una vegada des d'un terminal.
+
+Si només vols actualitzar la barra en una sessió Hyprland existent, aplica els seus fitxers i reinicia Waybar perquè carregui també el CSS:
 
 ```bash
 chezmoi apply ~/.config/waybar/config ~/.config/waybar/style.css ~/.local/bin/pm-moon
-waybar
+pkill waybar; waybar
 ```
 
 Entra a la sessió Hyprland des del gestor d'inici de sessió. Si Hyprland ja era obert abans d'afegir el fitxer Lua, reinicia la sessió perquè la detecció del fitxer de configuració es fa en iniciar el compositor.

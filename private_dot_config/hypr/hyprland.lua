@@ -3,6 +3,7 @@
 -- desktop services below are not started unless ENABLE_AUTOSTART is changed.
 
 local ENABLE_AUTOSTART = false
+local ENABLE_WAYBAR_AUTOSTART = true
 
 local terminal = "kitty"
 local launcher = "fuzzel"
@@ -208,7 +209,15 @@ end)
 -- Reboot and shutdown require a second confirmation; logout is not offered.
 bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("$HOME/.local/bin/pm-power-menu"), "Open power menu")
 
--- This opt-in is intentionally off. PipeWire, NetworkManager and portals are
+-- Waybar is the only desktop UI started automatically. Passing both paths
+-- explicitly ensures the intended modules and stylesheet are loaded.
+if ENABLE_WAYBAR_AUTOSTART then
+  hl.on("hyprland.start", function()
+    hl.exec_cmd('waybar --config "$HOME/.config/waybar/config" --style "$HOME/.config/waybar/style.css"')
+  end)
+end
+
+-- Other services remain opt-in. PipeWire, NetworkManager and portals are
 -- managed by systemd/D-Bus on Arch; do not launch duplicate instances here.
 if ENABLE_AUTOSTART then
   hl.on("hyprland.start", function()

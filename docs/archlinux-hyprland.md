@@ -15,9 +15,9 @@
 
 La configuració nova és `~/.config/hypr/hyprland.lua` i necessita Hyprland 0.55 o posterior. La sintaxi és l'API Lua nativa (`hl.config`, `hl.bind`, `hl.define_submap`, `hl.dsp`, `hl.on`); no depèn d'un wrapper extern. La configuració usa Kitty, Fuzzel, Firefox i Thunar com a ordres d'aplicació.
 
-L'autostart està desactivat amb `ENABLE_AUTOSTART = false`. Així no s'inicien Waybar, Mako, Hyprpaper, Hypridle, `nm-applet`, `blueman-applet` ni serveis de clipboard. PipeWire, NetworkManager i els portals s'han de mantenir sota systemd/D-Bus; no es dupliquen des del compositor. Les dreceres de teclat funcionen quan el programa requerit ja hi és.
+Waybar s'inicia a cada inici de Hyprland amb `ENABLE_WAYBAR_AUTOSTART = true`, passant-li explícitament `~/.config/waybar/config` i `~/.config/waybar/style.css`. `ENABLE_AUTOSTART = false` manté Mako, Hyprpaper, Hypridle, `nm-applet`, `blueman-applet` i els serveis de clipboard apagats. PipeWire, NetworkManager i els portals s'han de mantenir sota systemd/D-Bus; no es dupliquen des del compositor. Les dreceres de teclat funcionen quan el programa requerit ja hi és.
 
-La configuració de Sway i AGS es queda al repositori, però no l'apliquis per fer aquesta prova. Els fitxers existents de Bash, WezTerm i Neovim tampoc no es despleguen amb les ordres de prova d'aquest README. Waybar i el seu script lunar viuen a `~/.config/waybar/` i `~/.local/bin/pm-moon`; aplica'ls explícitament i inicia `waybar` manualment quan vulguis provar-los. El mòdul lunar reutilitza wttr.in, com l'AGS original: el servei pot inferir la ubicació per IP. Desa la resposta localment durant una hora i mostra dades desades si falla la xarxa.
+La configuració de Sway i AGS es queda al repositori, però no l'apliquis per fer aquesta prova. Els fitxers existents de Bash, WezTerm i Neovim tampoc no es despleguen amb les ordres de prova d'aquest README. Aplica Waybar, el full d'estil, `~/.local/bin/pm-moon` i `~/.local/bin/pm-power-menu` explícitament. Tanca i torna a obrir la sessió Hyprland perquè l'autostart iniciï Waybar. El mòdul lunar reutilitza wttr.in, com l'AGS original: el servei pot inferir la ubicació per IP. Desa la resposta localment durant una hora i mostra dades desades si falla la xarxa.
 
 ## Paquets per comprovar (no instal·lar en bloc)
 
@@ -43,7 +43,7 @@ Components referenciats per aquesta configuració:
 | Brillantor i controls multimèdia/MPRIS | `brightnessctl`, `playerctl` | Opcional si es volen aquestes tecles i el mòdul MPRIS |
 | Retalls de captura de finestra | `jq` | Opcional per l'opció `Super+Print`, després `w` |
 | Portals Wayland | `xdg-desktop-portal`, `xdg-desktop-portal-hyprland`, `xdg-desktop-portal-gtk` | Només cal corregir si no funcionen els selectors o els diàlegs |
-| Barra | `waybar` | Config inicial disponible; no s'inicia per defecte |
+| Barra i estil | `waybar` | Configuració i CSS disponibles; s'inicia amb Hyprland |
 | Notificacions/fons/inactivitat | `mako`, `hyprpaper`, `hypridle` | No s'inicien per defecte; configs pendents de revisar |
 | Xarxa/Bluetooth i permisos | `networkmanager`, `polkit` i l'agent/applet que ja facis servir | No es reinicien des de Hyprland |
 | Neovim | `neovim`, `git`, `ripgrep`, `fd`, `nodejs`, `npm` | Verificar; Mason gestiona alguns servidors LSP |
@@ -101,7 +101,7 @@ La configuració de Neovim utilitza Mason per als LSP; comprova el resultat de `
 4. Confirma els mapatges amb `hyprctl binds` i prova finestres, workspaces, resizing, captures i tecles multimèdia una a una.
 5. Valida els portals i l'àudio amb una aplicació real abans d'activar capturadors de pantalla o Bluetooth.
 6. Per Neovim, executa `nvim --headless '+checkhealth' +qa` a l'Arch i revisa els avisos de Mason/LSP. Aquest pas no és necessari per provar Hyprland.
-7. Per la prova inicial deixa `ENABLE_AUTOSTART = false`. Prova Waybar manualment des del terminal. Hyprpaper, Hypridle, Mako, clipboard watcher i els applets continuen sense iniciar-se automàticament.
+7. Waybar s'inicia automàticament en entrar a Hyprland. Hyprpaper, Hypridle, Mako, clipboard watcher i els applets continuen sense iniciar-se automàticament.
 
 ## Pendents abans d'activar l'escriptori complet
 
