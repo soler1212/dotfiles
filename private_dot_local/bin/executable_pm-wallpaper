@@ -18,7 +18,13 @@ fi
 
 set_wallpaper() {
   local image="$1"
-  hyprctl hyprpaper wallpaper ",$image,cover"
+  local quiet="${2:-false}"
+  if ! hyprctl hyprpaper wallpaper ",$image,cover"; then
+    if [[ "$quiet" != true ]]; then
+      notify-send "Wallpaper" "No s'ha pogut aplicar ${image##*/}. Comprova que Hyprpaper estigui actiu." 2>/dev/null || true
+    fi
+    return 1
+  fi
   mkdir -p "$state_dir"
   printf '%s\n' "$image" > "$state_file"
 }
@@ -60,9 +66,10 @@ case "${1:-next}" in
       saved="$fallback"
     fi
     for _ in {1..40}; do
-      if set_wallpaper "$saved" >/dev/null 2>&1; then exit 0; fi
+      if set_wallpaper "$saved" true >/dev/null 2>&1; then exit 0; fi
       sleep 0.25
     done
+    notify-send "Wallpaper" "No s'ha pogut restaurar el fons; Hyprpaper no respon." 2>/dev/null || true
     exit 1
     ;;
   *)

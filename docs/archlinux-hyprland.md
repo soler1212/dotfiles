@@ -147,6 +147,7 @@ Les dreceres Sway `Super + A` / `Super + Shift + A` per enfocar el pare/fill de 
 - Notificacions: Mako s'inicia amb la sessió; `Super + N` o `makoctl restore` recupera l'última notificació caducada. `makoctl mode` mostra els modes actius i `makoctl mode -t do-not-disturb` alterna No molestar.
 - Bloqueig abans de suspendre: confirma que Hypridle està actiu i que `loginctl lock-session` inicia Hyprlock.
 - Xarxa/Bluetooth: comprova `systemctl status NetworkManager bluetooth`.
+- Wallpaper: `hyprctl hyprpaper listactive` comprova el fons actual; si no respon, revisa que Hyprpaper estigui actiu a la sessió.
 - Neovim: els paquets d'LSP i formatadors s'han d'instal·lar segons els plugins habilitats.
 
 La configuració s'ha revisat estàticament en Windows. Cal fer la primera validació d'execució a l'Arch real per confirmar la versió de Hyprland, paquets, pantalles i regles específiques d'aplicacions.
