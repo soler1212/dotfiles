@@ -7,3 +7,6 @@ border-radius=6
 padding=12
 default-timeout=5000
 anchor=top-right
+
+[mode=do-not-disturb]
+invisible=1
