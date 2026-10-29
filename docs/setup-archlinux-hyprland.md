@@ -118,6 +118,8 @@ Comprova l'estat inicial amb:
 ```bash
 hyprctl configerrors
 hyprctl monitors all
+pgrep -a waybar
+pgrep -a hypridle
 wpctl status
 systemctl --user --failed
 ```
@@ -142,7 +144,7 @@ Si no vols aplicar una actualització, atura't després de `chezmoi diff`. `chez
 
 ## 8. Problemes habituals
 
-- **Waybar no apareix:** tanca la sessió Hyprland i torna-hi a entrar; Waybar s'inicia en començar la sessió. Comprova també `command -v waybar`.
+- **Waybar no apareix:** comprova si s'ha iniciat amb `pgrep -a waybar`, si és instal·lat amb `command -v waybar` i si existeixen els fitxers amb `ls -l ~/.config/waybar/config ~/.config/waybar/style.css`. Si el procés no hi és, executa `waybar --log-level debug --config ~/.config/waybar/config --style ~/.config/waybar/style.css` des d'un terminal per veure l'error d'arrencada. Després de corregir-lo, tanca la sessió Hyprland i torna-hi a entrar.
 - **Xarxa o Bluetooth no funcionen:** comprova `systemctl status NetworkManager bluetooth`.
 - **Àudio no funciona:** comprova `wpctl status` i, si cal, activa les unitats PipeWire del pas 2.
 - **Hypridle no s'inicia:** comprova `pgrep -a hypridle` i revisa `~/.config/hypr/hypridle.conf`.
