@@ -255,6 +255,7 @@ if ENABLE_AUTOSTART then
     hl.exec_cmd("mako")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("blueman-applet")
+    hl.exec_cmd("udiskie --tray")
     hl.exec_cmd("systemctl --user start hyprpolkitagent.service")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")

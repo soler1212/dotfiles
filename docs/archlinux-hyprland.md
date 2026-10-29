@@ -9,9 +9,10 @@ Instal·la els components que cobreixen les dreceres, barra, bloqueig, notificac
 ```bash
 sudo pacman -S --needed \
   hyprland xorg-xwayland hyprpaper hyprlock hypridle polkit hyprpolkitagent \
-  waybar mako fuzzel kitty firefox thunar neovim git ripgrep fd nodejs npm \
+  waybar mako fuzzel kitty firefox thunar thunar-volman gvfs tumbler \
+  udisks2 udiskie neovim git ripgrep fd nodejs npm \
   grim slurp wl-clipboard cliphist jq \
-  pipewire pipewire-audio pipewire-alsa wireplumber pipewire-pulse \
+  pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
   networkmanager network-manager-applet nm-connection-editor \
   bluez bluez-utils blueman \
   pavucontrol playerctl brightnessctl \
@@ -55,6 +56,8 @@ A la pantalla d'entrada, selecciona **Hyprland**. Per iniciar la sessió des d'u
 
 Per a una instal·lació des de zero, segueix el [manual pas a pas](setup-archlinux-hyprland.md).
 
+Per al perfil existent de l'ordinador, inclosa la disposició Btrfs, els paquets i els temps d'Hypridle, consulta el [resum de la instal·lació d'Arch](arch-installation-profile.md).
+
 Quan la branca `archlinux` sigui disponible a GitHub:
 
 ```bash
@@ -87,7 +90,7 @@ chezmoi apply ~/.config/hypr ~/.config/waybar ~/.config/mako ~/.config/fuzzel \
 
 ## Què s'inicia amb Hyprland
 
-A `private_dot_config/hypr/hyprland.lua`, els toggles d'autostart estan activats. En entrar a la sessió es propaga l'entorn Wayland a D-Bus/systemd, i s'inicien Waybar amb la config/CSS del repositori, Hyprpaper amb l'últim wallpaper triat, Hypridle, Mako, l'applet de NetworkManager, Blueman, l'agent d'autenticació Hyprpolkitagent i dos watchers de cliphist. El paquet `polkit` proporciona el servei d'autorització del sistema que l'agent gràfic necessita. També s'aplica el tema GTK fosc i Papirus. Hypridle bloqueja la sessió abans de suspendre; no imposa un temporitzador de bloqueig ni de suspensió per inactivitat.
+A `private_dot_config/hypr/hyprland.lua`, els toggles d'autostart estan activats. En entrar a la sessió es propaga l'entorn Wayland a D-Bus/systemd, i s'inicien Waybar amb la config/CSS del repositori, Hyprpaper amb l'últim wallpaper triat, Hypridle, Mako, l'applet de NetworkManager, Blueman, udiskie per als discos extraïbles, l'agent d'autenticació Hyprpolkitagent i dos watchers de cliphist. El paquet `polkit` proporciona el servei d'autorització del sistema que l'agent gràfic necessita. També s'aplica el tema GTK fosc i Papirus. Hypridle bloqueja als 5 minuts, apaga les pantalles als 15 minuts i suspèn als 30 minuts d'inactivitat; també bloqueja abans d'una suspensió manual.
 
 NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` una vegada. PipeWire/WirePlumber i els portals són gestionats per systemd/D-Bus. No s'inicia AGS, swaybar, Sway IPC ni cap component de Nix.
 

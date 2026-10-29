@@ -2,6 +2,8 @@
 
 Aquesta guia instal·la els paquets que fan servir aquests dotfiles, prepara chezmoi sense modificar encara els fitxers personals, aplica només l'escriptori Hyprland i explica com iniciar sessió i actualitzar la configuració després. Cal que la branca `archlinux` ja estigui publicada al repositori abans de començar.
 
+Si Arch ja està instal·lat, no repeteixis el particionament, el formatatge ni la instal·lació del sistema base. Segueix el [perfil de la instal·lació existent](arch-installation-profile.md) i comença per comprovar els paquets i serveis.
+
 ## 1. Actualitzar Arch
 
 Entra amb el teu usuari habitual, que ha de tenir permisos `sudo`, i actualitza el sistema:
@@ -20,9 +22,10 @@ Instal·la els paquets necessaris per a les dreceres, la barra, les captures, l'
 sudo pacman -S --needed \
   chezmoi git \
   hyprland xorg-xwayland hyprpaper hyprlock hypridle polkit hyprpolkitagent \
-  waybar mako fuzzel kitty firefox thunar neovim ripgrep fd nodejs npm \
+  waybar mako fuzzel kitty firefox thunar thunar-volman gvfs tumbler \
+  udisks2 udiskie neovim ripgrep fd nodejs npm \
   grim slurp wl-clipboard cliphist jq \
-  pipewire pipewire-audio pipewire-alsa wireplumber pipewire-pulse \
+  pipewire pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
   networkmanager network-manager-applet nm-connection-editor \
   bluez bluez-utils blueman \
   pavucontrol playerctl brightnessctl \
@@ -49,6 +52,14 @@ PipeWire i WirePlumber normalment s'inicien automàticament. Si no hi ha àudio 
 systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service
 ```
 
+Pacman utilitza `--needed`, així que els paquets que ja tens instal·lats no es tornen a instal·lar.
+
+El paquet antic `polkit-kde-agent` pot continuar instal·lat. Aquesta configuració utilitza `hyprpolkitagent`; si `plasma-polkit-agent.service` continua actiu després d'aplicar-la, atura aquell agent abans de tornar a entrar a Hyprland per evitar dos agents d'autenticació alhora:
+
+```bash
+systemctl --user stop plasma-polkit-agent.service
+```
+
 ## 3. Preparar i revisar chezmoi
 
 Clona la branca sense aplicar-la encara. L'URL HTTPS permet descarregar el repositori públic sense configurar una clau SSH:
@@ -56,6 +67,8 @@ Clona la branca sense aplicar-la encara. L'URL HTTPS permet descarregar el repos
 ```bash
 chezmoi init --branch archlinux https://github.com/soler1212/dotfiles.git
 ```
+
+Si ja havies inicialitzat aquest repositori amb chezmoi, no tornis a executar `init`; passa a la secció d'actualització al final d'aquesta guia.
 
 Si prefereixes SSH, configura abans l'autenticació de GitHub amb la clau autoritzada per a aquest repositori i comprova amb `ssh -T git@github.com` que GitHub identifica el compte correcte. Després pots substituir l'URL HTTPS per `git@github.com:soler1212/dotfiles.git` a l'ordre d'inicialització.
 
@@ -95,6 +108,8 @@ També pots iniciar Hyprland des d'un terminal virtual: inicia sessió amb el te
 
 Entra a Hyprland. Waybar, Hyprpaper, Hypridle, Mako, els applets de xarxa i Bluetooth, l'agent Polkit i l'historial del porta-retalls s'inicien amb la sessió. No cal executar Waybar manualment.
 
+Hypridle segueix els temps del teu perfil: bloqueja al cap de 5 minuts, apaga les pantalles als 15 i suspèn als 30. Si encara tens actiu l'antic agent KDE, atura'l amb `systemctl --user stop plasma-polkit-agent.service`; aquesta configuració inicia `hyprpolkitagent`.
+
 Comprova l'estat inicial amb:
 
 ```bash
@@ -127,6 +142,7 @@ Si no vols aplicar una actualització, atura't després de `chezmoi diff`. `chez
 - **Waybar no apareix:** tanca la sessió Hyprland i torna-hi a entrar; Waybar s'inicia en començar la sessió. Comprova també `command -v waybar`.
 - **Xarxa o Bluetooth no funcionen:** comprova `systemctl status NetworkManager bluetooth`.
 - **Àudio no funciona:** comprova `wpctl status` i, si cal, activa les unitats PipeWire del pas 2.
+- **Hypridle no s'inicia:** comprova `pgrep -a hypridle` i revisa `~/.config/hypr/hypridle.conf`.
 - **Compartició de pantalla no mostra cap selector:** comprova `systemctl --user status xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk` i els registres amb `journalctl --user -b -u xdg-desktop-portal -u xdg-desktop-portal-hyprland -u xdg-desktop-portal-gtk`. Els portals s'activen sota demanda; no cal matar ni reiniciar manualment els backends.
 - **Wallpaper no canvia:** `hyprctl hyprpaper listactive` mostra el fons actiu i el script t'avisa si Hyprpaper no respon.
 
