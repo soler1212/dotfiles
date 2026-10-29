@@ -95,6 +95,7 @@ NetworkManager i Bluetooth són serveis de sistema i s'activen amb `systemctl` u
 | `Super + Shift + Q` | Tanca finestra focalitzada |
 | `Super + Shift + C` | Recarrega Hyprland |
 | `Super + Shift + I` | Mostra la classe i el títol de la finestra activa |
+| `Super + N` | Torna a mostrar la notificació recent que ja havia desaparegut |
 | `Super + Shift + N` | Activa/desactiva el mode No molestar de Mako; Waybar mostra `DND` quan és actiu i també permet alternar-lo amb clic |
 | `Super + H/J/K/L` o fletxes | Mou el focus |
 | `Super + Shift + H/J/K/L` o fletxes | Mou la finestra |
@@ -143,7 +144,7 @@ Les dreceres Sway `Super + A` / `Super + Shift + A` per enfocar el pare/fill de 
 - Comprova els serveis i els registres després d'intentar compartir: `systemctl --user status xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk` i `journalctl --user -b -u xdg-desktop-portal -u xdg-desktop-portal-hyprland -u xdg-desktop-portal-gtk`. També comprova PipeWire amb `wpctl status`.
 - El portal s'activa sota demanda per D-Bus; no cal habilitar-lo manualment ni matar altres backends. Si queda penjat, tanca primer la videotrucada i torna a entrar a Hyprland. Consulta els registres abans de canviar configuració de systemd o reinstal·lar paquets.
 - Àudio: comprova `wpctl status`, PipeWire i WirePlumber.
-- Notificacions: Mako s'inicia amb la sessió; `makoctl mode` mostra els modes actius i `makoctl mode -t do-not-disturb` alterna No molestar.
+- Notificacions: Mako s'inicia amb la sessió; `Super + N` o `makoctl restore` recupera l'última notificació caducada. `makoctl mode` mostra els modes actius i `makoctl mode -t do-not-disturb` alterna No molestar.
 - Bloqueig abans de suspendre: confirma que Hypridle està actiu i que `loginctl lock-session` inicia Hyprlock.
 - Xarxa/Bluetooth: comprova `systemctl status NetworkManager bluetooth`.
 - Neovim: els paquets d'LSP i formatadors s'han d'instal·lar segons els plugins habilitats.

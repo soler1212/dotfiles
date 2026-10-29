@@ -100,6 +100,7 @@ bind("SUPER + SHIFT + Q", hl.dsp.window.close(), "Close focused window")
 bind("SUPER + SHIFT + C", hl.dsp.reload_config(), "Reload Hyprland configuration")
 local window_info_command = [[notify-send "Window Info" "$(hyprctl activewindow -j | jq -r '"class: \(.class // "N/A")\ninitial class: \(.initialClass // "N/A")\ntitle: \(.title // "N/A")"')"]]
 bind("SUPER + SHIFT + I", hl.dsp.exec_cmd(window_info_command), "Show focused window details")
+bind("SUPER + N", hl.dsp.exec_cmd("makoctl restore"), "Restore last notification")
 bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("makoctl mode -t do-not-disturb"), "Toggle do not disturb")
 
 -- Focus and move windows. Both Vim keys and arrows keep the Sway muscle memory.
