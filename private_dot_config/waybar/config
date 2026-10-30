@@ -11,7 +11,7 @@
     "format": "{name}",
     "on-click": "activate",
     "sort-by": "number",
-    "all-outputs": true
+    "all-outputs": false
   },
   "hyprland/submap": {
     "format": "[{name}]",
