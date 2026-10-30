@@ -396,7 +396,10 @@ bind("SUPER + bracketleft", hl.dsp.focus({ workspace = "e-1" }), "Previous works
 bind("SUPER + M", hl.dsp.focus({ workspace = "previous" }), "Return to previous workspace")
 bind("SUPER + SHIFT + M", hl.dsp.window.move({ workspace = "previous" }), "Move window to previous workspace")
 
-for key, direction in pairs({ left = "left", right = "right", up = "up", down = "down" }) do
+for key, direction in pairs({
+  H = "left", J = "down", K = "up", L = "right",
+  left = "left", down = "down", up = "up", right = "right",
+}) do
   bind("SUPER + CTRL + SHIFT + " .. key, hl.dsp.workspace.move({ monitor = direction }), "Move workspace to output " .. direction)
 end
 bind("SUPER + SHIFT + F7", hl.dsp.workspace.move({ monitor = "left" }), "Move workspace to left output")
