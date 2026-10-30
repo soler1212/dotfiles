@@ -102,14 +102,6 @@ hl.config({
   },
 })
 
--- The scroll layout is kept ready for manual use.
-hl.config({
-  scrolling = {
-    fullscreen_on_one_column = true,
-  },
-})
-
-
 ----------------
 ---- MISC ----
 ----------------
