@@ -1,21 +1,66 @@
 -- Arch Linux + Hyprland 0.55+ configuration.
--- chezmoi init only clones this file; apply it explicitly after reviewing the diff.
+-- Organized to follow the official example while keeping this machine's settings.
 
-local ENABLE_AUTOSTART = true
-local ENABLE_WAYBAR_AUTOSTART = true
-local ENABLE_WALLPAPER_AUTOSTART = true
+------------------
+--- MONITORS ----
+------------------
+
+-- No monitor model is fixed here; Hyprland detects the connected outputs.
+-- Add per-monitor profiles only after checking hyprctl monitors all.
+
+
+---------------------
+---- MY PROGRAMS ----
+---------------------
 
 local terminal = "kitty"
 local launcher = "fuzzel"
 local browser = "firefox"
 local file_manager = "thunar"
-local screenshot_dir = "$HOME/Pictures/Screenshots"
-local screenshot_timestamp = "$(date +%Y-%m-%d-%H%M%S-%N)"
 
-local function screenshot_command(arguments)
-  local file = screenshot_dir .. "/" .. screenshot_timestamp .. ".png"
-  return 'file="' .. file .. '"; mkdir -p "' .. screenshot_dir .. '" && grim ' .. arguments .. ' "$file" && notify-send "Captura desada" "${file##*/}"'
+
+-------------------
+---- AUTOSTART ----
+-------------------
+
+local ENABLE_AUTOSTART = true
+local ENABLE_WAYBAR_AUTOSTART = true
+local ENABLE_WALLPAPER_AUTOSTART = true
+
+if ENABLE_WAYBAR_AUTOSTART then
+  hl.on("hyprland.start", function()
+    hl.exec_cmd('waybar --config "$HOME/.config/waybar/config" --style "$HOME/.config/waybar/style.css"')
+  end)
 end
+
+-- NetworkManager, Bluetooth and audio daemons are system services; only their
+-- user applets/agents run in this session.
+if ENABLE_AUTOSTART then
+  hl.on("hyprland.start", function()
+    hl.exec_cmd("dbus-update-activation-environment --systemd --all")
+    if ENABLE_WALLPAPER_AUTOSTART then
+      hl.exec_cmd("hyprpaper")
+      hl.exec_cmd("$HOME/.local/bin/pm-wallpaper restore")
+    end
+    hl.exec_cmd("hypridle")
+    hl.exec_cmd("mako")
+    hl.exec_cmd("nm-applet --indicator")
+    hl.exec_cmd("blueman-applet")
+    hl.exec_cmd("udiskie --tray")
+    hl.exec_cmd("systemctl --user start hyprpolkitagent.service")
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"')
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"')
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface cursor-theme "Adwaita"')
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface font-name "Noto Sans 11"')
+  end)
+end
+
+
+-------------------------------
+---- ENVIRONMENT VARIABLES ----
+-------------------------------
 
 -- Environment for Wayland applications and XDG portal selection.
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
@@ -23,6 +68,18 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
+
+
+-----------------------
+----- PERMISSIONS -----
+-----------------------
+
+-- No custom Hyprland permissions are needed for the current setup.
+
+
+-----------------------
+---- LOOK AND FEEL ----
+-----------------------
 
 hl.config({
   general = {
@@ -36,6 +93,47 @@ hl.config({
       inactive_border = { colors = { "rgba(45475aff)" }, angle = 0 },
     },
   },
+  decoration = {
+    rounding = 0,
+  },
+  dwindle = {
+    preserve_split = true,
+    smart_split = true,
+  },
+})
+
+-- The scroll layout is kept ready for manual use.
+hl.config({
+  scrolling = {
+    fullscreen_on_one_column = true,
+  },
+})
+
+
+----------------
+---- MISC ----
+----------------
+
+hl.config({
+  misc = {
+    disable_hyprland_logo = true,
+    disable_splash_rendering = true,
+  },
+})
+
+
+----------------
+---- LAYERS ----
+----------------
+
+-- No custom layer rules are needed for the current setup.
+
+
+---------------
+---- INPUT ----
+---------------
+
+hl.config({
   input = {
     kb_layout = "es",
     kb_options = "grp:alt_shift_toggle,caps:escape",
@@ -54,42 +152,12 @@ hl.config({
       scroll_factor = 0.5,
     },
   },
-  decoration = {
-    rounding = 0,
-  },
-  dwindle = {
-    preserve_split = true,
-    smart_split = true,
-  },
-  misc = {
-    disable_hyprland_logo = true,
-    disable_splash_rendering = true,
-  },
 })
 
--- Preserve Sway workspace intent while using Hyprland's window rules.
-local workspace_rules = {
-  { class = "^(Code|code-url-handler|jetbrains-.*|Cursor)$", workspace = "2" },
-  { class = "^(firefox|Google-chrome|Chromium|brave-browser|Opera|zen)$", workspace = "3" },
-  { class = "^(obsidian|libreoffice.*)$", workspace = "4" },
-  { class = "^(Slack|discord|TelegramDesktop)$", workspace = "5" },
-  { class = "^(mpv|Spotify|org.gnome.Rhythmbox3)$", workspace = "6" },
-}
 
-for _, rule in ipairs(workspace_rules) do
-  local class = rule.class
-  local workspace = rule.workspace
-  hl.window_rule({ match = { class = class }, workspace = workspace })
-end
-
-hl.window_rule({ match = { modal = true }, float = true, center = true })
-hl.window_rule({ match = { class = "^(gnome-calculator|gnome-system-monitor|pavucontrol|nm-connection-editor|blueman-manager)$" }, float = true, center = true })
-hl.window_rule({ match = { title = "^(Open|Save) (File|Folder|As)( .*)?$" }, float = true, center = true, size = { 1030, 710 } })
-hl.window_rule({ match = { class = "^(pinentry|floating)$" }, float = true, center = true })
-hl.window_rule({ match = { class = "^firefox$", title = ".*Picture-in-Picture.*" }, float = true, pin = true })
-hl.window_rule({ match = { class = "^mpv$" }, float = true, pin = true, size = { 640, 360 }, center = true })
-hl.window_rule({ match = { class = "^steam$", title = "^(Friends List|Steam - News|.* - Chat)$" }, float = true })
-hl.window_rule({ match = { class = "^zoom$", title = "^(zoom|Choose ONE of the audio conference options)$" }, float = true, center = true })
+---------------------
+---- KEYBINDINGS ----
+---------------------
 
 local function bind(keys, dispatcher, description)
   hl.bind(keys, dispatcher, { description = description })
@@ -135,7 +203,7 @@ bind("SUPER + SPACE", function()
   end
 end, "Switch focus between tiled and floating windows")
 
--- The native equivalent of Sway's resize mode, with coarse and fine control.
+-- Resize mode with coarse and fine control.
 bind("SUPER + R", hl.dsp.submap("resize"), "Enter resize mode")
 hl.define_submap("resize", function()
   local resize_binds = {
@@ -151,8 +219,7 @@ hl.define_submap("resize", function()
   hl.bind("SUPER + R", hl.dsp.submap("reset"))
 end)
 
--- Layouts: Hyprland has no Sway stacking layout. Groups approximate tabbed
--- containers; Dwindle split direction applies to the next window.
+-- Layouts: groups approximate tabbed containers; Dwindle preselects the next split.
 bind("SUPER + W", hl.dsp.group.toggle(), "Toggle a window group")
 bind("SUPER + ALT + TAB", hl.dsp.group.next(), "Focus next window in group")
 bind("SUPER + ALT + SHIFT + TAB", hl.dsp.group.prev(), "Focus previous window in group")
@@ -160,6 +227,7 @@ for key, direction in pairs({ H = "l", J = "d", K = "u", L = "r", left = "l", do
   bind("SUPER + CTRL + " .. key, hl.dsp.window.move({ into_or_create_group = direction }), "Move window into or create group " .. direction)
 end
 bind("SUPER + CTRL + SHIFT + W", hl.dsp.window.move({ out_of_group = true }), "Move window out of its group")
+
 local function preselect_split(direction)
   local workspace = hl.get_active_workspace()
   if workspace and workspace.tiled_layout == "dwindle" then
@@ -174,6 +242,68 @@ bind("SUPER + E", function()
   active_layout = active_layout == "dwindle" and "master" or "dwindle"
   hl.config({ general = { layout = active_layout } })
 end, "Toggle Dwindle/Master layout")
+
+-- Audio, media, and brightness keys.
+bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), "Volume up")
+bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), "Volume down")
+bind("SHIFT + XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 1%+"), "Volume up slightly")
+bind("SHIFT + XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"), "Volume down slightly")
+bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), "Mute audio")
+bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), "Mute microphone")
+bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), "Brightness up")
+bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), "Brightness down")
+bind("SHIFT + XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 1%+"), "Brightness up slightly")
+bind("SHIFT + XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 1%-"), "Brightness down slightly")
+bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), "Play/pause")
+bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), "Play/pause")
+bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), "Next track")
+bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), "Previous track")
+bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"), "Stop playback")
+
+-- Screenshot and desktop helper bindings.
+local screenshot_dir = "$HOME/Pictures/Screenshots"
+local screenshot_timestamp = "$(date +%Y-%m-%d-%H%M%S-%N)"
+local function screenshot_command(arguments)
+  local file = screenshot_dir .. "/" .. screenshot_timestamp .. ".png"
+  return 'file="' .. file .. '"; mkdir -p "' .. screenshot_dir .. '" && grim ' .. arguments .. ' "$file" && notify-send "Captura desada" "${file##*/}"'
+end
+
+bind("Print", hl.dsp.exec_cmd(screenshot_command("")), "Save full-screen screenshot")
+bind("SUPER + PRINT", hl.dsp.exec_cmd("$HOME/.local/bin/pm-screenshot-menu"), "Open screenshot menu")
+bind("SUPER + SHIFT + S", hl.dsp.exec_cmd([[bash -o pipefail -c 'grim -g "$(slurp)" - | wl-copy && notify-send "Àrea copiada al porta-retalls"']]), "Copy selected area")
+bind("SUPER + SHIFT + V", hl.dsp.exec_cmd('selection=$(cliphist list | fuzzel --dmenu) && [ -n "$selection" ] && printf "%s\\n" "$selection" | cliphist decode | wl-copy'), "Clipboard history")
+bind("SUPER + ALT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper next"), "Next wallpaper")
+bind("SUPER + ALT + SHIFT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper select"), "Select wallpaper")
+
+-- Power menu: reboot and shutdown ask for confirmation; no logout action.
+bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("$HOME/.local/bin/pm-power-menu"), "Open power menu")
+
+
+--------------------------------
+---- WINDOWS AND WORKSPACES ----
+--------------------------------
+
+-- Preserve Sway workspace intent with Hyprland window rules.
+local workspace_rules = {
+  { class = "^(Code|code-url-handler|jetbrains-.*|Cursor)$", workspace = "2" },
+  { class = "^(firefox|Google-chrome|Chromium|brave-browser|Opera|zen)$", workspace = "3" },
+  { class = "^(obsidian|libreoffice.*)$", workspace = "4" },
+  { class = "^(Slack|discord|TelegramDesktop)$", workspace = "5" },
+  { class = "^(mpv|Spotify|org.gnome.Rhythmbox3)$", workspace = "6" },
+}
+
+for _, rule in ipairs(workspace_rules) do
+  hl.window_rule({ match = { class = rule.class }, workspace = rule.workspace })
+end
+
+hl.window_rule({ match = { modal = true }, float = true, center = true })
+hl.window_rule({ match = { class = "^(gnome-calculator|gnome-system-monitor|pavucontrol|nm-connection-editor|blueman-manager)$" }, float = true, center = true })
+hl.window_rule({ match = { title = "^(Open|Save) (File|Folder|As)( .*)?$" }, float = true, center = true, size = { 1030, 710 } })
+hl.window_rule({ match = { class = "^(pinentry|floating)$" }, float = true, center = true })
+hl.window_rule({ match = { class = "^firefox$", title = ".*Picture-in-Picture.*" }, float = true, pin = true })
+hl.window_rule({ match = { class = "^mpv$" }, float = true, pin = true, size = { 640, 360 }, center = true })
+hl.window_rule({ match = { class = "^steam$", title = "^(Friends List|Steam - News|.* - Chat)$" }, float = true })
+hl.window_rule({ match = { class = "^zoom$", title = "^(zoom|Choose ONE of the audio conference options)$" }, float = true, center = true })
 
 -- Workspaces 1-10, matching Sway's 1-9/0 convention.
 for key, workspace in pairs({ ["1"] = 1, ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] = 5, ["6"] = 6, ["7"] = 7, ["8"] = 8, ["9"] = 9, ["0"] = 10 }) do
@@ -194,72 +324,17 @@ bind("SUPER + bracketright", hl.dsp.focus({ workspace = "e+1" }), "Next workspac
 bind("SUPER + bracketleft", hl.dsp.focus({ workspace = "e-1" }), "Previous workspace")
 bind("SUPER + M", hl.dsp.focus({ workspace = "previous" }), "Return to previous workspace")
 bind("SUPER + SHIFT + M", hl.dsp.window.move({ workspace = "previous" }), "Move window to previous workspace")
+
 for key, direction in pairs({ left = "left", right = "right", up = "up", down = "down" }) do
   bind("SUPER + CTRL + SHIFT + " .. key, hl.dsp.workspace.move({ monitor = direction }), "Move workspace to output " .. direction)
 end
 bind("SUPER + SHIFT + F7", hl.dsp.workspace.move({ monitor = "left" }), "Move workspace to left output")
 bind("SUPER + SHIFT + F8", hl.dsp.workspace.move({ monitor = "right" }), "Move workspace to right output")
 
--- Display-dependent Sway profiles (Super+F7 and Super+P) are intentionally
--- omitted until the Arch machine's output names are confirmed with `hyprctl monitors all`.
 
--- Audio and media keys use PipeWire's wpctl. pactl remains available through
--- pipewire-pulse, but wpctl avoids adding another control dependency.
-bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), "Volume up")
-bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), "Volume down")
-bind("SHIFT + XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 1%+"), "Volume up slightly")
-bind("SHIFT + XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"), "Volume down slightly")
-bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), "Mute audio")
-bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), "Mute microphone")
-bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), "Brightness up")
-bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), "Brightness down")
-bind("SHIFT + XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 1%+"), "Brightness up slightly")
-bind("SHIFT + XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 1%-"), "Brightness down slightly")
-bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), "Play/pause")
-bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), "Play/pause")
-bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), "Next track")
-bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), "Previous track")
-bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"), "Stop playback")
+-----------------------------
+---- PER ORDENAR DESPRÉS ----
+-----------------------------
 
--- Screenshots run on demand; cliphist watchers start with the session below.
-bind("Print", hl.dsp.exec_cmd(screenshot_command("")), "Save full-screen screenshot")
-bind("SUPER + PRINT", hl.dsp.exec_cmd("$HOME/.local/bin/pm-screenshot-menu"), "Open screenshot menu")
-bind("SUPER + SHIFT + S", hl.dsp.exec_cmd([[bash -o pipefail -c 'grim -g "$(slurp)" - | wl-copy && notify-send "Àrea copiada al porta-retalls"']]), "Copy selected area")
-bind("SUPER + SHIFT + V", hl.dsp.exec_cmd('selection=$(cliphist list | fuzzel --dmenu) && [ -n "$selection" ] && printf "%s\\n" "$selection" | cliphist decode | wl-copy'), "Clipboard history")
-bind("SUPER + ALT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper next"), "Next wallpaper")
-bind("SUPER + ALT + SHIFT + W", hl.dsp.exec_cmd("$HOME/.local/bin/pm-wallpaper select"), "Select wallpaper")
-
--- Show a selectable menu instead of running power actions from a submap.
--- Reboot and shutdown require a second confirmation; logout is not offered.
-bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("$HOME/.local/bin/pm-power-menu"), "Open power menu")
-
--- Waybar starts with the selected config and stylesheet, not system defaults.
-if ENABLE_WAYBAR_AUTOSTART then
-  hl.on("hyprland.start", function()
-    hl.exec_cmd('waybar --config "$HOME/.config/waybar/config" --style "$HOME/.config/waybar/style.css"')
-  end)
-end
-
--- Arch desktop services. NetworkManager, Bluetooth and audio daemons themselves
--- are system services; only their user applets/agents run in this session.
-if ENABLE_AUTOSTART then
-  hl.on("hyprland.start", function()
-    hl.exec_cmd("dbus-update-activation-environment --systemd --all")
-    if ENABLE_WALLPAPER_AUTOSTART then
-      hl.exec_cmd("hyprpaper")
-      hl.exec_cmd("$HOME/.local/bin/pm-wallpaper restore")
-    end
-    hl.exec_cmd("hypridle")
-    hl.exec_cmd("mako")
-    hl.exec_cmd("nm-applet --indicator")
-    hl.exec_cmd("blueman-applet")
-    hl.exec_cmd("udiskie --tray")
-    hl.exec_cmd("systemctl --user start hyprpolkitagent.service")
-    hl.exec_cmd("wl-paste --type text --watch cliphist store")
-    hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    hl.exec_cmd('gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"')
-    hl.exec_cmd('gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"')
-    hl.exec_cmd('gsettings set org.gnome.desktop.interface cursor-theme "Adwaita"')
-    hl.exec_cmd('gsettings set org.gnome.desktop.interface font-name "Noto Sans 11"')
-  end)
-end
+-- Helpers are next to their consumers above. Put future items here only if
+-- they do not fit one of the official example sections.
