@@ -26,6 +26,7 @@ local file_manager = "thunar"
 local ENABLE_AUTOSTART = true
 local ENABLE_WAYBAR_AUTOSTART = true
 local ENABLE_WALLPAPER_AUTOSTART = true
+local ENABLE_BROWSER_AUTOSTART = true
 
 if ENABLE_WAYBAR_AUTOSTART then
   hl.on("hyprland.start", function()
@@ -57,6 +58,10 @@ if ENABLE_AUTOSTART then
   end)
 end
 
+if ENABLE_BROWSER_AUTOSTART then
+  hl.on("hyprland.start", function() hl.exec_cmd(browser) end)
+end
+
 
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
@@ -68,6 +73,8 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_SIZE", "24")
 
 
 -----------------------
@@ -88,6 +95,7 @@ hl.config({
     border_size = 2,
     layout = "dwindle",
     resize_on_border = true,
+    allow_tearing = false,
     col = {
       active_border = { colors = { "rgba(f5c2e7ff)" }, angle = 0 },
       inactive_border = { colors = { "rgba(45475aff)" }, angle = 0 },
@@ -95,12 +103,60 @@ hl.config({
   },
   decoration = {
     rounding = 0,
+    rounding_power = 2,
+    active_opacity = 1.0,
+    inactive_opacity = 1.0,
+    shadow = {
+      enabled = true,
+      range = 4,
+      render_power = 3,
+      color = 0xee1a1a1a,
+    },
+    blur = {
+      enabled = true,
+      size = 3,
+      passes = 1,
+      vibrancy = 0.1696,
+    },
   },
+  animations = { enabled = true },
   dwindle = {
     preserve_split = true,
     smart_split = true,
   },
 })
+
+hl.config({ master = { new_status = "master" } })
+hl.config({ scrolling = { fullscreen_on_one_column = true } })
+
+hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
+hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36, 1 } } })
+hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
+hl.curve("almostLinear", { type = "bezier", points = { { 0.5, 0.5 }, { 0.75, 1 } } })
+hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
+hl.curve("easy", { type = "spring", mass = 1, stiffness = 238.1191, damping = 24.21279333 })
+
+for _, animation in ipairs({
+  { leaf = "global", enabled = true, speed = 10, bezier = "default" },
+  { leaf = "border", enabled = true, speed = 5.39, bezier = "easeOutQuint" },
+  { leaf = "windows", enabled = true, speed = 4.79, spring = "easy" },
+  { leaf = "windowsIn", enabled = true, speed = 4.1, spring = "easy", style = "popin 87%" },
+  { leaf = "windowsOut", enabled = true, speed = 1.49, bezier = "linear", style = "popin 87%" },
+  { leaf = "fadeIn", enabled = true, speed = 1.73, bezier = "almostLinear" },
+  { leaf = "fadeOut", enabled = true, speed = 1.46, bezier = "almostLinear" },
+  { leaf = "fade", enabled = true, speed = 3.03, bezier = "quick" },
+  { leaf = "layers", enabled = true, speed = 3.81, bezier = "easeOutQuint" },
+  { leaf = "layersIn", enabled = true, speed = 4, bezier = "easeOutQuint", style = "fade" },
+  { leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear", style = "fade" },
+  { leaf = "fadeLayersIn", enabled = true, speed = 1.79, bezier = "almostLinear" },
+  { leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" },
+  { leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" },
+  { leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "almostLinear", style = "fade" },
+  { leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" },
+  { leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" },
+}) do
+  hl.animation(animation)
+end
 
 ----------------
 ---- MISC ----
@@ -108,6 +164,7 @@ hl.config({
 
 hl.config({
   misc = {
+    force_default_wallpaper = -1,
     disable_hyprland_logo = true,
     disable_splash_rendering = true,
   },
@@ -118,7 +175,7 @@ hl.config({
 ---- LAYERS ----
 ----------------
 
--- No custom layer rules are needed for the current setup.
+hl.config({ layers = { allow_new_top_layers_over_existing_fullscreen = true } })
 
 
 ---------------
@@ -128,10 +185,14 @@ hl.config({
 hl.config({
   input = {
     kb_layout = "es",
+    kb_variant = "",
+    kb_model = "",
     kb_options = "grp:alt_shift_toggle,caps:escape",
+    kb_rules = "",
     repeat_delay = 250,
     repeat_rate = 30,
     follow_mouse = 1,
+    sensitivity = 0,
     touchpad = {
       tap_to_click = true,
       natural_scroll = true,
@@ -146,17 +207,22 @@ hl.config({
   },
 })
 
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
 
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
 
-local function bind(keys, dispatcher, description)
-  hl.bind(keys, dispatcher, { description = description })
+local function bind(keys, dispatcher, description, options)
+  options = options or {}
+  options.description = description
+  hl.bind(keys, dispatcher, options)
 end
 
 -- Applications
 bind("SUPER + Return", hl.dsp.exec_cmd(terminal), "Terminal")
+bind("SUPER + Q", hl.dsp.exec_cmd(terminal), "Terminal (official sample binding)")
 bind("SUPER + SHIFT + Return", hl.dsp.exec_cmd(terminal .. " --class floating", { float = true, center = true }), "Floating terminal")
 bind("SUPER + D", hl.dsp.exec_cmd(launcher), "Application launcher")
 bind("SUPER + SHIFT + D", hl.dsp.exec_cmd(launcher .. " --show-actions"), "Application launcher with desktop actions")
@@ -183,6 +249,7 @@ end
 bind("SUPER + C", hl.dsp.window.center(), "Center floating window")
 bind("SUPER + SHIFT + SPACE", hl.dsp.window.float(), "Toggle floating")
 bind("SUPER + F", hl.dsp.window.fullscreen(), "Toggle fullscreen")
+bind("SUPER + P", hl.dsp.window.pseudo(), "Toggle pseudo-tiled mode")
 bind("SUPER + SPACE", function()
   local window = hl.get_active_window()
   if window == nil then
@@ -236,22 +303,27 @@ bind("SUPER + E", function()
 end, "Toggle Dwindle/Master layout")
 
 -- Audio, media, and brightness keys.
-bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), "Volume up")
-bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), "Volume down")
+bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), "Volume up", { locked = true, repeating = true })
+bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), "Volume down", { locked = true, repeating = true })
 bind("SHIFT + XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 1%+"), "Volume up slightly")
 bind("SHIFT + XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"), "Volume down slightly")
-bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), "Mute audio")
-bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), "Mute microphone")
-bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), "Brightness up")
-bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), "Brightness down")
+bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), "Mute audio", { locked = true, repeating = true })
+bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), "Mute microphone", { locked = true, repeating = true })
+bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), "Brightness up", { locked = true, repeating = true })
+bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), "Brightness down", { locked = true, repeating = true })
 bind("SHIFT + XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 1%+"), "Brightness up slightly")
 bind("SHIFT + XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 1%-"), "Brightness down slightly")
-bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), "Play/pause")
-bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), "Play/pause")
-bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), "Next track")
-bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), "Previous track")
-bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"), "Stop playback")
+bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), "Play/pause", { locked = true })
+bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), "Play/pause", { locked = true })
+bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), "Next track", { locked = true })
+bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), "Previous track", { locked = true })
+bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl stop"), "Stop playback", { locked = true })
 
+bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }), "Next workspace with Super + wheel")
+bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" }), "Previous workspace with Super + wheel")
+hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true, description = "Drag window with Super + left mouse" })
+hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Resize window with Super + right mouse" })
+bind("SUPER + S", hl.dsp.workspace.toggle_special("magic"), "Toggle official sample scratchpad")
 -- Screenshot and desktop helper bindings.
 local screenshot_dir = "$HOME/Pictures/Screenshots"
 local screenshot_timestamp = "$(date +%Y-%m-%d-%H%M%S-%N)"
@@ -296,6 +368,13 @@ hl.window_rule({ match = { class = "^firefox$", title = ".*Picture-in-Picture.*"
 hl.window_rule({ match = { class = "^mpv$" }, float = true, pin = true, size = { 640, 360 }, center = true })
 hl.window_rule({ match = { class = "^steam$", title = "^(Friends List|Steam - News|.* - Chat)$" }, float = true })
 hl.window_rule({ match = { class = "^zoom$", title = "^(zoom|Choose ONE of the audio conference options)$" }, float = true, center = true })
+hl.window_rule({ name = "suppress-maximize-events", match = { class = ".*" }, suppress_event = "maximize" })
+hl.window_rule({
+  name = "fix-xwayland-drags",
+  match = { class = "^$", title = "^$", xwayland = true, float = true, fullscreen = false, pin = false },
+  no_focus = true,
+})
+hl.window_rule({ name = "move-hyprland-run", match = { class = "hyprland-run" }, move = "20 monitor_h-120", float = true })
 
 -- Workspaces 1-10, matching Sway's 1-9/0 convention.
 for key, workspace in pairs({ ["1"] = 1, ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] = 5, ["6"] = 6, ["7"] = 7, ["8"] = 8, ["9"] = 9, ["0"] = 10 }) do
@@ -324,9 +403,45 @@ bind("SUPER + SHIFT + F7", hl.dsp.workspace.move({ monitor = "left" }), "Move wo
 bind("SUPER + SHIFT + F8", hl.dsp.workspace.move({ monitor = "right" }), "Move workspace to right output")
 
 
+
 -----------------------------
 ---- PER ORDENAR DESPRÉS ----
 -----------------------------
 
 -- Helpers are next to their consumers above. Put future items here only if
 -- they do not fit one of the official example sections.
+
+-- Official sample alternatives that need a machine-specific choice:
+-- Monitor template (replace output with the real output name before enabling):
+-- hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
+
+-- Per-device sample is for a device name that may not exist on this computer:
+-- hl.device({ name = "epic-mouse-v1", sensitivity = -0.5 })
+
+-- Optional permission examples from the official sample. Enabling permissions
+-- requires a Hyprland restart and should be matched to installed paths:
+-- hl.config({ ecosystem = { enforce_permissions = true } })
+-- hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
+-- hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
+-- hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
+
+-- Optional smart-gap sample rules:
+-- hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
+-- hl.workspace_rule({ workspace = "f[1]", gaps_out = 0, gaps_in = 0 })
+-- hl.window_rule({ name = "no-gaps-wtv1", match = { float = false, workspace = "w[tv1]" }, border_size = 0, rounding = 0 })
+-- hl.window_rule({ name = "no-gaps-f1", match = { float = false, workspace = "f[1]" }, border_size = 0, rounding = 0 })
+-- Example layer rule:
+-- hl.layer_rule({ name = "no-anim-overlay", match = { namespace = "^my-overlay$" }, no_anim = true })
+
+-- Bindings from the official sample that collide with your current shortcuts:
+-- SUPER + L -> hyprlock (currently focus right; you explicitly wanted that preserved)
+-- SUPER + E -> Thunar (currently toggles Dwindle/Master)
+-- SUPER + M -> exit/power action (currently returns to previous workspace)
+-- SUPER + V -> toggle floating (currently preselects vertical split)
+-- SUPER + R -> launcher (currently enters the resize submap)
+-- SUPER + J -> toggle split (currently focuses down)
+-- SUPER + SHIFT + S -> move focused window to special:magic (currently area screenshot)
+-- SUPER + E -> file manager (duplicate in the official sample as well)
+
+-- The sample's autogenerated warning line is intentionally omitted:
+-- hl.config({ autogenerated = true })
