@@ -330,6 +330,7 @@ end
 
 bind("SUPER + C", hl.dsp.window.center(), "Center floating window")
 bind("SUPER + SHIFT + SPACE", hl.dsp.window.float(), "Toggle floating")
+bind("SUPER + ALT + P", hl.dsp.window.pin({ action = "toggle" }), "Pin or unpin floating window across workspaces")
 bind("SUPER + F", hl.dsp.window.fullscreen(), "Toggle fullscreen")
 bind("SUPER + P", hl.dsp.window.pseudo(), "Toggle pseudo-tiled mode")
 bind("SUPER + SPACE", function()
